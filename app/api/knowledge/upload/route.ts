@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { processDocument } from "@/lib/ai/embeddings";
+import { PDFParse } from "pdf-parse";
 
 export const maxDuration = 300;
+
+async function extractText(file: File): Promise<string> {
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  if (file.type === "application/pdf") {
+    const parser = new PDFParse({ data: buffer });
+    const result = await parser.getText();
+    return result.text?.trim() ?? "";
+  }
+
+  // .txt o .md
+  return buffer.toString("utf-8").trim();
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,16 +25,21 @@ export async function POST(request: NextRequest) {
     if (!user) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
 
     const formData = await request.formData();
-    const file = formData.get("file") as File | null;
-    const title = formData.get("title") as string | null;
-    const author = formData.get("author") as string | null;
+    const file     = formData.get("file")     as File   | null;
+    const title    = formData.get("title")    as string | null;
+    const author   = formData.get("author")   as string | null;
     const category = formData.get("category") as string | null;
-    const textContent = formData.get("text") as string | null;
 
-    if (!file || !title || !textContent) {
+    if (!file || !title) {
+      return NextResponse.json({ error: "Archivo y título son requeridos" }, { status: 400 });
+    }
+
+    // Extraer texto server-side (soporta PDF + texto plano)
+    const textContent = await extractText(file);
+    if (!textContent) {
       return NextResponse.json(
-        { error: "Archivo, título y contenido de texto son requeridos" },
-        { status: 400 }
+        { error: "El archivo no contiene texto extraíble. Para PDFs, asegúrate de que el texto sea seleccionable (no escaneado)." },
+        { status: 422 }
       );
     }
 
@@ -42,7 +61,7 @@ export async function POST(request: NextRequest) {
       .insert({
         psychologist_id: user.id,
         title,
-        author: author || null,
+        author:   author   || null,
         category: category || null,
         file_url: publicData.publicUrl,
         file_size_bytes: file.size,
@@ -55,7 +74,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Error al registrar el documento" }, { status: 500 });
     }
 
-    // Procesar embeddings (async, puede ser largo)
     const chunkCount = await processDocument(doc.id, user.id, textContent);
 
     await supabase.from("audit_logs").insert({
@@ -69,9 +87,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, documentId: doc.id, chunkCount });
   } catch (error) {
     console.error("Upload error:", error);
-    return NextResponse.json(
-      { error: "Error al procesar el documento" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Error al procesar el documento" }, { status: 500 });
   }
 }

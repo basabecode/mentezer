@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Upload, FileText, Loader2, CheckCircle } from "lucide-react";
 
-type UploadState = "idle" | "extracting" | "uploading" | "done" | "error";
+type UploadState = "idle" | "uploading" | "done" | "error";
 
 export default function KnowledgeUploadPage() {
   const router = useRouter();
@@ -31,26 +31,15 @@ export default function KnowledgeUploadPage() {
       return;
     }
 
-    setState("extracting");
+    setState("uploading");
     setError(null);
 
     try {
-      // Leer texto del archivo
-      const text = await file.text();
-      if (!text.trim()) {
-        setError("El archivo no contiene texto extraíble. Asegúrate de que el PDF tenga texto seleccionable.");
-        setState("error");
-        return;
-      }
-
-      setState("uploading");
-
       const formData = new FormData();
       formData.append("file", file);
       formData.append("title", title.trim());
       formData.append("author", author.trim());
       formData.append("category", category.trim());
-      formData.append("text", text);
 
       const res = await fetch("/api/knowledge/upload", {
         method: "POST",
@@ -70,7 +59,7 @@ export default function KnowledgeUploadPage() {
     }
   };
 
-  const isLoading = state === "extracting" || state === "uploading";
+  const isLoading = state === "uploading";
 
   return (
     <div className="px-6 py-6 max-w-xl">
@@ -182,7 +171,7 @@ export default function KnowledgeUploadPage() {
             {isLoading ? (
               <>
                 <Loader2 size={14} className="animate-spin" />
-                {state === "extracting" ? "Extrayendo texto..." : "Procesando embeddings..."}
+                Procesando documento...
               </>
             ) : (
               <>
