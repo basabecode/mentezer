@@ -35,6 +35,22 @@
   --foreground: #1C1B18;
   --surface:    #FAF8F4;
   --border:     rgba(28,27,24,0.10);
+
+  /* Aliases directos para uso con var() en componentes */
+  --psy-cream:        #F5F2ED;
+  --psy-paper:        #FAF8F4;
+  --psy-ink:          #1C1B18;
+  --psy-muted:        #6B6760;
+  --psy-border:       rgba(28,27,24,0.10);
+
+  --psy-blue:         #3B6FA0;
+  --psy-blue-light:   #EAF1F8;
+  --psy-green:        #4A7C59;
+  --psy-green-light:  #EBF4EE;
+  --psy-amber:        #B07D3A;
+  --psy-amber-light:  #FBF3E4;
+  --psy-red:          #C0392B;
+  --psy-red-light:    #FDECEA;
 }
 
 /* ─── Base ─── */
