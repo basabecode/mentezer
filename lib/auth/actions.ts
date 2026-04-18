@@ -34,7 +34,7 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data: authData, error } = await supabase.auth.signInWithPassword({
     email: parsed.data.email,
     password: parsed.data.password,
   });
@@ -43,8 +43,14 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
     return { error: "Credenciales incorrectas. Verifica tu email y contraseña." };
   }
 
+  const { data: profile } = await supabase
+    .from("psychologists")
+    .select("is_platform_admin")
+    .eq("id", authData.user.id)
+    .single();
+
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  redirect(profile?.is_platform_admin ? "/admin" : "/dashboard");
 }
 
 export async function register(_prev: AuthState, formData: FormData): Promise<AuthState> {
