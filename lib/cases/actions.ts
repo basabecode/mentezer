@@ -53,15 +53,6 @@ export async function createCase(
       throw error;
     }
 
-    // Auditoría
-    await supabase.from("audit_logs").insert({
-      psychologist_id: user.id,
-      action: "createCase",
-      entity_type: "clinical_case",
-      entity_id: null,
-      details: { title, outcome },
-    });
-
     redirect("/cases");
   } catch (err: any) {
     return {
