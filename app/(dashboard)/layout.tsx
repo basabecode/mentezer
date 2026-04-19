@@ -27,7 +27,7 @@ export default async function DashboardLayout({
   ]);
 
   return (
-    <div className="flex flex-col h-screen bg-psy-cream">
+    <div className="flex h-screen flex-col bg-[radial-gradient(circle_at_top,rgba(21,134,160,0.14),transparent_28%),linear-gradient(180deg,#C8E6F2_0%,#BEE0EC_100%)]">
       <Topbar
         psychologistName={psychologist?.name ?? user.email ?? "Psicólogo"}
         activePatients={activePatients ?? 0}
@@ -36,10 +36,10 @@ export default async function DashboardLayout({
 
       <div className="flex flex-1 overflow-hidden">
         {/* Panel lateral de pacientes */}
-        <PatientPanel patients={panelPatients ?? []} />
+        <PatientPanel patients={(panelPatients ?? []) as Parameters<typeof PatientPanel>[0]["patients"]} />
 
         {/* Contenido principal */}
-        <main className="flex-1 overflow-y-auto pb-28">
+        <main className="flex-1 overflow-y-auto pb-28 md:pb-32">
           {children}
         </main>
       </div>

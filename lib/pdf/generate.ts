@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 60,
     paddingHorizontal: 72,
-    color: "#1C1B18",
+    color: "#0D2232",
     lineHeight: 1.6,
   },
   header: { marginBottom: 32 },

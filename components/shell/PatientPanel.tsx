@@ -30,14 +30,21 @@ export function PatientPanel({ patients }: PatientPanelProps) {
   const active = filtered.filter((p) => p.status === "active");
 
   return (
-    <aside className="w-60 shrink-0 flex flex-col h-full border-r border-[var(--border)] bg-psy-paper">
+    <aside className="hidden h-full w-72 shrink-0 flex-col border-r border-[var(--border)] bg-[rgba(223,243,248,0.88)] xl:flex">
       {/* Header del panel */}
-      <div className="px-4 pt-4 pb-3">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-serif text-sm font-semibold text-psy-ink">Pacientes</h2>
+      <div className="px-4 pb-3 pt-4">
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-psy-muted">
+              Seguimiento
+            </p>
+            <h2 className="mt-1 font-serif text-lg font-semibold tracking-tight text-psy-ink">
+              Pacientes activos
+            </h2>
+          </div>
           <Link
             href="/patients/new"
-            className="p-1 rounded-md text-psy-muted hover:text-psy-blue hover:bg-psy-blue-light transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(13,34,50,0.08)] bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-blue"
             aria-label="Nuevo paciente"
           >
             <Plus size={14} />
@@ -46,21 +53,21 @@ export function PatientPanel({ patients }: PatientPanelProps) {
 
         {/* Buscador */}
         <div className="relative">
-          <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-psy-muted" />
+          <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-psy-muted" />
           <input
             type="text"
             placeholder="Buscar paciente..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-7 pr-3 py-1.5 text-xs rounded-lg bg-psy-cream border border-[var(--border)] text-psy-ink placeholder:text-psy-muted focus:outline-none focus:ring-1 focus:ring-psy-blue/30 focus:border-psy-blue transition-colors"
+            className="w-full rounded-xl border border-[var(--border)] bg-white/60 py-2 pl-8 pr-3 text-xs text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-1 focus:ring-psy-blue/30"
           />
         </div>
       </div>
 
       {/* Lista */}
-      <div className="flex-1 overflow-y-auto px-2 pb-4 space-y-0.5">
+      <div className="flex-1 space-y-1 overflow-y-auto px-2 pb-4">
         {active.length === 0 ? (
-          <p className="text-xs text-psy-muted text-center py-8 px-4">
+          <p className="px-4 py-8 text-center text-xs text-psy-muted">
             {query ? "Sin resultados" : "Sin pacientes activos"}
           </p>
         ) : (
@@ -74,16 +81,16 @@ export function PatientPanel({ patients }: PatientPanelProps) {
                 key={patient.id}
                 href={`/patients/${patient.id}`}
                 className={cn(
-                  "flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors group",
+                  "group flex items-center gap-3 rounded-[1rem] px-3 py-3 transition-colors",
                   isActive
-                    ? "bg-psy-blue/8 text-psy-blue"
-                    : "hover:bg-psy-cream text-psy-ink"
+                    ? "bg-psy-blue/10 text-psy-blue"
+                    : "text-psy-ink hover:bg-white/70"
                 )}
               >
                 {/* Avatar inicial */}
                 <div
                   className={cn(
-                    "w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0",
+                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-xs font-semibold",
                     patient.riskLevel === "high"
                       ? "bg-psy-red-light text-psy-red"
                       : patient.riskLevel === "medium"
@@ -95,9 +102,9 @@ export function PatientPanel({ patients }: PatientPanelProps) {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium truncate">{patient.name}</p>
+                  <p className="truncate text-sm font-medium">{patient.name}</p>
                   {patient.lastSession && (
-                    <div className="flex items-center gap-1 mt-0.5">
+                    <div className="mt-1 flex items-center gap-1">
                       <Clock size={9} className="text-psy-muted" />
                       <span className="text-[10px] text-psy-muted">{patient.lastSession}</span>
                     </div>
@@ -105,7 +112,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
                 </div>
 
                 {/* Alertas */}
-                <div className="flex items-center gap-1 shrink-0">
+                <div className="flex shrink-0 items-center gap-1">
                   {patient.riskLevel === "high" && (
                     <AlertTriangle size={11} className="text-psy-red animate-pulse" />
                   )}

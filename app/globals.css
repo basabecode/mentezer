@@ -3,18 +3,20 @@
 /* ─── PsyAssist Design Tokens ─── */
 @theme inline {
   /* Colores base */
-  --color-psy-cream:        #F5F2ED;
-  --color-psy-paper:        #FAF8F4;
-  --color-psy-ink:          #1C1B18;
-  --color-psy-muted:        #6B6760;
+  --color-psy-cream:        #C8E6F2;
+  --color-psy-paper:        #DFF3F8;
+  --color-psy-ink:          #0D2232;
+  --color-psy-muted:        #456B7E;
 
   /* Colores semánticos */
-  --color-psy-blue:         #3B6FA0;
-  --color-psy-blue-light:   #EAF1F8;
-  --color-psy-green:        #4A7C59;
-  --color-psy-green-light:  #EBF4EE;
-  --color-psy-amber:        #B07D3A;
-  --color-psy-amber-light:  #FBF3E4;
+  --color-psy-blue:         #1586A0;
+  --color-psy-blue-light:   #D4EFF5;
+  --color-psy-green:        #27895E;
+  --color-psy-green-light:  #D4EFE4;
+  --color-psy-warm:         #FAF4E4;
+  --color-psy-warm-border:  rgba(192,122,24,0.14);
+  --color-psy-amber:        #C07A18;
+  --color-psy-amber-light:  #FEF0D2;
   --color-psy-red:          #C0392B;
   --color-psy-red-light:    #FDECEA;
 
@@ -24,31 +26,33 @@
   --font-mono:  var(--font-dm-mono), monospace;
 
   /* Sombras clínicas */
-  --shadow-card:  0 1px 3px rgba(28,27,24,0.06), 0 1px 2px rgba(28,27,24,0.04);
-  --shadow-panel: 0 4px 16px rgba(28,27,24,0.08);
-  --shadow-dock:  0 8px 32px rgba(28,27,24,0.12);
+  --shadow-card:  0 1px 3px rgba(13,34,50,0.06), 0 1px 2px rgba(13,34,50,0.04);
+  --shadow-panel: 0 4px 16px rgba(13,34,50,0.08);
+  --shadow-dock:  0 8px 32px rgba(13,34,50,0.12);
 }
 
 /* ─── Variables globales ─── */
 :root {
-  --background: #F5F2ED;
-  --foreground: #1C1B18;
-  --surface:    #FAF8F4;
-  --border:     rgba(28,27,24,0.10);
+  --background: #C8E6F2;
+  --foreground: #0D2232;
+  --surface:    #DFF3F8;
+  --border:     rgba(13,34,50,0.10);
 
   /* Aliases directos para uso con var() en componentes */
-  --psy-cream:        #F5F2ED;
-  --psy-paper:        #FAF8F4;
-  --psy-ink:          #1C1B18;
-  --psy-muted:        #6B6760;
-  --psy-border:       rgba(28,27,24,0.10);
+  --psy-cream:        #C8E6F2;
+  --psy-paper:        #DFF3F8;
+  --psy-ink:          #0D2232;
+  --psy-muted:        #456B7E;
+  --psy-border:       rgba(13,34,50,0.10);
 
-  --psy-blue:         #3B6FA0;
-  --psy-blue-light:   #EAF1F8;
-  --psy-green:        #4A7C59;
-  --psy-green-light:  #EBF4EE;
-  --psy-amber:        #B07D3A;
-  --psy-amber-light:  #FBF3E4;
+  --psy-blue:         #1586A0;
+  --psy-blue-light:   #D4EFF5;
+  --psy-green:        #27895E;
+  --psy-green-light:  #D4EFE4;
+  --psy-warm:         #FAF4E4;
+  --psy-warm-border:  rgba(192,122,24,0.14);
+  --psy-amber:        #C07A18;
+  --psy-amber-light:  #FEF0D2;
   --psy-red:          #C0392B;
   --psy-red-light:    #FDECEA;
 }
@@ -67,6 +71,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(21, 134, 160, 0.55);
+  outline-offset: 3px;
+}
+
 /* ─── Textura de papel clínico ─── */
 .paper-texture {
   background-image: url('/textures/paper-noise.svg');
@@ -74,8 +88,185 @@ body {
   background-size: 200px 200px;
 }
 
+.hover-panel {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.hover-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 32px 64px rgba(13, 34, 50, 0.18);
+  border-color: rgba(21, 134, 160, 0.30);
+  background-color: #ffffff;
+}
+
+.hover-panel-green {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.hover-panel-green:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 32px 64px rgba(39, 137, 94, 0.16);
+  border-color: rgba(39, 137, 94, 0.28);
+  background-color: var(--psy-green-light);
+}
+
+.lift-button {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.lift-button:hover {
+  transform: translateY(-2px);
+}
+
+.lift-button:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.reveal-rise {
+  animation: reveal-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.wave-bar {
+  transform-origin: bottom;
+  animation: wave-breathe 1.8s ease-in-out infinite;
+}
+
+.report-surface {
+  position: relative;
+  overflow: hidden;
+}
+
+.report-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.22), transparent 24%),
+    linear-gradient(90deg, rgba(21,134,160,0.04), transparent 24%, transparent 76%, rgba(13,34,50,0.03));
+}
+
+.thinking-ring {
+  animation: thinking-spin 1s linear infinite;
+}
+
+.type-caret {
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--psy-blue);
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+.reveal-delay-1 {
+  animation-delay: 90ms;
+}
+
+.reveal-delay-2 {
+  animation-delay: 170ms;
+}
+
+.reveal-delay-3 {
+  animation-delay: 250ms;
+}
+
+.reveal-delay-4 {
+  animation-delay: 330ms;
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wave-breathe {
+  0%,
+  100% {
+    transform: scaleY(0.72);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: scaleY(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes thinking-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .hover-panel:hover,
+  .hover-panel-green:hover,
+  .lift-button:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-rise,
+  .wave-bar,
+  .reveal-delay-1,
+  .reveal-delay-2,
+  .reveal-delay-3,
+  .reveal-delay-4 {
+    animation: none !important;
+  }
+}
+
 /* ─── Scrollbar clínica ─── */
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(28,27,24,0.15); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(28,27,24,0.25); }
+::-webkit-scrollbar-thumb { background: rgba(13,34,50,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(13,34,50,0.25); }

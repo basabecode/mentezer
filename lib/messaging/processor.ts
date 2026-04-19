@@ -76,7 +76,8 @@ export async function processIncomingMessage(msg: IncomingMessage): Promise<void
 
   if (intent === "book_appointment") {
     // Crear solicitud de cita pendiente
-    const { data: booking } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: booking } = await (supabase as any)
       .from("booking_requests")
       .insert({
         psychologist_id: psychologistId,
@@ -128,7 +129,8 @@ export async function processIncomingMessage(msg: IncomingMessage): Promise<void
     }
 
     // Loguear respuesta saliente
-    await supabase.from("messaging_logs").insert({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any).from("messaging_logs").insert({
       psychologist_id: psychologistId,
       channel,
       direction: "outbound",

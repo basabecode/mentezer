@@ -22,9 +22,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PsyAssist — Plataforma Clínica para Psicólogos",
+  title: "PsyAssist | Software para psicólogos con prueba de 15 dias",
   description:
-    "La primera herramienta clínica que razona con los libros y casos del propio profesional.",
+    "PsyAssist organiza agenda, sesiones y análisis clínico con tu propia biblioteca. Pruébalo 15 dias gratis y deja atrás el cuaderno como sistema.",
 };
 
 export default function RootLayout({

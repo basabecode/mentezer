@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
   const senderName = message.profile?.name ?? senderPhone;
 
   // Log del mensaje
-  await supabase.from("messaging_logs").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase as any).from("messaging_logs").insert({
     psychologist_id: psychologistId,
     channel: "whatsapp",
     direction: "inbound",

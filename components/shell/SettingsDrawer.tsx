@@ -14,7 +14,7 @@ export function SettingsDrawer() {
       {/* Trigger */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-24 right-5 z-40 p-2.5 rounded-xl bg-psy-paper border border-[var(--border)] shadow-[var(--shadow-card)] text-psy-muted hover:text-psy-ink transition-colors"
+        className="fixed bottom-24 right-4 z-40 flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-psy-paper/92 text-psy-muted shadow-[0_14px_34px_rgba(13,34,50,0.12)] backdrop-blur-md transition hover:text-psy-ink md:right-5"
         aria-label="Configuración"
       >
         <Settings size={16} />
@@ -38,29 +38,38 @@ export function SettingsDrawer() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed right-0 top-0 bottom-0 z-50 w-72 bg-psy-paper border-l border-[var(--border)] shadow-[var(--shadow-dock)] flex flex-col"
+              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-[var(--border)] bg-psy-paper shadow-[var(--shadow-dock)]"
             >
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)]">
-                <h2 className="font-serif text-base text-psy-ink font-semibold">Configuración</h2>
+              <div className="paper-texture border-b border-[var(--border)] px-5 py-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-psy-muted">
+                      Ajustes y soporte
+                    </p>
+                    <h2 className="mt-1 font-serif text-xl font-semibold tracking-tight text-psy-ink">
+                      Configuración
+                    </h2>
+                  </div>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-1.5 rounded-lg text-psy-muted hover:text-psy-ink hover:bg-psy-cream transition-colors"
+                  className="rounded-xl p-2 text-psy-muted transition-colors hover:bg-psy-cream hover:text-psy-ink"
                 >
                   <X size={16} />
                 </button>
+                </div>
               </div>
 
-              <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-1">
+              <nav className="flex-1 overflow-y-auto space-y-1 px-3 py-3">
                 <DrawerItem icon={Settings} label="Mi perfil" href="/settings" onClick={() => setOpen(false)} />
                 <DrawerItem icon={Shield} label="Privacidad y datos" href="/settings/privacy" onClick={() => setOpen(false)} />
                 <DrawerItem icon={FileText} label="Términos y condiciones" href="/legal/terms" onClick={() => setOpen(false)} />
                 <DrawerItem icon={HelpCircle} label="Soporte" href="/support" onClick={() => setOpen(false)} />
               </nav>
 
-              <div className="px-3 pb-6 border-t border-[var(--border)] pt-3">
+              <div className="border-t border-[var(--border)] px-3 pb-6 pt-3">
                 <button
                   onClick={() => logout()}
-                  className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-psy-red hover:bg-psy-red-light text-sm font-medium transition-colors"
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-3 text-sm font-medium text-psy-red transition-colors hover:bg-psy-red-light"
                 >
                   <LogOut size={15} />
                   <span>Cerrar sesión</span>

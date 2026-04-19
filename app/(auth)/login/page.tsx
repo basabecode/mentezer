@@ -29,7 +29,7 @@ export default function LoginPage() {
   return (
     <div className="w-full">
       {/* Card */}
-      <div className="bg-[var(--psy-paper)] border border-[var(--psy-border)] rounded-2xl shadow-[0_8px_40px_rgba(28,27,24,0.08)] overflow-hidden">
+      <div className="bg-[var(--psy-paper)] border border-[var(--psy-border)] rounded-2xl shadow-[0_8px_40px_rgba(13,34,50,0.08)] overflow-hidden">
 
         {/* Header strip */}
         <div className="px-8 pt-8 pb-6 border-b border-[var(--psy-border)]">

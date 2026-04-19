@@ -1,93 +1,354 @@
 # CLAUDE.md — PsyAssist
-> **Plataforma SaaS de IA Clínica para Psicólogos**  
-> *La primera herramienta clínica que razona sobre la biblioteca propia del profesional*
+
+> **Plataforma SaaS de IA Clínica para Psicólogos y Psiquiatras de Habla Hispana**
+> _La primera herramienta clínica que razona sobre la biblioteca propia del profesional_
 >
-> **Versión:** 2.0 · **Stack:** Next.js 15 + Supabase + Claude · **Mercado:** LATAM (Colombia primero)
+> **Versión:** 2.0 · **Stack:** Next.js 15 + Supabase + Claude · **Mercado:** América Latina y España
 
 ---
 
-## 📍 CONTEXTO INICIAL
+## 📍 CONTEXTO INICIAL — LEER ANTES DE CUALQUIER TAREA
 
-Antes de cualquier tarea, Claude debe:
-1. Leer este archivo completo
-2. Revisar `.claude/AGENTS.md` para identificar qué agente aplica
-3. Consultar el skill relevante en `.claude/skills/`
-4. Verificar el roadmap antes de proponer features nuevos
-5. Responder siempre en español (UI, código, comentarios)
+```
+[ ] 1. Leer este archivo CLAUDE.md completo
+[ ] 2. Leer AGENTS.md → identificar qué agente(s) aplican
+[ ] 3. Leer KNOWLEDGE_SYSTEM.md → si la tarea involucra biblioteca clínica
+[ ] 4. Consultar el skill relevante en .claude/skills/
+[ ] 5. Verificar en qué versión (Lite/Pro) aplica la tarea
+[ ] 6. Verificar roadmap antes de proponer features nuevos
+[ ] 7. Responder siempre en español (UI, código, comentarios)
+```
+
+---
+
+## 🌎 MERCADO OBJETIVO
+
+**PsyAssist está dirigido a psicólogos y psiquiatras de habla hispana.**
+
+### Mercados en orden de ataque
+
+| Prioridad | País         | Razón                                                              |
+| --------- | ------------ | ------------------------------------------------------------------ |
+| 1         | Colombia     | Mercado de lanzamiento. Mario está aquí, red de contactos directa  |
+| 2         | México       | Mayor volumen de profesionales de salud mental en LATAM            |
+| 3         | Argentina    | Cultura terapéutica muy arraigada, altísima densidad de psicólogos |
+| 4         | Chile / Perú | Mercados emergentes con clase media en crecimiento                 |
+| 5         | España       | Poder adquisitivo europeo, mismo idioma                            |
+
+### Por qué habla hispana y no solo Colombia
+
+- Más de 400.000 psicólogos registrados en LATAM hispanohablante
+- Ningún competidor global tiene producto nativo en español clínico real
+- SEO en español cubre todos los países simultáneamente sin esfuerzo adicional
+- La regulación colombiana (Ley 1581) es compatible y más estricta que la mayoría
+- Colombia es el laboratorio operativo — LATAM es el mercado real
+
+### Posicionamiento de marca
+
+> _"PsyAssist — Inteligencia clínica para psicólogos y psiquiatras de habla hispana."_
+
+### Lo que NO somos
+
+- No somos una herramienta colombiana (aunque lanzamos ahí)
+- No somos una traducción al español de Mentalyc o Upheal
+- No somos un marketplace de pacientes — somos B2B, el profesional es el cliente
+- No somos software de gestión de consultorio genérico
 
 ---
 
 ## 🎯 VISIÓN DEL PRODUCTO
 
-PsyAssist es la plataforma clínica que convierte al psicólogo en un profesional **10x más informado, más rápido y más fundamentado**. No reemplaza al psicólogo — potencia su criterio clínico con su propia biblioteca, sus propios casos exitosos y su propia forma de trabajar.
+PsyAssist convierte al profesional de salud mental en un clínico **10x más informado,
+más rápido y más fundamentado**. No reemplaza al profesional — potencia su criterio
+clínico con su propia biblioteca, sus propios casos exitosos y su propia forma de trabajar.
 
 **Una frase que define el producto:**
-> *"Como tener a todos tus libros clínicos y todos tus casos exitosos leyendo la sesión contigo."*
+
+> _"Como tener a todos tus libros clínicos y todos tus casos exitosos leyendo la sesión contigo."_
 
 ---
 
 ## 💎 LOS 5 DIFERENCIADORES ÚNICOS
 
-Competencia (Mentalyc, Upheal, Yung Sidekick, Supanote) cubre transcripción + notas. PsyAssist rompe el molde en 5 dimensiones:
+La competencia (Mentalyc, Upheal, Yung Sidekick, Supanote) cubre transcripción + notas.
+PsyAssist rompe el molde en 5 dimensiones que ningún competidor replica:
 
-### 1. RAG sobre la biblioteca propia del psicólogo
-La IA razona con los libros que el PROPIO profesional usa y confía. Cita libro, autor y página. Ningún competidor hace esto.
+**1. RAG sobre la biblioteca propia del profesional**
+La IA razona con los libros que el PROPIO profesional usa y confía. Cita libro,
+autor y página. Ningún competidor hace esto.
 
-### 2. Memoria de casos exitosos
-Cada caso cerrado con éxito se convierte en conocimiento reutilizable. El sistema se vuelve más valioso con cada paciente — genera lock-in positivo.
+**2. Memoria de casos exitosos**
+Cada caso cerrado con éxito se convierte en conocimiento reutilizable. El sistema
+se vuelve más valioso con cada paciente — genera lock-in positivo.
 
-### 3. Informe de derivación automatizado
-Específico para Colombia/LATAM: generar cartas profesionales para otro especialista con un clic. **Nadie lo hace.**
+**3. Informe de derivación / interconsulta automatizado**
+Específico para LATAM: cartas profesionales para otro especialista con un clic.
+Nadie lo hace en español clínico.
 
-### 4. Primer producto nativo hispanohablante
-Whisper optimizado español, prompts en español clínico, cumplimiento Ley 1581, UX pensada en contexto latinoamericano.
+**4. Primer producto nativo hispanohablante**
+Whisper optimizado para español, prompts en español clínico, cumplimiento
+regulatorio LATAM, UX pensada en el contexto latinoamericano real.
 
-### 5. Diseño "Spatial Clinical"
-Sin header ni footer tradicionales. Dock flotante + panel clínico + drawer lateral. Sensación de expediente digital, no de SaaS genérico.
+**5. Diseño "Spatial Clinical"**
+Sin header ni footer tradicionales. Dock flotante + panel clínico + drawer lateral.
+Sensación de expediente digital, no de SaaS genérico.
 
 ---
 
-## 🎨 EL WOW — ADN DE DISEÑO
+## 📦 DOS VERSIONES DEL PRODUCTO
 
-### Concepto: "Spatial Clinical"
-Un producto clínico no necesita animaciones flashy — necesita **calma inteligente**. Cada elemento comunica profesionalismo, confianza y atención al detalle.
+PsyAssist existe en dos versiones que comparten el mismo backend pero tienen
+interfaces, flujos y propuestas de valor distintas según el perfil del profesional.
 
-### Principios visuales (NUNCA violar)
-- **Sin header tradicional** — Topbar contextual con saludo + stats + avatar
+---
+
+### 🟦 PSYASSIST LITE — Para Psicólogos en Consulta Privada
+
+**Cliente ideal:**
+Psicólogo clínico en consulta privada. 15-30 pacientes activos. Trabaja solo
+o en pequeño consultorio. Agenda por WhatsApp, notas en Word o papel. No tiene
+cultura de pagar software clínico. Dolor principal: pierde 20-40 minutos después
+de cada sesión escribiendo notas desorganizadas.
+
+**Propuesta de valor:**
+
+> _"Escribe tus notas como siempre. PsyAssist las estructura, las analiza,
+> y te dice qué dice tu bibliografía sobre lo que observaste — en 30 segundos."_
+
+**Flujo principal sin fricción:**
+
+```
+1. Psicólogo escribe o pega notas libres de la sesión (texto libre, sin audio)
+2. Selecciona el paciente o escribe contexto básico
+3. PsyAssist genera en 30 segundos:
+   - Nota SOAP/DAP estructurada
+   - Patrones observados con cita bibliográfica
+   - Sugerencia para la próxima sesión
+4. Psicólogo edita, guarda, listo
+```
+
+**Features incluidos en Lite:**
+
+```
+✅ Entrada de notas en texto libre (no requiere grabación de audio)
+✅ Nota SOAP/DAP generada por IA
+✅ Análisis clínico con citas de biblioteca base (enfoques activos)
+✅ Gestión básica de pacientes (ficha + historial de notas)
+✅ Hasta 3 enfoques clínicos activos simultáneamente
+✅ Biblioteca base PsyAssist (126 libros indexados)
+✅ Hasta 3 PDFs personales propios
+✅ Cuestionario de admisión por link (antes de primera sesión)
+✅ Notas privadas del terapeuta (nunca visibles al paciente)
+✅ Recordatorios por WhatsApp (24h antes de cita)
+✅ Panel financiero básico (registro de pagos)
+✅ Dashboard simple (pacientes del día, últimas notas)
+✅ Cumplimiento regulatorio (Ley 1581 y equivalentes LATAM)
+
+❌ Grabación y transcripción de audio
+❌ AIReport profundo con CIE-11
+❌ Informes de derivación con PDF firmado
+❌ Portal del paciente
+❌ Integración Google Calendar
+❌ Casos exitosos indexados
+❌ Knowledge Profiles completos (solo 3 enfoques fijos)
+❌ Biblioteca personal ilimitada
+❌ Tests psicométricos digitales
+❌ Timeline de evolución del paciente
+❌ Plantillas por enfoque terapéutico
+```
+
+**Precio:**
+
+```
+Lite Mensual:  $19 USD/mes
+Lite Anual:    $190 USD/año  (equivale a 2 meses gratis)
+Trial:         14 días gratis — sin tarjeta de crédito
+```
+
+**Onboarding objetivo:** Menos de 10 minutos.
+Cuenta → seleccionar 3 enfoques → primer paciente → primera nota → análisis.
+
+---
+
+### 🟣 PSYASSIST PRO — Para Psiquiatras y Psicólogos Clínicos Avanzados
+
+**Cliente ideal:**
+Psiquiatra en consulta privada o institución. 20-40 pacientes activos. Necesita
+documentación CIE-11 para EPS, clínicas o seguros. Escribe interconsultas y
+cartas de derivación frecuentemente. Tiene presupuesto para herramientas que
+le ahorren tiempo real. Dolor principal: la documentación clínica consume
+el 30-50% de su tiempo.
+
+También aplica para: psicólogo clínico con práctica establecida, psicólogo
+en institución, profesional que hace peritajes o informes forenses.
+
+**Propuesta de valor:**
+
+> _"Todo el poder clínico de tu biblioteca, tus casos y tu criterio — automatizado.
+> Interconsultas en 1 clic. CIE-11 integrado. Grabación o texto, tú decides."_
+
+**Features incluidos en Pro (todo Lite más):**
+
+```
+✅ TODO lo incluido en Lite
+✅ Grabación de sesiones presenciales (Web Audio API)
+✅ Upload de audio (MP3, WAV, M4A) de sesiones virtuales
+✅ Transcripción con Whisper (español clínico optimizado)
+✅ AIReport completo con CIE-11 integrado
+✅ Todos los 8 enfoques clínicos activos simultáneamente
+✅ Knowledge Profiles (activar/desactivar enfoques por paciente)
+✅ Biblioteca personal ilimitada (PDFs, investigaciones, protocolos)
+✅ Clasificación automática de documentos con IA
+✅ Informes de derivación / interconsulta (PDF profesional + email)
+✅ Tests psicométricos digitales (PHQ-9, GAD-7, DASS-21, PCL-5, Rosenberg)
+✅ Planes terapéuticos generados con IA
+✅ Portal básico del paciente
+✅ Integración Google Calendar
+✅ Casos exitosos indexados (memoria clínica acumulativa)
+✅ Evolución visual del paciente — timeline de progreso
+✅ Plantillas de historia clínica por enfoque terapéutico
+✅ Alertas de riesgo avanzadas con pulso visual
+✅ Audit log completo (requerido por instituciones)
+✅ Exportación avanzada de reportes PDF
+```
+
+**Precio:**
+
+```
+Pro Mensual:   $49 USD/mes
+Pro Anual:     $490 USD/año  (equivale a 2 meses gratis)
+Trial:         14 días gratis — sin tarjeta de crédito
+
+Plan Clinic (v2.0):
+Clinic:        $149 USD/mes — hasta 5 profesionales, admin central
+```
+
+---
+
+### Comparativa Lite vs Pro
+
+| Feature                         |    Lite     |     Pro     |
+| ------------------------------- | :---------: | :---------: |
+| Notas texto libre + SOAP/DAP IA |     ✅      |     ✅      |
+| Análisis clínico con biblioteca |     ✅      |     ✅      |
+| Gestión de pacientes            |     ✅      |     ✅      |
+| WhatsApp recordatorios          |     ✅      |     ✅      |
+| Cuestionario de admisión        |     ✅      |     ✅      |
+| Notas privadas del terapeuta    |     ✅      |     ✅      |
+| Panel financiero básico         |     ✅      |     ✅      |
+| Enfoques clínicos activos       |      3      |      8      |
+| PDFs personales                 |      3      | Ilimitados  |
+| Grabación / Transcripción audio |     ❌      |     ✅      |
+| AIReport profundo con CIE-11    |     ❌      |     ✅      |
+| Informes de derivación PDF      |     ❌      |     ✅      |
+| Knowledge Profiles              |     ❌      |     ✅      |
+| Clasificación IA de documentos  |     ❌      |     ✅      |
+| Tests psicométricos digitales   |     ❌      |     ✅      |
+| Portal del paciente             |     ❌      |     ✅      |
+| Google Calendar                 |     ❌      |     ✅      |
+| Memoria de casos exitosos       |     ❌      |     ✅      |
+| Timeline de evolución           |     ❌      |     ✅      |
+| Plantillas por enfoque          |     ❌      |     ✅      |
+| **Precio mensual**              | **$19 USD** | **$49 USD** |
+
+---
+
+## 🎨 ADN DE DISEÑO — "Spatial Clinical"
+
+Un producto clínico no necesita animaciones flashy — necesita **calma inteligente**.
+Cada elemento comunica profesionalismo, confianza y atención al detalle.
+
+### Principios visuales — NUNCA violar
+
+- **Sin header tradicional** — Topbar contextual: saludo + stats del día + avatar
 - **Sin footer tradicional** — Drawer lateral con legal, ajustes y soporte
 - **Dock flotante inferior** — Navegación tipo macOS, se esconde al scroll
-- **Textura de papel clínico** — Off-white `#FAF8F4`, NUNCA blanco puro
-- **Tipografía editorial** — `Lora` (serif) para títulos, `DM Sans` para UI, `DM Mono` para datos técnicos
-- **Alertas con pulso** — Señales de riesgo llaman atención sin ser agresivas
+- **Textura de papel clínico** — `#FAF8F4`, NUNCA blanco puro `#FFFFFF`
+- **Tipografía editorial** — `Lora` para títulos, `DM Sans` para UI, `DM Mono` para datos
+- **Alertas con pulso** — señales de riesgo "high" tienen animación de pulso
 - **Sin emojis decorativos** — SVG custom o íconos minimalistas
 
-### Paleta de colores (única, no genérica)
-```css
---psy-cream:        #F5F2ED   /* Fondo principal — cálido */
---psy-paper:        #FAF8F4   /* Superficies — papel clínico */
---psy-ink:          #1C1B18   /* Texto — tinta cálida */
---psy-muted:        #6B6760   /* Texto secundario */
---psy-border:       rgba(28,27,24,0.10)
+### Paleta de colores
 
---psy-blue:         #3B6FA0   /* Confianza clínica */
---psy-blue-light:   #EAF1F8
---psy-green:        #4A7C59   /* Progreso / éxito */
---psy-green-light:  #EBF4EE
---psy-amber:        #B07D3A   /* Advertencia */
---psy-amber-light:  #FBF3E4
---psy-red:          #C0392B   /* Riesgo alto */
---psy-red-light:    #FDECEA
+```css
+/* Fondos de sección — alternar para crear ritmo visual */
+--psy-cream: #c8e6f2;        /* Secciones teal (hero, para quién encaja) */
+--psy-paper: #dff3f8;        /* Superficies internas */
+--psy-purple-light: #edeaf8; /* Secciones lavanda (deliverables, pricing, FAQ) */
+/* Secciones blancas: bg-white (pain points, trial steps, FAQ) */
+
+/* Texto */
+--psy-ink:    #0d2232; /* Texto principal — navy */
+--psy-muted:  #456b7e; /* Texto secundario */
+--psy-border: rgba(13, 34, 50, 0.10);
+
+/* Primario — teal clínico */
+--psy-blue:        #1586a0;
+--psy-blue-light:  #d4eff5;
+
+/* Acento secundario — lavanda/salud mental */
+--psy-purple:       #7060b0;
+--psy-purple-light: #edeaf8;
+
+/* Estados */
+--psy-green:        #27895e; /* Progreso, éxito */
+--psy-green-light:  #d4efe4;
+--psy-amber:        #c07a18; /* Advertencia */
+--psy-amber-light:  #fef0d2;
+--psy-red:          #c0392b; /* Riesgo alto */
+--psy-red-light:    #fdecea;
 ```
+
+### Regla de secciones (landing page)
+
+```
+Hero              → bg-[var(--psy-cream)]    teal
+Pain points       → bg-white
+Deliverables      → bg-[var(--psy-purple-light)] lavanda
+Trial steps       → bg-white
+Para quién encaja → bg-[var(--psy-cream)]    teal
+Pricing           → bg-[var(--psy-purple-light)] lavanda
+FAQ               → bg-white
+Final CTA         → bg-[var(--psy-ink)]      navy oscuro
+```
+
+### Regla de tarjetas
+
+- **Tarjeta sobre fondo teal o lavanda:** `bg-white` siempre — nunca bg-tintado
+- **Hover de tarjeta:** eleva 5px, sombra 64px, borde teal visible, fondo blanco puro
 
 ### Tipografía
+
 ```css
---psy-serif: 'Lora', Georgia, serif;       /* Títulos, análisis IA, informes */
---psy-sans:  'DM Sans', system-ui;         /* UI general */
---psy-mono:  'DM Mono', monospace;         /* Timestamps, códigos, IDs */
+--psy-serif: 'Lora', Georgia, serif; /* Títulos, análisis IA, informes */
+--psy-sans: 'DM Sans', system-ui; /* UI general, formularios */
+--psy-mono: 'DM Mono', monospace; /* Timestamps, IDs, datos técnicos */
 ```
 
-### Regla de oro UX
-> *"Si se siente como un SaaS genérico, lo rehacemos."*
+### Shell del dashboard — estructura obligatoria
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Topbar: saludo + stats del día + avatar             │
+├──────────────┬──────────────────────────────────────┤
+│              │                                       │
+│  Panel       │   Contenido principal                 │
+│  lateral     │   (fondo --psy-cream)                 │
+│  (--psy-     │                                       │
+│   paper)     │                                       │
+│              │                                       │
+└──────────────┴──────────────────────────────────────┘
+        ▲ Dock flotante inferior (se oculta al scroll)
+```
+
+### Regla de oro de UX
+
+> _"Si se siente como un SaaS genérico, lo rehacemos."_
+
+### Inspiración de diseño
+
+Linear, Arc Browser, Things 3, Craft Docs, Raycast.
+**NO inspirarse en:** Notion genérico, dashboards con 15 gráficas, purple gradients.
 
 ---
 
@@ -95,23 +356,24 @@ Un producto clínico no necesita animaciones flashy — necesita **calma intelig
 
 ```
 Frontend:        Next.js 15 (App Router, RSC) + Tailwind CSS 3
-Auth:            NextAuth 5 (Credentials + Google)
+Auth:            NextAuth 5 (Credentials + Google OAuth)
 Database:        Supabase (PostgreSQL 16 + RLS)
-Vector/RAG:      Supabase pgvector (1536 dims)
+Vector/RAG:      Supabase pgvector (1536 dimensiones)
 Embeddings:      OpenAI text-embedding-3-small
-Transcripción:   OpenAI Whisper API (large-v3, idioma español)
-IA análisis:     Claude claude-sonnet-4-20250514 (Anthropic SDK)
-Storage:         Supabase Storage (audio cifrado + PDFs + informes)
-Email:           Resend (plantillas React Email)
-PDF:             @react-pdf/renderer (informes clínicos)
+Transcripción:   OpenAI Whisper API (large-v3, idioma: es) — Solo Pro
+IA análisis:     Anthropic Claude claude-sonnet-4-20250514
+Storage:         Supabase Storage (audio cifrado AES-256 + PDFs + informes)
+Email:           Resend + React Email
+PDF:             @react-pdf/renderer
 Agenda:          FullCalendar + Google Calendar API
+Mensajería:      WhatsApp Business API (Meta Cloud API)
 Deploy:          Vercel (CI/CD)
-Pagos:           Stripe (suscripciones)
+Pagos:           Stripe — activo en v2.0
 Lenguaje:        TypeScript strict
 Package mgr:     pnpm
 Validación:      Zod
 UI Components:   Radix UI (headless) + componentes custom
-Animaciones:     Framer Motion (selectivo, no decorativo)
+Animaciones:     Framer Motion (selectivo, nunca decorativo)
 Fonts:           next/font (Lora, DM Sans, DM Mono)
 ```
 
@@ -123,110 +385,170 @@ Fonts:           next/font (Lora, DM Sans, DM Mono)
 
 ```
 psyassist/
+├── CLAUDE.md                        ← Este archivo
+├── AGENTS.md                        ← Equipo de 16 agentes especializados
+├── KNOWLEDGE_SYSTEM.md              ← Sistema de biblioteca clínica (126 libros)
+│
 ├── app/
 │   ├── (auth)/
 │   │   ├── login/
 │   │   └── register/
 │   ├── (dashboard)/
-│   │   ├── layout.tsx              # Shell con panel + dock + drawer
-│   │   ├── page.tsx                # Dashboard principal
+│   │   ├── layout.tsx               # Shell: panel + topbar + dock + drawer
+│   │   ├── page.tsx                 # Dashboard principal
 │   │   ├── patients/
 │   │   │   ├── page.tsx
 │   │   │   ├── new/
 │   │   │   └── [id]/
-│   │   │       ├── page.tsx        # Ficha completa
+│   │   │       ├── page.tsx         # Ficha completa del paciente
 │   │   │       ├── sessions/
-│   │   │       ├── plan/
-│   │   │       ├── reports/        # Informes de derivación
-│   │   │       └── timeline/
+│   │   │       ├── plan/            # Plan terapéutico (Pro)
+│   │   │       ├── reports/         # Informes de derivación (Pro)
+│   │   │       ├── tests/           # Tests psicométricos (Pro)
+│   │   │       └── timeline/        # Evolución visual (Pro)
 │   │   ├── sessions/
 │   │   │   ├── new/
 │   │   │   └── [id]/
-│   │   ├── knowledge/
-│   │   ├── cases/
-│   │   ├── reports/
+│   │   ├── knowledge/               # Biblioteca clínica
+│   │   ├── cases/                   # Casos exitosos (Pro)
+│   │   ├── reports/                 # Informes de derivación (Pro)
 │   │   ├── schedule/
 │   │   └── settings/
-│   ├── (patient)/                  # Portal del paciente (v1.5+)
-│   │   ├── book/
-│   │   ├── my-reports/
-│   │   └── my-plan/
-│   ├── api/
-│   │   ├── auth/[...nextauth]/
-│   │   ├── sessions/
-│   │   │   ├── transcribe/
-│   │   │   └── analyze/
-│   │   ├── knowledge/
-│   │   │   ├── upload/
-│   │   │   └── search/
-│   │   ├── cases/similar/
-│   │   ├── patients/
-│   │   │   └── [id]/
-│   │   │       ├── delete/         # Derecho al olvido
-│   │   │       └── referral/       # Generar informe
-│   │   ├── reports/
-│   │   │   ├── generate/
-│   │   │   └── send/
-│   │   ├── schedule/
-│   │   │   ├── availability/
-│   │   │   ├── book/
-│   │   │   └── confirm/
-│   │   └── webhooks/
-│   │       ├── stripe/
-│   │       └── google-calendar/
-│   └── layout.tsx
+│   │       ├── practice/
+│   │       └── billing/
+│   ├── (patient)/                   # Portal del paciente (Pro, v1.5)
+│   ├── (intake)/                    # Cuestionario admisión — público sin login
+│   │   └── [token]/
+│   ├── (psychometric)/              # Tests psicométricos — público sin login
+│   │   └── [token]/
+│   └── api/
+│       ├── auth/[...nextauth]/
+│       ├── sessions/
+│       │   ├── transcribe/          # Whisper (Pro)
+│       │   └── analyze/
+│       ├── knowledge/
+│       │   ├── upload/
+│       │   ├── [id]/status/         # Polling de procesamiento
+│       │   └── search/
+│       ├── patients/
+│       │   └── [id]/
+│       │       ├── delete/          # Derecho al olvido
+│       │       └── referral/        # Informe derivación (Pro)
+│       ├── intake/[token]/
+│       ├── psychometric/[token]/
+│       ├── reports/
+│       ├── schedule/
+│       └── webhooks/
+│           ├── stripe/
+│           └── google-calendar/
+│
 ├── components/
-│   ├── ui/                         # Primitivos
+│   ├── ui/                          # Primitivos Spatial Clinical
 │   ├── shell/
-│   │   ├── PatientPanel.tsx
 │   │   ├── Topbar.tsx
+│   │   ├── PatientPanel.tsx
 │   │   ├── FloatingDock.tsx
 │   │   └── SettingsDrawer.tsx
-│   ├── recorder/
-│   ├── transcript/
+│   ├── knowledge/
+│   │   ├── KnowledgeGroupCard.tsx
+│   │   ├── PersonalLibrary.tsx
+│   │   └── UploadZone.tsx
+│   ├── sessions/
+│   │   ├── NoteInput.tsx            # Entrada texto libre (Lite + Pro)
+│   │   ├── AudioRecorder.tsx        # Grabación (Pro)
+│   │   └── SOAPViewer.tsx
 │   ├── analysis/
-│   ├── referral/                   # NUEVO
-│   │   ├── ReferralGenerator.tsx
-│   │   ├── ReferralPreview.tsx
-│   │   └── ReferralPDF.tsx
-│   ├── schedule/                   # NUEVO
-│   │   ├── AvailabilityEditor.tsx
-│   │   ├── BookingWidget.tsx
-│   │   └── WeekView.tsx
-│   ├── patient/
-│   └── plan/
-├── emails/                         # React Email templates
+│   │   ├── AIReport.tsx
+│   │   ├── RiskBadge.tsx
+│   │   └── SourceCitation.tsx
+│   ├── patients/
+│   │   ├── PatientCard.tsx
+│   │   ├── IntakeForm.tsx
+│   │   └── PatientTimeline.tsx      # Pro
+│   ├── referral/                    # Pro
+│   ├── psychometric/                # Pro
+│   ├── schedule/
+│   └── plan/                        # Pro
+│
+├── emails/
 │   ├── ReferralLetter.tsx
 │   ├── AppointmentConfirm.tsx
 │   ├── AppointmentReminder.tsx
 │   └── PlanShare.tsx
+│
 ├── lib/
 │   ├── supabase/
 │   ├── ai/
-│   │   ├── whisper.ts
+│   │   ├── whisper.ts               # Pro
 │   │   ├── embeddings.ts
-│   │   ├── rag.ts
-│   │   ├── analysis.ts
-│   │   └── referral.ts             # NUEVO
+│   │   ├── rag.ts                   # RAG unificado: base + personal
+│   │   ├── classifier.ts            # Clasificador de documentos
+│   │   ├── analysis.ts              # AIReport + SOAP/DAP
+│   │   └── referral.ts              # Pro
+│   ├── ingestor/
+│   │   └── extract.ts
+│   ├── whatsapp/
+│   │   └── send.ts
 │   ├── audio/
 │   ├── pdf/
-│   │   └── generate.ts
 │   ├── email/
-│   │   └── send.ts
 │   ├── calendar/
-│   │   └── google.ts
+│   ├── consent.ts
+│   ├── audit.ts
 │   └── utils/
-├── supabase/migrations/
+│
+├── scripts/
+│   ├── bulk-load-books.ts           # Carga masiva 126 libros
+│   ├── extract-pdf-text.ts
+│   ├── classify-document.ts
+│   └── bulk-load-log.json           # NO commitear
+│
+├── books-to-index/                  # Carpeta local — NO commitear
+│   ├── 01-cbt/
+│   ├── 02-psicoanalitico/
+│   ├── 03-humanista/
+│   ├── 04-sistemica/
+│   ├── 05-trauma/
+│   ├── 06-neuropsico/
+│   ├── 07-infanto/
+│   ├── 08-positiva/
+│   └── sin-clasificar/
+│
+├── types/
+│   └── supabase.ts                  # Generado automáticamente
+│
+├── supabase/
+│   ├── migrations/
+│   └── seed/
+│       └── knowledge_groups.sql
+│
 ├── public/
 │   ├── fonts/
 │   └── textures/
 │       └── paper-noise.svg
-├── .claude/
-│   ├── settings.json
-│   ├── hooks/
-│   ├── skills/
-│   └── AGENTS.md
-└── CLAUDE.md
+│
+└── .claude/
+    ├── settings.json
+    ├── skills/
+    │   └── rag-clinico.md
+    └── agents/
+        ├── orchestrator-agent.md
+        ├── setup-agent.md
+        ├── database-agent.md
+        ├── auth-agent.md
+        ├── security-agent.md
+        ├── book-ingestor-agent.md
+        ├── classifier-agent.md
+        ├── rag-agent.md
+        ├── clinical-analyst-agent.md
+        ├── ui-agent.md
+        ├── patients-agent.md
+        ├── sessions-agent.md
+        ├── dashboard-agent.md
+        ├── recorder-agent.md
+        ├── reports-agent.md
+        ├── saas-agent.md
+        └── qa-agent.md
 ```
 
 ---
@@ -235,14 +557,19 @@ psyassist/
 
 ```sql
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--- USUARIOS DEL SISTEMA
+-- PROFESIONALES (psicólogos y psiquiatras)
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Psychologist
+Professional
   id, email, name, professional_license
+  profession_type (psychologist | psychiatrist)
   specialty, country, timezone
-  stripe_customer_id, plan, trial_ends_at
+  plan (lite | pro | clinic)
+  trial_ends_at, stripe_customer_id
   signature_image_url, digital_signature_key
+  preferred_note_format (SOAP | DAP)
+  preferred_template_id
   google_calendar_connected, google_calendar_id
+  whatsapp_business_phone_id
   created_at
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -253,9 +580,22 @@ Patient
   age, gender, contact_email, contact_phone
   address, emergency_contact
   reason, referred_by
-  status (active|paused|closed)
+  status (active | paused | closed)
   consent_signed_at, consent_document_url
+  intake_data JSONB
   patient_portal_token
+  created_at
+
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- CUESTIONARIO DE ADMISIÓN
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IntakeForm
+  id, patient_id, psychologist_id
+  token VARCHAR UNIQUE
+  custom_questions JSONB
+  responses JSONB
+  completed_at
+  expires_at                         -- 72 horas
   created_at
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -263,33 +603,68 @@ Patient
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Session
   id, patient_id, psychologist_id
-  mode (presential|virtual)
+  mode (presential | virtual)
+  input_type (text | audio)          -- Lite=text, Pro=text|audio
   scheduled_at, duration_minutes
   audio_url, audio_deleted_at
-  status (scheduled|recording|transcribing|analyzing|complete)
+  status (scheduled|recording|uploaded|transcribing|analyzing|complete|error)
+  error_message TEXT
+  payment_amount INT                 -- en moneda local
+  payment_currency VARCHAR           -- COP|MXN|ARS|PEN|CLP|EUR
+  payment_method VARCHAR             -- efectivo|transferencia|nequi|daviplata|tarjeta|exento
+  payment_status VARCHAR DEFAULT 'pending'
+  payment_date TIMESTAMPTZ
   created_at
 
 Transcript
-  id, session_id, content JSONB, edited_at
+  id, session_id
+  content JSONB                      -- texto con timestamps
+  edited_at
 
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- NOTAS CLÍNICAS FORMALES (SOAP / DAP)
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ClinicalNote
+  id, session_id, psychologist_id, patient_id
+  format (SOAP | DAP)
+  content JSONB                      -- {S,O,A,P} o {D,A,P}
+  is_signed BOOLEAN DEFAULT false
+  signed_at TIMESTAMPTZ
+  pdf_url TEXT
+  created_at
+
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- ANÁLISIS IA — PROFUNDO (Pro)
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AIReport
   id, session_id
   summary TEXT
   patterns JSONB
-  diagnostic_hints JSONB
-  risk_signals JSONB
+  diagnostic_hints JSONB             -- hipótesis, NUNCA diagnóstico definitivo
+  cie11_codes JSONB                  -- Solo Pro / psiquiatras
+  risk_signals JSONB                 -- [{signal, severity: low|medium|high, description}]
   similar_cases JSONB
   evolution_vs_previous TEXT
   therapeutic_suggestions JSONB
-  disclaimer TEXT
+  knowledge_sources_used JSONB       -- libros citados
+  disclaimer TEXT                    -- SIEMPRE incluido
   generated_at, model_used
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--- PLANES TERAPÉUTICOS
+-- NOTAS PRIVADAS DEL TERAPEUTA
+-- NUNCA visible al paciente. NUNCA en informes ni exportaciones.
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PrivateNote
+  id, session_id, psychologist_id, patient_id
+  content TEXT
+  created_at, updated_at
+
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- PLANES TERAPÉUTICOS (Pro)
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TherapeuticPlan
   id, patient_id, psychologist_id
-  status (draft|active|completed)
+  status (draft | active | completed)
   ai_draft JSONB, approved_plan JSONB
   shared_with_patient_at
   created_at, updated_at
@@ -301,84 +676,108 @@ PlanObjective
   sessions_tracked JSONB
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--- INFORMES DE DERIVACIÓN (NUEVO - Colombia)
+-- INFORMES DE DERIVACIÓN / INTERCONSULTA (Pro)
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ReferralReport
   id, patient_id, psychologist_id
-  recipient_specialist_name
-  recipient_specialty
-  recipient_email
+  recipient_specialist_name, recipient_specialty, recipient_email
   reason_for_referral TEXT
-  ai_draft TEXT
-  approved_content TEXT
-  diagnosis_codes JSONB       -- CIE-11
+  ai_draft TEXT, approved_content TEXT
+  diagnosis_codes JSONB              -- CIE-11
   interventions_summary TEXT
   evolution_summary TEXT
   recommendations TEXT
   pdf_url, email_sent_at
   patient_acknowledged_at
-  status (draft|approved|sent|acknowledged)
+  status (draft | approved | sent | acknowledged)
   created_at
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--- AGENDA Y CITAS (NUEVO)
+-- TESTS PSICOMÉTRICOS (Pro)
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PsychometricTest
+  id, name, short_name, description
+  items JSONB, scoring_rules JSONB, interpretation JSONB
+  is_active BOOLEAN
+
+PatientTestResult
+  id, patient_id, psychologist_id
+  test_id, session_id (nullable)
+  token VARCHAR UNIQUE               -- link público sin login
+  responses JSONB
+  total_score INT
+  interpretation VARCHAR             -- leve | moderado | severo
+  completed_at, expires_at, created_at
+
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- PLANTILLAS CLÍNICAS POR ENFOQUE (Pro)
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ClinicalTemplate
+  id, psychologist_id (null = sistema)
+  name, approach_type
+  fields JSONB, soap_prompts JSONB
+  is_default BOOLEAN, created_at
+
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- AGENDA Y CITAS
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Availability
   id, psychologist_id
   day_of_week (0-6), start_time, end_time
-  session_duration_minutes
-  buffer_minutes
-  is_active
+  session_duration_minutes, buffer_minutes, is_active
 
 Appointment
   id, psychologist_id, patient_id
   scheduled_at, duration_minutes
-  mode (presential|virtual)
-  meeting_url
+  mode (presential | virtual), meeting_url
   status (requested|confirmed|completed|cancelled|no_show)
-  requested_by (patient|psychologist)
-  confirmation_token
-  cancellation_reason
-  google_calendar_event_id
-  created_at
-
-BookingRequest
-  id, psychologist_id
-  name, email, phone
-  preferred_date, alternate_dates JSONB
-  reason TEXT
-  status (pending|approved|rejected)
-  approved_appointment_id
-  created_at
+  requested_by (patient | psychologist)
+  confirmation_token, cancellation_reason
+  google_calendar_event_id, created_at
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--- BASE DE CONOCIMIENTO (RAG)
+-- WHATSAPP
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WhatsAppMessage
+  id, session_id, patient_id, psychologist_id
+  message_type (reminder_24h | reminder_1h | confirmation | cancellation)
+  status (sent | delivered | read | failed)
+  wa_message_id
+  sent_at, delivered_at, read_at
+
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-- BIBLIOTECA CLÍNICA — DOS CAPAS (ver KNOWLEDGE_SYSTEM.md)
+-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+KnowledgeGroup                       -- 8 grupos base del sistema
+PersonalKnowledgeGroup               -- grupos creados por IA (documentos personales)
+PsychologistKnowledgeGroup           -- enfoques activos por profesional
+
 KnowledgeDocument
-  id, psychologist_id
+  id, psychologist_id (null = sistema)
   title, author, category
   file_url, file_size_bytes
   processing_status (pending|processing|ready|error)
+  source_type (system | personal)
+  group_id, personal_group_id
+  ai_classification JSONB, personal_label TEXT
   chunk_count, uploaded_at
 
 DocumentChunk
   id, document_id, psychologist_id
-  content TEXT
-  page_number INT
+  content TEXT, page_number INT
   embedding vector(1536)
 
 ClinicalCase
   id, psychologist_id, patient_id (anonimizable)
   title, description
   diagnosis_explored, interventions_used
-  outcome (successful|partial|failed)
+  outcome (successful | partial | failed)
   sessions_count INT
   embedding vector(1536)
-  is_indexed BOOLEAN
-  created_at
+  is_indexed BOOLEAN, created_at
 
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--- AUDITORÍA (Ley 1581)
+-- AUDITORÍA Y PRIVACIDAD
 -- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AuditLog
   id, psychologist_id, action
@@ -388,30 +787,46 @@ AuditLog
 
 DataDeletionRequest
   id, patient_id, psychologist_id
-  requested_at, completed_at
-  items_deleted JSONB
+  requested_at, completed_at, items_deleted JSONB
 ```
 
-**Reglas absolutas para todas las tablas:**
-- RLS habilitado SIEMPRE
-- `psychologist_id` presente en casi todas
-- Policies específicas SELECT/INSERT/UPDATE/DELETE
+**Reglas absolutas:** RLS habilitado SIEMPRE. `psychologist_id` presente en casi todas.
+Policies específicas para SELECT, INSERT, UPDATE y DELETE por separado.
 
 ---
 
-## 🔒 PRIVACIDAD Y LEY 1581 — NO NEGOCIABLE
+## 🔒 PRIVACIDAD Y CUMPLIMIENTO REGULATORIO
+
+### Marco legal — LATAM hispanohablante
+
+| País      | Ley              | Compatibilidad con Ley 1581       |
+| --------- | ---------------- | --------------------------------- |
+| Colombia  | Ley 1581 de 2012 | Marco principal de implementación |
+| México    | LFPDPPP          | Compatible                        |
+| Argentina | Ley 25.326       | Compatible                        |
+| Chile     | Ley 19.628       | Compatible                        |
+| España    | GDPR + LOPDGDD   | Compatible (más estricto)         |
+
+La Ley 1581 es el mínimo común que satisface todos los mercados.
 
 ### Reglas que NUNCA se rompen
-1. **RLS en toda tabla** — sin excepciones
-2. **Audio cifrado AES-256** antes de subir a Storage
-3. **consent_signed_at obligatorio** antes de crear Session, AIReport o ReferralReport
-4. **Endpoint de derecho al olvido** borra en cascada: audio, transcripts, reports, embeddings, plans, appointments, ficha
-5. **AuditLog** registra TODO acceso a datos clínicos
-6. **Embeddings segregados por psychologist_id** — nunca cruce entre cuentas
-7. **Disclaimer clínico** en TODO output de IA
-8. **Nunca exponer patient data en logs** de error
 
-### Disclaimer clínico (copiar literal en cada output IA)
+```
+1.  RLS en toda tabla — sin excepciones
+2.  Audio cifrado AES-256 antes de subir a Storage
+3.  consent_signed_at obligatorio antes de crear Session, AIReport o ReferralReport
+4.  Derecho al olvido: cascada completa — audio, transcripts, notas, reports,
+    embeddings, planes, citas, ficha del paciente
+5.  AuditLog registra TODO acceso a datos clínicos
+6.  Embeddings segregados por psychologist_id — nunca cruce entre cuentas
+7.  Disclaimer clínico en TODO output de IA — sin excepción
+8.  Notas privadas del terapeuta NUNCA en exportaciones ni vistas del paciente
+9.  WhatsApp NUNCA lleva datos clínicos — solo logística de cita
+10. Nunca exponer patient data en logs de error
+```
+
+### Disclaimer clínico — copiar literal en cada output de IA
+
 ```
 ⚠️ Este contenido es una herramienta de apoyo al criterio clínico.
 El diagnóstico, tratamiento y decisiones clínicas son responsabilidad
@@ -423,226 +838,230 @@ evaluación clínica profesional.
 
 ## 🤖 SISTEMA DE IA — PIPELINES
 
-### Pipeline 1: Análisis Post-Sesión
+### Pipeline 1 — Análisis desde texto (Lite + Pro)
 
 ```
-Audio (presencial o virtual)
-  └─> Whisper API (es) → Transcript con timestamps
-      └─> Contexto del paciente (historial + sesiones + plan)
-          └─> RAG search:
-              ├─ Top 5 chunks biblioteca (pgvector)
-              └─ Top 3 casos similares (pgvector)
-                  └─> Claude Sonnet 4 → AIReport JSON
-                      └─> Guardar + notificar + alertas
+Notas de texto libre del profesional
+  └─► Contexto del paciente (ficha + historial + intake_data)
+      └─► Tests psicométricos recientes si existen (Pro)
+          └─► RAG search — dos capas paralelas:
+              ├─ Top 5 chunks biblioteca base (grupos activos)
+              └─ Top 3 chunks biblioteca personal del profesional
+                  └─► Claude → ClinicalNote SOAP/DAP
+                      └─► Claude → AIReport (Pro: más profundo + CIE-11)
+                          └─► Guardar + notificar + alertas
 ```
 
-### Pipeline 2: Generación de Informe de Derivación
+### Pipeline 2 — Análisis desde audio (Solo Pro)
 
 ```
-Input: patient_id + recipient_specialty + reason
-  └─> Fetch:
-      ├─ Ficha del paciente
-      ├─ AIReports del paciente
-      ├─ Plan terapéutico activo
-      └─ Sesiones (resumen)
-          └─> Claude → Carta profesional formal
-              └─> Psicólogo revisa y aprueba
-                  └─> Generar PDF firmado
-                      └─> Email con React Email
-                          └─> Paciente reenvía al especialista
+Audio grabado o subido
+  └─► Whisper API (español) → Transcript con timestamps
+      └─► [mismo flujo que Pipeline 1 desde transcript]
 ```
 
-### Pipeline 3: Plan Terapéutico con IA
+### Pipeline 3 — Informe de derivación (Solo Pro)
 
 ```
-AIReport + Casos similares + Objetivos previos
-  └─> Claude → Borrador (objetivos + intervenciones + indicadores)
-      └─> Psicólogo edita y aprueba
-          └─> Plan visible al paciente (opcional)
+patient_id + recipient_specialty + reason
+  └─► Fetch: ficha + AIReports + plan activo + tests
+      └─► Claude → carta formal en español clínico neutro
+          └─► Profesional revisa y aprueba
+              └─► PDF firmado + email
 ```
 
-### Prompt base análisis clínico
+### Pipeline 4 — Carga y clasificación de documentos
 
 ```
-Eres un asistente clínico de apoyo para psicólogos en Colombia.
+PDF/TXT subido por profesional
+  └─► book-ingestor-agent: extrae texto, chunking inteligente
+      └─► classifier-agent: Claude decide grupo (8 base + personal)
+          └─► rag-agent: genera embeddings, guarda chunks en pgvector
+              └─► Disponible en próxima sesión de análisis
+```
 
-Analiza la sesión basándote ÚNICAMENTE en:
-1. La transcripción proporcionada
-2. Fragmentos de libros clínicos del psicólogo (con fuente)
-3. Casos similares exitosos del psicólogo
+### Prompts base
+
+**Análisis clínico (Lite y Pro):**
+
+```
+Eres un asistente clínico de apoyo para profesionales de salud mental
+de habla hispana.
+
+Analiza basándote ÚNICAMENTE en:
+1. Las notas o transcripción proporcionadas
+2. Fragmentos de libros clínicos del profesional (con fuente)
+3. Casos similares exitosos del profesional
 
 REGLAS ABSOLUTAS:
-- NUNCA afirmes sin respaldo en los documentos
-- SIEMPRE cita libro, autor y página
+- NUNCA afirmes sin respaldo en los documentos proporcionados
+- SIEMPRE cita libro, autor y página en observaciones clínicas
 - SIEMPRE incluye el disclaimer clínico
-- Responde en español clínico formal
+- Responde en español clínico formal neutro (válido en todo LATAM y España)
+- Diagnósticos SOLO como "hipótesis exploratoria" — nunca definitivos
 - SOLO JSON válido, sin markdown
 ```
 
-### Prompt base informe de derivación
+**Informe de derivación (Pro):**
 
 ```
-Eres un asistente que redacta informes clínicos profesionales en Colombia.
+Eres un asistente que redacta informes clínicos profesionales para
+profesionales de salud mental de habla hispana.
 
-Genera una carta de derivación formal para [ESPECIALIDAD] sobre el paciente.
+Genera una carta de derivación/interconsulta formal para [ESPECIALIDAD].
 Tono: profesional médico, respetuoso, técnico apropiado.
-Idioma: español colombiano clínico.
-
-Estructura obligatoria:
-1. Encabezado con fecha y destinatario
-2. Saludo formal
-3. Motivo de la derivación
-4. Datos clínicos relevantes
-5. Diagnóstico explorado (CIE-11 si aplica)
-6. Intervenciones realizadas
-7. Evolución observada
-8. Recomendaciones al especialista
-9. Disponibilidad para intercambio
-10. Firma del psicólogo + tarjeta profesional
-
+Idioma: español clínico formal neutro — válido en todo LATAM y España.
 Longitud: 400-600 palabras. Formal pero humano.
 ```
 
 ---
 
-## 📧 PLANTILLAS DE EMAIL (React Email)
+## 📋 MÓDULOS POR VERSIÓN
 
-### 1. Informe de Derivación
-- Diseño profesional tipo carta médica
-- Logo PsyAssist sutil en pie
-- PDF adjunto con firma digital
-- CTA: "Reenviar al especialista"
-
-### 2. Confirmación de Cita
-- Datos de la cita claros
-- Botón añadir a Google/Apple Calendar
-- Link al portal del paciente
-- Instrucciones si es virtual (link Meet)
-
-### 3. Recordatorio de Cita (24h antes)
-- Diseño minimalista
-- Reprogramar / cancelar con un clic
-- Recordatorio de consentimiento para grabación
-
-### 4. Plan Terapéutico Compartido
-- Objetivos visualizados
-- Progreso visible
-- Mensaje motivador del psicólogo
-
-**Regla estética:** Los emails siguen la misma paleta cream/paper del producto. Nunca blancos corporativos fríos.
-
----
-
-## 📋 MÓDULOS DEL PRODUCTO
-
-| Módulo | Descripción | Versión |
-|---|---|---|
-| Auth y multi-tenancy | Login, registro, RLS | v1.0 |
-| Gestión de pacientes | CRUD, consentimiento, derecho al olvido | v1.0 |
-| Grabación presencial | Web Audio API | v1.0 |
-| Upload audio virtual | MP3/WAV/M4A | v1.0 |
-| Transcripción IA | Whisper español | v1.0 |
-| Base de conocimiento | Upload PDFs + embeddings | v1.0 |
-| Análisis post-sesión | Claude + RAG | v1.0 |
-| Informe de derivación | IA + PDF + Email | v1.0 |
-| Dashboard | Agenda + alertas + stats | v1.0 |
-| Integración Google Calendar | Sincronización citas | v1.0 |
-| Base de casos exitosos | Búsqueda semántica | v1.5 |
-| Planes terapéuticos | IA + seguimiento | v1.5 |
-| Agenda propia + reservas | Widget booking | v1.5 |
-| Portal del paciente | Citas, plan, informes | v1.5 |
-| Alertas de riesgo avanzadas | Notificaciones | v1.5 |
-| Multi-tenant SaaS | Stripe | v2.0 |
-| App móvil | Grabación celular | v2.0 |
-| Meet/Zoom SDK | Integración directa | v2.0 |
+| Módulo                                    | Lite | Pro | Versión |
+| ----------------------------------------- | :--: | :-: | ------- |
+| Auth + gestión de cuenta                  |  ✅  | ✅  | v1.0    |
+| Gestión de pacientes + consentimiento     |  ✅  | ✅  | v1.0    |
+| Notas texto libre + SOAP/DAP IA           |  ✅  | ✅  | v1.0    |
+| Análisis clínico con biblioteca base      |  ✅  | ✅  | v1.0    |
+| Notas privadas del terapeuta              |  ✅  | ✅  | v1.0    |
+| Cuestionario de admisión                  |  ✅  | ✅  | v1.0    |
+| WhatsApp recordatorios                    |  ✅  | ✅  | v1.0    |
+| Panel financiero básico                   |  ✅  | ✅  | v1.0    |
+| Dashboard + alertas de riesgo             |  ✅  | ✅  | v1.0    |
+| Biblioteca base (3 enfoques / 8 enfoques) |  3   |  8  | v1.0    |
+| PDFs personales (3 / ilimitados)          |  3   |  ∞  | v1.0    |
+| Derecho al olvido                         |  ✅  | ✅  | v1.0    |
+| Grabación + transcripción Whisper         |  ❌  | ✅  | v1.0    |
+| AIReport profundo + CIE-11                |  ❌  | ✅  | v1.0    |
+| Knowledge Profiles                        |  ❌  | ✅  | v1.0    |
+| Clasificación IA de documentos            |  ❌  | ✅  | v1.0    |
+| Informes de derivación PDF                |  ❌  | ✅  | v1.0    |
+| Google Calendar                           |  ❌  | ✅  | v1.0    |
+| Tests psicométricos digitales             |  ❌  | ✅  | v1.5    |
+| Memoria de casos exitosos                 |  ❌  | ✅  | v1.5    |
+| Planes terapéuticos IA                    |  ❌  | ✅  | v1.5    |
+| Portal del paciente                       |  ❌  | ✅  | v1.5    |
+| Timeline de evolución                     |  ❌  | ✅  | v1.5    |
+| Plantillas por enfoque                    |  ❌  | ✅  | v1.5    |
+| Agenda propia + reservas                  |  ❌  | ✅  | v1.5    |
+| Multi-tenant SaaS (Stripe)                |  ❌  | ✅  | v2.0    |
+| App móvil                                 |  ❌  | ✅  | v2.0    |
+| Meet/Zoom SDK                             |  ❌  | ✅  | v2.0    |
 
 ---
 
 ## 🚀 ROADMAP DETALLADO
 
-### v1.0 — MVP Piloto (8-12 semanas)
+### v1.0 — MVP con Lite y Pro (8-12 semanas)
 
 **Sprint 1 — Fundación (semanas 1-2)**
-- [ ] Setup Next.js + Supabase + Auth
-- [ ] Diseño shell (panel + topbar + dock + drawer)
-- [ ] CRUD Psychologist + Patient
-- [ ] Consentimiento digital
-- [ ] Derecho al olvido
 
-**Sprint 2 — IA Clínica (semanas 3-5)**
-- [ ] Grabación Web Audio API
-- [ ] Upload audio
-- [ ] Transcripción Whisper
-- [ ] Upload PDFs + embeddings
-- [ ] Análisis post-sesión (Claude + RAG)
+- [x] Setup Next.js 15 + Supabase + NextAuth 5
+- [x] Shell Spatial Clinical (topbar + panel + dock + drawer)
+- [x] CRUD Professional (type: psychologist | psychiatrist)
+- [x] CRUD Patient con consentimiento digital
+- [x] Derecho al olvido (eliminación en cascada completa)
+- [x] Migración DB completa con RLS en todas las tablas
+- [x] Seed de los 8 grupos de conocimiento base ← migración 20260418000004
 
-**Sprint 3 — Valor diferenciador (semanas 6-8)**
-- [ ] Informe de derivación (IA + PDF + Email)
-- [ ] Integración Google Calendar
-- [ ] Dashboard con alertas
-- [ ] Audit logs completos
+**Sprint 2 — IA Core Lite (semanas 3-4)**
 
-**Sprint 4 — Pulido y piloto (semanas 9-12)**
-- [ ] Testing completo
-- [ ] Onboarding psicóloga piloto
-- [ ] Métricas de uso
-- [ ] Feedback loop
+- [ ] NoteInput — entrada de notas en texto libre
+- [ ] Generación de nota SOAP/DAP con Claude
+- [ ] Notas privadas del terapeuta
+- [ ] Cuestionario de admisión (link público + token 72h)
+- [x] Upload PDFs personales + clasificación IA
+- [x] Script bulk-load: indexar los 126 libros ← scripts/bulk-load-books.ts listo; **pendiente: aplicar migración + correr script**
+- [x] RAG unificado: dos capas (base + personal) ← lib/ai/rag.ts con searchAllKnowledge
+- [x] Análisis clínico básico con citas bibliográficas ← lib/ai/analysis.ts usa RAG dos capas
 
-### v1.5 — Funciones clínicas completas (3 meses después)
-- [ ] Base de casos exitosos
-- [ ] Planes terapéuticos IA
-- [ ] Agenda propia con reservas
+**Sprint 3 — Features Pro + Adopción (semanas 5-7)**
+
+- [x] Grabación Web Audio API ← components/recorder + lib/audio
+- [x] Upload de audio + Transcripción Whisper ← lib/ai/whisper.ts
+- [ ] AIReport profundo con CIE-11
+- [ ] Informe de derivación PDF + email
+- [x] Knowledge Profiles (activar/desactivar enfoques) ← API /api/knowledge/groups + UI KnowledgeGroupCard
+- [ ] WhatsApp Business API — recordatorios 24h y 1h
+- [ ] Panel financiero básico (multi-moneda: COP, MXN, ARS, etc.)
+- [ ] Google Calendar (Pro)
+- [x] Dashboard con alertas de riesgo
+- [x] Audit logs completos
+
+**Sprint 4 — Pulido y piloto (semanas 8-12)**
+
+- [ ] Onboarding Lite (< 10 min)
+- [ ] Onboarding Pro (< 30 min, guiado)
+- [ ] Landing page con diferenciación Lite vs Pro
+- [ ] qa-agent: testing completo (TypeScript, build, RLS, UX)
+- [ ] 5-10 psicólogos piloto con Lite (Colombia, México)
+- [ ] 2-3 psiquiatras piloto con Pro (Colombia)
+- [ ] Métricas de uso y feedback loop
+
+### v1.5 — Retención y diferenciación (mes 4-6)
+
+- [ ] Tests psicométricos digitales (PHQ-9, GAD-7, DASS-21, PCL-5, Rosenberg)
+- [ ] Memoria de casos exitosos (búsqueda semántica acumulativa)
+- [ ] Planes terapéuticos generados con IA
 - [ ] Portal del paciente
-- [ ] Exportación reportes PDF avanzada
+- [ ] Timeline de evolución visual del paciente
+- [ ] Plantillas de historia clínica por enfoque terapéutico (TCC, sistémica, psicodinámico, humanista, integrativo)
+- [ ] Agenda propia con widget de reservas
 
-### v2.0 — SaaS Multi-tenant (6 meses después)
-- [ ] Onboarding automatizado
-- [ ] Stripe suscripciones (Starter $29 / Pro $59 / Clinic $149)
-- [ ] App móvil
-- [ ] Integración directa Meet/Zoom
-- [ ] Multi-idioma
+### v2.0 — SaaS escalable (mes 7-12)
+
+- [ ] Stripe suscripciones (Lite $19 / Pro $49 / Clinic $149)
+- [ ] Onboarding self-service automatizado
+- [ ] Plan Clinic — hasta 5 profesionales, admin central
+- [ ] App móvil (grabación desde celular)
+- [ ] Meet/Zoom SDK integración directa
+- [ ] SEO por país: landing pages México, Argentina, España
 
 ---
 
 ## 📏 CONVENCIONES DE CÓDIGO
 
 ### TypeScript
+
 - Strict mode siempre
 - Interfaces en `/types/*.ts`
 - Server Actions para mutaciones
 - RSC por defecto, `'use client'` solo cuando necesario
-- Zod para validación
+- Zod para validación en frontend Y backend
 - Nunca `any` — usar `unknown` + type guards
 
 ### API Routes
+
 - Validar SIEMPRE con Zod
-- Verificar sesión con `getServerSession`
-- Verificar ownership del recurso
-- Respuestas: `{ data } | { error }`
+- Verificar sesión con `getServerSession` antes de cualquier operación
+- Verificar ownership: `psychologist_id === session.user.id`
+- Verificar plan antes de features Pro: `if (session.user.plan !== 'pro') return 403`
+- Respuestas: `{ data } | { error: string }`
 
 ### Supabase
+
 - Cliente server: `createServerClient()` con cookies
 - Cliente browser: `createBrowserClient()`
-- NUNCA service_role en frontend
+- NUNCA service_role_key en código frontend
 - NUNCA bypassear RLS en rutas de usuario
+- SIEMPRE regenerar tipos después de migraciones
 
 ### Componentes
+
 - Server Components para data fetching
-- Skeleton loaders en datos async
+- Skeleton loaders en TODOS los datos async
 - Error boundaries en secciones críticas
-- Toast notifications (sonner) para feedback IA
+- Toast (sonner) para feedback de IA
+- Verificar plan del usuario antes de renderizar features Pro
 
 ### Naming
+
 - Componentes: `PascalCase`
-- Funciones: `camelCase`
+- Funciones/variables: `camelCase`
 - Constantes: `SCREAMING_SNAKE_CASE`
 - Archivos componentes: `PascalCase.tsx`
-- Archivos utils: `kebab-case.ts`
-
-### Comentarios
-- Español para código de negocio
-- Inglés para código técnico
-- JSDoc en funciones públicas
+- Archivos utils/lib: `kebab-case.ts`
 
 ---
 
@@ -650,123 +1069,149 @@ Longitud: 400-600 palabras. Formal pero humano.
 
 ```bash
 # Desarrollo
-pnpm dev                              # localhost:3000
+pnpm dev
 pnpm build && pnpm start
 
 # Supabase
 supabase start
 supabase db push
-supabase migration new nombre
+supabase migration new [nombre-descriptivo]
 supabase gen types typescript --local > types/supabase.ts
 
+# Carga de libros (solo una vez)
+npx ts-node scripts/bulk-load-books.ts
+
 # Deploy
-vercel                                # preview
+vercel
 vercel --prod
 
-# Calidad
-pnpm lint
-pnpm format
-pnpm type-check
-pnpm test
+# Calidad — ejecutar antes de cualquier deploy
+pnpm type-check    # 0 errores
+pnpm lint          # 0 errores críticos
+pnpm build         # build exitoso
 ```
 
 ---
 
 ## 🧠 REGLAS PARA TODOS LOS AGENTES
 
-1. **Leer CLAUDE.md completo** antes de cualquier tarea
-2. **Nunca crear tabla sin RLS**
-3. **Nunca procesar datos clínicos** sin `consent_signed_at`
-4. **Siempre incluir el disclaimer clínico** en outputs de IA
-5. **Siempre citar fuente** en observaciones clínicas
-6. **Idioma: español colombiano clínico**
-7. **Respetar el roadmap** — no saltarse versiones
-8. **Toda feature nueva** → entrada en AuditLog
-9. **Antes de eliminar** → verificar ownership
-10. **Diseño: Spatial Clinical** — sin header, sin footer, dock flotante
-11. **Color `#FFFFFF` puro prohibido** — usar `--psy-paper`
-12. **Fuente `Inter` prohibida** — usar `DM Sans` + `Lora`
-13. **Cada output de IA** → guardar en DB
-14. **Errores al usuario en español**, logs técnicos en inglés
-15. **Antes de integrar libs** → justificar valor vs mantenimiento
+### Arquitectura y código
+
+```
+1.  Leer CLAUDE.md + AGENTS.md completos antes de cualquier tarea
+2.  Nunca crear tabla sin RLS habilitado
+3.  Nunca procesar datos clínicos sin consent_signed_at verificado
+4.  Nunca dar por implementado algo sin ejecutar y validar el resultado
+5.  Respetar el roadmap — no implementar features de v1.5 en v1.0
+6.  Verificar a qué versión (Lite/Pro) pertenece cada feature
+7.  Bloquear features Pro con verificación de plan en API y UI
+```
+
+### IA clínica
+
+```
+8.  Siempre incluir disclaimer clínico en outputs de IA
+9.  Siempre citar libro, autor y página en observaciones clínicas
+10. Diagnósticos solo como "hipótesis exploratoria" — nunca definitivos
+11. Cada output de IA guardado en DB antes de mostrarse al profesional
+12. Tests psicométricos: inyectar resultados como contexto en el AIReport
+13. Prompts en español neutro — válido en todo LATAM y España
+```
+
+### Privacidad y seguridad
+
+```
+14. Notas privadas: NUNCA en exportaciones, portales ni vistas del paciente
+15. WhatsApp: NUNCA incluir datos clínicos — solo logística de cita
+16. Embeddings: segregados por psychologist_id, nunca cruce entre cuentas
+17. AuditLog: registrar toda acción sobre datos clínicos
+18. Montos financieros en moneda local del profesional (no convertir a USD en UI)
+```
+
+### Diseño
+
+```
+19. Color #FFFFFF prohibido — usar --psy-paper (#FAF8F4)
+20. Fuente Inter prohibida — usar DM Sans + Lora
+21. Sin header ni footer tradicionales
+22. Skeleton loaders en todos los componentes con datos async
+23. Alertas "high" siempre visibles con animación de pulso
+24. Si se siente como SaaS genérico, rehacer
+```
 
 ---
 
 ## 🎯 MÉTRICAS DE ÉXITO
 
 ### Técnicas (v1.0)
-- Análisis post-sesión: < 2 minutos
+
+- Análisis desde texto: < 30 segundos
+- Análisis desde audio (Pro): < 2 minutos
 - Precisión transcripción español: > 90%
-- Generación de informe de derivación: < 30 segundos
+- Generación informe de derivación: < 30 segundos
 - Uptime: > 99.5%
 
-### Producto (v1.0 con piloto)
-- Satisfacción psicóloga piloto: ≥ 8/10
-- Tiempo ahorrado por sesión: ≥ 15 minutos
-- Informes de derivación generados/mes: ≥ 5
-- Tasa de adopción de planes IA: ≥ 60%
+### Producto — Lite (piloto semana 12)
 
-### Negocio (v2.0)
-- MRR objetivo: $5,000 USD a 6 meses
-- CAC < $50 USD
+- Onboarding en < 10 min: 80% de nuevos usuarios
+- Primera nota analizada en < 24h del registro: 70%
+- Satisfacción del psicólogo piloto: ≥ 8/10
+- Tiempo ahorrado por sesión: ≥ 15 minutos
+
+### Producto — Pro (piloto semana 12)
+
+- Satisfacción del psiquiatra piloto: ≥ 8/10
+- AIReports generados/mes por usuario: ≥ 20
+- Informes de derivación/mes por usuario: ≥ 5
+- Adopción de notas SOAP automáticas: ≥ 70%
+
+### Negocio (v2.0 — mes 12)
+
+- MRR objetivo: $8.000 USD
+- Ejemplo: 200 Lite × $19 + 50 Pro × $49 = $6.250 + clínicas
+- CAC < $40 USD
 - Churn mensual < 5%
 - NPS > 50
-
----
-
-## 🎨 REFERENCIAS DE DISEÑO
-
-**Inspiración:**
-- **Linear** — densidad sin abrumar
-- **Arc Browser** — reducción del chrome
-- **Things 3** — tipografía y spacing cálido
-- **Craft Docs** — papel digital con serif
-- **Raycast** — dock flotante
-
-**NO inspirarse en:**
-- Notion genérico
-- Herramientas SaaS B2B frías
-- UIs con purple gradients
-- Dashboards con 15 gráficas
-
----
-
-## 📞 CONTEXTO DEL DESARROLLADOR
-
-- **Mario Bas** — developer y entrepreneur en Cali, Colombia
-- Stack: Next.js + Supabase (experto, de Sumitronic/SomosTécnicos)
-- Windows con CMD
-- Production-ready code, no conceptual
-- Valida con bash antes de continuar
-- GitHub: `basabecode`
+- Países activos: mínimo 3 (Colombia, México, Argentina)
 
 ---
 
 ## 🔗 LINKS ÚTILES
 
-- Supabase docs: https://supabase.com/docs
+- Supabase: https://supabase.com/docs
 - Anthropic SDK: https://docs.anthropic.com
 - OpenAI Whisper: https://platform.openai.com/docs/guides/speech-to-text
 - React Email: https://react.email
-- Ley 1581 Colombia: https://www.sic.gov.co/tema/proteccion-de-datos-personales
+- WhatsApp Business API: https://developers.facebook.com/docs/whatsapp
 - CIE-11: https://icd.who.int/browse11
+- Ley 1581 Colombia: https://www.sic.gov.co/tema/proteccion-de-datos-personales
+
+---
+
+## 📞 CONTEXTO DEL DESARROLLADOR
+
+- **Mario Bas** — developer y entrepreneur, Cali, Colombia
+- Stack: Next.js + Supabase (experto — Sumitronic/SomosTécnicos)
+- Sistema: Windows, CMD
+- Estilo: production-ready, no conceptual — valida con bash antes de continuar
+- GitHub: `basabecode`
 
 ---
 
 ## ✅ CHECKLIST DE INICIO DE SESIÓN
 
-Cuando Mario inicia una conversación, Claude debe:
-
 ```
-[ ] Confirmar que leyó CLAUDE.md
-[ ] Identificar fase del roadmap
-[ ] Identificar agente(s) aplicables
-[ ] Cargar skill relevante
-[ ] Confirmar idioma: español
-[ ] Proponer siguiente paso según roadmap
+[ ] Leer CLAUDE.md completo
+[ ] Identificar versión afectada: Lite, Pro, o ambas
+[ ] Identificar fase del roadmap: v1.0 / v1.5 / v2.0
+[ ] Identificar agente(s) aplicables según AGENTS.md
+[ ] Verificar si la tarea involucra biblioteca clínica → leer KNOWLEDGE_SYSTEM.md
+[ ] Confirmar idioma: español neutro (válido en todo LATAM y España)
+[ ] Proponer siguiente paso concreto según roadmap
 ```
 
 ---
 
-*PsyAssist — La primera herramienta clínica que razona con los libros y casos del propio profesional.*  
-*Diseñada con cuidado en Cali, Colombia 🇨🇴 para psicólogos de LATAM.*
+_PsyAssist — La primera plataforma de IA clínica nativa en español_
+_para psicólogos y psiquiatras de América Latina y España._
+_Construida en Cali, Colombia 🇨🇴 para toda la región._

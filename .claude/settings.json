@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "project": "PsyAssist",
+  "permissions": {
+    "allow": [
+      "Bash(pnpm:*)",
+      "Bash(supabase:*)",
+      "Bash(npx:*)",
+      "Bash(git:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(DROP TABLE:*)",
+      "Bash(DELETE FROM patients:*)"
+    ]
+  },
+  "env": {
+    "PSYASSIST_ENV": "development",
+    "LOG_LEVEL": "info"
+  },
+
+  "statusLine": {
+    "command": "node .claude/status.js",
+    "refreshInterval": 5,
+    "type": "command"
+  }
+}

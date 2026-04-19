@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { ensurePsychologistProfile } from "@/lib/auth/profile";
 import { z } from "zod";
 
 const LoginSchema = z.object({
@@ -43,11 +44,18 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
     return { error: "Credenciales incorrectas. Verifica tu email y contraseña." };
   }
 
-  const { data: profile } = await supabase
-    .from("psychologists")
-    .select("is_platform_admin")
-    .eq("id", authData.user.id)
-    .single();
+  const profile = await ensurePsychologistProfile(supabase, authData.user);
+  if (!profile) {
+    await supabase.auth.signOut();
+    return {
+      error: "La cuenta existe en autenticación, pero no tiene perfil en psychologists. Se intentó recrearlo y falló.",
+    };
+  }
+
+  if (profile.account_status === "suspended") {
+    await supabase.auth.signOut();
+    return { error: "Tu cuenta está suspendida. Contacta al administrador de la plataforma." };
+  }
 
   revalidatePath("/", "layout");
   redirect(profile?.is_platform_admin ? "/admin" : "/dashboard");

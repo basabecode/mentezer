@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { searchKnowledge, searchSimilarCases, formatKnowledgeContext, formatCasesContext } from "./rag";
+import { searchAllKnowledge, searchSimilarCases, formatKnowledgeForPrompt, formatCasesContext } from "./rag";
 import { createClient } from "@/lib/supabase/server";
 
 function getAnthropic() {
@@ -33,14 +33,19 @@ export async function analyzeSession({
   previousSessionsSummary: string;
   psychologistId: string;
 }): Promise<AIReportData> {
-  // Búsqueda en paralelo: biblioteca + casos similares
-  const [knowledgeChunks, similarCases] = await Promise.all([
-    searchKnowledge(transcript, psychologistId, 5),
+  // Búsqueda en paralelo: las dos capas de conocimiento + casos similares
+  const [{ base: knowledgeBase, personal: knowledgePersonal }, similarCases] = await Promise.all([
+    searchAllKnowledge(transcript, psychologistId),
     searchSimilarCases(transcript.slice(0, 2000), psychologistId, 3),
   ]);
 
-  const knowledgeContext = formatKnowledgeContext(knowledgeChunks);
+  const knowledgeContext = formatKnowledgeForPrompt(knowledgeBase, knowledgePersonal);
   const casesContext = formatCasesContext(similarCases);
+  const knowledgeSourcesUsed = [...knowledgeBase, ...knowledgePersonal].map((c) => ({
+    title: c.document_title,
+    author: c.author ?? "",
+    group: c.group_name,
+  }));
 
   const systemPrompt = `Eres un asistente clínico de apoyo para psicólogos en Colombia.
 
@@ -135,7 +140,8 @@ Genera el AIReport en JSON con esta estructura exacta:
 
   // Guardar en DB
   const supabase = await createClient();
-  await supabase.from("ai_reports").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase as any).from("ai_reports").insert({
     session_id: sessionId,
     summary: reportData.summary,
     patterns: reportData.patterns,
@@ -144,6 +150,7 @@ Genera el AIReport en JSON con esta estructura exacta:
     similar_cases: reportData.similar_cases,
     evolution_vs_previous: reportData.evolution_vs_previous,
     therapeutic_suggestions: reportData.therapeutic_suggestions,
+    knowledge_sources_used: knowledgeSourcesUsed,
     disclaimer: DISCLAIMER,
     model_used: "claude-sonnet-4-6",
   });

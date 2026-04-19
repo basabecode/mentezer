@@ -49,9 +49,9 @@ export function FloatingDock() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+          className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 md:bottom-6"
         >
-          <div className="flex items-center gap-1 px-3 py-2 bg-psy-paper/95 backdrop-blur-md border border-[var(--border)] rounded-2xl shadow-[var(--shadow-dock)]">
+          <div className="flex max-w-[calc(100vw-1rem)] items-center gap-1 overflow-x-auto rounded-2xl border border-[var(--border)] bg-psy-paper/95 px-2 py-2 shadow-[var(--shadow-dock)] backdrop-blur-md md:px-3">
             {navItems.map(({ href, icon: Icon, label }) => {
               const active = pathname === href || pathname.startsWith(href + "/");
               return (
@@ -59,7 +59,7 @@ export function FloatingDock() {
                   key={href}
                   href={href}
                   className={cn(
-                    "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all duration-200",
+                    "relative flex min-w-[64px] flex-col items-center gap-0.5 rounded-xl px-2.5 py-2 transition-all duration-200 md:min-w-[72px] md:px-3",
                     active
                       ? "bg-psy-blue text-white"
                       : "text-psy-muted hover:text-psy-ink hover:bg-psy-cream"

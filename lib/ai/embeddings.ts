@@ -70,7 +70,8 @@ export async function processDocument(
     });
   }
 
-  const { error } = await supabase.from("document_chunks").insert(rows);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await supabase.from("document_chunks").insert(rows as any);
 
   if (error) {
     await supabase
