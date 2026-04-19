@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import { HealthStatus } from "@/components/admin/HealthStatus";
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
@@ -178,24 +179,8 @@ export default async function AdminDashboardPage() {
             <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-[var(--psy-ink)] md:text-3xl">
               Estado actual
             </h2>
-            <div className="mt-5 grid gap-2">
-              {[
-                { label: "API Claude", ok: true },
-                { label: "API OpenAI", ok: true },
-                { label: "Supabase DB", ok: true },
-                { label: "Storage", ok: true },
-                { label: "Webhooks activos", ok: true },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between rounded-[1.2rem] bg-white/62 px-4 py-3 transition-all duration-200 hover:bg-white hover:shadow-[0_4px_12px_rgba(13,34,50,0.06)]">
-                  <p className="text-sm text-[var(--psy-ink)]">{item.label}</p>
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${item.ok ? "bg-[var(--psy-green)]" : "animate-pulse bg-[var(--psy-red)]"}`} />
-                    <span className={`text-xs font-medium ${item.ok ? "text-[var(--psy-green)]" : "text-[var(--psy-red)]"}`}>
-                      {item.ok ? "Operativo" : "Error"}
-                    </span>
-                  </div>
-                </div>
-              ))}
+            <div className="mt-5">
+              <HealthStatus />
             </div>
           </div>
 

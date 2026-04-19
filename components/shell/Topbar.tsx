@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Bell, Search, Settings, Menu, PanelLeftClose, PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { NotificationsPanel } from "./NotificationsPanel";
 import { useDashboard } from "./DashboardContext";
 
 interface TopbarProps {
@@ -19,11 +21,25 @@ export function Topbar({
   avatarUrl,
 }: TopbarProps) {
   const { sidebarOpen, setSidebarOpen, setSettingsOpen } = useDashboard();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches";
 
   const firstName = psychologistName.split(" ")[0];
+
+  // Mock notifications — en producción, vendría de la BD
+  const mockNotifications = pendingAnalysis > 0 ? [
+    {
+      id: "1",
+      type: "analysis" as const,
+      title: "Análisis en proceso",
+      description: `${pendingAnalysis} sesión${pendingAnalysis > 1 ? "es" : ""} pendiente${pendingAnalysis > 1 ? "s" : ""} de análisis IA`,
+      timestamp: new Date(),
+      link: "/sessions",
+      read: false,
+    },
+  ] : [];
 
   return (
     <header className="sticky top-0 z-40 px-2 py-2 md:px-5 md:py-4">
@@ -58,9 +74,11 @@ export function Topbar({
 
         <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
           <button
+            onClick={() => setNotificationsOpen(!notificationsOpen)}
             className={cn(
               "relative flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl",
-              pendingAnalysis > 0 && "text-psy-amber"
+              pendingAnalysis > 0 && "text-psy-amber",
+              notificationsOpen && "bg-white text-psy-blue"
             )}
             aria-label="Notificaciones"
           >
@@ -93,6 +111,14 @@ export function Topbar({
           </div>
         </div>
       </div>
+
+      {/* Notifications Panel */}
+      <NotificationsPanel
+        open={notificationsOpen}
+        onClose={() => setNotificationsOpen(false)}
+        notifications={mockNotifications}
+        pendingCount={pendingAnalysis}
+      />
     </header>
   );
 }
