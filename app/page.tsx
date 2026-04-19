@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ClinicalReportPlayback } from "@/components/marketing/ClinicalReportPlayback";
+import { ScrollRevealInit } from "@/components/marketing/ScrollRevealInit";
 
 function IconBrain() {
   return (
@@ -395,6 +396,7 @@ const faqs = [
 export default function LandingPage() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-[var(--psy-ink)]">
+      <ScrollRevealInit />
 
       <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
         <nav className="flex items-center justify-between rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-white/90 px-4 py-3 shadow-[0_8px_32px_rgba(13,34,50,0.08)] backdrop-blur-md md:px-5">
@@ -457,15 +459,15 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      <section className="bg-[#C8E6F2] px-4 pb-18 pt-28 md:px-6 md:pb-20 md:pt-34">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+      <section className="bg-[#C8E6F2] px-4 pb-12 pt-28 md:px-6 md:pb-16 md:pt-32 lg:pb-20 lg:pt-36">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1fr_1fr] md:items-center lg:grid-cols-[1.1fr_0.9fr]">
           <div className="reveal-rise">
-            <h1 className="max-w-3xl font-sans text-[2.85rem] font-bold leading-[1.05] tracking-[-0.035em] text-[var(--psy-ink)] sm:text-6xl md:text-7xl">
+            <h1 className="font-sans text-[2rem] font-bold leading-[1.08] tracking-[-0.03em] text-[var(--psy-ink)] sm:text-[2.5rem] md:text-[2.75rem] lg:text-[3.25rem] xl:text-[3.75rem]">
               Tu consulta puede verse mucho más moderna sin perder tu criterio
               clínico.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[rgba(13,34,50,0.76)] md:text-xl">
+            <p className="mt-5 max-w-xl text-base leading-7 text-[rgba(13,34,50,0.76)] md:text-lg">
               PsyAssist analiza sesiones con tu biblioteca clínica, ordena el
               cierre del día y reduce la dependencia de libreta, notas sueltas y
               memoria tardía.
@@ -501,13 +503,43 @@ export default function LandingPage() {
                 Ver demostración en vivo
               </Link>
             </div>
+
+            {/* Tarjeta visible solo en mobile */}
+            <div className="mt-8 block md:hidden">
+              <div className="overflow-hidden rounded-[1.75rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(247,252,253,0.97)] p-4 shadow-[0_16px_48px_rgba(13,34,50,0.14)]">
+                <div className="flex items-center justify-between border-b border-[rgba(13,34,50,0.07)] pb-3">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">PsyAssist clinical workspace</p>
+                    <p className="mt-1 text-base font-semibold tracking-tight text-[var(--psy-ink)]">Ana R. · Sesión 8 · TCC</p>
+                  </div>
+                  <div className="rounded-full border border-[rgba(13,34,50,0.08)] bg-white/80 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.16em] text-[var(--psy-blue)]">Respuesta IA</div>
+                </div>
+                <div className="mt-3 space-y-2">
+                  {[
+                    { label: "Subjetivo", text: "Reporta cansancio sostenido y culpa al descansar.", tone: "bg-white border-[rgba(13,34,50,0.07)]" },
+                    { label: "Análisis clínico", text: "Autoexigencia como regulador de valor personal — cita clínica recuperada.", tone: "bg-[var(--psy-blue-light)] border-[rgba(21,134,160,0.18)]" },
+                    { label: "Próxima sesión", text: "Explorar descanso como pérdida de valor.", tone: "bg-[var(--psy-green-light)] border-[rgba(39,137,94,0.18)]" },
+                  ].map((f) => (
+                    <div key={f.label} className={`rounded-[1rem] border ${f.tone} px-3 py-2.5`}>
+                      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--psy-muted)]">{f.label}</p>
+                      <p className="mt-1 text-xs leading-5 text-[var(--psy-ink)]">{f.text}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2 text-[10px] text-[var(--psy-muted)]">
+                  <span className="rounded-full bg-[var(--psy-amber-light)] px-2 py-0.5 font-medium text-[var(--psy-ink)]">Antes: 45 min</span>
+                  <span className="rounded-full bg-[var(--psy-blue-light)] px-2 py-0.5 font-medium text-[var(--psy-ink)]">Ahora: 28 seg.</span>
+                  <span className="text-[var(--psy-green)]">Listo para cerrar</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="reveal-rise reveal-delay-1 relative">
-            <div className="absolute -left-6 top-10 hidden h-36 w-36 rounded-full bg-[rgba(21,134,160,0.14)] blur-3xl md:block" />
-            <div className="absolute -bottom-6 right-8 hidden h-28 w-28 rounded-full bg-[rgba(39,137,94,0.13)] blur-3xl md:block" />
+          <div className="reveal-rise reveal-delay-1 relative hidden md:block">
+            <div className="absolute -left-6 top-10 h-36 w-36 rounded-full bg-[rgba(21,134,160,0.14)] blur-3xl" />
+            <div className="absolute -bottom-6 right-8 h-28 w-28 rounded-full bg-[rgba(39,137,94,0.13)] blur-3xl" />
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(247,252,253,0.97)] p-4 shadow-[0_28px_80px_rgba(13,34,50,0.16)] md:p-5">
+            <div className="card-hero-glow relative overflow-hidden rounded-[2rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(247,252,253,0.97)] p-4 shadow-[0_28px_80px_rgba(13,34,50,0.16)] md:p-5">
               <div className="flex items-center justify-between border-b border-[rgba(13,34,50,0.07)] pb-4">
                 <div>
                   <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--psy-muted)]">
@@ -553,16 +585,16 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="reveal-rise reveal-delay-2 mx-auto mt-12 grid max-w-6xl gap-4 rounded-[2rem] border border-[rgba(13,34,50,0.10)] bg-white p-5 shadow-[0_14px_40px_rgba(13,34,50,0.08)] md:grid-cols-4 md:p-6">
+        <div className="reveal-rise reveal-delay-2 mx-auto mt-10 grid max-w-6xl gap-2 rounded-[1.75rem] border border-[rgba(13,34,50,0.10)] bg-white px-4 py-3 shadow-[0_14px_40px_rgba(13,34,50,0.08)] sm:grid-cols-2 md:grid-cols-4 md:px-5 md:py-4">
           {quickFacts.map((item) => (
             <div
               key={item.value}
-              className="rounded-[1.25rem] bg-white/62 p-4 text-center md:text-left"
+              className="flex items-center gap-3 rounded-[1.1rem] px-3 py-2.5 text-center md:text-left"
             >
-              <p className="font-serif text-3xl font-semibold tracking-tight">
+              <p className="font-serif text-2xl font-semibold tracking-tight shrink-0">
                 {item.value}
               </p>
-              <p className="mt-1 text-sm leading-6 text-[var(--psy-muted)]">
+              <p className="text-xs leading-5 text-[var(--psy-muted)]">
                 {item.label}
               </p>
             </div>
@@ -593,7 +625,8 @@ export default function LandingPage() {
             {painPoints.map((item, index) => (
               <article
                 key={item.title}
-                className="hover-panel-green rounded-[1.75rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-7 shadow-[0_12px_32px_rgba(39,137,94,0.10)]"
+                className="hover-panel-green scroll-reveal rounded-[1.75rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-7 shadow-[0_12px_32px_rgba(39,137,94,0.10)]"
+                data-reveal-delay={String(index * 90)}
               >
                 <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-muted)]">
                   0{index + 1}
@@ -653,10 +686,11 @@ export default function LandingPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {deliverables.map((item) => (
+            {deliverables.map((item, index) => (
               <div
                 key={item.title}
-                className="rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(255,255,255,0.94)] p-5 shadow-[0_10px_24px_rgba(13,34,50,0.06)]"
+                className="card-deliverable scroll-reveal rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(255,255,255,0.94)] p-5 shadow-[0_10px_24px_rgba(13,34,50,0.06)]"
+                data-reveal-delay={String(index * 80)}
               >
                 <div className="flex items-start gap-3">
                   <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.iconBg} ${item.iconColor}`}>
@@ -712,10 +746,11 @@ export default function LandingPage() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {trialSteps.map((step) => (
+            {trialSteps.map((step, index) => (
               <div
                 key={step.day}
-                className="hover-panel-green rounded-[1.75rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-6 shadow-[0_12px_32px_rgba(39,137,94,0.10)]"
+                className="hover-panel-green scroll-reveal rounded-[1.75rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-6 shadow-[0_12px_32px_rgba(39,137,94,0.10)]"
+                data-reveal-delay={String(index * 80)}
               >
                 <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-amber)]">
                   {step.day}
@@ -747,7 +782,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid gap-4">
-            <div className="hover-panel rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]">
+            <div className="card-profile scroll-reveal rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]" data-reveal-delay="0">
               <h3 className="font-serif text-2xl font-semibold tracking-tight">
                 Psicólogo clínico individual
               </h3>
@@ -756,7 +791,7 @@ export default function LandingPage() {
                 contrarreloj, aquí ganas claridad y tiempo sin perder tu criterio.
               </p>
             </div>
-            <div className="hover-panel rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]">
+            <div className="card-profile scroll-reveal rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]" data-reveal-delay="90">
               <h3 className="font-serif text-2xl font-semibold tracking-tight">
                 Consultorio que quiere verse más serio
               </h3>
@@ -765,7 +800,7 @@ export default function LandingPage() {
                 percibe una práctica más moderna y confiable.
               </p>
             </div>
-            <div className="hover-panel rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]">
+            <div className="card-profile scroll-reveal rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]" data-reveal-delay="180">
               <h3 className="font-serif text-2xl font-semibold tracking-tight">
                 Equipo que ya no quiere operar por WhatsApp
               </h3>
@@ -797,14 +832,15 @@ export default function LandingPage() {
           </div>
 
           <div className="grid gap-5 lg:grid-cols-3">
-            {plans.map((plan) => (
+            {plans.map((plan, index) => (
               <article
                 key={plan.name}
-                className={`rounded-[2rem] p-7 ${
+                className={`scroll-reveal rounded-[2rem] p-7 ${
                   plan.highlight
-                    ? "bg-[var(--psy-ink)] text-[var(--psy-paper)] shadow-[0_26px_70px_rgba(13,34,50,0.18)]"
-                    : "border border-[rgba(13,34,50,0.08)] bg-white/95 shadow-[0_14px_34px_rgba(13,34,50,0.08)]"
+                    ? "card-pricing card-pricing-pro bg-[var(--psy-ink)] text-[var(--psy-paper)] shadow-[0_26px_70px_rgba(13,34,50,0.18)]"
+                    : "card-pricing border border-[rgba(13,34,50,0.08)] bg-white/95 shadow-[0_14px_34px_rgba(13,34,50,0.08)]"
                 }`}
+                data-reveal-delay={String(index * 100)}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -904,10 +940,11 @@ export default function LandingPage() {
           </div>
 
           <div className="space-y-4">
-            {faqs.map((faq) => (
+            {faqs.map((faq, index) => (
               <article
                 key={faq.question}
-                className="hover-panel-green rounded-[1.5rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-6 shadow-[0_10px_24px_rgba(39,137,94,0.10)]"
+                className="card-faq hover-panel-green scroll-reveal rounded-[1.5rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-6 shadow-[0_10px_24px_rgba(39,137,94,0.10)]"
+                data-reveal-delay={String(index * 100)}
               >
                 <h3 className="font-serif text-2xl font-semibold tracking-tight">
                   {faq.question}
