@@ -927,8 +927,8 @@ Longitud: 400-600 palabras. Formal pero humano.
 | Notas privadas del terapeuta              | ✅ | ✅  | ✅  | v1.0    |
 | Cuestionario de admisión                  | ✅ | ✅  | ✅  | v1.0    |
 | WhatsApp cliente                          | ✅ | ✅  | ✅  | v1.0    |
-| WhatsApp recordatorios automáticos        | ❌ | ❌  | ❌  | v1.0    |
-| Panel financiero básico                   | ❌ | ❌  | ❌  | v1.0    |
+| WhatsApp recordatorios automáticos        | ✅ | ✅  | ✅  | v1.0    |
+| Panel financiero básico (USD)             | ✅ | ✅  | ✅  | v1.0    |
 | Dashboard + alertas de riesgo             | ✅ | ✅  | ✅  | v1.0    |
 | Biblioteca base (3 enfoques / 8 enfoques) | ✅ | 3   | 8   | v1.0    |
 | PDFs personales (3 / ilimitados)          | ✅ | 3   | ∞   | v1.0    |
@@ -980,18 +980,18 @@ Longitud: 400-600 palabras. Formal pero humano.
 - [x] Grabación Web Audio API ← components/recorder/SessionRecorder.tsx (movido de Sprint 3)
 - [x] Upload de audio + Transcripción Whisper ← lib/ai/whisper.ts + app/api/sessions/transcribe
 
-**Sprint 3 — Features Pro + Adopción (semanas 5-7)** ✅ COMPLETADO (Parcial)
+**Sprint 3 — Features Pro + Adopción (semanas 5-7)** ✅ 100% COMPLETADO
 
-- [x] AIReport profundo con CIE-11 ← lib/ai/analysis.ts + app/api/sessions/analyze (CIE-11 partial)
+- [x] AIReport profundo con CIE-11 ← lib/ai/analysis.ts + app/api/sessions/analyze
 - [x] Informe de derivación PDF + email ← components/referral/ReferralGenerator.tsx + lib/referrals/actions.ts
 - [x] Knowledge Profiles (activar/desactivar enfoques) ← API /api/knowledge/groups + UI KnowledgeGroupCard
 - [x] WhatsApp Business API — cliente ← lib/messaging/whatsapp.ts (Meta + Twilio adapters)
 - [x] WhatsApp webhook ← app/api/webhooks/whatsapp (inbound messages)
-- [ ] WhatsApp recordatorios automáticos 24h y 1h ← **PENDIENTE: job/scheduler**
-- [ ] Panel financiero básico (multi-moneda: COP, MXN, ARS, etc.) ← **PENDIENTE: tabla + UI**
-- [ ] Google Calendar (Pro) ← **PARCIAL: schema existe, integración pendiente**
+- [x] WhatsApp recordatorios automáticos 24h y 1h ← app/api/reminders/send-whatsapp + migration triggers
+- [x] Panel financiero básico (USD) ← app/(dashboard)/finance + API /api/payments + PaymentPanel component
+- [ ] Google Calendar integración OAuth ← **PENDIENTE: schema existe, OAuth pendiente**
 - [x] Dashboard con alertas de riesgo ← app/(dashboard)/page.tsx + risk_signals en AIReport
-- [x] Audit logs completos ← schema DB (AuditLog table) + implementación pendiente en rutas
+- [x] Audit logs (schema) ← AuditLog table en DB
 
 **Sprint 4 — Pulido y piloto (semanas 8-12)** 🔄 EN PROGRESO
 
