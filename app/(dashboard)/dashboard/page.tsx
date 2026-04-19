@@ -121,11 +121,11 @@ export default async function DashboardPage() {
               "Transformando la práctica clínica con <span className="text-psy-ink font-bold not-italic">precisión e inteligencia</span>."
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/sessions/new" className="lift-button inline-flex h-14 items-center gap-3 rounded-[1.2rem] bg-psy-blue px-8 text-sm font-bold text-white shadow-2xl shadow-psy-blue/30 transition-all">
+              <Link href="/sessions/new" className="lift-button inline-flex h-14 items-center gap-3 rounded-2xl bg-psy-blue px-8 text-sm font-bold text-white shadow-2xl shadow-psy-blue/30 transition-all">
                 <Plus size={20} strokeWidth={2.5} />
                 Nueva sesión
               </Link>
-              <Link href="/schedule" className="lift-button inline-flex h-14 items-center gap-3 rounded-[1.2rem] border border-psy-border bg-white px-8 text-sm font-bold text-psy-ink shadow-sm transition-all hover:bg-psy-cream">
+              <Link href="/schedule" className="lift-button inline-flex h-14 items-center gap-3 rounded-2xl border border-psy-border bg-psy-paper px-8 text-sm font-bold text-psy-ink shadow-sm transition-all hover:bg-psy-cream">
                 Mi Agenda
               </Link>
             </div>
@@ -133,7 +133,7 @@ export default async function DashboardPage() {
 
           <div className="w-full lg:w-[460px] flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white border border-psy-border rounded-[2.5rem] p-8 shadow-sm group hover:border-psy-blue/50 transition-all duration-300">
+              <div className="bg-psy-paper border border-psy-border rounded-3xl p-8 shadow-sm group hover:border-psy-blue/50 transition-all duration-300">
                 <p className="text-[10px] uppercase tracking-widest font-bold text-psy-blue mb-2">PACIENTES</p>
                 <div className="flex items-baseline gap-2">
                   <p className="font-sora text-6xl font-bold text-psy-ink">{totalPatients ?? 0}</p>

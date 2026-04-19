@@ -52,7 +52,7 @@ export default async function CasesPage() {
           { label: "Tasa de remisión", value: cases?.length ? `${Math.round((successCount / cases.length) * 100)}%` : "0%" },
           { label: "Vectores Clínicos", value: cases?.filter(c => c.outcome !== "failed").length ?? 0 },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
+          <div key={label} className="bg-psy-paper border border-psy-border rounded-2xl p-6 shadow-sm">
             <span className="text-[10px] font-bold uppercase tracking-widest text-psy-muted block mb-2">{label}</span>
             <p className="font-sora text-3xl font-bold text-psy-ink">{value}</p>
           </div>
@@ -71,7 +71,7 @@ export default async function CasesPage() {
           return (
             <div
               key={c.id}
-              className="group p-6 bg-white border border-psy-border rounded-[1.5rem] hover:border-psy-blue/30 shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group p-6 bg-psy-paper border border-psy-border rounded-2xl hover:border-psy-blue/30 shadow-sm hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="min-w-0">
