@@ -67,20 +67,11 @@ function IconShield() {
   );
 }
 
-function ThinkingBadge({
-  label,
-  tone = "blue",
-}: {
-  label: string;
-  tone?: "blue" | "green" | "amber";
-}) {
+function ThinkingBadge({ label, tone = "blue" }: { label: string; tone?: "blue" | "green" | "amber" }) {
   const toneClass =
-    tone === "green"
-      ? "bg-[var(--psy-green-light)] text-[var(--psy-green)]"
-      : tone === "amber"
-        ? "bg-[var(--psy-amber-light)] text-[var(--psy-amber)]"
-        : "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]";
-
+    tone === "green" ? "bg-[var(--psy-green-light)] text-[var(--psy-green)]"
+    : tone === "amber" ? "bg-[var(--psy-amber-light)] text-[var(--psy-amber)]"
+    : "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]";
   return (
     <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-medium ${toneClass}`}>
       <span className="thinking-ring h-3.5 w-3.5 rounded-full border-2 border-current border-r-transparent" />
@@ -89,72 +80,42 @@ function ThinkingBadge({
   );
 }
 
-function TypewrittenBlock({
-  text,
-  resetKey,
-  className = "",
-  charDelayMs = 18,
-  startDelayMs = 220,
-}: {
-  text: string;
-  resetKey: string | number;
-  className?: string;
-  charDelayMs?: number;
-  startDelayMs?: number;
+function TypewrittenBlock({ text, resetKey, className = "", charDelayMs = 18, startDelayMs = 220 }: {
+  text: string; resetKey: string | number; className?: string; charDelayMs?: number; startDelayMs?: number;
 }) {
   const [value, setValue] = useState("");
   const [hasMounted, setHasMounted] = useState(false);
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  useEffect(() => { setHasMounted(true); }, []);
 
   useEffect(() => {
     if (!hasMounted) return;
-
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
     let cancelled = false;
     let index = 0;
-
     setValue("");
-
     const tick = () => {
       if (cancelled) return;
       const next = Math.min(text.length, index + 1);
       setValue(text.slice(0, next));
-
       if (next >= text.length) return;
-
       index = next;
       timeoutId = setTimeout(tick, charDelayMs);
     };
-
     timeoutId = setTimeout(tick, startDelayMs);
-
-    return () => {
-      cancelled = true;
-      if (timeoutId) clearTimeout(timeoutId);
-    };
+    return () => { cancelled = true; if (timeoutId) clearTimeout(timeoutId); };
   }, [charDelayMs, hasMounted, resetKey, startDelayMs, text]);
 
   return (
     <p className={className}>
       {value}
-      {hasMounted && value.length < text.length ? (
-        <span className="type-caret">|</span>
-      ) : null}
+      {hasMounted && value.length < text.length ? <span className="type-caret">|</span> : null}
     </p>
   );
 }
 
 /* ─── Demo data ─── */
-const PATIENT = {
-  name: "Carlos M.",
-  age: 28,
-  sessions: 5,
-  approach: "TCC",
-  issue: "Ansiedad laboral",
-};
+const PATIENT = { name: "Carlos M.", age: 28, sessions: 5, approach: "TCC", issue: "Ansiedad laboral" };
 
 const RAW_NOTES = `Carlos vino bastante tenso hoy. Menciona que no pudo dormir bien los últimos 3 días. Dice que en el trabajo le asignaron un nuevo proyecto y siente que "no va a poder" con todo.
 
@@ -195,60 +156,15 @@ const AI_REPORT = {
 };
 
 const LITE_REPORT_FIELDS = [
-  {
-    id: "subjective",
-    label: "Subjetivo",
-    content: SOAP_NOTE.S,
-    meta: "Texto libre convertido a estructura clínica en segundos",
-    tags: ["nota soap", "texto libre", "paciente activo"],
-    tone: "neutral" as const,
-  },
-  {
-    id: "analysis",
-    label: "Análisis clínico",
-    content: SOAP_NOTE.A,
-    meta: `${CITATION.author}, ${CITATION.page} · soporte bibliográfico trazable`,
-    tags: ["esquema", "cita clínica", "hipótesis"],
-    tone: "info" as const,
-  },
-  {
-    id: "plan",
-    label: "Próxima sesión",
-    content: SOAP_NOTE.P,
-    meta: "Plan accionable listo para la siguiente consulta",
-    tags: ["seguimiento", "tarea clínica", "continuidad"],
-    tone: "success" as const,
-  },
+  { id: "subjective", label: "Subjetivo", content: SOAP_NOTE.S, meta: "Texto libre convertido a estructura clínica en segundos", tags: ["nota soap", "texto libre", "paciente activo"], tone: "neutral" as const },
+  { id: "analysis", label: "Análisis clínico", content: SOAP_NOTE.A, meta: `${CITATION.author}, ${CITATION.page} · soporte bibliográfico trazable`, tags: ["esquema", "cita clínica", "hipótesis"], tone: "info" as const },
+  { id: "plan", label: "Próxima sesión", content: SOAP_NOTE.P, meta: "Plan accionable listo para la siguiente consulta", tags: ["seguimiento", "tarea clínica", "continuidad"], tone: "success" as const },
 ];
 
 const PRO_REPORT_FIELDS = [
-  {
-    id: "subjective",
-    label: "Subjetivo",
-    content:
-      "La transcripción confirma insomnio asociado a presión evaluativa, hipervigilancia laboral y culpa al desconectarse.",
-    meta: "Fuente: audio de 52:17 ya transcrito y vinculado al caso",
-    tags: ["audio", "transcripción", "caso activo"],
-    tone: "neutral" as const,
-  },
-  {
-    id: "analysis",
-    label: "Análisis clínico",
-    content:
-      "PsyAssist detecta patrón persistente de regulación basada en rendimiento y sostiene la hipótesis con biblioteca clínica y evolución previa.",
-    meta: `${CITATION.author}, ${CITATION.page} · CIE-11 exploratorio ${AI_REPORT.cie11}`,
-    tags: ["cie-11", "biblioteca", "evolución"],
-    tone: "info" as const,
-  },
-  {
-    id: "next-session",
-    label: "Próxima sesión",
-    content:
-      "Queda preparado un siguiente paso concreto: explorar esquema de insuficiencia, registrar pensamientos automáticos y decidir si conviene interconsulta.",
-    meta: "Acción clínica inmediata con salida a derivación en PDF",
-    tags: ["derivación", "plan", "seguimiento"],
-    tone: "success" as const,
-  },
+  { id: "subjective", label: "Subjetivo", content: "La transcripción confirma insomnio asociado a presión evaluativa, hipervigilancia laboral y culpa al desconectarse.", meta: "Fuente: audio de 52:17 ya transcrito y vinculado al caso", tags: ["audio", "transcripción", "caso activo"], tone: "neutral" as const },
+  { id: "analysis", label: "Análisis clínico", content: "PsyAssist detecta patrón persistente de regulación basada en rendimiento y sostiene la hipótesis con biblioteca clínica y evolución previa.", meta: `${CITATION.author}, ${CITATION.page} · CIE-11 exploratorio ${AI_REPORT.cie11}`, tags: ["cie-11", "biblioteca", "evolución"], tone: "info" as const },
+  { id: "next-session", label: "Próxima sesión", content: "Queda preparado un siguiente paso concreto: explorar esquema de insuficiencia, registrar pensamientos automáticos y decidir si conviene interconsulta.", meta: "Acción clínica inmediata con salida a derivación en PDF", tags: ["derivación", "plan", "seguimiento"], tone: "success" as const },
 ];
 
 const REFERRAL_PREVIEW = `Estimado/a colega:
@@ -257,7 +173,6 @@ Por medio de la presente, me dirijo a usted para solicitar valoración psiquiát
 
 Motivo de consulta: ansiedad laboral con componente de insomnio sostenido (3 episodios en las últimas 2 semanas) y patrón cognitivo de insuficiencia que no ha remitido con intervención psicológica inicial...`;
 
-/* ─── Step definitions ─── */
 type Version = "lite" | "pro";
 
 const LITE_STEPS = [
@@ -277,18 +192,32 @@ const PRO_STEPS = [
   { id: 6, label: "Listo", title: "Consulta cerrada" },
 ];
 
-/* ─── Animated loading dots ─── */
 function LoadingDots() {
   return (
     <span className="inline-flex items-center gap-1">
       {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="h-1.5 w-1.5 rounded-full bg-[var(--psy-blue)]"
-          style={{ animation: `wave-breathe 1.4s ease-in-out ${i * 200}ms infinite` }}
-        />
+        <span key={i} className="h-1.5 w-1.5 rounded-full bg-[var(--psy-blue)]"
+          style={{ animation: `wave-breathe 1.4s ease-in-out ${i * 200}ms infinite` }} />
       ))}
     </span>
+  );
+}
+
+/* ─── Patient card shared between step 1 and sidebar ─── */
+function PatientCard({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={`flex items-center gap-3 rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/60 ${compact ? "p-3" : "p-4"}`}>
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--psy-blue-light)] text-[var(--psy-blue)] font-bold text-base">
+        {PATIENT.name[0]}
+      </div>
+      <div className="min-w-0">
+        <p className="truncate font-medium text-[var(--psy-ink)] text-sm">{PATIENT.name} · {PATIENT.age} años</p>
+        <p className="truncate text-xs text-[var(--psy-muted)]">{PATIENT.issue} · Sesión {PATIENT.sessions} · {PATIENT.approach}</p>
+      </div>
+      <div className="ml-auto shrink-0 rounded-full bg-[var(--psy-green-light)] px-2 py-1 text-[10px] font-medium text-[var(--psy-green)]">
+        Activo
+      </div>
+    </div>
   );
 }
 
@@ -298,18 +227,7 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
 
   if (step === 1) return (
     <div className={cls}>
-      <div className="mb-5 flex items-center gap-3 rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/60 p-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--psy-blue-light)] text-[var(--psy-blue)] font-bold text-lg">
-          {PATIENT.name[0]}
-        </div>
-        <div>
-          <p className="font-medium text-[var(--psy-ink)]">{PATIENT.name} · {PATIENT.age} años</p>
-          <p className="text-xs text-[var(--psy-muted)]">{PATIENT.issue} · Sesión {PATIENT.sessions} · {PATIENT.approach}</p>
-        </div>
-        <div className="ml-auto rounded-full bg-[var(--psy-green-light)] px-2.5 py-1 text-[11px] font-medium text-[var(--psy-green)]">
-          Activo
-        </div>
-      </div>
+      <div className="mb-5 xl:hidden"><PatientCard /></div>
       <div className="rounded-[1.5rem] border border-[rgba(192,122,24,0.16)] bg-[var(--psy-amber-light)] p-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-amber)]">Situación actual (sin PsyAssist)</p>
         <p className="mt-3 text-sm leading-7 text-[var(--psy-ink)]">
@@ -336,13 +254,8 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
           </div>
           <ThinkingBadge label="Escritura en curso" />
         </div>
-        <TypewrittenBlock
-          resetKey={`lite-notes-${step}`}
-          text={RAW_NOTES}
-          className="whitespace-pre-line text-sm leading-7 text-[var(--psy-ink)]"
-          charDelayMs={12}
-          startDelayMs={180}
-        />
+        <TypewrittenBlock resetKey={`lite-notes-${step}`} text={RAW_NOTES}
+          className="whitespace-pre-line text-sm leading-7 text-[var(--psy-ink)]" charDelayMs={12} startDelayMs={180} />
         <div className="mt-4 flex items-center justify-between">
           <p className="text-xs text-[var(--psy-muted)]">238 palabras · texto libre</p>
           <div className="flex items-center gap-1.5 rounded-full bg-[var(--psy-blue)] px-3 py-1.5 text-xs font-medium text-white">
@@ -360,9 +273,7 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
           <IconBrain />
         </div>
         <p className="text-base font-medium text-[var(--psy-ink)]">Analizando notas <LoadingDots /></p>
-        <div className="mt-5">
-          <ThinkingBadge label="IA organizando la nota" />
-        </div>
+        <div className="mt-5"><ThinkingBadge label="IA organizando la nota" /></div>
         <div className="mt-6 w-full max-w-sm space-y-3 text-left">
           {[
             { label: "Leyendo notas de sesión", done: true },
@@ -379,9 +290,7 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
           ))}
         </div>
         <div className="mt-6 rounded-[1rem] border border-[rgba(21,134,160,0.16)] bg-[var(--psy-blue-light)] px-4 py-3 text-left">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-blue)]">
-            Informe en preparación
-          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-blue)]">Informe en preparación</p>
           <p className="mt-2 text-xs leading-5 text-[var(--psy-ink)]">
             La IA está ordenando subjetivo, análisis clínico y plan de sesión para entregarte una nota usable, no un bloque de texto suelto.
           </p>
@@ -395,24 +304,11 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
     <div className={`${cls} space-y-3`}>
       <div className="flex items-center justify-between">
         <p className="text-xs text-[var(--psy-muted)]">Nota SOAP generada automáticamente</p>
-        <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--psy-green)]">
-          <IconCheck /> Lista en 26 seg.
-        </div>
+        <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--psy-green)]"><IconCheck /> Lista en 26 seg.</div>
       </div>
-      <ClinicalReportPlayback
-        compact
-        resetKey={`lite-${step}`}
-        title="Nota SOAP en construcción"
-        subtitle=""
-        processingLabel="IA organizando la nota"
-        completeLabel="Nota SOAP lista"
-        showSubtitle={false}
-        initialDelayMs={800}
-        charDelayMs={24}
-        fieldPauseMs={1100}
-        charsPerTick={1}
-        fields={LITE_REPORT_FIELDS}
-      />
+      <ClinicalReportPlayback compact resetKey={`lite-${step}`} title="Nota SOAP en construcción" subtitle=""
+        processingLabel="IA organizando la nota" completeLabel="Nota SOAP lista" showSubtitle={false}
+        initialDelayMs={800} charDelayMs={24} fieldPauseMs={1100} charsPerTick={1} fields={LITE_REPORT_FIELDS} />
       <div className="rounded-[1rem] border border-[rgba(13,34,50,0.07)] bg-white/70 px-4 py-3">
         <p className="text-xs leading-5 text-[var(--psy-muted)]">
           Cita utilizada: <span className="font-medium text-[var(--psy-ink)]">{CITATION.author}, {CITATION.page}</span> — {CITATION.text}
@@ -424,19 +320,17 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
   if (step === 5) return (
     <div className={cls}>
       <div className="mb-5 rounded-[1.5rem] border border-[rgba(39,137,94,0.20)] bg-[var(--psy-green-light)] p-6 text-center">
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--psy-green)] text-white">
-          <IconCheck />
-        </div>
+        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--psy-green)] text-white"><IconCheck /></div>
         <p className="font-semibold text-[var(--psy-ink)]">Sesión cerrada — 7:04 pm</p>
         <p className="mt-1 text-sm text-[var(--psy-muted)]">Nota guardada, paciente actualizado, próxima sesión definida</p>
       </div>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {[
           { label: "Tiempo total", value: "26 seg.", sub: "vs. 45 min antes" },
           { label: "Riesgo", value: "Bajo", sub: "evaluado automáticamente" },
           { label: "Próxima sesión", value: "Definida", sub: "registro pensamientos" },
         ].map((item) => (
-          <div key={item.label} className="rounded-[1.25rem] border border-[rgba(13,34,50,0.07)] bg-white/65 p-4 text-center">
+          <div key={item.label} className="rounded-[1.25rem] border border-[rgba(13,34,50,0.07)] bg-white/65 p-4 text-center transition-all duration-220 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(13,34,50,0.10)] hover:border-[rgba(21,134,160,0.22)]">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">{item.label}</p>
             <p className="mt-1.5 text-base font-semibold text-[var(--psy-ink)]">{item.value}</p>
             <p className="mt-0.5 text-[11px] text-[var(--psy-muted)]">{item.sub}</p>
@@ -455,18 +349,7 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
 
   if (step === 1) return (
     <div className={cls}>
-      <div className="mb-5 flex items-center gap-3 rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/60 p-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--psy-blue-light)] text-[var(--psy-blue)] font-bold text-lg">
-          {PATIENT.name[0]}
-        </div>
-        <div>
-          <p className="font-medium text-[var(--psy-ink)]">{PATIENT.name} · {PATIENT.age} años</p>
-          <p className="text-xs text-[var(--psy-muted)]">{PATIENT.issue} · Sesión {PATIENT.sessions} · {PATIENT.approach}</p>
-        </div>
-        <div className="ml-auto rounded-full bg-[var(--psy-green-light)] px-2.5 py-1 text-[11px] font-medium text-[var(--psy-green)]">
-          Activo
-        </div>
-      </div>
+      <div className="mb-5 xl:hidden"><PatientCard /></div>
       <div className="rounded-[1.5rem] border border-[rgba(21,134,160,0.15)] bg-[var(--psy-blue-light)] p-5">
         <div className="flex items-start justify-between gap-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-blue)]">Con PsyAssist Pro</p>
@@ -481,12 +364,7 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
         </div>
         <div className="mt-4 grid gap-2 sm:grid-cols-3">
           {["Sesión guardada", "Paciente vinculado", "Audio protegido"].map((item) => (
-            <div
-              key={item}
-              className="rounded-[0.95rem] border border-white/65 bg-white/45 px-3 py-2 text-xs text-[var(--psy-ink)]"
-            >
-              {item}
-            </div>
+            <div key={item} className="rounded-[0.95rem] border border-white/65 bg-white/45 px-3 py-2 text-xs text-[var(--psy-ink)]">{item}</div>
           ))}
         </div>
       </div>
@@ -499,20 +377,16 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
       <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/65 p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--psy-red-light)] text-[var(--psy-red)]">
-              <IconMic />
-            </div>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--psy-red-light)] text-[var(--psy-red)]"><IconMic /></div>
             <div>
               <p className="text-sm font-medium text-[var(--psy-ink)]">Carlos M. — Sesión 5</p>
               <p className="text-xs text-[var(--psy-muted)]">52:17 · Hoy 7:04 pm</p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-[var(--psy-green)]">
-            <IconShield /> Cifrado
-          </div>
+          <div className="flex items-center gap-1.5 text-xs text-[var(--psy-green)]"><IconShield /> Cifrado</div>
         </div>
         <div className="flex items-end gap-1">
-          {[14, 28, 20, 38, 26, 44, 18, 32, 24, 40, 16, 30, 22, 36, 14, 28, 42, 20, 34, 18].map((h, i) => (
+          {[14,28,20,38,26,44,18,32,24,40,16,30,22,36,14,28,42,20,34,18].map((h, i) => (
             <span key={i} className="wave-bar flex-1 rounded-full bg-[linear-gradient(180deg,var(--psy-blue),var(--psy-green-light))] opacity-70" style={{ height: `${h}px`, animationDelay: `${i * 90}ms` }} />
           ))}
         </div>
@@ -533,7 +407,7 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
   if (step === 3) return (
     <div className={cls}>
       <p className="mb-3 text-sm text-[var(--psy-muted)]">Whisper transcribe el audio en español clínico:</p>
-      <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/65 p-5 space-y-2.5 max-h-72 overflow-y-auto">
+      <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/65 p-5 space-y-2.5 max-h-64 overflow-y-auto">
         {TRANSCRIPT_LINES.map((line, i) => (
           <div key={i} className={`flex gap-2.5 text-sm leading-6 ${i % 2 === 0 ? "text-[var(--psy-ink)]" : "text-[var(--psy-muted)] pl-4"}`}>
             <span className="mt-0.5 shrink-0 font-mono text-[10px] text-[var(--psy-muted)]">{String(i + 1).padStart(2, "0")}</span>
@@ -562,20 +436,9 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
 
   if (step === 4) return (
     <div className={`${cls} space-y-3`}>
-      <ClinicalReportPlayback
-        compact
-        resetKey={`pro-${step}`}
-        title="AIReport en construcción"
-        subtitle=""
-        processingLabel="IA pensando con biblioteca clínica"
-        completeLabel="AIReport listo"
-        showSubtitle={false}
-        initialDelayMs={850}
-        charDelayMs={24}
-        fieldPauseMs={1180}
-        charsPerTick={1}
-        fields={PRO_REPORT_FIELDS}
-      />
+      <ClinicalReportPlayback compact resetKey={`pro-${step}`} title="AIReport en construcción" subtitle=""
+        processingLabel="IA pensando con biblioteca clínica" completeLabel="AIReport listo" showSubtitle={false}
+        initialDelayMs={850} charDelayMs={24} fieldPauseMs={1180} charsPerTick={1} fields={PRO_REPORT_FIELDS} />
       <div className="rounded-[1.25rem] border border-[rgba(21,134,160,0.18)] bg-[var(--psy-blue-light)] p-4">
         <div className="flex items-center justify-between gap-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-blue)]">Patrones identificados</p>
@@ -584,8 +447,7 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
         <div className="mt-2.5 space-y-2">
           {AI_REPORT.patterns.map((p) => (
             <div key={p} className="flex items-start gap-2 text-sm leading-6 text-[var(--psy-ink)]">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--psy-blue)]" />
-              {p}
+              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--psy-blue)]" />{p}
             </div>
           ))}
         </div>
@@ -611,20 +473,12 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
       <p className="mb-3 text-sm text-[var(--psy-muted)]">Informe de interconsulta generado con un clic:</p>
       <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white/65 p-5">
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-[var(--psy-ink)]">
-            <IconFile />
-            <span className="text-sm font-medium">Derivación a Psiquiatría</span>
-          </div>
+          <div className="flex items-center gap-2 text-[var(--psy-ink)]"><IconFile /><span className="text-sm font-medium">Derivación a Psiquiatría</span></div>
           <ThinkingBadge label="Borrador IA" tone="amber" />
         </div>
         <div className="rounded-[1rem] border border-[rgba(13,34,50,0.06)] bg-[var(--psy-cream)] p-4">
-          <TypewrittenBlock
-            resetKey={`referral-${step}`}
-            text={REFERRAL_PREVIEW}
-            className="whitespace-pre-line text-xs leading-6 text-[var(--psy-ink)]"
-            charDelayMs={10}
-            startDelayMs={260}
-          />
+          <TypewrittenBlock resetKey={`referral-${step}`} text={REFERRAL_PREVIEW}
+            className="whitespace-pre-line text-xs leading-6 text-[var(--psy-ink)]" charDelayMs={10} startDelayMs={260} />
           <p className="mt-2 text-xs text-[var(--psy-muted)]">... continúa por 400 palabras más</p>
         </div>
         <div className="mt-4 flex gap-2">
@@ -638,20 +492,18 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
   if (step === 6) return (
     <div className={cls}>
       <div className="mb-5 rounded-[1.5rem] border border-[rgba(39,137,94,0.20)] bg-[var(--psy-green-light)] p-6 text-center">
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--psy-green)] text-white">
-          <IconCheck />
-        </div>
+        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--psy-green)] text-white"><IconCheck /></div>
         <p className="font-semibold text-[var(--psy-ink)]">Consulta cerrada — 7:06 pm</p>
         <p className="mt-1 text-sm text-[var(--psy-muted)]">Nota SOAP, AIReport, derivación y paciente actualizado</p>
       </div>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         {[
           { label: "Tiempo total", value: "2 min", sub: "vs. 60 min antes" },
           { label: "Documentos", value: "3", sub: "SOAP + AIReport + Derivación" },
           { label: "Riesgo evaluado", value: "Bajo", sub: "sin intervención urgente" },
           { label: "CIE-11", value: "QE84", sub: "hipótesis documentada" },
         ].map((item) => (
-          <div key={item.label} className="rounded-[1.25rem] border border-[rgba(13,34,50,0.07)] bg-white/65 p-4">
+          <div key={item.label} className="rounded-[1.25rem] border border-[rgba(13,34,50,0.07)] bg-white/65 p-4 transition-all duration-220 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(13,34,50,0.10)] hover:border-[rgba(21,134,160,0.22)]">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">{item.label}</p>
             <p className="mt-1.5 text-base font-semibold text-[var(--psy-ink)]">{item.value}</p>
             <p className="mt-0.5 text-[11px] text-[var(--psy-muted)]">{item.sub}</p>
@@ -664,6 +516,71 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
   return null;
 }
 
+/* ─── Sidebar step list (xl only) ─── */
+function StepSidebar({ steps, step, version, onGoTo }: {
+  steps: typeof LITE_STEPS; step: number; version: Version; onGoTo: (n: number) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Patient card */}
+      <PatientCard />
+
+      {/* Version badge */}
+      <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.07)] bg-white/55 p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <span className={`rounded-xl px-2.5 py-1 text-[10px] font-medium ${version === "pro" ? "bg-[var(--psy-blue)] text-white" : "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]"}`}>
+            {version === "lite" ? "Lite" : "Pro"}
+          </span>
+        </div>
+        <p className="text-xs leading-5 text-[var(--psy-muted)]">
+          {version === "lite"
+            ? "Psicólogo en consulta privada · Texto libre → nota SOAP con cita bibliográfica"
+            : "Psiquiatra o clínico avanzado · Audio → AIReport + CIE-11 + derivación"}
+        </p>
+      </div>
+
+      {/* Step list */}
+      <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.07)] bg-white/55 p-4">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--psy-muted)]">Pasos del flujo</p>
+        <div className="space-y-1">
+          {steps.map((s) => {
+            const isDone = s.id < step;
+            const isActive = s.id === step;
+            return (
+              <button key={s.id} onClick={() => onGoTo(s.id)}
+                className={`group flex w-full items-center gap-3 rounded-[1rem] px-3 py-2.5 text-left transition-all ${
+                  isActive ? "bg-[var(--psy-blue-light)]" : "hover:bg-white/70"
+                }`}>
+                <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-all ${
+                  isDone ? "bg-[var(--psy-green)] text-white"
+                  : isActive ? "bg-[var(--psy-blue)] text-white"
+                  : "bg-[rgba(13,34,50,0.07)] text-[var(--psy-muted)]"
+                }`}>
+                  {isDone ? <IconCheck /> : s.id}
+                </span>
+                <div className="min-w-0">
+                  <p className={`text-xs font-medium truncate ${isActive ? "text-[var(--psy-blue)]" : isDone ? "text-[var(--psy-green)]" : "text-[var(--psy-muted)]"}`}>
+                    {s.label}
+                  </p>
+                  {isActive && <p className="truncate text-[10px] text-[var(--psy-muted)]">{s.title}</p>}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* CTA nudge */}
+      <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-[var(--psy-ink)] p-4 text-[var(--psy-paper)]">
+        <p className="text-xs leading-5 text-[rgba(223,243,248,0.72)]">Sin tarjeta de crédito. Cancela cuando quieras.</p>
+        <Link href="/register" className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-[var(--psy-paper)] px-4 py-2.5 text-xs font-medium text-[var(--psy-ink)] transition hover:bg-white">
+          Prueba 14 días gratis <IconArrow />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main page ─── */
 export default function DemoPage() {
   const [version, setVersion] = useState<Version>("lite");
@@ -674,23 +591,18 @@ export default function DemoPage() {
   const totalSteps = steps.length;
   const isLast = step === totalSteps;
 
-  useEffect(() => {
-    setStep(1);
-  }, [version]);
+  useEffect(() => { setStep(1); }, [version]);
 
   function goTo(next: number) {
     if (next < 1 || next > totalSteps) return;
     setIsAnimating(true);
-    setTimeout(() => {
-      setStep(next);
-      setIsAnimating(false);
-    }, 200);
+    setTimeout(() => { setStep(next); setIsAnimating(false); }, 200);
   }
 
   return (
     <main className="min-h-screen bg-[var(--psy-cream)]">
       {/* Nav */}
-      <header className="fixed left-1/2 top-4 z-50 w-full max-w-5xl -translate-x-1/2 px-4">
+      <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
         <nav className="flex items-center justify-between rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(243,251,253,0.90)] px-4 py-3 shadow-[0_14px_40px_rgba(13,34,50,0.08)] backdrop-blur-md md:px-5">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--psy-blue)] text-white shadow-[0_6px_16px_rgba(21,134,160,0.28)]">
@@ -702,21 +614,21 @@ export default function DemoPage() {
             <Link href="/" className="hidden px-4 py-2 text-sm text-[var(--psy-muted)] hover:text-[var(--psy-ink)] sm:inline-flex">
               Volver al inicio
             </Link>
-            <Link href="/register" className="inline-flex items-center gap-1.5 rounded-full bg-[var(--psy-ink)] px-4 py-2 text-sm font-medium text-white hover:bg-[rgba(13,34,50,0.88)]">
+            <Link href="/register" className="inline-flex items-center gap-1.5 rounded-full bg-[var(--psy-ink)] px-4 py-2 text-sm font-medium text-white transition hover:bg-[rgba(13,34,50,0.88)]">
               Probar gratis <IconArrow />
             </Link>
           </div>
         </nav>
       </header>
 
-      <div className="mx-auto max-w-5xl px-4 pb-20 pt-28 md:px-6">
+      <div className="mx-auto max-w-6xl px-4 pb-20 pt-28 md:px-6">
         {/* Header */}
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(13,34,50,0.08)] bg-white/60 px-4 py-2 text-xs text-[var(--psy-muted)]">
             <span className="h-2 w-2 rounded-full bg-[var(--psy-green)] animate-pulse" />
             Demostración interactiva con datos de ejemplo
           </div>
-          <h1 className="font-sans text-4xl font-bold tracking-tight text-[var(--psy-ink)] md:text-5xl">
+          <h1 className="font-sans text-[2rem] font-bold tracking-tight text-[var(--psy-ink)] sm:text-4xl md:text-5xl">
             Así funciona una sesión real
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-[var(--psy-muted)]">
@@ -728,125 +640,115 @@ export default function DemoPage() {
         <div className="mb-8 flex justify-center">
           <div className="inline-flex rounded-2xl border border-[rgba(13,34,50,0.08)] bg-white/60 p-1">
             {(["lite", "pro"] as Version[]).map((v) => (
-              <button
-                key={v}
-                onClick={() => setVersion(v)}
+              <button key={v} onClick={() => setVersion(v)}
                 className={`rounded-xl px-6 py-2.5 text-sm font-medium transition-all ${
-                  version === v
-                    ? "bg-[var(--psy-ink)] text-white shadow-sm"
-                    : "text-[var(--psy-muted)] hover:text-[var(--psy-ink)]"
-                }`}
-              >
+                  version === v ? "bg-[var(--psy-ink)] text-white shadow-sm" : "text-[var(--psy-muted)] hover:text-[var(--psy-ink)]"
+                }`}>
                 {v === "lite" ? "Lite — $19/mes" : "Pro — $49/mes"}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Version pill context */}
-        <div className="mb-6 mx-auto max-w-2xl rounded-[1.5rem] border border-[rgba(13,34,50,0.07)] bg-white/55 p-4">
-          {version === "lite" ? (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
-              <span className="shrink-0 rounded-xl bg-[var(--psy-blue-light)] px-3 py-1 text-xs font-medium text-[var(--psy-blue)]">Lite</span>
-              <span className="text-[var(--psy-muted)]">Psicólogo clínico en consulta privada · Escribe notas en texto libre · Obtiene nota SOAP con cita bibliográfica en &lt;30 segundos</span>
-            </div>
-          ) : (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
-              <span className="shrink-0 rounded-xl bg-[var(--psy-blue)] px-3 py-1 text-xs font-medium text-white">Pro</span>
-              <span className="text-[var(--psy-muted)]">Psicólogo clínico avanzado o psiquiatra · Graba sesión · Obtiene AIReport, CIE-11 e informe de derivación en &lt;2 minutos</span>
-            </div>
-          )}
-        </div>
+        {/* ─── Two-column at xl, single-column below ─── */}
+        <div className="xl:grid xl:grid-cols-[300px_1fr] xl:items-start xl:gap-7">
 
-        {/* Main demo card */}
-        <div className="mx-auto max-w-2xl">
-          <div className="overflow-hidden rounded-[2rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(243,251,253,0.95)] shadow-[0_24px_70px_rgba(13,34,50,0.10)]">
-            {/* Step indicator */}
-            <div className="border-b border-[rgba(13,34,50,0.07)] px-6 py-4">
-              <div className="flex items-center justify-between mb-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-muted)]">
-                  Paso {step} de {totalSteps}
-                </p>
-                <p className="text-xs font-medium text-[var(--psy-muted)]">
-                  {steps[step - 1]?.title}
-                </p>
-              </div>
-              <div className="flex gap-1.5">
-                {steps.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => goTo(s.id)}
-                    className={`h-1.5 flex-1 rounded-full transition-all ${
-                      s.id < step
-                        ? "bg-[var(--psy-green)]"
-                        : s.id === step
-                        ? "bg-[var(--psy-blue)]"
-                        : "bg-[rgba(13,34,50,0.10)]"
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="mt-3 flex gap-3 overflow-x-auto pb-0.5">
-                {steps.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => goTo(s.id)}
-                    className={`shrink-0 rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] transition ${
-                      s.id === step
-                        ? "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]"
-                        : "text-[var(--psy-muted)] hover:text-[var(--psy-ink)]"
-                    }`}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Step content */}
-            <div className="p-6">
-              {version === "lite" ? (
-                <LiteStep step={step} isAnimating={isAnimating} />
-              ) : (
-                <ProStep step={step} isAnimating={isAnimating} />
-              )}
-            </div>
-
-            {/* Navigation */}
-            <div className="border-t border-[rgba(13,34,50,0.07)] px-6 py-4 flex items-center justify-between gap-3">
-              <button
-                onClick={() => goTo(step - 1)}
-                disabled={step === 1}
-                className="rounded-xl border border-[rgba(13,34,50,0.10)] px-4 py-2.5 text-sm text-[var(--psy-muted)] transition hover:text-[var(--psy-ink)] disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                ← Anterior
-              </button>
-
-              {!isLast ? (
-                <button
-                  onClick={() => goTo(step + 1)}
-                  className="flex items-center gap-2 rounded-xl bg-[var(--psy-blue)] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[rgba(21,134,160,0.88)]"
-                >
-                  Siguiente paso <IconArrow />
-                </button>
-              ) : (
-                <Link
-                  href="/register"
-                  className="flex items-center gap-2 rounded-xl bg-[var(--psy-ink)] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[rgba(13,34,50,0.88)]"
-                >
-                  Empezar prueba de 14 días <IconArrow />
-                </Link>
-              )}
-            </div>
+          {/* Left sidebar — visible only at xl */}
+          <div className="hidden xl:block xl:sticky xl:top-28">
+            <StepSidebar steps={steps} step={step} version={version} onGoTo={goTo} />
           </div>
 
-          {/* Bottom nudge */}
-          <p className="mt-6 text-center text-sm text-[var(--psy-muted)]">
-            Demo con datos ficticios · Sin tarjeta ·{" "}
-            <Link href="/register" className="font-medium text-[var(--psy-blue)] hover:underline">
-              Crea tu cuenta gratis
-            </Link>
-          </p>
+          {/* Right: demo card + mobile version pill */}
+          <div>
+            {/* Version pill — hidden at xl (sidebar shows it) */}
+            <div className="mb-5 xl:hidden mx-auto max-w-2xl rounded-[1.5rem] border border-[rgba(13,34,50,0.07)] bg-white/55 p-4">
+              {version === "lite" ? (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
+                  <span className="shrink-0 rounded-xl bg-[var(--psy-blue-light)] px-3 py-1 text-xs font-medium text-[var(--psy-blue)]">Lite</span>
+                  <span className="text-[var(--psy-muted)]">Psicólogo clínico en consulta privada · Escribe notas en texto libre · Obtiene nota SOAP con cita bibliográfica en &lt;30 segundos</span>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
+                  <span className="shrink-0 rounded-xl bg-[var(--psy-blue)] px-3 py-1 text-xs font-medium text-white">Pro</span>
+                  <span className="text-[var(--psy-muted)]">Psicólogo clínico avanzado o psiquiatra · Graba sesión · Obtiene AIReport, CIE-11 e informe de derivación en &lt;2 minutos</span>
+                </div>
+              )}
+            </div>
+
+            {/* Main demo card */}
+            <div className="mx-auto max-w-2xl xl:max-w-none">
+              <div className="card-hero-glow overflow-hidden rounded-[2rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(243,251,253,0.95)] shadow-[0_24px_70px_rgba(13,34,50,0.10)] transition-shadow duration-300 hover:shadow-[0_32px_80px_rgba(13,34,50,0.15)]">
+
+                {/* Step indicator */}
+                <div className="border-b border-[rgba(13,34,50,0.07)] px-6 py-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-muted)]">
+                      Paso {step} de {totalSteps}
+                    </p>
+                    <p className="text-xs font-medium text-[var(--psy-muted)]">{steps[step - 1]?.title}</p>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="flex gap-1.5">
+                    {steps.map((s) => (
+                      <button key={s.id} onClick={() => goTo(s.id)}
+                        className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
+                          s.id < step ? "bg-[var(--psy-green)]"
+                          : s.id === step ? "bg-[var(--psy-blue)]"
+                          : "bg-[rgba(13,34,50,0.10)]"
+                        }`} />
+                    ))}
+                  </div>
+                  {/* Step labels — scroll horizontally on mobile */}
+                  <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
+                    {steps.map((s) => (
+                      <button key={s.id} onClick={() => goTo(s.id)}
+                        className={`shrink-0 rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition ${
+                          s.id === step ? "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]"
+                          : s.id < step ? "text-[var(--psy-green)]"
+                          : "text-[var(--psy-muted)] hover:text-[var(--psy-ink)]"
+                        }`}>
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Step content */}
+                <div className="p-6">
+                  {version === "lite"
+                    ? <LiteStep step={step} isAnimating={isAnimating} />
+                    : <ProStep step={step} isAnimating={isAnimating} />}
+                </div>
+
+                {/* Navigation */}
+                <div className="border-t border-[rgba(13,34,50,0.07)] px-6 py-4 flex items-center justify-between gap-3">
+                  <button onClick={() => goTo(step - 1)} disabled={step === 1}
+                    className="rounded-xl border border-[rgba(13,34,50,0.10)] px-4 py-2.5 text-sm text-[var(--psy-muted)] transition hover:text-[var(--psy-ink)] disabled:opacity-30 disabled:cursor-not-allowed">
+                    ← Anterior
+                  </button>
+                  {!isLast ? (
+                    <button onClick={() => goTo(step + 1)}
+                      className="lift-button flex items-center gap-2 rounded-xl bg-[var(--psy-blue)] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[rgba(21,134,160,0.88)]">
+                      Siguiente paso <IconArrow />
+                    </button>
+                  ) : (
+                    <Link href="/register"
+                      className="lift-button flex items-center gap-2 rounded-xl bg-[var(--psy-ink)] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[rgba(13,34,50,0.88)]">
+                      Empezar prueba de 14 días <IconArrow />
+                    </Link>
+                  )}
+                </div>
+              </div>
+
+              {/* Bottom nudge */}
+              <p className="mt-6 text-center text-sm text-[var(--psy-muted)]">
+                Demo con datos ficticios · Sin tarjeta ·{" "}
+                <Link href="/register" className="font-medium text-[var(--psy-blue)] hover:underline">
+                  Crea tu cuenta gratis
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </main>
