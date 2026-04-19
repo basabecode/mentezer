@@ -37,6 +37,13 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 # .env.example se SÍ versiona
+.claude/*.local.json
+
+# local agent settings / generated audit artifacts
+artifacts/screens/
+e2e/screenshots/
+test-results/
+tsc.log
 
 # vercel
 .vercel

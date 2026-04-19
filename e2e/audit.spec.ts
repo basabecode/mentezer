@@ -14,11 +14,40 @@ type AuditFinding = {
 
 const SCREENSHOT_DIR = path.resolve(__dirname, "screenshots");
 const REPORT_PATH = path.resolve(__dirname, "screenshots", "audit-report.json");
+const ROOT_ENV_PATH = path.resolve(__dirname, "..", ".env.local");
 
-const PSY_EMAIL = "psicologo.test@example.invalid";
-const PSY_PASSWORD = "[REDACTED_TEST_PASSWORD]";
-const ADMIN_EMAIL = "admin.test@example.invalid";
-const ADMIN_PASSWORD = "[REDACTED_TEST_PASSWORD]";
+function readLocalEnvValue(name: string) {
+  if (!fs.existsSync(ROOT_ENV_PATH)) return "";
+
+  const envLines = fs.readFileSync(ROOT_ENV_PATH, "utf8").split(/\r?\n/);
+  for (const line of envLines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+
+    const separatorIndex = trimmed.indexOf("=");
+    if (separatorIndex === -1) continue;
+
+    const key = trimmed.slice(0, separatorIndex).trim();
+    if (key !== name) continue;
+
+    const rawValue = trimmed.slice(separatorIndex + 1).trim();
+    return rawValue.replace(/^['"]|['"]$/g, "");
+  }
+
+  return "";
+}
+
+function getEnvValue(name: string) {
+  return (process.env[name] ?? readLocalEnvValue(name)).trim();
+}
+
+const PSY_EMAIL = getEnvValue("E2E_PSY_EMAIL");
+const PSY_PASSWORD = getEnvValue("E2E_PSY_PASSWORD");
+const ADMIN_EMAIL = getEnvValue("E2E_ADMIN_EMAIL");
+const ADMIN_PASSWORD = getEnvValue("E2E_ADMIN_PASSWORD");
+const HAS_E2E_CREDS = Boolean(
+  PSY_EMAIL && PSY_PASSWORD && ADMIN_EMAIL && ADMIN_PASSWORD,
+);
 
 const PSY_ROUTES = [
   { path: "/dashboard",    name: "dashboard" },
@@ -143,6 +172,7 @@ test.describe.serial("Mentezer visual audit", () => {
   });
 
   test("Psychologist portal", async ({ browser }) => {
+    test.skip(!HAS_E2E_CREDS, "Configura E2E_PSY_EMAIL, E2E_PSY_PASSWORD, E2E_ADMIN_EMAIL y E2E_ADMIN_PASSWORD.");
     const context = await browser.newContext();
     const page = await context.newPage();
     await loginAs(page, PSY_EMAIL, PSY_PASSWORD);
@@ -155,6 +185,7 @@ test.describe.serial("Mentezer visual audit", () => {
   });
 
   test("Admin portal", async ({ browser }) => {
+    test.skip(!HAS_E2E_CREDS, "Configura E2E_PSY_EMAIL, E2E_PSY_PASSWORD, E2E_ADMIN_EMAIL y E2E_ADMIN_PASSWORD.");
     const context = await browser.newContext();
     const page = await context.newPage();
     await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
@@ -166,6 +197,11 @@ test.describe.serial("Mentezer visual audit", () => {
   });
 
   test.afterAll(() => {
+    if (!HAS_E2E_CREDS) {
+      console.log("[AUDIT] skipped: missing E2E credentials");
+      return;
+    }
+
     fs.writeFileSync(REPORT_PATH, JSON.stringify(allFindings, null, 2), "utf8");
     // Summary to stdout
     let routesWithIssues = 0;
