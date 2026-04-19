@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { BookOpen, FileText, CheckCircle } from "lucide-react";
+import { BookOpen, FileText, CheckCircle, Sparkles } from "lucide-react";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { KnowledgeGroupCard } from "@/components/knowledge/KnowledgeGroupCard";
 import { PersonalLibrary } from "@/components/knowledge/PersonalLibrary";
 import { KnowledgeTabs } from "@/components/knowledge/KnowledgeTabs";
@@ -59,37 +60,54 @@ export default async function KnowledgePage() {
   const personalReady = (personalDocuments ?? []).filter((d) => d.processing_status === "ready").length;
 
   return (
-    <div className="px-6 py-6 max-w-3xl">
+    <div className="max-w-5xl mx-auto px-6 py-10">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="font-serif text-2xl text-psy-ink font-semibold">Biblioteca clínica</h1>
-        <p className="text-sm text-psy-muted mt-1">
-          La IA razona con tus libros y los cita por libro, autor y página en cada análisis.
-        </p>
+      <div className="mb-10">
+        <Breadcrumbs />
+        <div className="mt-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-psy-blue/10 text-psy-blue">
+              <BookOpen size={18} />
+            </div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-psy-blue font-bold">
+              Unidad de Conocimiento
+            </p>
+          </div>
+          <h1 className="font-sora text-3xl md:text-5xl font-bold tracking-tight text-psy-ink">Biblioteca Clínica</h1>
+          <p className="text-base text-psy-ink/60 mt-3 max-w-2xl leading-relaxed">
+            Nuestra IA razona consultando <span className="text-psy-ink font-semibold">libros de referencia y tus propios documentos</span>, citando autor y página en cada análisis automatizado.
+          </p>
+        </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="bg-psy-paper border border-psy-border rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <BookOpen size={14} className="text-psy-muted" />
-            <span className="text-xs text-psy-muted">Libros base</span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <div className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-10 w-10 rounded-xl bg-psy-cream flex items-center justify-center text-psy-muted">
+              <BookOpen size={20} />
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider text-psy-muted">Libros Base</span>
           </div>
-          <p className="font-mono text-xl font-semibold text-psy-ink">{totalSystemBooks}</p>
+          <p className="font-sora text-3xl font-bold text-psy-ink">{totalSystemBooks}</p>
         </div>
-        <div className="bg-psy-paper border border-psy-border rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <CheckCircle size={14} className="text-psy-muted" />
-            <span className="text-xs text-psy-muted">Enfoques activos</span>
+        <div className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-10 w-10 rounded-xl bg-psy-blue/5 flex items-center justify-center text-psy-blue">
+              <Sparkles size={20} />
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider text-psy-muted">Enfoques</span>
           </div>
-          <p className="font-mono text-xl font-semibold text-psy-ink">{activeGroupsCount}</p>
+          <p className="font-sora text-3xl font-bold text-psy-ink">{activeGroupsCount}</p>
         </div>
-        <div className="bg-psy-paper border border-psy-border rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <FileText size={14} className="text-psy-muted" />
-            <span className="text-xs text-psy-muted">Mis documentos</span>
+        <div className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-10 w-10 rounded-xl bg-psy-cream flex items-center justify-center text-psy-muted">
+              <FileText size={20} />
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider text-psy-muted">Tus Docs</span>
           </div>
-          <p className="font-mono text-xl font-semibold text-psy-ink">{personalReady}</p>
+          <p className="font-sora text-3xl font-bold text-psy-ink">{personalReady}</p>
         </div>
       </div>
 

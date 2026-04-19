@@ -35,22 +35,22 @@ const toneClasses: Record<
   { panel: string; label: string; dot: string; tag: string }
 > = {
   neutral: {
-    panel: "border-[rgba(13,34,50,0.08)] bg-white/78",
-    label: "text-[var(--psy-muted)]",
-    dot: "bg-[rgba(13,34,50,0.42)]",
-    tag: "border-[rgba(13,34,50,0.10)] bg-white text-[var(--psy-muted)]",
+    panel: "border-psy-ink/10 bg-white/80",
+    label: "text-psy-muted",
+    dot: "bg-psy-ink/40",
+    tag: "border-psy-ink/10 bg-white text-psy-muted",
   },
   info: {
-    panel: "border-[rgba(21,134,160,0.18)] bg-[var(--psy-blue-light)]",
-    label: "text-[var(--psy-blue)]",
-    dot: "bg-[var(--psy-blue)]",
-    tag: "border-[rgba(21,134,160,0.18)] bg-white/72 text-[var(--psy-blue)]",
+    panel: "border-psy-blue/20 bg-psy-blue-light",
+    label: "text-psy-blue",
+    dot: "bg-psy-blue",
+    tag: "border-psy-blue/20 bg-white/70 text-psy-blue",
   },
   success: {
-    panel: "border-[rgba(39,137,94,0.18)] bg-[var(--psy-green-light)]",
-    label: "text-[var(--psy-green)]",
-    dot: "bg-[var(--psy-green)]",
-    tag: "border-[rgba(39,137,94,0.18)] bg-white/72 text-[var(--psy-green)]",
+    panel: "border-psy-green/20 bg-psy-green-light",
+    label: "text-psy-green",
+    dot: "bg-psy-green",
+    tag: "border-psy-green/20 bg-white/70 text-psy-green",
   },
 };
 
@@ -151,14 +151,14 @@ export function ClinicalReportPlayback({
   ]);
 
   return (
-    <div className="report-surface rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(248,252,253,0.94)] p-4 md:p-5">
-      <div className="flex flex-col gap-3 border-b border-[rgba(13,34,50,0.07)] pb-4 sm:flex-row sm:items-start sm:justify-between">
+    <div className="report-surface rounded-3xl border border-psy-ink/10 bg-psy-paper/90 p-4 md:p-5">
+      <div className="flex flex-col gap-3 border-b border-psy-ink/10 pb-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-muted)]">
+          <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
             {title}
           </p>
           {showSubtitle && subtitle ? (
-            <p className="mt-2 max-w-xl text-sm leading-6 text-[rgba(13,34,50,0.72)]">
+            <p className="mt-2 max-w-xl text-sm leading-6 text-psy-ink/70">
               {subtitle}
             </p>
           ) : null}
@@ -166,10 +166,10 @@ export function ClinicalReportPlayback({
 
         {showHeaderStatus ? (
           <div
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-medium ${
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium ${
               isComplete
-                ? "bg-[var(--psy-green-light)] text-[var(--psy-green)]"
-                : "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]"
+                ? "bg-psy-green-light text-psy-green"
+                : "bg-psy-blue-light text-psy-blue"
             }`}
           >
             {!isComplete ? (
@@ -193,18 +193,18 @@ export function ClinicalReportPlayback({
           return (
             <div
               key={field.id}
-              className={`rounded-[1.2rem] border p-4 transition-all duration-300 ${tone.panel}`}
+              className={`rounded-2xl border p-4 transition-all duration-300 ${tone.panel}`}
             >
               <div className="flex items-center justify-between gap-3">
                 <p
-                  className={`font-mono text-[10px] uppercase tracking-[0.28em] ${tone.label}`}
+                  className={`font-mono text-xs uppercase tracking-widest ${tone.label}`}
                 >
                   {field.label}
                 </p>
                 {showFieldStatus ? (
                   <div className="flex items-center gap-2">
                     <span className={`h-2 w-2 rounded-full ${tone.dot}`} />
-                    <span className="text-[11px] text-[rgba(13,34,50,0.56)]">
+                    <span className="text-xs text-psy-ink/55">
                       {isFieldComplete
                         ? "Completo"
                         : isCurrent
@@ -217,7 +217,7 @@ export function ClinicalReportPlayback({
                 )}
               </div>
 
-              <p className="mt-2.5 text-sm leading-6 text-[var(--psy-ink)] md:text-[15px]">
+              <p className="mt-2.5 text-sm leading-6 text-psy-ink md:text-sm">
                 {showTypedText ? typedText : ""}
                 {showTypedText && isCurrent && !isFieldComplete ? (
                   <span className="type-caret">|</span>
@@ -225,7 +225,7 @@ export function ClinicalReportPlayback({
               </p>
 
               {showTypedText && field.meta && isFieldComplete ? (
-                <p className="mt-2 text-xs leading-5 text-[rgba(13,34,50,0.58)]">
+                <p className="mt-2 text-xs leading-5 text-psy-ink/60">
                   {field.meta}
                 </p>
               ) : null}
@@ -235,7 +235,7 @@ export function ClinicalReportPlayback({
                   {field.tags.map((tag) => (
                     <span
                       key={tag}
-                      className={`rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] ${tone.tag}`}
+                      className={`rounded-full border px-2.5 py-1 text-xs font-medium uppercase tracking-widest ${tone.tag}`}
                     >
                       {tag}
                     </span>

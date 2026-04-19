@@ -29,27 +29,27 @@ export default function LoginPage() {
   return (
     <div className="w-full">
       {/* Card */}
-      <div className="bg-[var(--psy-paper)] border border-[var(--psy-border)] rounded-2xl shadow-[0_8px_40px_rgba(13,34,50,0.08)] overflow-hidden">
+      <div className="overflow-hidden rounded-2xl border border-psy-border bg-psy-paper shadow-xl">
 
         {/* Header strip */}
-        <div className="px-8 pt-8 pb-6 border-b border-[var(--psy-border)]">
+        <div className="border-b border-psy-border px-8 pb-6 pt-8">
           <div className="flex items-center gap-3 mb-4">
             {/* Logo mark */}
-            <div className="w-9 h-9 rounded-xl bg-[var(--psy-blue)] flex items-center justify-center flex-shrink-0">
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-psy-blue">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
                 <path d="M8 12h8M12 8v8"/>
               </svg>
             </div>
             <div>
-              <p className="font-serif text-lg font-semibold text-[var(--psy-ink)] leading-none">PsyAssist</p>
-              <p className="text-xs text-[var(--psy-muted)] mt-0.5">Plataforma clínica</p>
+              <p className="font-sora text-lg font-bold leading-none text-psy-ink italic">MENTEZER</p>
+              <p className="mt-0.5 text-xs text-psy-muted">Plataforma clínica</p>
             </div>
           </div>
-          <h1 className="font-serif text-2xl font-semibold text-[var(--psy-ink)] tracking-tight">
+          <h1 className="font-sora text-2xl font-semibold tracking-tight text-psy-ink">
             Bienvenido de vuelta
           </h1>
-          <p className="text-sm text-[var(--psy-muted)] mt-1">
+          <p className="mt-1 text-sm text-psy-muted">
             Ingresa tus credenciales para continuar
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function LoginPage() {
 
             {/* Email */}
             <div className="space-y-1.5">
-              <label htmlFor="email" className="block text-sm font-medium text-[var(--psy-ink)]">
+              <label htmlFor="email" className="block text-sm font-medium text-psy-ink">
                 Correo electrónico
               </label>
               <input
@@ -70,19 +70,19 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 placeholder="tucorreo@ejemplo.com"
-                className="w-full h-11 px-4 rounded-xl border border-[var(--psy-border)] bg-[var(--psy-cream)] text-[var(--psy-ink)] placeholder:text-[var(--psy-muted)]/60 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--psy-blue)]/25 focus:border-[var(--psy-blue)] transition-all"
+                className="h-11 w-full rounded-xl border border-psy-border bg-psy-cream px-4 text-sm text-psy-ink placeholder:text-psy-muted/60 transition-all focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/25"
               />
             </div>
 
             {/* Contraseña */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium text-[var(--psy-ink)]">
+                <label htmlFor="password" className="block text-sm font-medium text-psy-ink">
                   Contraseña
                 </label>
                 <button
                   type="button"
-                  className="text-xs text-[var(--psy-blue)] hover:underline focus:outline-none"
+                  className="text-xs text-psy-blue hover:underline focus:outline-none"
                 >
                   ¿Olvidaste tu contraseña?
                 </button>
@@ -95,12 +95,12 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   required
                   placeholder="Mínimo 8 caracteres"
-                  className="w-full h-11 px-4 pr-11 rounded-xl border border-[var(--psy-border)] bg-[var(--psy-cream)] text-[var(--psy-ink)] placeholder:text-[var(--psy-muted)]/60 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--psy-blue)]/25 focus:border-[var(--psy-blue)] transition-all"
+                  className="h-11 w-full rounded-xl border border-psy-border bg-psy-cream px-4 pr-11 text-sm text-psy-ink placeholder:text-psy-muted/60 transition-all focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/25"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--psy-muted)] hover:text-[var(--psy-ink)] transition-colors focus:outline-none"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-psy-muted transition-colors hover:text-psy-ink focus:outline-none"
                   tabIndex={-1}
                   aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
@@ -111,7 +111,7 @@ export default function LoginPage() {
 
             {/* Error */}
             {state.error && (
-              <div className="flex items-start gap-2.5 bg-[var(--psy-red-light)] border border-[var(--psy-red)]/20 text-[var(--psy-red)] px-4 py-3 rounded-xl text-sm">
+              <div className="flex items-start gap-2.5 rounded-xl border border-psy-red/20 bg-psy-red-light px-4 py-3 text-sm text-psy-red">
                 <svg className="flex-shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
                 </svg>
@@ -123,7 +123,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={pending}
-              className="w-full h-11 bg-[var(--psy-blue)] hover:bg-[var(--psy-blue)]/90 text-white rounded-xl text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-1"
+              className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-psy-blue text-sm font-medium text-white transition-all hover:bg-psy-blue/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {pending ? (
                 <>
@@ -140,10 +140,10 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 bg-[var(--psy-cream)] border-t border-[var(--psy-border)] text-center">
-          <p className="text-sm text-[var(--psy-muted)]">
+        <div className="border-t border-psy-border bg-psy-cream px-8 py-5 text-center">
+          <p className="text-sm text-psy-muted">
             ¿No tienes cuenta?{" "}
-            <Link href="/register" className="text-[var(--psy-blue)] font-medium hover:underline">
+            <Link href="/register" className="font-medium text-psy-blue hover:underline">
               Crear cuenta
             </Link>
           </p>
@@ -151,7 +151,7 @@ export default function LoginPage() {
       </div>
 
       {/* Disclaimer */}
-      <p className="mt-5 text-center text-xs text-[var(--psy-muted)]/70 px-4">
+      <p className="mt-5 px-4 text-center text-xs text-psy-muted/70">
         Acceso exclusivo para profesionales de salud mental certificados.
       </p>
     </div>

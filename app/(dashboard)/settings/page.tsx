@@ -71,7 +71,7 @@ export default async function SettingsPage() {
             <h2 className="text-sm font-semibold text-psy-ink">Privacidad y datos</h2>
           </div>
           <p className="text-xs text-psy-muted leading-relaxed mb-3">
-            PsyAssist cumple con la Ley 1581 de Colombia. Todos los datos clínicos están cifrados y aislados por profesional mediante Row Level Security (RLS).
+            <span className="font-bold text-psy-blue italic">MENTEZER</span> cumple con la Ley 1581 de Colombia. Todos los datos clínicos están cifrados y aislados por profesional mediante Row Level Security (RLS).
           </p>
           <div className="flex gap-4 text-xs">
             <a href="/legal/terms" className="text-psy-blue hover:underline">Términos de uso</a>

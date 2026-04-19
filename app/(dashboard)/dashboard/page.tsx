@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import { Brain, Plus } from "lucide-react";
 
 function greeting() {
   const h = new Date().getHours();
@@ -100,61 +101,66 @@ export default async function DashboardPage() {
   const firstPending = pendingSessions?.[0];
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-3 py-3 md:gap-6 md:px-6 md:py-6">
-
-      {/* ── Hero banner ── */}
-      <section className="paper-texture reveal-rise overflow-hidden rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.88)] p-4 shadow-[0_20px_60px_rgba(13,34,50,0.08)] md:rounded-[2rem] md:p-7">
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--psy-muted)]">
-              {greeting()}
-            </p>
-            <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-[var(--psy-ink)] md:text-4xl lg:text-5xl">
-              {psychName}
+    <div className="flex flex-col">
+      {/* ── Hero banner (Totalmente Integrado) ── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-psy-paper/10 to-psy-blue/5 border-b border-psy-border">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-psy-blue/10 to-transparent pointer-events-none" />
+        <div className="mx-auto max-w-[1400px] px-8 py-12 md:py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+          
+          <div className="flex-1 w-full lg:w-auto">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="h-2 w-2 rounded-full bg-psy-blue animate-pulse" />
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-psy-blue font-bold">
+                {greeting()}
+              </p>
+            </div>
+            <h1 className="font-sora text-6xl md:text-8xl font-bold tracking-tighter text-psy-ink leading-[0.85]">
+              {psychName.split('.')[0]}
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-[rgba(13,34,50,0.74)]">
-              Tu portal clínico está listo para capturar sesiones, ordenar el
-              seguimiento y responder más rápido sin dejar que el cierre del día
-              se te vaya de las manos.
+            <p className="mt-8 max-w-xl text-lg md:text-xl leading-relaxed text-psy-ink/60 font-medium italic">
+              "Transformando la práctica clínica con <span className="text-psy-ink font-bold not-italic">precisión e inteligencia</span>."
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/sessions/new" className="lift-button inline-flex items-center gap-2 rounded-[1.2rem] bg-[var(--psy-blue)] px-5 py-3 text-sm font-medium text-white shadow-[0_14px_30px_rgba(21,134,160,0.28)]">
-                Empezar nueva sesión
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="/sessions/new" className="lift-button inline-flex h-14 items-center gap-3 rounded-[1.2rem] bg-psy-blue px-8 text-sm font-bold text-white shadow-2xl shadow-psy-blue/30 transition-all">
+                <Plus size={20} strokeWidth={2.5} />
+                Nueva sesión
               </Link>
-              <Link href="/schedule" className="lift-button inline-flex items-center gap-2 rounded-[1.2rem] border border-[rgba(13,34,50,0.10)] bg-white/55 px-5 py-3 text-sm font-medium text-[var(--psy-ink)]">
-                Ver agenda de hoy
+              <Link href="/schedule" className="lift-button inline-flex h-14 items-center gap-3 rounded-[1.2rem] border border-psy-border bg-white px-8 text-sm font-bold text-psy-ink shadow-sm transition-all hover:bg-psy-cream">
+                Mi Agenda
               </Link>
             </div>
           </div>
 
-          <div className="grid gap-4">
-            <div className="rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-white/62 p-5">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">En foco hoy</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[1.2rem] bg-[var(--psy-blue-light)] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(21,134,160,0.15)]">
-                  <p className="text-xs text-[var(--psy-blue)]">Pacientes activos</p>
-                  <p className="mt-2 font-mono text-3xl font-semibold text-[var(--psy-ink)]">{totalPatients ?? 0}</p>
+          <div className="w-full lg:w-[460px] flex flex-col gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white border border-psy-border rounded-[2.5rem] p-8 shadow-sm group hover:border-psy-blue/50 transition-all duration-300">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-psy-blue mb-2">PACIENTES</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="font-sora text-6xl font-bold text-psy-ink">{totalPatients ?? 0}</p>
                 </div>
-                <div className="rounded-[1.2rem] bg-[var(--psy-green-light)] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(39,137,94,0.15)]">
-                  <p className="text-xs text-[var(--psy-green)]">Sesiones del mes</p>
-                  <p className="mt-2 font-mono text-3xl font-semibold text-[var(--psy-ink)]">{sessionsMonth ?? 0}</p>
+              </div>
+              <div className="bg-white border border-psy-border rounded-[2.5rem] p-8 shadow-sm group hover:border-psy-green/50 transition-all duration-300">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-psy-green mb-2">SESIONES</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="font-sora text-6xl font-bold text-psy-ink">{sessionsMonth ?? 0}</p>
                 </div>
               </div>
             </div>
-
-            <div className="rounded-[1.6rem] bg-[var(--psy-ink)] p-5 text-[var(--psy-paper)] shadow-[0_18px_44px_rgba(13,34,50,0.18)]">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-[rgba(223,243,248,0.55)]">Riesgo y pendientes</p>
-                  <p className="mt-2 text-sm text-[rgba(223,243,248,0.76)]">
-                    {highRisk > 0
-                      ? `${highRisk} alerta${highRisk > 1 ? "s" : ""} de riesgo alto requieren atención.`
-                      : "No hay alertas de riesgo alto en los reportes recientes."}
-                  </p>
-                </div>
-                <div className="rounded-[1.1rem] bg-[rgba(223,243,248,0.08)] px-4 py-3 text-center">
-                  <p className="font-mono text-2xl font-semibold">{reportsTotal ?? 0}</p>
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-[rgba(223,243,248,0.55)]">reportes IA</p>
+            
+            <div className="bg-psy-ink rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                <Brain size={80} />
+              </div>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4">SEGURIDAD CLÍNICA</p>
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-sm font-medium leading-relaxed text-white/80">
+                  {highRisk > 0
+                    ? `${highRisk} alertas críticas pendientes.`
+                    : "No hay alertas de riesgo alto."}
+                </p>
+                <div className="rounded-2xl bg-white/10 px-4 py-2 text-center border border-white/5 backdrop-blur-sm">
+                  <p className="font-sora text-2xl font-bold">{reportsTotal ?? 0}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold">VECTORES</p>
                 </div>
               </div>
             </div>
@@ -162,17 +168,19 @@ export default async function DashboardPage() {
         </div>
       </section>
 
+      <div className="mx-auto w-full max-w-[1400px] p-8 md:p-12 lg:p-16 flex flex-col gap-12">
+
       {/* ── Acciones rápidas ── */}
       <section className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
         {quickActions.map((action) => (
           <Link
             key={action.href}
             href={action.href}
-            className="scroll-reveal group relative overflow-hidden rounded-[1.4rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-4 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-all duration-240 hover:-translate-y-1.5 hover:border-[rgba(13,34,50,0.14)] hover:bg-white hover:shadow-[0_24px_50px_rgba(13,34,50,0.11)] md:rounded-[1.7rem] md:p-5"
+            className="scroll-reveal group relative overflow-hidden rounded-3xl border border-psy-border bg-white p-4 shadow-xl transition-all duration-200 hover:-translate-y-1.5 hover:border-psy-blue/30 hover:shadow-2xl md:p-5"
           >
             {/* Borde top color-coded */}
             <span
-              className="absolute left-0 right-0 top-0 h-[3px] rounded-t-[1.4rem] opacity-0 transition-opacity duration-240 group-hover:opacity-100 md:rounded-t-[1.7rem]"
+              className="absolute left-0 right-0 top-0 h-1 rounded-t-3xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
               style={{ background: action.accent }}
             />
             <div
@@ -181,10 +189,10 @@ export default async function DashboardPage() {
             >
               {action.icon}
             </div>
-            <h2 className="mt-3 font-serif text-base font-semibold tracking-tight text-[var(--psy-ink)] md:mt-4 md:text-xl">
+            <h2 className="mt-3 font-sora text-base font-bold tracking-tight text-psy-ink md:mt-4 md:text-xl">
               {action.label}
             </h2>
-            <p className="mt-1 text-xs leading-5 text-[rgba(13,34,50,0.68)] md:mt-2 md:text-sm md:leading-7">
+            <p className="mt-1 text-xs leading-5 text-psy-ink/65 md:mt-2 md:text-sm md:leading-7">
               {action.sub}
             </p>
           </Link>
@@ -192,23 +200,23 @@ export default async function DashboardPage() {
       </section>
 
       {/* ── Agenda + Pacientes ── */}
-      <section className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
-        <div className="scroll-reveal rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-6 shadow-[0_16px_42px_rgba(13,34,50,0.05)]">
+      <section className="grid gap-5 xl:grid-cols-2">
+        <div className="scroll-reveal rounded-3xl border border-psy-border bg-white p-6 shadow-xl">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">Agenda inmediata</p>
-              <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-[var(--psy-ink)] md:text-3xl">
+              <p className="text-xs uppercase tracking-widest text-psy-muted">Agenda inmediata</p>
+              <h2 className="mt-2 font-sora text-2xl font-bold tracking-tight text-psy-ink md:text-3xl">
                 Lo próximo en consulta
               </h2>
             </div>
-            <Link href="/schedule" className="text-sm font-medium text-[var(--psy-blue)] transition hover:underline">
+            <Link href="/schedule" className="text-sm font-medium text-psy-blue transition hover:underline">
               Ver agenda
             </Link>
           </div>
 
           <div className="mt-5 grid gap-3">
             {(pendingSessions ?? []).length === 0 ? (
-              <div className="rounded-[1.5rem] bg-white/62 p-5 text-sm text-[var(--psy-muted)]">
+              <div className="rounded-3xl bg-white/60 p-5 text-sm text-psy-muted">
                 No tienes citas programadas por ahora. Es un buen momento para
                 ordenar pacientes, biblioteca o informes.
               </div>
@@ -216,18 +224,18 @@ export default async function DashboardPage() {
               pendingSessions?.map((session, index) => {
                 const date = new Date(session.scheduled_at);
                 return (
-                  <div key={session.id} className={`rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(13,34,50,0.08)] ${index === 0 ? "bg-[var(--psy-blue-light)]" : "bg-white/62"}`}>
+                  <div key={session.id} className={`rounded-3xl border border-psy-ink/10 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${index === 0 ? "bg-psy-blue-light" : "bg-white/60"}`}>
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <p className="text-sm font-medium text-[var(--psy-ink)]">
+                        <p className="text-sm font-medium text-psy-ink">
                           {date.toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" })}
                         </p>
-                        <p className="mt-1 text-sm text-[var(--psy-muted)]">
+                        <p className="mt-1 text-sm text-psy-muted">
                           {date.toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })} · sesión programada
                         </p>
                       </div>
                       {index === 0 ? (
-                        <span className="rounded-full bg-white/75 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--psy-blue)]">
+                        <span className="rounded-full bg-white/75 px-3 py-1 text-xs font-medium uppercase tracking-widest text-psy-blue">
                           Sigue esta
                         </span>
                       ) : null}
@@ -239,36 +247,36 @@ export default async function DashboardPage() {
           </div>
 
           {firstPending ? (
-            <div className="mt-4 rounded-[1.5rem] bg-[var(--psy-ink)] p-5 text-[var(--psy-paper)]">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-[rgba(223,243,248,0.55)]">Siguiente decisión</p>
-              <p className="mt-3 text-sm leading-7 text-[rgba(223,243,248,0.78)]">
+            <div className="mt-4 rounded-3xl bg-psy-ink p-5 text-psy-paper">
+              <p className="text-xs uppercase tracking-widest text-psy-paper/55">Siguiente decisión</p>
+              <p className="mt-3 text-sm leading-7 text-psy-paper/80">
                 Si esta sesión termina hoy, el flujo natural es grabar, revisar
                 transcripción y dejar listo el análisis antes de que se acumule.
               </p>
-              <Link href="/sessions/new" className="lift-button mt-4 inline-flex items-center gap-2 rounded-[1rem] bg-[var(--psy-paper)] px-4 py-2.5 text-sm font-medium text-[var(--psy-ink)]">
+              <Link href="/sessions/new" className="lift-button mt-4 inline-flex items-center gap-2 rounded-xl bg-psy-paper px-4 py-2.5 text-sm font-medium text-psy-ink">
                 Abrir flujo de sesión
               </Link>
             </div>
           ) : null}
         </div>
 
-        <div className="scroll-reveal rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-6 shadow-[0_16px_42px_rgba(13,34,50,0.05)]" data-reveal-delay="80">
+        <div className="scroll-reveal rounded-3xl border border-psy-border bg-white p-6 shadow-xl" data-reveal-delay="80">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">Pacientes recientes</p>
-              <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-[var(--psy-ink)] md:text-3xl">
+              <p className="text-xs uppercase tracking-widest text-psy-muted">Pacientes recientes</p>
+              <h2 className="mt-2 font-sora text-2xl font-bold tracking-tight text-psy-ink md:text-3xl">
                 Seguimiento activo
               </h2>
             </div>
-            <Link href="/patients" className="text-sm font-medium text-[var(--psy-blue)] transition hover:underline">
+            <Link href="/patients" className="text-sm font-medium text-psy-blue transition hover:underline">
               Ver todos
             </Link>
           </div>
 
           {(recentPatients ?? []).length === 0 ? (
-            <div className="mt-5 rounded-[1.5rem] bg-white/62 p-6 text-center">
-              <p className="text-sm text-[var(--psy-muted)]">Aún no tienes pacientes registrados.</p>
-              <Link href="/patients/new" className="lift-button mt-4 inline-flex items-center gap-2 rounded-[1rem] bg-[var(--psy-blue)] px-4 py-2.5 text-sm font-medium text-white">
+            <div className="mt-5 rounded-3xl bg-white/60 p-6 text-center">
+              <p className="text-sm text-psy-muted">Aún no tienes pacientes registrados.</p>
+              <Link href="/patients/new" className="lift-button mt-4 inline-flex items-center gap-2 rounded-xl bg-psy-blue px-4 py-2.5 text-sm font-medium text-white">
                 Registrar primer paciente
               </Link>
             </div>
@@ -278,20 +286,20 @@ export default async function DashboardPage() {
                 <Link
                   key={patient.id}
                   href={`/patients/${patient.id}`}
-                  className="hover-panel flex items-center justify-between gap-3 rounded-[1.4rem] border border-[rgba(13,34,50,0.08)] bg-white/62 p-4"
+                  className="hover-panel flex items-center justify-between gap-3 rounded-2xl border border-psy-ink/10 bg-white/60 p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--psy-blue-light)] text-sm font-semibold text-[var(--psy-blue)]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-sm font-semibold text-psy-blue">
                       {patient.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-[var(--psy-ink)]">{patient.name}</p>
-                      <p className="text-xs text-[var(--psy-muted)]">
+                      <p className="text-sm font-medium text-psy-ink">{patient.name}</p>
+                      <p className="text-xs text-psy-muted">
                         Activo · creado {new Date(patient.created_at).toLocaleDateString("es-CO")}
                       </p>
                     </div>
                   </div>
-                  <span className="rounded-full bg-[var(--psy-green-light)] px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--psy-green)]">
+                  <span className="rounded-full bg-psy-green-light px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-psy-green">
                     Ver ficha
                   </span>
                 </Link>
@@ -300,6 +308,7 @@ export default async function DashboardPage() {
           )}
         </div>
       </section>
+      </div>
     </div>
   );
 }

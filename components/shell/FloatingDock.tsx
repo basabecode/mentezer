@@ -53,7 +53,7 @@ export function FloatingDock() {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 md:bottom-6"
         >
-          <div className="flex w-[calc(100vw-1.5rem)] items-center gap-0.5 rounded-2xl border border-[var(--border)] bg-psy-paper/95 px-1 py-1.5 shadow-[var(--shadow-dock)] backdrop-blur-md sm:w-auto sm:gap-1 sm:px-2 sm:py-2 md:px-3">
+          <div className="flex items-center gap-1 rounded-[2rem] border border-psy-border bg-white px-2 py-2 shadow-2xl backdrop-blur-md">
             {navItems.map(({ href, icon: Icon, label, labelShort }) => {
               const active = pathname === href || pathname.startsWith(href + "/");
               return (
@@ -61,15 +61,14 @@ export function FloatingDock() {
                   key={href}
                   href={href}
                   className={cn(
-                    "relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-0.5 py-2 transition-all duration-200 sm:flex-none sm:min-w-[60px] sm:px-2.5 md:min-w-[72px] md:px-3",
+                    "relative flex flex-col items-center gap-1.5 rounded-2xl px-3 py-2.5 transition-all duration-300 min-w-[70px]",
                     active
-                      ? "bg-psy-blue text-white"
+                      ? "bg-psy-blue text-white shadow-lg shadow-psy-blue/20"
                       : "text-psy-muted hover:text-psy-ink hover:bg-psy-cream"
                   )}
                 >
-                  <Icon size={17} strokeWidth={active ? 2.2 : 1.8} />
-                  <span className="text-[9px] font-medium leading-none sm:hidden">{labelShort}</span>
-                  <span className="hidden text-[10px] font-medium leading-none sm:block">{label}</span>
+                  <Icon size={18} strokeWidth={active ? 2.5 : 1.8} />
+                  <span className="text-[10px] font-bold leading-none uppercase tracking-wider">{label}</span>
                   {active && (
                     <motion.span
                       layoutId="dock-indicator"

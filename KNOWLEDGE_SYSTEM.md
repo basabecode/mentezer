@@ -1,4 +1,4 @@
-# KNOWLEDGE_SYSTEM — PsyAssist
+# KNOWLEDGE_SYSTEM — MENTEZER
 
 ## Sistema de Biblioteca Clínica con Perfiles de Conocimiento
 

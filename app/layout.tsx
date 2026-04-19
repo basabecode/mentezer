@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Lora, DM_Sans, DM_Mono } from "next/font/google";
+import { Lora, DM_Sans, DM_Mono, Sora } from "next/font/google";
 import "./globals.css";
 
 const lora = Lora({
   variable: "--font-lora",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
   display: "swap",
 });
@@ -22,9 +28,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PsyAssist | Software para psicólogos con prueba de 15 dias",
+  title: "MENTEZER | Software para psicólogos con prueba de 15 dias",
   description:
-    "PsyAssist organiza agenda, sesiones y análisis clínico con tu propia biblioteca. Pruébalo 15 dias gratis y deja atrás el cuaderno como sistema.",
+    "MENTEZER organiza agenda, sesiones y análisis clínico con tu propia biblioteca. Pruébalo 15 dias gratis y deja atrás el cuaderno como sistema.",
 };
 
 export default function RootLayout({
@@ -35,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${lora.variable} ${dmSans.variable} ${dmMono.variable} h-full antialiased`}
+      className={`${lora.variable} ${sora.variable} ${dmSans.variable} ${dmMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">{children}</body>
     </html>

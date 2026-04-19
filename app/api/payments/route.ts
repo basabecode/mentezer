@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 
 const CreatePaymentSchema = z.object({
@@ -19,14 +18,17 @@ const CreatePaymentSchema = z.object({
 });
 
 export async function GET(request: Request) {
-  const session = await getServerSession();
-  if (!session?.user?.id) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user?.id) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
     });
   }
 
-  const supabase = await createClient();
   const { searchParams } = new URL(request.url);
   const period = searchParams.get("period") || "month";
 
@@ -34,7 +36,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from("payments")
       .select("*")
-      .eq("psychologist_id", session.user.id)
+      .eq("psychologist_id", user.id)
       .order("created_at", { ascending: false });
 
     // Filter by period
@@ -73,8 +75,12 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const session = await getServerSession();
-  if (!session?.user?.id) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user?.id) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
     });
@@ -84,18 +90,16 @@ export async function POST(request: Request) {
     const body = await request.json();
     const payload = CreatePaymentSchema.parse(body);
 
-    const supabase = await createClient();
-
     const { data, error } = await supabase
       .from("payments")
       .insert({
-        psychologist_id: session.user.id,
+        psychologist_id: user.id,
         amount_usd: payload.amount_usd,
         payment_method: payload.payment_method,
         session_id: payload.session_id || null,
         patient_id: payload.patient_id || null,
         notes: payload.notes || null,
-        paid_at: payload.paid_at ? new Date(payload.paid_at) : null,
+        paid_at: payload.paid_at ?? null,
         status: payload.paid_at ? "completed" : "pending",
       })
       .select()
@@ -106,7 +110,7 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ data }), { status: 201 });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return new Response(JSON.stringify({ error: err.errors }), {
+      return new Response(JSON.stringify({ error: err.issues }), {
         status: 400,
       });
     }

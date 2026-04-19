@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { DollarSign, Plus, TrendingUp, Clock, CheckCircle2 } from "lucide-react";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 
 interface Payment {
   id: string;
@@ -19,6 +17,31 @@ interface Stats {
   completed: number;
   pending: number;
   count: number;
+}
+
+type PaymentMethod =
+  | "cash"
+  | "transfer"
+  | "nequi"
+  | "daviplata"
+  | "card"
+  | "waived";
+
+const methodLabels: Record<string, string> = {
+  cash: "Efectivo",
+  transfer: "Transferencia",
+  nequi: "Nequi",
+  daviplata: "Daviplata",
+  card: "Tarjeta",
+  waived: "Exento",
+};
+
+function formatPaymentDate(value: string) {
+  return new Intl.DateTimeFormat("es-CO", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
 }
 
 export function PaymentPanel() {
@@ -50,15 +73,6 @@ export function PaymentPanel() {
       setLoading(false);
     }
   }
-
-  const methodLabels: Record<string, string> = {
-    cash: "Efectivo",
-    transfer: "Transferencia",
-    nequi: "Nequi",
-    daviplata: "Daviplata",
-    card: "Tarjeta",
-    waived: "Exento",
-  };
 
   return (
     <div className="space-y-6">
@@ -206,16 +220,9 @@ function PaymentRow({ payment }: { payment: Payment }) {
           {payment.notes || "Pago de sesión"}
         </p>
         <div className="mt-1 flex items-center gap-3 text-sm text-psy-muted">
-          <span>
-            {/* @ts-ignore */}
-            {methodLabels[payment.payment_method] || payment.payment_method}
-          </span>
+          <span>{methodLabels[payment.payment_method] || payment.payment_method}</span>
           <span>•</span>
-          <span>
-            {format(new Date(payment.created_at), "dd MMM yyyy", {
-              locale: es,
-            })}
-          </span>
+          <span>{formatPaymentDate(payment.created_at)}</span>
         </div>
       </div>
       <div className="flex items-center gap-3 text-right">
@@ -237,7 +244,12 @@ function PaymentRow({ payment }: { payment: Payment }) {
 function NewPaymentForm({ onSuccess }: { onSuccess: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    amount_usd: string;
+    payment_method: PaymentMethod;
+    notes: string;
+    paid_at: string;
+  }>({
     amount_usd: "",
     payment_method: "cash" as const,
     notes: "",
@@ -303,7 +315,7 @@ function NewPaymentForm({ onSuccess }: { onSuccess: () => void }) {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  payment_method: e.target.value as any,
+                  payment_method: e.target.value as PaymentMethod,
                 })
               }
               className="mt-1 w-full rounded-lg border border-psy-border bg-white px-3 py-2 text-psy-ink focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/10"

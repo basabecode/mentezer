@@ -1,4 +1,4 @@
-# CLAUDE.md — PsyAssist
+# CLAUDE.md — MENTEZER (Anteriormente PsyAssist)
 
 > **Plataforma SaaS de IA Clínica para Psicólogos y Psiquiatras de Habla Hispana**
 > _La primera herramienta clínica que razona sobre la biblioteca propia del profesional_
@@ -23,7 +23,8 @@
 
 ## 🌎 MERCADO OBJETIVO
 
-**PsyAssist está dirigido a psicólogos y psiquiatras de habla hispana.**
+**MENTEZER (MENTE + ZERO fricción) está dirigido a psicólogos y psiquiatras de habla hispana.**
+Ocupa el espacio de "Espacio de Trabajo Clínico Espacial" para organizar la mente del terapeuta.
 
 ### Mercados en orden de ataque
 
@@ -45,7 +46,7 @@
 
 ### Posicionamiento de marca
 
-> _"PsyAssist — Inteligencia clínica para psicólogos y psiquiatras de habla hispana."_
+> _"MENTEZER — Inteligencia clínica para psicólogos y psiquiatras de habla hispana."_
 
 ### Lo que NO somos
 
@@ -1059,6 +1060,15 @@ Longitud: 400-600 palabras. Formal pero humano.
 - Toast (sonner) para feedback de IA
 - Verificar plan del usuario antes de renderizar features Pro
 
+### Tailwind y Tokens
+
+- Usar SIEMPRE tokens semánticos del tema: `bg-psy-*`, `text-psy-*`, `border-psy-*`
+- Si un valor ya existe como token, NUNCA usar `bg-[var(--psy-xxx)]`, `text-[var(--psy-xxx)]` ni `border-[var(--psy-xxx)]`
+- NUNCA usar clases arbitrarias para radios, spacing o colores de diseño como `rounded-[1.5rem]`, `px-[18px]`, `bg-[#FAF4E4]`, `text-[#0D2232]`
+- Preferir la escala de Tailwind o un token de tema existente: `rounded-2xl`, `bg-psy-paper`, `text-psy-ink`
+- Clases arbitrarias solo se permiten para casos excepcionales no cubiertos por tokens ni escala base, y deben justificarse claramente
+- Si una clase arbitraria empieza a repetirse, convertirla en token/utilidad compartida antes de seguir replicándola
+
 ### Naming
 
 - Componentes: `PascalCase`
@@ -1141,6 +1151,7 @@ pnpm build         # build exitoso
 22. Skeleton loaders en todos los componentes con datos async
 23. Alertas "high" siempre visibles con animación de pulso
 24. Si se siente como SaaS genérico, rehacer
+25. Tailwind con tokens semánticos; evitar `bg-[var(--psy-xxx)]`, `text-[var(--psy-xxx)]`, `rounded-[xxx]`, `bg-[#xxx]`
 ```
 
 ---

@@ -4,6 +4,7 @@ import { Topbar } from "@/components/shell/Topbar";
 import { FloatingDock } from "@/components/shell/FloatingDock";
 import { SettingsDrawer } from "@/components/shell/SettingsDrawer";
 import { PatientPanel } from "@/components/shell/PatientPanel";
+import { DashboardProvider } from "@/components/shell/DashboardContext";
 
 export default async function DashboardLayout({
   children,
@@ -20,32 +21,44 @@ export default async function DashboardLayout({
     { count: pendingAnalysis },
     { data: panelPatients },
   ] = await Promise.all([
-    supabase.from("psychologists").select("name").eq("id", user.id).single(),
+    supabase
+      .from("psychologists")
+      .select("name, onboarding_completed_at")
+      .eq("id", user.id)
+      .single(),
     supabase.from("patients").select("*", { count: "exact", head: true }).eq("psychologist_id", user.id).eq("status", "active"),
     supabase.from("sessions").select("*", { count: "exact", head: true }).eq("psychologist_id", user.id).eq("status", "transcribing"),
     supabase.from("patients").select("id, name, status").eq("psychologist_id", user.id).eq("status", "active").order("created_at", { ascending: false }).limit(20),
   ]);
 
+  if (!psychologist?.onboarding_completed_at) {
+    redirect("/onboarding");
+  }
+
   return (
-    <div className="flex h-[100dvh] flex-col bg-[radial-gradient(circle_at_top,rgba(21,134,160,0.14),transparent_28%),linear-gradient(180deg,#C8E6F2_0%,#BEE0EC_100%)]">
-      <Topbar
-        psychologistName={psychologist?.name ?? user.email ?? "Psicólogo"}
-        activePatients={activePatients ?? 0}
-        pendingAnalysis={pendingAnalysis ?? 0}
-      />
+    <DashboardProvider>
+      <div className="flex h-[100dvh] flex-col bg-psy-cream overflow-hidden">
+        <Topbar
+          psychologistName={psychologist?.name ?? user.email ?? "Psicólogo"}
+          activePatients={activePatients ?? 0}
+          pendingAnalysis={pendingAnalysis ?? 0}
+        />
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Panel lateral de pacientes */}
-        <PatientPanel patients={(panelPatients ?? []) as Parameters<typeof PatientPanel>[0]["patients"]} />
+        <div className="flex-1 overflow-hidden">
+          <div className="mx-auto flex h-full w-full max-w-[1400px] items-start gap-4 px-2 pb-2 md:px-5 md:pb-5">
+            {/* Panel de pacientes (Vertical, al lado del contenido, alineado con el header) */}
+            <PatientPanel patients={(panelPatients ?? []) as any} />
 
-        {/* Contenido principal */}
-        <main className="flex-1 overflow-y-auto pb-28 md:pb-32">
-          {children}
-        </main>
+            {/* Contenido principal */}
+            <main className="flex-1 h-full overflow-y-auto rounded-[2.5rem] border border-psy-border bg-white shadow-sm custom-scrollbar overflow-hidden">
+              {children}
+            </main>
+          </div>
+        </div>
+
+        <FloatingDock />
+        <SettingsDrawer />
       </div>
-
-      <FloatingDock />
-      <SettingsDrawer />
-    </div>
+    </DashboardProvider>
   );
 }

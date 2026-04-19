@@ -1,6 +1,8 @@
+import { FileText, AlertTriangle, TrendingUp, Brain, Calendar } from "lucide-react";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { FileText, AlertTriangle, TrendingUp, Brain } from "lucide-react";
 
 export default async function ReportsPage() {
   const supabase = await createClient();
@@ -37,80 +39,79 @@ export default async function ReportsPage() {
   ).length ?? 0;
 
   return (
-    <div className="px-6 py-6 max-w-3xl">
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h1 className="font-serif text-2xl text-psy-ink font-semibold">Informes IA</h1>
-          <p className="text-sm text-psy-muted mt-1">
-            Análisis clínicos generados por IA para cada sesión.
+    <div className="max-w-4xl mx-auto px-6 py-10">
+      <div className="mb-10">
+        <Breadcrumbs />
+        <div className="mt-6">
+          <h1 className="font-sora text-3xl md:text-5xl font-bold tracking-tight text-psy-ink">Informes de IA</h1>
+          <p className="text-base text-psy-ink/60 mt-2">
+            Análisis generados automáticamente para facilitar el seguimiento clínico.
           </p>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         {[
-          { label: "Total informes", value: reports?.length ?? 0, icon: FileText, color: "text-psy-blue" },
-          { label: "Con riesgo alto", value: highRiskCount, icon: AlertTriangle, color: "text-psy-red" },
-          { label: "Esta semana", value: reports?.filter(r => {
+          { label: "Total informes", value: reports?.length ?? 0, icon: FileText, color: "text-psy-blue", bg: "bg-psy-blue/5" },
+          { label: "Alertas graves", value: highRiskCount, icon: AlertTriangle, color: "text-psy-red", bg: "bg-psy-red/5" },
+          { label: "Siete días", value: reports?.filter(r => {
               const d = new Date(r.generated_at);
               const now = new Date();
               const diff = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24);
               return diff <= 7;
-            }).length ?? 0, icon: TrendingUp, color: "text-psy-green" },
-        ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="bg-psy-paper border border-psy-border rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Icon size={14} className={color} />
-              <span className="text-xs text-psy-muted">{label}</span>
+            }).length ?? 0, icon: TrendingUp, color: "text-psy-green", bg: "bg-psy-green/5" },
+        ].map(({ label, value, icon: Icon, color, bg }) => (
+          <div key={label} className="bg-white border border-psy-border rounded-2xl p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center", bg, color)}>
+                <Icon size={20} />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-psy-muted">{label}</span>
             </div>
-            <p className="font-mono text-xl font-semibold text-psy-ink">{value}</p>
+            <p className="font-sora text-3xl font-bold text-psy-ink">{value}</p>
           </div>
         ))}
       </div>
 
       {/* Lista de informes */}
       {reports && reports.length > 0 ? (
-        <div className="space-y-2">
-          {reports.map((report) => {
-            const riskSignals = Array.isArray(report.risk_signals)
-              ? (report.risk_signals as Array<{ severity: string }>)
-              : [];
-            const hasHighRisk = riskSignals.some(s => s.severity === "high");
-            const hasMediumRisk = riskSignals.some(s => s.severity === "medium");
-            const patientName = report.patientName;
-
-            return (
-              <Link
-                key={report.id}
-                href={`/sessions/${report.session_id}`}
-                className="flex items-start gap-4 p-4 bg-psy-paper border border-psy-border rounded-xl hover:bg-psy-cream transition-colors"
-              >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  hasHighRisk ? "bg-psy-red-light" : hasMediumRisk ? "bg-psy-amber-light" : "bg-psy-blue-light"
-                }`}>
-                  <Brain size={14} className={hasHighRisk ? "text-psy-red" : hasMediumRisk ? "text-psy-amber" : "text-psy-blue"} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <p className="text-sm font-medium text-psy-ink">{patientName}</p>
-                    <div className="flex items-center gap-2 shrink-0">
-                      {hasHighRisk && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-psy-red-light text-psy-red font-medium">
-                          Riesgo alto
-                        </span>
-                      )}
-                      <span className="text-xs text-psy-muted font-mono">
-                        {new Date(report.generated_at).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" })}
-                      </span>
-                    </div>
+      <div className="grid gap-3">
+        {reports.map((report) => {
+          const riskSignals = Array.isArray(report.risk_signals) ? (report.risk_signals as Array<{ severity: string }>) : [];
+          const hasHighRisk = riskSignals.some(s => s.severity === "high");
+          
+          return (
+            <Link
+              key={report.id}
+              href={`/sessions/${report.session_id}`}
+              className="group flex items-center gap-5 p-5 bg-white border border-psy-border rounded-[1.5rem] hover:border-psy-blue/30 shadow-sm hover:shadow-xl transition-all"
+            >
+              <div className={cn(
+                "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform",
+                hasHighRisk ? "bg-psy-red/5 text-psy-red shadow-sm" : "bg-psy-blue/5 text-psy-blue shadow-sm"
+              )}>
+                <Brain size={20} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-3 mb-1">
+                  <h3 className="text-base font-bold text-psy-ink truncate">{report.patientName}</h3>
+                  <div className="flex items-center gap-2 text-[11px] font-bold text-psy-muted bg-psy-cream px-3 py-1 rounded-full">
+                    <Calendar size={12} />
+                    {new Date(report.generated_at).toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
                   </div>
-                  <p className="text-xs text-psy-muted line-clamp-2 leading-relaxed">{report.summary}</p>
                 </div>
-              </Link>
-            );
-          })}
-        </div>
+                <p className="text-xs text-psy-ink/50 line-clamp-1 italic">"{report.summary}"</p>
+                {hasHighRisk && (
+                  <div className="mt-2 flex">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded bg-psy-red text-white">Alerta de Riesgo détectada</span>
+                  </div>
+                )}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <div className="w-14 h-14 rounded-2xl bg-psy-blue-light flex items-center justify-center mb-4">

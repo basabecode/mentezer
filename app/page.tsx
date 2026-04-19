@@ -1,3 +1,5 @@
+'use client'
+import { useState } from 'react'
 import Link from 'next/link'
 import { ClinicalReportPlayback } from '@/components/marketing/ClinicalReportPlayback'
 import { ScrollRevealInit } from '@/components/marketing/ScrollRevealInit'
@@ -184,6 +186,18 @@ function IconShield() {
   )
 }
 
+function IconMenu() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  )
+}
+
+function IconClose() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  )
+}
+
 function SectionFade({ from, to }: { from: string; to: string }) {
   return (
     <div
@@ -271,8 +285,8 @@ const deliverables = [
     copy: 'Grabas o subes audio y el caso queda listo para trabajarse sin reconstruir la sesión desde memoria parcial.',
     technical: 'Audio cifrado · timeline clínico · paciente vinculado',
     metric: 'Inicio del cierre inmediato',
-    iconBg: 'bg-[var(--psy-blue-light)]',
-    iconColor: 'text-[var(--psy-blue)]',
+    iconBg: 'bg-psy-blue-light',
+    iconColor: 'text-psy-blue',
   },
   {
     icon: <IconBook />,
@@ -281,8 +295,8 @@ const deliverables = [
     copy: 'El análisis trae citas de los libros que usas, con autor y página, dentro del mismo flujo de trabajo.',
     technical: 'Autor y página · búsqueda contextual · biblioteca activa',
     metric: 'Cita útil dentro del reporte',
-    iconBg: 'bg-[var(--psy-amber-light)]',
-    iconColor: 'text-[var(--psy-amber)]',
+    iconBg: 'bg-psy-amber-light',
+    iconColor: 'text-psy-amber',
   },
   {
     icon: <IconSpark />,
@@ -291,8 +305,8 @@ const deliverables = [
     copy: 'Resumen, patrón central, hipótesis exploratoria y próximo paso quedan en una estructura que sí sirve para actuar.',
     technical: 'Hipótesis · riesgo · próxima sesión',
     metric: 'Próximo paso definido',
-    iconBg: 'bg-[var(--psy-green-light)]',
-    iconColor: 'text-[var(--psy-green)]',
+    iconBg: 'bg-psy-green-light',
+    iconColor: 'text-psy-green',
   },
   {
     icon: <IconLock />,
@@ -301,8 +315,8 @@ const deliverables = [
     copy: 'Audio cifrado, trazabilidad y una estructura pensada para trabajar con información sensible de forma seria.',
     technical: 'Cifrado AES-256 · acceso controlado · trazabilidad',
     metric: 'Seguridad visible para el profesional',
-    iconBg: 'bg-[rgba(13,34,50,0.08)]',
-    iconColor: 'text-[rgba(13,34,50,0.88)]',
+    iconBg: 'bg-psy-ink/10',
+    iconColor: 'text-psy-ink',
   },
 ]
 
@@ -375,7 +389,7 @@ const faqs = [
   {
     question: '¿Esto reemplaza mi criterio clínico?',
     answer:
-      'No. Esa parte no se negocia. PsyAssist organiza, recupera contexto y te ayuda a cerrar mejor la sesión. La decisión sigue siendo tuya.',
+      'No. Esa parte no se negocia. MENTEZER organiza, recupera contexto y te ayuda a cerrar mejor la sesión. La decisión sigue siendo tuya.',
   },
   {
     question: '¿La prueba de 14 días pide tarjeta?',
@@ -390,48 +404,50 @@ const faqs = [
 ]
 
 export default function LandingPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   return (
-    <main className="min-h-screen overflow-x-hidden bg-white text-(--psy-ink)">
+    <main className="min-h-screen overflow-x-hidden bg-psy-cream text-psy-ink">
       <ScrollRevealInit />
 
       <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
-        <nav className="flex items-center justify-between rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-white/90 px-4 py-3 shadow-[0_8px_32px_rgba(13,34,50,0.08)] backdrop-blur-md md:px-5">
+        <nav className="flex items-center justify-between rounded-3xl border border-psy-warm-border bg-psy-warm/95 px-4 py-3 shadow-xl backdrop-blur-md md:px-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-(--psy-blue) text-white shadow-[0_10px_24px_rgba(59,111,160,0.28)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue text-white shadow-lg">
               <IconBrain />
             </div>
             <div>
-              <p className="font-serif text-lg font-semibold tracking-tight">
-                PsyAssist
+              <p className="font-sora text-lg font-semibold tracking-tight">
+                MENTEZER
               </p>
-              <p className="hidden text-xs text-(--psy-muted) sm:block">
+              <p className="hidden text-xs text-psy-muted sm:block">
                 Consulta clínica más moderna, sin perder criterio
               </p>
             </div>
           </div>
 
-          <div className="hidden items-center gap-1 rounded-full border border-[rgba(13,34,50,0.07)] bg-white/45 p-1 md:flex">
+          <div className="hidden items-center gap-1 rounded-full border border-psy-ink/10 bg-white/45 p-1 md:flex">
             <Link
               href="/demo"
-              className="rounded-full px-4 py-2 text-sm font-medium text-(--psy-blue) transition hover:bg-white hover:text-(--psy-ink)"
+              className="rounded-full px-4 py-2 text-sm font-medium text-psy-blue transition hover:bg-white hover:text-psy-ink"
             >
               Demostración
             </Link>
             <a
               href="#problema"
-              className="rounded-full px-4 py-2 text-sm text-(--psy-muted) transition hover:bg-white hover:text-(--psy-ink)"
+              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-white hover:text-psy-ink"
             >
               Problema
             </a>
             <a
               href="#flujo"
-              className="rounded-full px-4 py-2 text-sm text-(--psy-muted) transition hover:bg-white hover:text-(--psy-ink)"
+              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-white hover:text-psy-ink"
             >
               Cómo funciona
             </a>
             <a
               href="#planes"
-              className="rounded-full px-4 py-2 text-sm text-[var(--psy-muted)] transition hover:bg-white hover:text-[var(--psy-ink)]"
+              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-white hover:text-psy-ink"
             >
               Precios
             </a>
@@ -440,31 +456,87 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             <Link
               href="/login"
-              className="hidden px-4 py-2 text-sm text-[var(--psy-muted)] transition hover:text-[var(--psy-ink)] sm:inline-flex"
+              className="hidden px-4 py-2 text-sm text-psy-muted transition hover:text-psy-ink sm:inline-flex"
             >
               Ingresar
             </Link>
             <Link
               href="/register"
-              className="lift-button inline-flex items-center gap-2 rounded-full bg-[var(--psy-ink)] px-4 py-2.5 text-sm font-medium text-[var(--psy-paper)] transition hover:bg-[rgba(13,34,50,0.88)] md:px-5"
+              className="lift-button inline-flex items-center gap-2 rounded-full bg-psy-ink px-4 py-2.5 text-sm font-medium text-psy-paper transition hover:bg-psy-ink/90 md:px-5"
             >
-              Prueba 14 días
+              <span className="hidden sm:inline">Prueba 14 días</span>
+              <span className="sm:hidden">Empezar</span>
               <IconArrow />
             </Link>
+            
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-warm-border text-psy-ink transition hover:bg-psy-warm-border/80 md:hidden"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <IconClose /> : <IconMenu />}
+            </button>
           </div>
         </nav>
+
+        {/* Mobile menu dropdown */}
+        {isMobileMenuOpen && (
+          <div className="absolute left-4 right-4 mt-3 overflow-hidden rounded-3xl border border-psy-warm-border bg-psy-warm p-4 shadow-2xl backdrop-blur-xl animate-menu-in md:hidden">
+            <div className="grid gap-2">
+              <Link
+                onClick={() => setIsMobileMenuOpen(false)}
+                href="/demo"
+                className="flex items-center justify-between rounded-2xl border border-psy-blue/10 bg-psy-blue/5 px-4 py-3.5 text-sm font-medium text-psy-blue"
+              >
+                Ver Demostración
+                <IconSpark />
+              </Link>
+              <a
+                onClick={() => setIsMobileMenuOpen(false)}
+                href="#problema"
+                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-ink/5"
+              >
+                Problema
+              </a>
+              <a
+                onClick={() => setIsMobileMenuOpen(false)}
+                href="#flujo"
+                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-ink/5"
+              >
+                Cómo funciona
+              </a>
+              <a
+                onClick={() => setIsMobileMenuOpen(false)}
+                href="#planes"
+                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-ink/5"
+              >
+                Precios
+              </a>
+              <div className="mt-2 border-t border-psy-warm-border pt-4">
+                <Link
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  href="/login"
+                  className="flex w-full items-center justify-center rounded-2xl py-3 text-sm font-medium text-psy-ink active:bg-psy-ink/10"
+                >
+                  Ingresar a mi cuenta
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
-      <section className="bg-[#C8E6F2] px-4 pb-12 pt-28 md:px-6 md:pb-16 md:pt-32 lg:pb-20 lg:pt-36">
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1fr_1fr] md:items-center lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="bg-psy-cream px-4 pb-12 pt-28 md:px-6 md:pb-16 md:pt-32 lg:pb-20 lg:pt-36">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 md:items-center lg:grid-cols-2">
           <div className="reveal-rise">
-            <h1 className="font-sans text-[2rem] font-bold leading-[1.08] tracking-[-0.03em] text-[var(--psy-ink)] sm:text-[2.5rem] md:text-[2.75rem] lg:text-[3.25rem] xl:text-[3.75rem]">
+            <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight text-psy-ink sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
               Tu consulta puede verse mucho más moderna sin perder tu criterio
               clínico.
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-[rgba(13,34,50,0.76)] md:text-lg">
-              PsyAssist analiza sesiones con tu biblioteca clínica, ordena el
+            <p className="mt-5 max-w-xl text-base leading-7 text-psy-ink/75 md:text-lg">
+              MENTEZER analiza sesiones con tu biblioteca clínica, ordena el
               cierre del día y reduce la dependencia de libreta, notas sueltas y
               memoria tardía.
             </p>
@@ -473,9 +545,9 @@ export default function LandingPage() {
               {clarityPoints.map(point => (
                 <div
                   key={point}
-                  className="flex items-start gap-3 rounded-[1.1rem] border border-[rgba(13,34,50,0.08)] bg-white/55 px-4 py-3 text-sm text-[rgba(13,34,50,0.76)]"
+                  className="flex items-start gap-3 rounded-2xl border border-psy-border bg-white/55 px-4 py-3 text-sm text-psy-ink/75"
                 >
-                  <span className="mt-0.5 text-[var(--psy-green)]">
+                  <span className="mt-0.5 text-psy-green">
                     <IconCheck />
                   </span>
                   <span>{point}</span>
@@ -486,14 +558,14 @@ export default function LandingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/register"
-                className="lift-button inline-flex items-center justify-center gap-2 rounded-[1.35rem] bg-[var(--psy-blue)] px-6 py-4 text-sm font-medium text-white shadow-[0_18px_40px_rgba(59,111,160,0.28)] transition hover:-translate-y-0.5 hover:bg-[rgba(59,111,160,0.92)]"
+                className="lift-button inline-flex items-center justify-center gap-2 rounded-3xl bg-psy-blue px-6 py-4 text-sm font-medium text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-psy-blue/90"
               >
                 Activar prueba de 14 días
                 <IconArrow />
               </Link>
               <Link
                 href="/demo"
-                className="lift-button inline-flex items-center justify-center gap-2 rounded-[1.35rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(243,251,253,0.88)] px-6 py-4 text-sm font-medium text-[var(--psy-ink)] transition hover:bg-white"
+                className="lift-button inline-flex items-center justify-center gap-2 rounded-3xl border border-psy-border bg-psy-paper/80 px-6 py-4 text-sm font-medium text-psy-ink transition hover:bg-white"
               >
                 <IconSpark />
                 Ver demostración en vivo
@@ -502,17 +574,17 @@ export default function LandingPage() {
 
             {/* Tarjeta visible solo en mobile */}
             <div className="mt-8 block md:hidden">
-              <div className="overflow-hidden rounded-[1.75rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(247,252,253,0.97)] p-4 shadow-[0_16px_48px_rgba(13,34,50,0.14)]">
-                <div className="flex items-center justify-between border-b border-[rgba(13,34,50,0.07)] pb-3">
+              <div className="overflow-hidden rounded-3xl border border-psy-border bg-psy-paper/90 p-4 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-psy-border/70 pb-3">
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">
-                      PsyAssist clinical workspace
+                    <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
+                      MENTEZER clinical workspace
                     </p>
-                    <p className="mt-1 text-base font-semibold tracking-tight text-[var(--psy-ink)]">
+                    <p className="mt-1 text-base font-semibold tracking-tight text-psy-ink">
                       Ana R. · Sesión 8 · TCC
                     </p>
                   </div>
-                  <div className="rounded-full border border-[rgba(13,34,50,0.08)] bg-white/80 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.16em] text-[var(--psy-blue)]">
+                  <div className="rounded-full border border-psy-border bg-white/80 px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-psy-blue">
                     Respuesta IA
                   </div>
                 </div>
@@ -521,40 +593,40 @@ export default function LandingPage() {
                     {
                       label: 'Subjetivo',
                       text: 'Reporta cansancio sostenido y culpa al descansar.',
-                      tone: 'bg-white border-[rgba(13,34,50,0.07)]',
+                      tone: 'bg-white border-psy-border/70',
                     },
                     {
                       label: 'Análisis clínico',
                       text: 'Autoexigencia como regulador de valor personal — cita clínica recuperada.',
-                      tone: 'bg-[var(--psy-blue-light)] border-[rgba(21,134,160,0.18)]',
+                      tone: 'bg-psy-blue-light border-psy-blue/20',
                     },
                     {
                       label: 'Próxima sesión',
                       text: 'Explorar descanso como pérdida de valor.',
-                      tone: 'bg-[var(--psy-green-light)] border-[rgba(39,137,94,0.18)]',
+                      tone: 'bg-psy-green-light border-psy-green/20',
                     },
                   ].map(f => (
                     <div
                       key={f.label}
-                      className={`rounded-[1rem] border ${f.tone} px-3 py-2.5`}
+                      className={`rounded-2xl border ${f.tone} px-3 py-2.5`}
                     >
-                      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--psy-muted)]">
+                      <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
                         {f.label}
                       </p>
-                      <p className="mt-1 text-xs leading-5 text-[var(--psy-ink)]">
+                      <p className="mt-1 text-xs leading-5 text-psy-ink">
                         {f.text}
                       </p>
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 flex flex-wrap gap-2 text-[10px] text-[var(--psy-muted)]">
-                  <span className="rounded-full bg-[var(--psy-amber-light)] px-2 py-0.5 font-medium text-[var(--psy-ink)]">
+                <div className="mt-3 flex flex-wrap gap-2 text-xs text-psy-muted">
+                  <span className="rounded-full bg-psy-amber-light px-2 py-0.5 font-medium text-psy-ink">
                     Antes: 45 min
                   </span>
-                  <span className="rounded-full bg-[var(--psy-blue-light)] px-2 py-0.5 font-medium text-[var(--psy-ink)]">
+                  <span className="rounded-full bg-psy-blue-light px-2 py-0.5 font-medium text-psy-ink">
                     Ahora: 28 seg.
                   </span>
-                  <span className="text-[var(--psy-green)]">
+                  <span className="text-psy-green">
                     Listo para cerrar
                   </span>
                 </div>
@@ -563,20 +635,20 @@ export default function LandingPage() {
           </div>
 
           <div className="reveal-rise reveal-delay-1 relative hidden md:block">
-            <div className="absolute -left-6 top-10 h-36 w-36 rounded-full bg-[rgba(21,134,160,0.14)] blur-3xl" />
-            <div className="absolute -bottom-6 right-8 h-28 w-28 rounded-full bg-[rgba(39,137,94,0.13)] blur-3xl" />
+            <div className="absolute -left-6 top-10 h-36 w-36 rounded-full bg-psy-blue/15 blur-3xl" />
+            <div className="absolute -bottom-6 right-8 h-28 w-28 rounded-full bg-psy-green/15 blur-3xl" />
 
-            <div className="card-hero-glow relative overflow-hidden rounded-[2rem] border border-[rgba(13,34,50,0.10)] bg-[rgba(247,252,253,0.97)] p-4 shadow-[0_28px_80px_rgba(13,34,50,0.16)] md:p-5">
-              <div className="flex items-center justify-between border-b border-[rgba(13,34,50,0.07)] pb-4">
+            <div className="card-hero-glow relative overflow-hidden rounded-3xl border border-psy-warm-border bg-psy-warm/90 p-4 shadow-2xl md:p-5">
+              <div className="flex items-center justify-between border-b border-psy-border/70 pb-4">
                 <div>
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--psy-muted)]">
-                    PsyAssist clinical workspace
+                  <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
+                    MENTEZER clinical workspace
                   </p>
-                  <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-[var(--psy-ink)]">
+                  <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-psy-ink">
                     Ana R. · Sesión 8 · TCC
                   </h2>
                 </div>
-                <div className="rounded-full border border-[rgba(13,34,50,0.08)] bg-white/76 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--psy-blue)]">
+                <div className="rounded-full border border-psy-border bg-white/76 px-3 py-1.5 text-xs font-medium uppercase tracking-widest text-psy-blue">
                   Respuesta IA
                 </div>
               </div>
@@ -598,15 +670,15 @@ export default function LandingPage() {
                 />
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center gap-2.5 rounded-[1.1rem] border border-[rgba(13,34,50,0.07)] bg-white/74 px-3 py-3 text-[11px] text-[var(--psy-muted)]">
-                <span className="rounded-full bg-[var(--psy-amber-light)] px-2.5 py-1 font-medium text-[var(--psy-ink)]">
+              <div className="mt-4 flex flex-wrap items-center gap-2.5 rounded-2xl border border-psy-border/70 bg-white/74 px-3 py-3 text-xs text-psy-muted">
+                <span className="rounded-full bg-psy-amber-light px-2.5 py-1 font-medium text-psy-ink">
                   Antes: 45 min
                 </span>
-                <span className="rounded-full bg-[var(--psy-blue-light)] px-2.5 py-1 font-medium text-[var(--psy-ink)]">
+                <span className="rounded-full bg-psy-blue-light px-2.5 py-1 font-medium text-psy-ink">
                   Ahora: 28 seg.
                 </span>
                 <span>126 referencias activas</span>
-                <span className="text-[var(--psy-green)]">
+                <span className="text-psy-green">
                   Listo para cerrar consulta
                 </span>
               </div>
@@ -614,16 +686,16 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="reveal-rise reveal-delay-2 mx-auto mt-10 grid max-w-6xl gap-2 rounded-[1.75rem] border border-[rgba(13,34,50,0.10)] bg-white px-4 py-3 shadow-[0_14px_40px_rgba(13,34,50,0.08)] sm:grid-cols-2 md:grid-cols-4 md:px-5 md:py-4">
+        <div className="reveal-rise reveal-delay-2 mx-auto mt-10 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/95 px-4 py-1.5 shadow-xl sm:grid-cols-2 md:grid-cols-4 md:px-5">
           {quickFacts.map(item => (
             <div
               key={item.value}
-              className="flex items-center gap-3 rounded-[1.1rem] px-3 py-2.5 text-center md:text-left"
+              className="flex items-center gap-3 rounded-2xl px-3 py-1.5 text-center md:text-left"
             >
-              <p className="font-serif text-2xl font-semibold tracking-tight shrink-0">
+              <p className="font-sora text-2xl font-semibold tracking-tight shrink-0">
                 {item.value}
               </p>
-              <p className="text-xs leading-5 text-[var(--psy-muted)]">
+              <p className="text-xs leading-5 text-psy-muted">
                 {item.label}
               </p>
             </div>
@@ -631,19 +703,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SectionFade from="#C8E6F2" to="#FFFFFF" />
+      <SectionFade from="var(--psy-cream)" to="white" />
 
       <section id="problema" className="bg-white px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-amber)]">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
               Seguir igual tiene costo
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
               El atraso no siempre se ve dramático. A veces se ve como cansancio
               acumulado.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[rgba(13,34,50,0.76)]">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-psy-ink/75">
               No se trata de moda tecnológica. Se trata de que tu forma de
               trabajar ya merece una estructura mejor que libreta, notas sueltas
               y memoria diferida.
@@ -654,16 +726,17 @@ export default function LandingPage() {
             {painPoints.map((item, index) => (
               <article
                 key={item.title}
-                className="hover-panel-green scroll-reveal rounded-[1.75rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-7 shadow-[0_12px_32px_rgba(39,137,94,0.10)]"
-                data-reveal-delay={String(index * 90)}
+                className={`hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-7 shadow-xl ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
+                }`}
               >
-                <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-muted)]">
+                <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
                   0{index + 1}
                 </p>
                 <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
                   {item.title}
                 </h3>
-                <p className="mt-4 text-sm leading-7 text-[rgba(13,34,50,0.76)]">
+                <p className="mt-4 text-sm leading-7 text-psy-ink/75">
                   {item.copy}
                 </p>
               </article>
@@ -672,26 +745,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SectionFade from="#FFFFFF" to="#FAF4E4" />
+      <SectionFade from="white" to="var(--psy-purple-light)" />
 
-      <section id="flujo" className="bg-[#FAF4E4] px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
+      <section id="flujo" className="bg-psy-purple-light px-4 py-18 md:px-6 md:py-22">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
           <div className="max-w-xl">
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-green)]">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">
               Lo que recibes
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
               Sales de una sesión con material para actuar, no con tareas
               pendientes.
             </h2>
-            <p className="mt-5 text-lg leading-8 text-[rgba(13,34,50,0.76)]">
+            <p className="mt-5 text-lg leading-8 text-psy-ink/75">
               Esa es la parte que mueve la compra. No la IA en abstracto. La
               sensación concreta de terminar consulta sin quedarte debiendo
               media hora de reconstrucción clínica.
             </p>
 
-            <div className="mt-8 rounded-[1.75rem] border border-[rgba(13,34,50,0.08)] bg-[var(--psy-ink)] p-6 text-[var(--psy-paper)] shadow-[0_24px_60px_rgba(13,34,50,0.18)]">
-              <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(223,243,248,0.55)]">
+            <div className="mt-8 rounded-3xl border border-psy-border bg-psy-ink p-6 text-psy-paper shadow-2xl">
+              <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
                 Qué compra realmente el clínico
               </p>
               <div className="mt-4 grid gap-3">
@@ -702,7 +775,7 @@ export default function LandingPage() {
                 ].map(point => (
                   <div
                     key={point}
-                    className="rounded-[1.1rem] border border-[rgba(223,243,248,0.12)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm leading-7 text-[rgba(223,243,248,0.82)]"
+                    className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-7 text-psy-paper/80"
                   >
                     {point}
                   </div>
@@ -715,8 +788,9 @@ export default function LandingPage() {
             {deliverables.map((item, index) => (
               <div
                 key={item.title}
-                className="card-deliverable scroll-reveal rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(255,255,255,0.94)] p-5 shadow-[0_10px_24px_rgba(13,34,50,0.06)]"
-                data-reveal-delay={String(index * 80)}
+                className={`card-deliverable reveal-rise rounded-3xl border border-psy-border bg-white p-5 shadow-lg ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : index === 2 ? 'reveal-delay-3' : 'reveal-delay-4'
+                }`}
               >
                 <div className="flex items-start gap-3">
                   <div
@@ -725,30 +799,30 @@ export default function LandingPage() {
                     {item.icon}
                   </div>
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">
+                    <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
                       {item.kicker}
                     </p>
-                    <h3 className="mt-1.5 font-serif text-[1.55rem] font-semibold tracking-tight text-[var(--psy-ink)]">
+                    <h3 className="mt-1.5 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
                       {item.title}
                     </h3>
                   </div>
                 </div>
 
-                <p className="mt-4 text-sm leading-7 text-[rgba(13,34,50,0.82)]">
+                <p className="mt-4 text-sm leading-7 text-psy-ink/80">
                   {item.copy}
                 </p>
 
-                <div className="mt-4 rounded-[1.15rem] border border-[rgba(13,34,50,0.07)] bg-[rgba(248,252,253,0.92)] px-4 py-3">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">
+                <div className="mt-4 rounded-2xl border border-psy-border/70 bg-psy-paper/80 px-4 py-3">
+                  <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
                     Señal técnica
                   </p>
-                  <p className="mt-2 text-xs leading-6 text-[rgba(13,34,50,0.68)]">
+                  <p className="mt-2 text-xs leading-6 text-psy-ink/70">
                     {item.technical}
                   </p>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between gap-3 text-[11px] text-[var(--psy-muted)]">
-                  <span className="rounded-full bg-[rgba(13,34,50,0.05)] px-2.5 py-1 font-medium text-[var(--psy-ink)]">
+                <div className="mt-4 flex items-center justify-between gap-3 text-xs text-psy-muted">
+                  <span className="rounded-full bg-psy-ink/5 px-2.5 py-1 font-medium text-psy-ink">
                     {item.metric}
                   </span>
                   <span>Más orden clínico</span>
@@ -759,12 +833,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SectionFade from="#FAF4E4" to="#FFFFFF" />
+      <SectionFade from="var(--psy-purple-light)" to="white" />
 
       <section className="bg-white px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-amber)]">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
               La prueba importa
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
@@ -777,16 +851,17 @@ export default function LandingPage() {
             {trialSteps.map((step, index) => (
               <div
                 key={step.day}
-                className="hover-panel-green scroll-reveal rounded-[1.75rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-6 shadow-[0_12px_32px_rgba(39,137,94,0.10)]"
-                data-reveal-delay={String(index * 80)}
+                className={`hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-xl ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : index === 2 ? 'reveal-delay-3' : 'reveal-delay-4'
+                }`}
               >
-                <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-amber)]">
+                <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
                   {step.day}
                 </p>
                 <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
                   {step.title}
                 </h3>
-                <p className="mt-4 text-sm leading-7 text-[rgba(13,34,50,0.76)]">
+                <p className="mt-4 text-sm leading-7 text-psy-ink/75">
                   {step.copy}
                 </p>
               </div>
@@ -795,12 +870,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SectionFade from="#FFFFFF" to="#C8E6F2" />
+      <SectionFade from="white" to="var(--psy-cream)" />
 
-      <section className="bg-[#C8E6F2] px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+      <section className="bg-psy-cream px-4 py-18 md:px-6 md:py-22">
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-amber)]">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
               Para quién encaja
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
@@ -811,38 +886,35 @@ export default function LandingPage() {
 
           <div className="grid gap-4">
             <div
-              className="card-profile scroll-reveal rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]"
-              data-reveal-delay="0"
+              className="card-profile reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg"
             >
               <h3 className="font-serif text-2xl font-semibold tracking-tight">
                 Psicólogo clínico individual
               </h3>
-              <p className="mt-3 text-sm leading-7 text-[rgba(13,34,50,0.76)]">
+              <p className="mt-3 text-sm leading-7 text-psy-ink/75">
                 Si llevas agenda llena y cierras el día escribiendo a
                 contrarreloj, aquí ganas claridad y tiempo sin perder tu
                 criterio.
               </p>
             </div>
             <div
-              className="card-profile scroll-reveal rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]"
-              data-reveal-delay="90"
+              className="card-profile reveal-rise reveal-delay-2 rounded-3xl border border-psy-border bg-white p-6 shadow-lg"
             >
               <h3 className="font-serif text-2xl font-semibold tracking-tight">
                 Consultorio que quiere verse más serio
               </h3>
-              <p className="mt-3 text-sm leading-7 text-[rgba(13,34,50,0.76)]">
+              <p className="mt-3 text-sm leading-7 text-psy-ink/75">
                 Cuando el paciente siente orden, seguimiento y velocidad,
                 también percibe una práctica más moderna y confiable.
               </p>
             </div>
             <div
-              className="card-profile scroll-reveal rounded-[1.5rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_8px_24px_rgba(13,34,50,0.06)]"
-              data-reveal-delay="180"
+              className="card-profile reveal-rise reveal-delay-3 rounded-3xl border border-psy-border bg-white p-6 shadow-lg"
             >
               <h3 className="font-serif text-2xl font-semibold tracking-tight">
                 Equipo que ya no quiere operar por WhatsApp
               </h3>
-              <p className="mt-3 text-sm leading-7 text-[rgba(13,34,50,0.76)]">
+              <p className="mt-3 text-sm leading-7 text-psy-ink/75">
                 Si varias personas tocan la agenda, los reportes y las
                 derivaciones, necesitas sistema. No más parches pegados.
               </p>
@@ -851,18 +923,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SectionFade from="#C8E6F2" to="#FAF4E4" />
+      <SectionFade from="var(--psy-cream)" to="var(--psy-purple-light)" />
 
-      <section id="planes" className="bg-[#FAF4E4] px-4 py-18 md:px-6 md:py-22">
+      <section id="planes" className="bg-psy-purple-light px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-green)]">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">
               Precios
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
               Empieza con prueba real. Paga solo si ya te ordenó la práctica.
             </h2>
-            <p className="mt-5 text-lg leading-8 text-[rgba(13,34,50,0.76)]">
+            <p className="mt-5 text-lg leading-8 text-psy-ink/75">
               La conversación ya no es si la tecnología cabe en psicología. La
               conversación es si quieres seguir administrando tu consulta como
               en 2017.
@@ -873,20 +945,21 @@ export default function LandingPage() {
             {plans.map((plan, index) => (
               <article
                 key={plan.name}
-                className={`scroll-reveal rounded-[2rem] p-7 ${
+                className={`reveal-rise rounded-3xl p-7 ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
+                } ${
                   plan.highlight
-                    ? 'card-pricing card-pricing-pro bg-[var(--psy-ink)] text-[var(--psy-paper)] shadow-[0_26px_70px_rgba(13,34,50,0.18)]'
-                    : 'card-pricing border border-[rgba(13,34,50,0.08)] bg-white/95 shadow-[0_14px_34px_rgba(13,34,50,0.08)]'
+                    ? 'card-pricing card-pricing-pro bg-psy-ink text-psy-paper shadow-2xl'
+                    : 'card-pricing border border-psy-ink/10 bg-white shadow-xl'
                 }`}
-                data-reveal-delay={String(index * 100)}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p
                       className={`text-sm ${
                         plan.highlight
-                          ? 'text-[rgba(223,243,248,0.66)]'
-                          : 'text-[var(--psy-muted)]'
+                          ? 'text-psy-paper/65'
+                          : 'text-psy-muted'
                       }`}
                     >
                       {plan.name}
@@ -896,8 +969,8 @@ export default function LandingPage() {
                       <span
                         className={`ml-1 text-base font-normal ${
                           plan.highlight
-                            ? 'text-[rgba(223,243,248,0.66)]'
-                            : 'text-[var(--psy-muted)]'
+                            ? 'text-psy-paper/65'
+                            : 'text-psy-muted'
                         }`}
                       >
                         /mes
@@ -906,7 +979,7 @@ export default function LandingPage() {
                   </div>
 
                   {plan.highlight ? (
-                    <div className="rounded-full bg-[var(--psy-green)] px-3 py-1 text-xs font-medium text-white">
+                    <div className="rounded-full bg-psy-green px-3 py-1 text-xs font-medium text-white">
                       El que más valida
                     </div>
                   ) : null}
@@ -915,8 +988,8 @@ export default function LandingPage() {
                 <p
                   className={`mt-5 text-sm leading-7 ${
                     plan.highlight
-                      ? 'text-[rgba(223,243,248,0.78)]'
-                      : 'text-[rgba(13,34,50,0.76)]'
+                      ? 'text-psy-paper/80'
+                      : 'text-psy-ink/75'
                   }`}
                 >
                   {plan.description}
@@ -931,8 +1004,8 @@ export default function LandingPage() {
                       <span
                         className={`mt-0.5 ${
                           plan.highlight
-                            ? 'text-[var(--psy-green-light)]'
-                            : 'text-[var(--psy-green)]'
+                            ? 'text-psy-green-light'
+                            : 'text-psy-green'
                         }`}
                       >
                         <IconCheck />
@@ -940,8 +1013,8 @@ export default function LandingPage() {
                       <span
                         className={
                           plan.highlight
-                            ? 'text-[rgba(223,243,248,0.86)]'
-                            : 'text-[var(--psy-ink)]'
+                            ? 'text-psy-paper/85'
+                            : 'text-psy-ink'
                         }
                       >
                         {feature}
@@ -954,8 +1027,8 @@ export default function LandingPage() {
                   href="/register"
                   className={`lift-button mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-medium transition ${
                     plan.highlight
-                      ? 'bg-[var(--psy-paper)] text-[var(--psy-ink)] hover:bg-white'
-                      : 'bg-[var(--psy-ink)] text-[var(--psy-paper)] hover:bg-[rgba(13,34,50,0.88)]'
+                      ? 'bg-psy-paper text-psy-ink hover:bg-white'
+                      : 'bg-psy-ink text-psy-paper hover:bg-psy-ink/90'
                   }`}
                 >
                   Empezar prueba de 14 días
@@ -967,12 +1040,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SectionFade from="#FAF4E4" to="#FFFFFF" />
+      <SectionFade from="var(--psy-purple-light)" to="white" />
 
       <section className="bg-white px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--psy-amber)]">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
               Dudas normales
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
@@ -984,13 +1057,14 @@ export default function LandingPage() {
             {faqs.map((faq, index) => (
               <article
                 key={faq.question}
-                className="card-faq hover-panel-green scroll-reveal rounded-[1.5rem] border border-[rgba(39,137,94,0.16)] bg-[var(--psy-green-light)] p-6 shadow-[0_10px_24px_rgba(39,137,94,0.10)]"
-                data-reveal-delay={String(index * 100)}
+                className={`card-faq hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
+                }`}
               >
                 <h3 className="font-serif text-2xl font-semibold tracking-tight">
                   {faq.question}
                 </h3>
-                <p className="mt-3 text-sm leading-7 text-[rgba(13,34,50,0.76)]">
+                <p className="mt-3 text-sm leading-7 text-psy-ink/75">
                   {faq.answer}
                 </p>
               </article>
@@ -999,44 +1073,52 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="px-4 pb-20 md:px-6">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-[var(--psy-ink)] px-6 py-12 text-[var(--psy-paper)] shadow-[0_30px_90px_rgba(13,34,50,0.22)] md:px-10 md:py-14">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(223,243,248,0.55)]">
+      <SectionFade from="white" to="var(--psy-cream)" />
+
+      <section className="bg-psy-cream px-4 pb-24 pt-10 md:px-6 md:pb-32 md:pt-16">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-psy-ink to-[#1a3a52] p-4 text-psy-paper shadow-2xl md:p-12">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-7">
+              <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
                 Decisión
               </p>
-              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold tracking-tight md:text-6xl">
-                Si tu práctica ya pide un sistema más moderno, esta prueba te lo
-                va a dejar claro rápido.
+              <h2 className="mt-4 font-sora text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl">
+                Si tu práctica ya pide un sistema más moderno...
               </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-[rgba(223,243,248,0.74)]">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-psy-paper/75">
                 No estás validando una tendencia. Estás validando si vale la
-                pena seguir cerrando sesiones con el método anterior.
+                pena seguir cerrando sesiones con el método de siempre.
               </p>
+              
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+                <Link
+                  href="/register"
+                  className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-8 py-5 text-sm font-bold text-psy-ink transition hover:bg-psy-paper shadow-xl shadow-white/5"
+                >
+                  Probar MENTEZER ahora
+                  <IconArrow />
+                </Link>
+                <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-psy-paper/10 bg-white/5 px-5 py-4 text-xs text-psy-paper/70">
+                  <span className="inline-flex items-center gap-2">
+                    <IconCalendar />
+                    Configuración rápida
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <IconShield />
+                    Sin tarjeta
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div className="grid gap-3">
-              <Link
-                href="/register"
-                className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--psy-paper)] px-6 py-4 text-sm font-medium text-[var(--psy-ink)] transition hover:bg-white"
-              >
-                Crear cuenta y empezar prueba
-                <IconArrow />
-              </Link>
-              <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-[rgba(223,243,248,0.12)] px-5 py-3 text-xs text-[rgba(223,243,248,0.68)]">
-                <span className="inline-flex items-center gap-2">
-                  <IconCalendar />
-                  Configuración rápida
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <IconShield />
-                  Sin tarjeta
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <IconClock />
-                  Prueba real
-                </span>
+            <div className="lg:col-span-5">
+              <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl rotate-3">
+                <div className="absolute inset-0 bg-gradient-to-t from-psy-ink/40 to-transparent" />
+                <img 
+                  src="/img/mentezer-context.png" 
+                  alt="MENTEZER en uso clínico" 
+                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                />
               </div>
             </div>
           </div>

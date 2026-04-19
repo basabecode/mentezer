@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ClinicalReportPlayback } from "@/components/marketing/ClinicalReportPlayback";
+import { SuccessBox, MetricsGrid } from "@/components/marketing/demo-step-shared";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
 /* ─── Icons ─── */
 function IconBrain() {
@@ -319,24 +321,14 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
 
   if (step === 5) return (
     <div className={cls}>
-      <div className="mb-5 rounded-[1.5rem] border border-[rgba(39,137,94,0.20)] bg-[var(--psy-green-light)] p-6 text-center">
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--psy-green)] text-white"><IconCheck /></div>
-        <p className="font-semibold text-[var(--psy-ink)]">Sesión cerrada — 7:04 pm</p>
-        <p className="mt-1 text-sm text-[var(--psy-muted)]">Nota guardada, paciente actualizado, próxima sesión definida</p>
+      <div className="mb-5">
+        <SuccessBox title="Sesión cerrada — 7:04 pm" subtitle="Nota guardada, paciente actualizado, próxima sesión definida" />
       </div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {[
-          { label: "Tiempo total", value: "26 seg.", sub: "vs. 45 min antes" },
-          { label: "Riesgo", value: "Bajo", sub: "evaluado automáticamente" },
-          { label: "Próxima sesión", value: "Definida", sub: "registro pensamientos" },
-        ].map((item) => (
-          <div key={item.label} className="rounded-[1.25rem] border border-[rgba(13,34,50,0.07)] bg-white/65 p-4 text-center transition-all duration-220 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(13,34,50,0.10)] hover:border-[rgba(21,134,160,0.22)]">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">{item.label}</p>
-            <p className="mt-1.5 text-base font-semibold text-[var(--psy-ink)]">{item.value}</p>
-            <p className="mt-0.5 text-[11px] text-[var(--psy-muted)]">{item.sub}</p>
-          </div>
-        ))}
-      </div>
+      <MetricsGrid items={[
+        { label: "Tiempo total", value: "26 seg.", sub: "vs. 45 min antes" },
+        { label: "Riesgo", value: "Bajo", sub: "evaluado automáticamente" },
+        { label: "Próxima sesión", value: "Definida", sub: "registro pensamientos" },
+      ]} />
     </div>
   );
 
@@ -491,25 +483,15 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
 
   if (step === 6) return (
     <div className={cls}>
-      <div className="mb-5 rounded-[1.5rem] border border-[rgba(39,137,94,0.20)] bg-[var(--psy-green-light)] p-6 text-center">
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--psy-green)] text-white"><IconCheck /></div>
-        <p className="font-semibold text-[var(--psy-ink)]">Consulta cerrada — 7:06 pm</p>
-        <p className="mt-1 text-sm text-[var(--psy-muted)]">Nota SOAP, AIReport, derivación y paciente actualizado</p>
+      <div className="mb-5">
+        <SuccessBox title="Consulta cerrada — 7:06 pm" subtitle="Nota SOAP, AIReport, derivación y paciente actualizado" />
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        {[
-          { label: "Tiempo total", value: "2 min", sub: "vs. 60 min antes" },
-          { label: "Documentos", value: "3", sub: "SOAP + AIReport + Derivación" },
-          { label: "Riesgo evaluado", value: "Bajo", sub: "sin intervención urgente" },
-          { label: "CIE-11", value: "QE84", sub: "hipótesis documentada" },
-        ].map((item) => (
-          <div key={item.label} className="rounded-[1.25rem] border border-[rgba(13,34,50,0.07)] bg-white/65 p-4 transition-all duration-220 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(13,34,50,0.10)] hover:border-[rgba(21,134,160,0.22)]">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">{item.label}</p>
-            <p className="mt-1.5 text-base font-semibold text-[var(--psy-ink)]">{item.value}</p>
-            <p className="mt-0.5 text-[11px] text-[var(--psy-muted)]">{item.sub}</p>
-          </div>
-        ))}
-      </div>
+      <MetricsGrid items={[
+        { label: "Tiempo total", value: "2 min", sub: "vs. 60 min antes" },
+        { label: "Documentos", value: "3", sub: "SOAP + AIReport + Derivación" },
+        { label: "Riesgo evaluado", value: "Bajo", sub: "sin intervención urgente" },
+        { label: "CIE-11", value: "QE84", sub: "hipótesis documentada" },
+      ]} />
     </div>
   );
 
@@ -537,37 +519,6 @@ function StepSidebar({ steps, step, version, onGoTo }: {
             ? "Psicólogo en consulta privada · Texto libre → nota SOAP con cita bibliográfica"
             : "Psiquiatra o clínico avanzado · Audio → AIReport + CIE-11 + derivación"}
         </p>
-      </div>
-
-      {/* Step list */}
-      <div className="rounded-[1.5rem] border border-[rgba(13,34,50,0.07)] bg-white/55 p-4">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--psy-muted)]">Pasos del flujo</p>
-        <div className="space-y-1">
-          {steps.map((s) => {
-            const isDone = s.id < step;
-            const isActive = s.id === step;
-            return (
-              <button key={s.id} onClick={() => onGoTo(s.id)}
-                className={`group flex w-full items-center gap-3 rounded-[1rem] px-3 py-2.5 text-left transition-all ${
-                  isActive ? "bg-[var(--psy-blue-light)]" : "hover:bg-white/70"
-                }`}>
-                <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-all ${
-                  isDone ? "bg-[var(--psy-green)] text-white"
-                  : isActive ? "bg-[var(--psy-blue)] text-white"
-                  : "bg-[rgba(13,34,50,0.07)] text-[var(--psy-muted)]"
-                }`}>
-                  {isDone ? <IconCheck /> : s.id}
-                </span>
-                <div className="min-w-0">
-                  <p className={`text-xs font-medium truncate ${isActive ? "text-[var(--psy-blue)]" : isDone ? "text-[var(--psy-green)]" : "text-[var(--psy-muted)]"}`}>
-                    {s.label}
-                  </p>
-                  {isActive && <p className="truncate text-[10px] text-[var(--psy-muted)]">{s.title}</p>}
-                </div>
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {/* CTA nudge */}
@@ -608,7 +559,10 @@ export default function DemoPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--psy-blue)] text-white shadow-[0_6px_16px_rgba(21,134,160,0.28)]">
               <IconBrain />
             </div>
-            <span className="font-semibold text-[var(--psy-ink)] tracking-tight">PsyAssist</span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-[var(--psy-ink)] tracking-tight">MENTEZER</span>
+              <Breadcrumbs />
+            </div>
           </Link>
           <div className="flex items-center gap-2">
             <Link href="/" className="hidden px-4 py-2 text-sm text-[var(--psy-muted)] hover:text-[var(--psy-ink)] sm:inline-flex">

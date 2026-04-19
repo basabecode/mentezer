@@ -637,6 +637,70 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount_usd: number
+          created_at: string
+          id: string
+          notes: string | null
+          paid_at: string | null
+          patient_id: string | null
+          payment_method: string
+          psychologist_id: string
+          session_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount_usd: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          patient_id?: string | null
+          payment_method: string
+          psychologist_id: string
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount_usd?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          patient_id?: string | null
+          payment_method?: string
+          psychologist_id?: string
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_psychologist_id_fkey"
+            columns: ["psychologist_id"]
+            isOneToOne: false
+            referencedRelation: "psychologists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       personal_knowledge_groups: {
         Row: {
           created_at: string | null
@@ -1041,11 +1105,87 @@ export type Database = {
           },
         ]
       }
+      whatsapp_reminder_logs: {
+        Row: {
+          appointment_id: string
+          created_at: string
+          error_message: string | null
+          id: string
+          patient_id: string
+          psychologist_id: string
+          reminder_type: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          appointment_id: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          patient_id: string
+          psychologist_id: string
+          reminder_type: string
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          appointment_id?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          patient_id?: string
+          psychologist_id?: string
+          reminder_type?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_reminder_logs_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_reminder_logs_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_reminder_logs_psychologist_id_fkey"
+            columns: ["psychologist_id"]
+            isOneToOne: false
+            referencedRelation: "psychologists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      create_reminder_logs_for_appointment: {
+        Args: { p_appointment_id: string }
+        Returns: undefined
+      }
+      get_pending_reminders: {
+        Args: never
+        Returns: {
+          appointment_id: string
+          appointment_time: string
+          patient_id: string
+          patient_name: string
+          patient_phone: string
+          psychologist_id: string
+          psychologist_name: string
+          reminder_id: string
+          reminder_type: string
+        }[]
+      }
       increment_group_book_count: { Args: { gid: string }; Returns: undefined }
       search_cases: {
         Args: {

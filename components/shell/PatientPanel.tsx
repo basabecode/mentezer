@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, Plus, Clock, AlertTriangle } from "lucide-react";
+import { Search, Plus, Clock, AlertTriangle, Users } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useDashboard } from "./DashboardContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Patient {
   id: string;
@@ -20,6 +22,7 @@ interface PatientPanelProps {
 }
 
 export function PatientPanel({ patients }: PatientPanelProps) {
+  const { sidebarOpen: open } = useDashboard();
   const pathname = usePathname();
   const [query, setQuery] = useState("");
 
@@ -30,101 +33,117 @@ export function PatientPanel({ patients }: PatientPanelProps) {
   const active = filtered.filter((p) => p.status === "active");
 
   return (
-    <aside className="hidden h-full w-72 shrink-0 flex-col border-r border-[var(--border)] bg-[rgba(223,243,248,0.88)] xl:flex">
-      {/* Header del panel */}
-      <div className="px-4 pb-3 pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.22em] text-psy-muted">
-              Seguimiento
-            </p>
-            <h2 className="mt-1 font-serif text-lg font-semibold tracking-tight text-psy-ink">
-              Pacientes activos
-            </h2>
-          </div>
-          <Link
-            href="/patients/new"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(13,34,50,0.08)] bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-blue"
-            aria-label="Nuevo paciente"
-          >
-            <Plus size={14} />
-          </Link>
-        </div>
-
-        {/* Buscador */}
-        <div className="relative">
-          <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-psy-muted" />
-          <input
-            type="text"
-            placeholder="Buscar paciente..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-[var(--border)] bg-white/60 py-2 pl-8 pr-3 text-xs text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-1 focus:ring-psy-blue/30"
-          />
-        </div>
-      </div>
-
-      {/* Lista */}
-      <div className="flex-1 space-y-1 overflow-y-auto px-2 pb-4">
-        {active.length === 0 ? (
-          <p className="px-4 py-8 text-center text-xs text-psy-muted">
-            {query ? "Sin resultados" : "Sin pacientes activos"}
-          </p>
-        ) : (
-          active.map((patient) => {
-            const isActive =
-              pathname.includes(`/patients/${patient.id}`) ||
-              pathname.includes(`/sessions`) && false;
-
-            return (
-              <Link
-                key={patient.id}
-                href={`/patients/${patient.id}`}
-                className={cn(
-                  "group flex items-center gap-3 rounded-[1rem] px-3 py-3 transition-colors",
-                  isActive
-                    ? "bg-psy-blue/10 text-psy-blue"
-                    : "text-psy-ink hover:bg-white/70"
-                )}
-              >
-                {/* Avatar inicial */}
-                <div
-                  className={cn(
-                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-xs font-semibold",
-                    patient.riskLevel === "high"
-                      ? "bg-psy-red-light text-psy-red"
-                      : patient.riskLevel === "medium"
-                      ? "bg-psy-amber-light text-psy-amber"
-                      : "bg-psy-blue-light text-psy-blue"
-                  )}
+    <AnimatePresence initial={false}>
+      {open && (
+        <motion.aside
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: 320, opacity: 1 }}
+          exit={{ width: 0, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          className="h-full shrink-0 overflow-hidden lg:flex flex-col"
+        >
+          <div className="flex flex-col h-full rounded-[2.5rem] border border-psy-border bg-white shadow-sm overflow-hidden">
+            {/* Header del panel vertical integrado */}
+            <div className="px-6 pt-8 pb-4 shrink-0">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-psy-blue font-bold">
+                    Seguimiento
+                  </p>
+                  <h2 className="mt-1 font-sora text-xl font-bold tracking-tight text-psy-ink">
+                    Pacientes
+                  </h2>
+                </div>
+                <Link
+                  href="/patients/new"
+                  className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue text-white shadow-lg shadow-psy-blue/20 transition-all hover:scale-105 active:scale-95"
                 >
-                  {patient.name[0]?.toUpperCase()}
-                </div>
+                  <Plus size={18} strokeWidth={2.5} />
+                </Link>
+              </div>
 
-                <div className="flex-1 min-w-0">
-                  <p className="truncate text-sm font-medium">{patient.name}</p>
-                  {patient.lastSession && (
-                    <div className="mt-1 flex items-center gap-1">
-                      <Clock size={9} className="text-psy-muted" />
-                      <span className="text-[10px] text-psy-muted">{patient.lastSession}</span>
-                    </div>
-                  )}
-                </div>
+              {/* Buscador vertical */}
+              <div className="relative">
+                <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-psy-muted" />
+                <input
+                  type="text"
+                  placeholder="Buscar paciente..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-full rounded-2xl border border-psy-border bg-psy-cream/30 py-3 pl-11 pr-4 text-xs text-psy-ink placeholder:text-psy-muted transition-all focus:border-psy-blue focus:bg-white focus:outline-none focus:ring-4 focus:ring-psy-blue/5"
+                />
+              </div>
+            </div>
 
-                {/* Alertas */}
-                <div className="flex shrink-0 items-center gap-1">
-                  {patient.riskLevel === "high" && (
-                    <AlertTriangle size={11} className="text-psy-red animate-pulse" />
-                  )}
-                  {patient.pendingAnalysis && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-psy-blue" />
-                  )}
+            <div className="h-px bg-psy-border mx-6 opacity-60" />
+
+            {/* Lista Vertical con Scroll */}
+            <div className="flex-1 overflow-y-auto px-4 py-6 custom-scrollbar">
+              {active.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+                  <div className="h-12 w-12 rounded-full bg-psy-cream flex items-center justify-center mb-3">
+                    <Users size={20} className="text-psy-muted" />
+                  </div>
+                  <p className="text-xs font-medium text-psy-muted italic">
+                    {query ? "Sin resultados" : "No hay pacientes activos"}
+                  </p>
                 </div>
-              </Link>
-            );
-          })
-        )}
-      </div>
-    </aside>
+              ) : (
+                <div className="grid gap-2">
+                  {active.map((patient) => {
+                    const isActive = pathname.includes(`/patients/${patient.id}`);
+
+                    return (
+                      <Link
+                        key={patient.id}
+                        href={`/patients/${patient.id}`}
+                        className={cn(
+                          "group flex items-center gap-4 rounded-2xl px-4 py-4 transition-all duration-300 border",
+                          isActive
+                            ? "border-psy-blue/20 bg-psy-blue text-white shadow-lg shadow-psy-blue/25"
+                            : "border-transparent bg-psy-cream/40 text-psy-ink hover:border-psy-blue/10 hover:bg-white hover:shadow-md"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-xs font-bold transition-all duration-300 group-hover:scale-110",
+                            isActive
+                              ? "bg-white/20 text-white"
+                              : "bg-white text-psy-blue shadow-sm border border-psy-border"
+                          )}
+                        >
+                          {patient.name[0]?.toUpperCase()}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <p className={cn("truncate text-[14px] font-bold tracking-tight", isActive ? "text-white" : "text-psy-ink")}>
+                            {patient.name}
+                          </p>
+                          <div className="mt-1 flex items-center gap-1.5 opacity-80">
+                            {patient.riskLevel === "high" && (
+                               <div className={cn("h-1.5 w-1.5 rounded-full bg-psy-red animate-pulse", isActive && "bg-white")} />
+                            )}
+                            <span className={cn("text-[11px] font-medium truncate", isActive ? "text-white" : "text-psy-muted")}>
+                              {patient.lastSession || "Alta reciente"}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div className="p-4 bg-psy-cream/20 border-t border-psy-border text-center">
+              <p className="text-[10px] uppercase tracking-widest text-psy-muted font-bold">
+                MENTEZER System
+              </p>
+            </div>
+          </div>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   );
 }
+

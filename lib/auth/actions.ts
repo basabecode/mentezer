@@ -58,7 +58,11 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
   }
 
   revalidatePath("/", "layout");
-  redirect(profile?.is_platform_admin ? "/admin" : "/dashboard");
+  if (profile.is_platform_admin) {
+    redirect("/admin");
+  }
+
+  redirect(profile.onboarding_completed_at ? "/dashboard" : "/onboarding");
 }
 
 export async function register(_prev: AuthState, formData: FormData): Promise<AuthState> {
@@ -110,7 +114,7 @@ export async function register(_prev: AuthState, formData: FormData): Promise<Au
     }
   }
 
-  redirect("/dashboard");
+  redirect("/onboarding");
 }
 
 export async function logout() {

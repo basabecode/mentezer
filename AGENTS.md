@@ -1,4 +1,4 @@
-# AGENTS.md — PsyAssist
+# AGENTS.md — MENTEZER
 
 ## Equipo de Agentes Especializados con Orquestador Central
 
@@ -868,6 +868,9 @@ const DESIGN_TOKENS = {
 // ✗ Header y footer tradicionales
 // ✗ Modo oscuro en v1.0
 // ✗ Emojis decorativos (usar SVG icons)
+// ✗ Clases Tailwind arbitrarias para radios/spacing/colores si ya existe token o escala
+//   Ej: NO `rounded-[1.5rem]`, `bg-[#FAF4E4]`, `text-[var(--psy-ink)]`
+// ✓ Usar `rounded-2xl`, `bg-psy-paper`, `text-psy-ink`, `border-psy-border`
 ```
 
 #### Shell de la aplicación
@@ -914,6 +917,7 @@ components/ui/
 ✓ Ninguna pantalla tiene header + nav + footer tradicional
 ✓ Skeleton loaders en todos los componentes con datos async
 ✓ Alertas de riesgo "high" tienen animación de pulso
+✓ Tailwind usa tokens semánticos; no hay `bg-[var(--psy-xxx)]`, `text-[var(--psy-xxx)]`, `rounded-[xxx]`, `bg-[#xxx]`
 ```
 
 ---

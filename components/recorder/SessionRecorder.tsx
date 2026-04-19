@@ -176,22 +176,22 @@ export function SessionRecorder({ patientId, hasConsent }: SessionRecorderProps)
   const isActive = state === "recording" || state === "paused";
 
   return (
-    <div className="bg-[var(--psy-paper)] border border-[var(--psy-border)] rounded-xl p-6">
+    <div className="rounded-xl border border-psy-border bg-psy-paper p-6">
       {!hasConsent && (
-        <div className="flex items-center gap-2 mb-4 px-3 py-2.5 bg-[var(--psy-amber-light)] rounded-lg">
-          <AlertTriangle size={14} className="text-[var(--psy-amber)] shrink-0" />
-          <p className="text-xs text-[var(--psy-amber)] font-medium">
+        <div className="mb-4 flex items-center gap-2 rounded-lg bg-psy-amber-light px-3 py-2.5">
+          <AlertTriangle size={14} className="shrink-0 text-psy-amber" />
+          <p className="text-xs font-medium text-psy-amber">
             Requiere consentimiento informado firmado para grabar.
           </p>
         </div>
       )}
 
       {/* Visualizador */}
-      <div className="flex items-center justify-center mb-6">
-        <div className="relative w-24 h-24">
+      <div className="mb-6 flex items-center justify-center">
+        <div className="relative h-24 w-24">
           {state === "recording" && (
             <div
-              className="absolute inset-0 rounded-full bg-[var(--psy-blue)] opacity-20 transition-transform duration-100"
+              className="absolute inset-0 rounded-full bg-psy-blue opacity-20 transition-transform duration-100"
               style={{ transform: `scale(${1 + audioLevel * 0.5})` }}
             />
           )}
@@ -203,15 +203,15 @@ export function SessionRecorder({ patientId, hasConsent }: SessionRecorderProps)
             }
             disabled={["creating", "uploading", "done"].includes(state) || !hasConsent}
             className={cn(
-              "absolute inset-0 rounded-full flex items-center justify-center transition-all",
-              state === "idle"      && "bg-[var(--psy-blue)] text-white hover:bg-[var(--psy-blue)]/90",
-              state === "creating"  && "bg-[var(--psy-muted)]/20 text-[var(--psy-muted)] cursor-not-allowed",
-              state === "recording" && "bg-[var(--psy-red)] text-white hover:bg-[var(--psy-red)]/90",
-              state === "paused"    && "bg-[var(--psy-amber)] text-white hover:bg-[var(--psy-amber)]/90",
-              state === "uploading" && "bg-[var(--psy-muted)]/20 text-[var(--psy-muted)] cursor-not-allowed",
-              state === "done"      && "bg-[var(--psy-green)] text-white cursor-not-allowed",
-              state === "error"     && "bg-[var(--psy-blue)] text-white hover:bg-[var(--psy-blue)]/90",
-              !hasConsent           && "opacity-40 cursor-not-allowed",
+              "absolute inset-0 flex items-center justify-center rounded-full transition-all",
+              state === "idle"      && "bg-psy-blue text-white hover:bg-psy-blue/90",
+              state === "creating"  && "cursor-not-allowed bg-psy-muted/20 text-psy-muted",
+              state === "recording" && "bg-psy-red text-white hover:bg-psy-red/90",
+              state === "paused"    && "bg-psy-amber text-white hover:bg-psy-amber/90",
+              state === "uploading" && "cursor-not-allowed bg-psy-muted/20 text-psy-muted",
+              state === "done"      && "cursor-not-allowed bg-psy-green text-white",
+              state === "error"     && "bg-psy-blue text-white hover:bg-psy-blue/90",
+              !hasConsent           && "cursor-not-allowed opacity-40",
             )}
           >
             {(state === "idle" || state === "error") && <Mic size={28} />}
@@ -225,11 +225,11 @@ export function SessionRecorder({ patientId, hasConsent }: SessionRecorderProps)
       </div>
 
       {/* Duración */}
-      <div className="text-center mb-4">
-        <p className="font-mono text-3xl font-semibold text-[var(--psy-ink)]">
+      <div className="mb-4 text-center">
+        <p className="font-mono text-3xl font-semibold text-psy-ink">
           {formatDuration(duration)}
         </p>
-        <p className="text-xs text-[var(--psy-muted)] mt-1">
+        <p className="mt-1 text-xs text-psy-muted">
           {state === "idle"      && "Presiona para grabar"}
           {state === "creating"  && "Iniciando sesión..."}
           {state === "recording" && "Grabando — presiona para finalizar"}
@@ -244,7 +244,7 @@ export function SessionRecorder({ patientId, hasConsent }: SessionRecorderProps)
         <div className="flex justify-center gap-3">
           <button
             onClick={state === "recording" ? pauseRecording : resumeRecording}
-            className="flex items-center gap-2 px-4 py-2 border border-[var(--psy-border)] rounded-lg text-sm text-[var(--psy-muted)] hover:text-[var(--psy-ink)] hover:bg-[var(--psy-cream)] transition-colors"
+            className="flex items-center gap-2 rounded-lg border border-psy-border px-4 py-2 text-sm text-psy-muted transition-colors hover:bg-psy-cream hover:text-psy-ink"
           >
             {state === "recording" ? <Pause size={14} /> : <Play size={14} />}
             {state === "recording" ? "Pausar" : "Reanudar"}
@@ -253,12 +253,12 @@ export function SessionRecorder({ patientId, hasConsent }: SessionRecorderProps)
       )}
 
       {error && (
-        <p className="mt-4 text-xs text-[var(--psy-red)] bg-[var(--psy-red-light)] px-3 py-2 rounded-lg text-center">
+        <p className="mt-4 rounded-lg bg-psy-red-light px-3 py-2 text-center text-xs text-psy-red">
           {error}
         </p>
       )}
 
-      <p className="mt-4 text-[10px] text-[var(--psy-muted)] text-center leading-relaxed">
+      <p className="mt-4 text-center text-xs leading-relaxed text-psy-muted">
         El audio se cifra durante la transferencia y se elimina tras la transcripción.
       </p>
     </div>

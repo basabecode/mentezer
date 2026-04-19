@@ -1,74 +1,86 @@
 @import "tailwindcss";
 
 /* ─── PsyAssist Design Tokens ─── */
-@theme inline {
-  /* Colores base */
-  --color-psy-cream:        #C8E6F2;
-  --color-psy-paper:        #DFF3F8;
-  --color-psy-ink:          #0D2232;
-  --color-psy-muted:        #456B7E;
+@theme {
+  /* Colores base — Spatial Clinical (Variedad Azul/Cian) */
+  --color-psy-cream:        #e3f2f5;
+  --color-psy-paper:        #edf7f9;
+  --color-psy-ink:          #0d2232;
+  --color-psy-muted:        #456b7e;
 
-  /* Colores semánticos */
-  --color-psy-blue:         #1586A0;
-  --color-psy-blue-light:   #D4EFF5;
-  --color-psy-green:        #27895E;
-  --color-psy-green-light:  #D4EFE4;
+  /* Colores semánticos — Paleta dinámica */
+  --color-psy-blue:         #1586a0;
+  --color-psy-blue-light:   #d4eff5;
+  --color-psy-purple:       #7060b0;
+  --color-psy-purple-light: #edeaf8;
+  --color-psy-green:        #27895e;
+  --color-psy-green-light:  #d4efe4;
   --color-psy-warm:         #FAF4E4;
   --color-psy-warm-border:  rgba(192,122,24,0.14);
-  --color-psy-amber:        #C07A18;
-  --color-psy-amber-light:  #FEF0D2;
-  --color-psy-red:          #C0392B;
-  --color-psy-red-light:    #FDECEA;
+  --color-psy-amber:        #c07a18;
+  --color-psy-amber-light:  #fef0d2;
+  --color-psy-red:          #c0392b;
+  --color-psy-red-light:    #fdecea;
 
   /* Tipografía */
   --font-serif: var(--font-lora), Georgia, serif;
   --font-sans:  var(--font-dm-sans), system-ui, sans-serif;
   --font-mono:  var(--font-dm-mono), monospace;
+  --font-sora:  var(--font-sora), system-ui, sans-serif;
 
   /* Sombras clínicas */
-  --shadow-card:  0 1px 3px rgba(13,34,50,0.06), 0 1px 2px rgba(13,34,50,0.04);
-  --shadow-panel: 0 4px 16px rgba(13,34,50,0.08);
-  --shadow-dock:  0 8px 32px rgba(13,34,50,0.12);
+  --shadow-card:  0 1px 3px rgba(28,27,24,0.06), 0 1px 2px rgba(28,27,24,0.04);
+  --shadow-panel: 0 4px 16px rgba(28,27,24,0.08);
+  --shadow-dock:  0 8px 32px rgba(28,27,24,0.12);
 }
 
 /* ─── Variables globales ─── */
 :root {
-  --background: #C8E6F2;
-  --foreground: #0D2232;
-  --surface:    #DFF3F8;
+  --background: #c8e6f2;
+  --foreground: #0d2232;
+  --surface:    #dff3f8;
   --border:     rgba(13,34,50,0.10);
 
   /* Aliases directos para uso con var() en componentes */
-  --psy-cream:        #C8E6F2;
-  --psy-paper:        #DFF3F8;
-  --psy-ink:          #0D2232;
-  --psy-muted:        #456B7E;
+  --psy-cream:        #e3f2f5;
+  --psy-paper:        #edf7f9;
+  --psy-ink:          #0d2232;
+  --psy-muted:        #456b7e;
   --psy-border:       rgba(13,34,50,0.10);
 
-  --psy-blue:         #1586A0;
-  --psy-blue-light:   #D4EFF5;
-  --psy-green:        #27895E;
-  --psy-green-light:  #D4EFE4;
+  --psy-blue:         #1586a0;
+  --psy-blue-light:   #d4eff5;
+  --psy-purple:       #7060b0;
+  --psy-purple-light: #edeaf8;
+  --psy-green:        #27895e;
+  --psy-green-light:  #d4efe4;
   --psy-warm:         #FAF4E4;
   --psy-warm-border:  rgba(192,122,24,0.14);
-  --psy-amber:        #C07A18;
-  --psy-amber-light:  #FEF0D2;
-  --psy-red:          #C0392B;
-  --psy-red-light:    #FDECEA;
+  --psy-amber:        #c07a18;
+  --psy-amber-light:  #fef0d2;
+  --psy-red:          #c0392b;
+  --psy-red-light:    #fdecea;
+
+  /* Font Aliases */
+  --font-sora:        var(--font-sora), sans-serif;
 }
 
 /* ─── Base ─── */
 html {
-  background-color: #ffffff;
+  background-color: var(--background);
   color: var(--foreground);
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #ffffff;
+  background-color: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sora) !important;
 }
 
 a,
@@ -423,6 +435,21 @@ button {
   transform: translateY(-4px);
   box-shadow: 0 24px 52px rgba(39, 137, 94, 0.20);
   border-color: rgba(39, 137, 94, 0.40);
+}
+
+.animate-menu-in {
+  animation: menu-in 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Mobile: sin efectos de transform */

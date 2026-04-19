@@ -6,19 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "@/lib/auth/actions";
 import { cn } from "@/lib/utils/cn";
 
+import { useDashboard } from "./DashboardContext";
+
 export function SettingsDrawer() {
-  const [open, setOpen] = useState(false);
+  const { settingsOpen: open, setSettingsOpen: setOpen } = useDashboard();
 
   return (
     <>
-      {/* Trigger */}
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed bottom-24 right-4 z-40 flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-psy-paper/92 text-psy-muted shadow-[0_14px_34px_rgba(13,34,50,0.12)] backdrop-blur-md transition hover:text-psy-ink md:right-5"
-        aria-label="Configuración"
-      >
-        <Settings size={16} />
-      </button>
+      {/* El disparador ahora está en el Topbar */}
 
       <AnimatePresence>
         {open && (
@@ -38,12 +33,12 @@ export function SettingsDrawer() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-[var(--border)] bg-psy-paper shadow-[var(--shadow-dock)]"
+              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-psy-border bg-psy-paper shadow-2xl"
             >
-              <div className="paper-texture border-b border-[var(--border)] px-5 py-4">
+              <div className="paper-texture border-b border-psy-border px-5 py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-psy-muted">
+                    <p className="text-xs uppercase tracking-widest text-psy-muted">
                       Ajustes y soporte
                     </p>
                     <h2 className="mt-1 font-serif text-xl font-semibold tracking-tight text-psy-ink">
@@ -66,7 +61,7 @@ export function SettingsDrawer() {
                 <DrawerItem icon={HelpCircle} label="Soporte" href="/support" onClick={() => setOpen(false)} />
               </nav>
 
-              <div className="border-t border-[var(--border)] px-3 pb-6 pt-3">
+              <div className="border-t border-psy-border px-3 pb-6 pt-3">
                 <button
                   onClick={() => logout()}
                   className="flex w-full items-center gap-2 rounded-xl px-3 py-3 text-sm font-medium text-psy-red transition-colors hover:bg-psy-red-light"
@@ -75,8 +70,8 @@ export function SettingsDrawer() {
                   <span>Cerrar sesión</span>
                 </button>
 
-                <p className="mt-4 text-center text-[10px] text-psy-muted leading-relaxed">
-                  PsyAssist · Tratamiento de datos conforme a Ley 1581 Colombia
+                <p className="mt-4 text-center text-xs leading-relaxed text-psy-muted">
+                  MENTEZER · Tratamiento de datos conforme a Ley 1581 Colombia
                 </p>
               </div>
             </motion.aside>

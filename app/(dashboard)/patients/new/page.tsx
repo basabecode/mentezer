@@ -29,7 +29,7 @@ function Input({ id, name, type = "text", placeholder, required }: {
       type={type}
       placeholder={placeholder}
       required={required}
-      className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-psy-cream text-psy-ink placeholder:text-psy-muted text-sm focus:outline-none focus:ring-2 focus:ring-psy-blue/30 focus:border-psy-blue transition-colors"
+      className="w-full rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
     />
   );
 }
@@ -51,7 +51,7 @@ export default function NewPatientPage() {
 
       <form action={action} className="space-y-6">
         {/* Datos personales */}
-        <section className="bg-psy-paper border border-[var(--border)] rounded-xl p-5">
+        <section className="rounded-xl border border-psy-border bg-psy-paper p-5">
           <h2 className="font-serif text-sm font-semibold text-psy-ink mb-4">Datos personales</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -72,7 +72,7 @@ export default function NewPatientPage() {
               <select
                 id="gender"
                 name="gender"
-                className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-psy-cream text-psy-ink text-sm focus:outline-none focus:ring-2 focus:ring-psy-blue/30 focus:border-psy-blue transition-colors"
+                className="w-full rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
               >
                 <option value="">Seleccionar</option>
                 <option value="masculino">Masculino</option>
@@ -85,7 +85,7 @@ export default function NewPatientPage() {
         </section>
 
         {/* Contacto */}
-        <section className="bg-psy-paper border border-[var(--border)] rounded-xl p-5">
+        <section className="rounded-xl border border-psy-border bg-psy-paper p-5">
           <h2 className="font-serif text-sm font-semibold text-psy-ink mb-4">Información de contacto</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -105,7 +105,7 @@ export default function NewPatientPage() {
         </section>
 
         {/* Motivo clínico */}
-        <section className="bg-psy-paper border border-[var(--border)] rounded-xl p-5">
+        <section className="rounded-xl border border-psy-border bg-psy-paper p-5">
           <h2 className="font-serif text-sm font-semibold text-psy-ink mb-4">Motivo de consulta</h2>
           <div className="space-y-4">
             <div>
@@ -116,7 +116,7 @@ export default function NewPatientPage() {
                 rows={3}
                 placeholder="Describe brevemente el motivo de consulta..."
                 required
-                className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-psy-cream text-psy-ink placeholder:text-psy-muted text-sm focus:outline-none focus:ring-2 focus:ring-psy-blue/30 focus:border-psy-blue transition-colors resize-none"
+                className="w-full resize-none rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
               />
               <FieldError error={state.fieldErrors?.reason} />
             </div>
@@ -148,7 +148,7 @@ export default function NewPatientPage() {
         <div className="flex gap-3">
           <Link
             href="/patients"
-            className="px-4 py-2.5 border border-[var(--border)] text-psy-muted rounded-lg text-sm hover:bg-psy-paper transition-colors"
+            className="rounded-lg border border-psy-border px-4 py-2.5 text-sm text-psy-muted transition-colors hover:bg-psy-paper"
           >
             Cancelar
           </Link>

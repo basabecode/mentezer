@@ -1,47 +1,53 @@
-import { Calendar, Clock, Plus } from "lucide-react";
+import { Calendar, Clock, Plus, Lock } from "lucide-react";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
 export default function SchedulePage() {
   return (
-    <div className="px-6 py-6 max-w-3xl">
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h1 className="font-serif text-2xl text-psy-ink font-semibold">Agenda</h1>
-          <p className="text-sm text-psy-muted mt-1">
-            Gestión de citas y disponibilidad. Integración con Google Calendar disponible en v1.5.
-          </p>
+    <div className="max-w-5xl mx-auto px-6 py-10">
+      <div className="mb-10">
+        <Breadcrumbs />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
+          <div>
+            <h1 className="font-sora text-3xl md:text-5xl font-bold tracking-tight text-psy-ink">Agenda Clínica</h1>
+            <p className="text-base text-psy-ink/60 mt-3 leading-relaxed">
+              Gestión automatizada de citas y disponibilidad profesional.
+            </p>
+          </div>
+          <button
+            disabled
+            className="flex h-12 items-center gap-2 px-6 bg-psy-blue/10 text-psy-blue/40 rounded-2xl text-sm font-bold cursor-not-allowed border border-psy-blue/5"
+          >
+            <Plus size={18} strokeWidth={2.5} />
+            Nueva cita
+          </button>
         </div>
-        <button
-          disabled
-          className="flex items-center gap-2 px-4 py-2 bg-psy-blue/40 text-white rounded-lg text-sm font-medium cursor-not-allowed"
-        >
-          <Plus size={14} />
-          Nueva cita
-        </button>
       </div>
 
       {/* Próximamente */}
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-psy-blue-light flex items-center justify-center mb-4">
-          <Calendar size={24} className="text-psy-blue" />
+      <div className="bg-white border border-psy-border rounded-[2.5rem] p-12 text-center shadow-sm">
+        <div className="w-20 h-20 rounded-[2rem] bg-psy-cream flex items-center justify-center mx-auto mb-6 shadow-psy-border">
+          <Lock size={32} className="text-psy-blue" />
         </div>
-        <h2 className="font-serif text-lg text-psy-ink font-semibold mb-2">Agenda — v1.5</h2>
-        <p className="text-sm text-psy-muted max-w-sm leading-relaxed mb-6">
-          Sistema de citas propio con reservas en línea, integración con Google Calendar y recordatorios automáticos por email.
+        <h2 className="font-sora text-2xl text-psy-ink font-bold mb-3">Versión 1.5 en desarrollo</h2>
+        <p className="text-base text-psy-ink/50 max-w-md mx-auto leading-relaxed mb-10">
+          Estamos construyendo un motor de reservas optimizado con recordatorios automáticos e <span className="text-psy-blue font-semibold text-nowrap">integración bidireccional</span> con Google Calendar.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl mx-auto text-left">
           {[
-            { icon: Calendar, title: "Calendario propio", desc: "Vista semanal y mensual de citas" },
-            { icon: Clock, title: "Disponibilidad", desc: "Configura horarios y duración de sesiones" },
-            { icon: Plus, title: "Reservas en línea", desc: "Widget para que pacientes agenden" },
-            { icon: Calendar, title: "Google Calendar", desc: "Sincronización bidireccional" },
+            { icon: Calendar, title: "Calendario Mentezer", desc: "Vista semanal de alto rendimiento" },
+            { icon: Clock, title: "Gestión de bloques", desc: "Configura tus horarios de atención" },
+            { icon: Plus, title: "Booking Online", desc: "Link personalizable para pacientes" },
+            { icon: Calendar, title: "Multi-Sync", desc: "Apple & Google Calendar Sync" },
           ].map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="p-4 bg-psy-paper border border-psy-border rounded-xl opacity-60">
-              <div className="flex items-center gap-2 mb-1">
-                <Icon size={13} className="text-psy-blue" />
-                <p className="text-sm font-medium text-psy-ink">{title}</p>
+            <div key={title} className="p-5 bg-psy-cream/30 border border-psy-border rounded-2xl transition-all hover:bg-white hover:shadow-lg group">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm border border-psy-border group-hover:text-psy-blue transition-colors">
+                  <Icon size={16} />
+                </div>
+                <p className="text-[14px] font-bold text-psy-ink">{title}</p>
               </div>
-              <p className="text-xs text-psy-muted">{desc}</p>
+              <p className="text-xs text-psy-ink/50 leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>

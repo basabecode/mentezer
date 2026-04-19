@@ -99,11 +99,11 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
       : `${Math.round(bytes / 1024)} KB`;
 
   return (
-    <div className="bg-[var(--psy-paper)] border border-[var(--psy-border)] rounded-xl p-6 space-y-4">
+    <div className="space-y-4 rounded-xl border border-psy-border bg-psy-paper p-6">
       {!hasConsent && (
-        <div className="flex items-center gap-2 px-3 py-2.5 bg-[var(--psy-amber-light)] rounded-lg">
-          <AlertTriangle size={14} className="text-[var(--psy-amber)] shrink-0" />
-          <p className="text-xs text-[var(--psy-amber)] font-medium">
+        <div className="flex items-center gap-2 rounded-lg bg-psy-amber-light px-3 py-2.5">
+          <AlertTriangle size={14} className="shrink-0 text-psy-amber" />
+          <p className="text-xs font-medium text-psy-amber">
             Requiere consentimiento informado firmado.
           </p>
         </div>
@@ -114,7 +114,7 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
         onClick={() => state === "idle" && inputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
-        className="border-2 border-dashed border-[var(--psy-border)] rounded-xl p-8 text-center cursor-pointer hover:border-[var(--psy-blue)]/40 hover:bg-[var(--psy-blue-light)]/30 transition-colors"
+        className="cursor-pointer rounded-xl border-2 border-dashed border-psy-border p-8 text-center transition-colors hover:border-psy-blue/40 hover:bg-psy-blue-light/30"
       >
         <input
           ref={inputRef}
@@ -125,17 +125,17 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
         />
         {file ? (
           <div className="flex items-center justify-center gap-3">
-            <FileAudio size={20} className="text-[var(--psy-blue)] shrink-0" />
+            <FileAudio size={20} className="shrink-0 text-psy-blue" />
             <div className="text-left">
-              <p className="text-sm font-medium text-[var(--psy-ink)] truncate max-w-xs">{file.name}</p>
-              <p className="text-xs text-[var(--psy-muted)]">{formatSize(file.size)}</p>
+              <p className="max-w-xs truncate text-sm font-medium text-psy-ink">{file.name}</p>
+              <p className="text-xs text-psy-muted">{formatSize(file.size)}</p>
             </div>
           </div>
         ) : (
           <div>
-            <Upload size={24} className="text-[var(--psy-muted)] mx-auto mb-2" />
-            <p className="text-sm font-medium text-[var(--psy-ink)]">Arrastra el audio aquí o haz clic</p>
-            <p className="text-xs text-[var(--psy-muted)] mt-1">MP3, M4A, WAV, WebM — máximo {MAX_MB} MB</p>
+            <Upload size={24} className="mx-auto mb-2 text-psy-muted" />
+            <p className="text-sm font-medium text-psy-ink">Arrastra el audio aquí o haz clic</p>
+            <p className="mt-1 text-xs text-psy-muted">MP3, M4A, WAV, WebM — máximo {MAX_MB} MB</p>
           </div>
         )}
       </div>
@@ -143,13 +143,13 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
       {/* Barra de progreso */}
       {state === "uploading" && (
         <div className="space-y-1.5">
-          <div className="flex justify-between text-xs text-[var(--psy-muted)]">
+          <div className="flex justify-between text-xs text-psy-muted">
             <span>Transcribiendo con Whisper...</span>
             <span>{progress}%</span>
           </div>
-          <div className="h-1.5 bg-[var(--psy-cream)] rounded-full overflow-hidden">
+          <div className="h-1.5 overflow-hidden rounded-full bg-psy-cream">
             <div
-              className="h-full bg-[var(--psy-blue)] rounded-full transition-all duration-500"
+              className="h-full rounded-full bg-psy-blue transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -157,13 +157,13 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
       )}
 
       {error && (
-        <p className="text-xs text-[var(--psy-red)] bg-[var(--psy-red-light)] px-3 py-2 rounded-lg">
+        <p className="rounded-lg bg-psy-red-light px-3 py-2 text-xs text-psy-red">
           {error}
         </p>
       )}
 
       {state === "done" && (
-        <div className="flex items-center gap-2 text-sm text-[var(--psy-green)] bg-[var(--psy-green-light)] px-3 py-2.5 rounded-lg">
+        <div className="flex items-center gap-2 rounded-lg bg-psy-green-light px-3 py-2.5 text-sm text-psy-green">
           <CheckCircle size={14} />
           Transcripción completada. Redirigiendo...
         </div>
@@ -172,7 +172,7 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
       <button
         onClick={handleSubmit}
         disabled={!file || !hasConsent || ["creating", "uploading", "done"].includes(state)}
-        className="w-full h-11 bg-[var(--psy-blue)] text-white rounded-xl text-sm font-medium hover:bg-[var(--psy-blue)]/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-psy-blue text-sm font-medium text-white transition-all hover:bg-psy-blue/90 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {["creating", "uploading"].includes(state) ? (
           <><Loader2 size={15} className="animate-spin" /> Procesando...</>
@@ -181,7 +181,7 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
         )}
       </button>
 
-      <p className="text-[10px] text-[var(--psy-muted)] text-center">
+      <p className="text-center text-xs text-psy-muted">
         La grabación se cifra durante la transferencia y se elimina tras la transcripción.
       </p>
     </div>

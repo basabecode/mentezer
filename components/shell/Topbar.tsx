@@ -1,7 +1,9 @@
 "use client";
 
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, Settings, Menu, PanelLeftClose, PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { useDashboard } from "./DashboardContext";
 
 interface TopbarProps {
   psychologistName: string;
@@ -16,6 +18,7 @@ export function Topbar({
   pendingAnalysis,
   avatarUrl,
 }: TopbarProps) {
+  const { sidebarOpen, setSidebarOpen, setSettingsOpen } = useDashboard();
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches";
@@ -24,28 +27,38 @@ export function Topbar({
 
   return (
     <header className="sticky top-0 z-40 px-2 py-2 md:px-5 md:py-4">
-      <div className="paper-texture mx-auto flex max-w-[1400px] items-center justify-between gap-2 rounded-[1.4rem] border border-[var(--border)] bg-psy-paper/88 px-3 py-2.5 shadow-[0_12px_36px_rgba(13,34,50,0.08)] backdrop-blur-md md:rounded-[1.6rem] md:gap-3 md:px-5 md:py-3">
-        <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-psy-muted md:text-[11px] md:tracking-[0.24em]">
-            {greeting}
-          </p>
-          <div className="mt-0.5 flex items-center gap-2 md:mt-1">
-            <h1 className="truncate font-serif text-lg font-semibold tracking-tight text-psy-ink md:text-2xl">
+      <div className="paper-texture mx-auto flex max-w-[1400px] items-center justify-between gap-2 rounded-3xl border border-psy-border bg-psy-paper/90 px-3 py-2.5 shadow-xl backdrop-blur-md md:gap-3 md:px-4 md:py-2.5">
+        <div className="flex flex-1 items-center gap-4 min-w-0">
+          {/* Toggle Sidebar */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-psy-border bg-white/50 text-psy-muted transition hover:bg-white hover:text-psy-blue lg:flex"
+            aria-label={sidebarOpen ? "Cerrar panel lateral" : "Abrir panel lateral"}
+          >
+            {sidebarOpen ? <PanelLeftClose size={18} /> : <PanelLeft size={18} />}
+          </button>
+
+          <div className="h-6 w-px bg-psy-border hidden lg:block" />
+
+          <div className="hidden lg:block shrink-0">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-psy-muted">
+              {greeting}
+            </p>
+            <h1 className="mt-0.5 font-sora text-xl font-bold tracking-tight text-psy-ink">
               {firstName}
             </h1>
-            <span className="hidden rounded-full bg-psy-blue-light px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-psy-blue sm:inline-flex">
-              Portal clínico
-            </span>
           </div>
-          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 md:mt-2 md:gap-2">
-            <Stat label="Pacientes" value={activePatients} color="blue" />
-            <Stat label="Pendientes" value={pendingAnalysis} color={pendingAnalysis > 0 ? "amber" : "green"} pulse={pendingAnalysis > 0} />
+          
+          <div className="h-6 w-px bg-psy-border hidden lg:block" />
+          
+          <div className="flex-1 min-w-0">
+            <Breadcrumbs />
           </div>
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
           <button
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(13,34,50,0.08)] bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl"
             aria-label="Buscar"
           >
             <Search size={15} />
@@ -53,7 +66,7 @@ export function Topbar({
 
           <button
             className={cn(
-              "relative flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(13,34,50,0.08)] bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl",
+              "relative flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl",
               pendingAnalysis > 0 && "text-psy-amber"
             )}
             aria-label="Notificaciones"
@@ -64,7 +77,18 @@ export function Topbar({
             )}
           </button>
 
-          <div className="ml-0.5 flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-psy-blue/15 md:ml-1 md:h-11 md:w-11 md:rounded-2xl">
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-blue md:h-10 md:w-10 md:rounded-2xl"
+            aria-label="Configuración"
+          >
+            <Settings size={16} />
+          </button>
+
+          <div 
+            onClick={() => setSettingsOpen(true)}
+            className="ml-0.5 flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-psy-blue/15 md:ml-1 md:h-11 md:w-11 md:rounded-2xl transition-transform hover:scale-105"
+          >
             {avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={avatarUrl} alt={psychologistName} className="h-full w-full object-cover" />
@@ -98,8 +122,8 @@ function Stat({
   };
 
   return (
-    <div className={cn("flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium", colors[color])}>
-      <span className={cn("w-1.5 h-1.5 rounded-full bg-current", pulse && "animate-pulse")} />
+    <div className={cn("flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium", colors[color])}>
+      <span className={cn("h-1.5 w-1.5 rounded-full bg-current", pulse && "animate-pulse")} />
       <span>
         {value} {label}
       </span>

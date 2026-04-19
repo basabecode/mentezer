@@ -3,7 +3,10 @@ import type { Database } from "@/types/supabase";
 
 type PsychologistRow = Database["public"]["Tables"]["psychologists"]["Row"];
 type PsychologistInsert = Database["public"]["Tables"]["psychologists"]["Insert"];
-type PsychologistProfile = Pick<PsychologistRow, "id" | "is_platform_admin" | "account_status">;
+type PsychologistProfile = Pick<
+  PsychologistRow,
+  "id" | "is_platform_admin" | "account_status" | "onboarding_completed_at"
+>;
 
 const ADMIN_ROLE_VALUES = new Set(["admin", "platform_admin", "superadmin", "super_admin", "administrador"]);
 const ACTIVE_ACCOUNT_STATUS: PsychologistRow["account_status"] = "active";
@@ -107,7 +110,7 @@ export async function ensurePsychologistProfile(
 ): Promise<PsychologistProfile | null> {
   const existingQuery = await supabase
     .from("psychologists")
-    .select("id, is_platform_admin, account_status")
+    .select("id, is_platform_admin, account_status, onboarding_completed_at")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -126,7 +129,7 @@ export async function ensurePsychologistProfile(
   const insertedQuery = await supabase
     .from("psychologists")
     .insert(profileInsert)
-    .select("id, is_platform_admin, account_status")
+    .select("id, is_platform_admin, account_status, onboarding_completed_at")
     .single();
 
   if (!insertedQuery.error && insertedQuery.data) {
@@ -137,7 +140,7 @@ export async function ensurePsychologistProfile(
 
   const fallbackQuery = await supabase
     .from("psychologists")
-    .select("id, is_platform_admin, account_status")
+    .select("id, is_platform_admin, account_status, onboarding_completed_at")
     .eq("id", user.id)
     .maybeSingle();
 
