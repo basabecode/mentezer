@@ -34,8 +34,8 @@ export default async function AdminClientsPage() {
   }, {});
 
   return (
-    <div className="px-8 py-8">
-      <div className="flex items-start justify-between mb-6">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="font-serif text-2xl text-psy-ink font-semibold">Clientes</h1>
           <p className="text-sm text-psy-muted mt-1">
@@ -44,15 +44,81 @@ export default async function AdminClientsPage() {
         </div>
         <Link
           href="/admin/clients/new"
-          className="flex items-center gap-2 px-4 py-2 bg-psy-blue text-white rounded-lg text-sm font-medium hover:bg-psy-blue/90 transition-colors"
+          className="flex items-center justify-center gap-2 rounded-lg bg-psy-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-psy-blue/90 max-sm:w-full"
         >
           <Plus size={14} />
           Nuevo cliente
         </Link>
       </div>
 
-      {/* Tabla de clientes */}
-      <div className="bg-psy-paper border border-psy-border rounded-xl overflow-hidden">
+      <div className="space-y-3 md:hidden">
+        {clients?.map((client) => {
+          const status = STATUS_MAP[client.account_status as keyof typeof STATUS_MAP] ?? STATUS_MAP.pending;
+          const StatusIcon = status.icon;
+          const clientIntegrations = integrationsByClient[client.id] ?? [];
+          const trialLeft = client.trial_ends_at
+            ? Math.max(0, Math.ceil((new Date(client.trial_ends_at).getTime() - Date.now()) / 86400000))
+            : null;
+
+          return (
+            <Link
+              key={client.id}
+              href={`/admin/clients/${client.id}`}
+              className="block rounded-2xl border border-psy-border bg-psy-paper p-4"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-psy-blue-light">
+                  <span className="text-xs font-bold text-psy-blue">{client.name.charAt(0)}</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium text-psy-ink">{client.name}</p>
+                  <p className="truncate text-xs text-psy-muted">{client.email}</p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium capitalize bg-white text-psy-ink">
+                  {client.plan}
+                </span>
+                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${status.color}`}>
+                  <StatusIcon size={10} />
+                  {status.label}
+                </span>
+                {trialLeft !== null && client.plan === "trial" ? (
+                  <span className={`rounded-full px-2 py-1 text-[11px] font-mono ${trialLeft <= 3 ? "bg-psy-red-light text-psy-red" : "bg-white text-psy-muted"}`}>
+                    {trialLeft}d restantes
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-1">
+                {clientIntegrations.length === 0 ? (
+                  <span className="text-xs text-psy-muted">Sin integraciones activas</span>
+                ) : clientIntegrations.map((provider) => (
+                  <span key={provider} className="rounded bg-psy-blue-light px-1.5 py-0.5 font-mono text-[10px] text-psy-blue">
+                    {provider.replace("_", " ")}
+                  </span>
+                ))}
+              </div>
+
+              <p className="mt-3 text-xs font-mono text-psy-muted">
+                Registro {new Date(client.created_at).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" })}
+              </p>
+            </Link>
+          );
+        })}
+
+        {(!clients || clients.length === 0) && (
+          <div className="rounded-2xl border border-psy-border bg-psy-paper px-4 py-12 text-center">
+            <p className="text-sm text-psy-muted">Sin clientes registrados aún.</p>
+            <Link href="/admin/clients/new" className="mt-3 inline-block text-sm text-psy-blue hover:underline">
+              Crear el primer cliente
+            </Link>
+          </div>
+        )}
+      </div>
+
+      <div className="hidden overflow-hidden rounded-xl border border-psy-border bg-psy-paper md:block">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -130,14 +196,6 @@ export default async function AdminClientsPage() {
             </tbody>
           </table>
 
-          {(!clients || clients.length === 0) && (
-            <div className="py-16 text-center">
-              <p className="text-sm text-psy-muted">Sin clientes registrados aún.</p>
-              <Link href="/admin/clients/new" className="mt-3 inline-block text-sm text-psy-blue hover:underline">
-                Crear el primer cliente
-              </Link>
-            </div>
-          )}
         </div>
       </div>
     </div>

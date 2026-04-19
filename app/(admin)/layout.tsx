@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Shield, Users, Settings, LogOut, LayoutDashboard } from "lucide-react";
 import { logout } from "@/lib/auth/actions";
+import { AdminNav } from "@/components/admin/AdminNav";
 
 const adminNav = [
   { href: "/admin", icon: LayoutDashboard, label: "Resumen" },
@@ -64,18 +65,7 @@ export default async function AdminLayout({
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3 py-4">
-          {adminNav.map(({ href, icon: Icon, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/64 transition hover:bg-white/10 hover:text-white"
-            >
-              <Icon size={16} />
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <AdminNav items={adminNav} />
 
         <div className="border-t border-white/10 px-3 py-4">
           <div className="rounded-2xl bg-white/5 p-4">
@@ -98,7 +88,7 @@ export default async function AdminLayout({
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="min-w-0 flex-1 overflow-y-auto bg-psy-cream/60">
         <div className="sticky top-0 z-40 border-b border-psy-ink/10 bg-psy-paper/85 px-4 py-3 backdrop-blur-md lg:hidden">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">

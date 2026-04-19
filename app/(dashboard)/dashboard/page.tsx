@@ -102,65 +102,73 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col">
-      {/* ── Hero banner (Totalmente Integrado) ── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-psy-paper/10 to-psy-blue/5 border-b border-psy-border">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-psy-blue/10 to-transparent pointer-events-none" />
-        <div className="mx-auto max-w-[1400px] px-8 py-12 md:py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
-          
+      {/* ── Hero banner ── */}
+      <section className="relative overflow-hidden bg-psy-cream border-b border-psy-ink/8">
+        {/* Fondo decorativo */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-psy-blue/8 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute bottom-0 right-0 h-64 w-64 rounded-full bg-psy-blue/6 blur-3xl" />
+
+        <div className="relative z-10 mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-4 py-8 sm:px-6 md:px-8 md:py-12 lg:flex-row lg:items-center lg:gap-10 lg:py-16">
+
           <div className="flex-1 w-full lg:w-auto">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="h-2 w-2 rounded-full bg-psy-blue animate-pulse" />
+            <div className="flex items-center gap-2 mb-5">
+              <div className="h-1.5 w-1.5 rounded-full bg-psy-blue animate-pulse" />
               <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-psy-blue font-bold">
                 {greeting()}
               </p>
             </div>
-            <h1 className="font-sora text-6xl md:text-8xl font-bold tracking-tighter text-psy-ink leading-[0.85]">
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-psy-ink leading-[0.9]">
               {psychName.split('.')[0]}
             </h1>
-            <p className="mt-8 max-w-xl text-lg md:text-xl leading-relaxed text-psy-ink/60 font-medium italic">
-              "Transformando la práctica clínica con <span className="text-psy-ink font-bold not-italic">precisión e inteligencia</span>."
+            <p className="mt-6 max-w-md text-base leading-relaxed text-psy-muted">
+              Transformando la práctica clínica con{" "}
+              <span className="text-psy-ink font-semibold">precisión e inteligencia</span>.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/sessions/new" className="lift-button inline-flex h-14 items-center gap-3 rounded-2xl bg-psy-blue px-8 text-sm font-bold text-white shadow-2xl shadow-psy-blue/30 transition-all">
-                <Plus size={20} strokeWidth={2.5} />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/sessions/new"
+                className="lift-button inline-flex h-12 items-center gap-2.5 rounded-2xl bg-psy-ink px-7 text-sm font-semibold text-white shadow-xl shadow-psy-ink/25 transition-all hover:bg-psy-ink/90"
+              >
+                <Plus size={17} strokeWidth={2.5} />
                 Nueva sesión
               </Link>
-              <Link href="/schedule" className="lift-button inline-flex h-14 items-center gap-3 rounded-2xl border border-psy-border bg-psy-paper px-8 text-sm font-bold text-psy-ink shadow-sm transition-all hover:bg-psy-cream">
+              <Link
+                href="/schedule"
+                className="lift-button inline-flex h-12 items-center gap-2.5 rounded-2xl border border-psy-ink/15 bg-white px-7 text-sm font-semibold text-psy-ink shadow-sm transition-all hover:border-psy-blue/30 hover:shadow-md"
+              >
                 Mi Agenda
               </Link>
             </div>
           </div>
 
-          <div className="w-full lg:w-[460px] flex flex-col gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-psy-paper border border-psy-border rounded-3xl p-8 shadow-sm group hover:border-psy-blue/50 transition-all duration-300">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-psy-blue mb-2">PACIENTES</p>
-                <div className="flex items-baseline gap-2">
-                  <p className="font-sora text-6xl font-bold text-psy-ink">{totalPatients ?? 0}</p>
-                </div>
+          <div className="flex w-full flex-col gap-3 lg:w-[420px]">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="group rounded-3xl border border-psy-ink/8 bg-white p-7 shadow-md ring-1 ring-psy-ink/4 transition-all duration-300 hover:border-psy-blue/30 hover:shadow-lg">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-psy-blue mb-3">PACIENTES</p>
+                <p className="font-sora text-4xl font-bold text-psy-ink sm:text-5xl">{totalPatients ?? 0}</p>
+                <p className="mt-1 text-xs text-psy-muted">activos</p>
               </div>
-              <div className="bg-white border border-psy-border rounded-[2.5rem] p-8 shadow-sm group hover:border-psy-green/50 transition-all duration-300">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-psy-green mb-2">SESIONES</p>
-                <div className="flex items-baseline gap-2">
-                  <p className="font-sora text-6xl font-bold text-psy-ink">{sessionsMonth ?? 0}</p>
-                </div>
+              <div className="group rounded-3xl border border-psy-ink/8 bg-white p-7 shadow-md ring-1 ring-psy-ink/4 transition-all duration-300 hover:border-psy-green/30 hover:shadow-lg">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-psy-green mb-3">SESIONES</p>
+                <p className="font-sora text-4xl font-bold text-psy-ink sm:text-5xl">{sessionsMonth ?? 0}</p>
+                <p className="mt-1 text-xs text-psy-muted">este mes</p>
               </div>
             </div>
-            
-            <div className="bg-psy-ink rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                <Brain size={80} />
+
+            <div className="relative overflow-hidden rounded-3xl bg-psy-ink p-7 text-white shadow-2xl shadow-psy-ink/30">
+              <div className="pointer-events-none absolute -right-4 -top-4 opacity-[0.07]">
+                <Brain size={100} />
               </div>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4">SEGURIDAD CLÍNICA</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-3">SEGURIDAD CLÍNICA</p>
               <div className="flex items-center justify-between gap-4">
-                <p className="text-sm font-medium leading-relaxed text-white/80">
+                <p className="text-sm font-medium leading-relaxed text-white/75">
                   {highRisk > 0
                     ? `${highRisk} alertas críticas pendientes.`
                     : "No hay alertas de riesgo alto."}
                 </p>
-                <div className="rounded-2xl bg-white/10 px-4 py-2 text-center border border-white/5 backdrop-blur-sm">
+                <div className="shrink-0 rounded-2xl bg-white/10 px-4 py-2.5 text-center border border-white/5">
                   <p className="font-sora text-2xl font-bold">{reportsTotal ?? 0}</p>
-                  <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold">VECTORES</p>
+                  <p className="text-[9px] uppercase tracking-widest text-white/35 font-bold mt-0.5">VECTORES</p>
                 </div>
               </div>
             </div>
@@ -168,15 +176,15 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-[1400px] p-8 md:p-12 lg:p-16 flex flex-col gap-12">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-10 px-4 py-8 sm:px-6 md:px-8 md:py-12 lg:px-16 lg:py-16">
 
       {/* ── Acciones rápidas ── */}
-      <section className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
+      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 xl:grid-cols-4">
         {quickActions.map((action) => (
           <Link
             key={action.href}
             href={action.href}
-            className="scroll-reveal group relative overflow-hidden rounded-3xl border border-psy-border bg-white p-4 shadow-xl transition-all duration-200 hover:-translate-y-1.5 hover:border-psy-blue/30 hover:shadow-2xl md:p-5"
+            className="scroll-reveal group relative overflow-hidden rounded-3xl border border-psy-ink/8 bg-white p-4 shadow-md ring-1 ring-psy-ink/4 transition-all duration-200 hover:-translate-y-1.5 hover:border-psy-blue/25 hover:shadow-xl md:p-5"
           >
             {/* Borde top color-coded */}
             <span
@@ -201,11 +209,11 @@ export default async function DashboardPage() {
 
       {/* ── Agenda + Pacientes ── */}
       <section className="grid gap-5 xl:grid-cols-2">
-        <div className="scroll-reveal rounded-3xl border border-psy-border bg-white p-6 shadow-xl">
+        <div className="scroll-reveal rounded-3xl border border-psy-ink/8 bg-white p-6 shadow-md ring-1 ring-psy-ink/4">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-widest text-psy-muted">Agenda inmediata</p>
-              <h2 className="mt-2 font-sora text-2xl font-bold tracking-tight text-psy-ink md:text-3xl">
+              <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-psy-ink md:text-3xl">
                 Lo próximo en consulta
               </h2>
             </div>
@@ -260,11 +268,11 @@ export default async function DashboardPage() {
           ) : null}
         </div>
 
-        <div className="scroll-reveal rounded-3xl border border-psy-border bg-white p-6 shadow-xl" data-reveal-delay="80">
+        <div className="scroll-reveal rounded-3xl border border-psy-ink/8 bg-white p-6 shadow-md ring-1 ring-psy-ink/4" data-reveal-delay="80">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-widest text-psy-muted">Pacientes recientes</p>
-              <h2 className="mt-2 font-sora text-2xl font-bold tracking-tight text-psy-ink md:text-3xl">
+              <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-psy-ink md:text-3xl">
                 Seguimiento activo
               </h2>
             </div>
@@ -286,20 +294,20 @@ export default async function DashboardPage() {
                 <Link
                   key={patient.id}
                   href={`/patients/${patient.id}`}
-                  className="hover-panel flex items-center justify-between gap-3 rounded-2xl border border-psy-ink/10 bg-white/60 p-4"
+                  className="hover-panel flex flex-col gap-3 rounded-2xl border border-psy-ink/10 bg-white/60 p-4 sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-sm font-semibold text-psy-blue">
                       {patient.name.charAt(0).toUpperCase()}
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-psy-ink">{patient.name}</p>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-psy-ink">{patient.name}</p>
                       <p className="text-xs text-psy-muted">
                         Activo · creado {new Date(patient.created_at).toLocaleDateString("es-CO")}
                       </p>
                     </div>
                   </div>
-                  <span className="rounded-full bg-psy-green-light px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-psy-green">
+                  <span className="rounded-full bg-psy-green-light px-2.5 py-1 text-center text-xs font-medium uppercase tracking-widest text-psy-green max-sm:w-full">
                     Ver ficha
                   </span>
                 </Link>

@@ -107,8 +107,8 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     : null;
 
   return (
-    <div className="px-8 py-8 max-w-3xl">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="max-w-3xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-3">
         <Link href="/admin/clients" className="p-1.5 rounded-lg text-psy-muted hover:text-psy-ink hover:bg-psy-paper transition-colors">
           <ArrowLeft size={16} />
         </Link>
@@ -123,7 +123,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
       </div>
 
       {/* Info del cliente */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { label: "Plan", value: client.plan },
           { label: "Estado", value: client.account_status },
@@ -150,8 +150,8 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
 
           return (
             <div key={provider.id} className="bg-psy-paper border border-psy-border rounded-xl overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-psy-border">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-3 border-b border-psy-border px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-3">
                   {isConfigured
                     ? <CheckCircle size={14} className="text-psy-green" />
                     : <XCircle size={14} className="text-psy-muted" />
@@ -162,7 +162,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                   </div>
                 </div>
                 {isConfigured && (
-                  <span className="text-[10px] text-psy-muted font-mono">
+                  <span className="text-[10px] text-psy-muted font-mono sm:text-right">
                     Configurado {integration?.configured_at
                       ? new Date(integration.configured_at).toLocaleDateString("es-CO")
                       : ""}

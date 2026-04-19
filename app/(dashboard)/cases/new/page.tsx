@@ -30,7 +30,7 @@ export default function NewCasePage() {
   const [selectedInterventions, setSelectedInterventions] = useState<string[]>([]);
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-10">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Link
@@ -108,7 +108,7 @@ export default function NewCasePage() {
         {/* Intervenciones */}
         <div className="space-y-3">
           <label className="block text-sm font-medium text-psy-ink">Intervenciones utilizadas</label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid gap-2 sm:grid-cols-2">
             {INTERVENTIONS.map((intervention) => (
               <label key={intervention} className="flex items-center gap-2 p-3 border border-psy-border rounded-lg hover:bg-psy-cream/50 cursor-pointer transition-colors">
                 <input
@@ -132,17 +132,17 @@ export default function NewCasePage() {
         </div>
 
         {/* Botones */}
-        <div className="flex gap-3 pt-4">
+        <div className="flex flex-col gap-3 pt-4 sm:flex-row">
           <Link
             href="/cases"
-            className="h-11 px-6 rounded-lg border border-psy-border bg-psy-paper text-psy-ink text-sm font-medium hover:bg-psy-cream transition-colors flex items-center"
+            className="flex h-11 items-center justify-center rounded-lg border border-psy-border bg-psy-paper px-6 text-sm font-medium text-psy-ink transition-colors hover:bg-psy-cream"
           >
             Cancelar
           </Link>
           <button
             type="submit"
             disabled={pending}
-            className="h-11 px-6 rounded-lg bg-psy-blue text-white text-sm font-medium hover:bg-psy-blue/90 transition-colors disabled:opacity-60 flex items-center gap-2"
+            className="flex h-11 items-center justify-center gap-2 rounded-lg bg-psy-blue px-6 text-sm font-medium text-white transition-colors hover:bg-psy-blue/90 disabled:opacity-60"
           >
             {pending ? "Guardando..." : "Guardar caso"}
           </button>

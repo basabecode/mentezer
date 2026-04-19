@@ -25,7 +25,7 @@ export default async function CasesPage() {
   const successCount = cases?.filter(c => c.outcome === "successful").length ?? 0;
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-10">
       <div className="mb-10">
         <Breadcrumbs />
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
@@ -37,7 +37,7 @@ export default async function CasesPage() {
           </div>
           <Link
             href="/cases/new"
-            className="lift-button inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-psy-blue px-6 text-sm font-bold text-white shadow-xl shadow-psy-blue/20 transition-all shrink-0"
+            className="lift-button inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-2xl bg-psy-blue px-6 text-sm font-bold text-white shadow-xl shadow-psy-blue/20 transition-all max-sm:w-full"
           >
             <Plus size={18} strokeWidth={2.5} />
             Nuevo caso clínico
@@ -73,7 +73,7 @@ export default async function CasesPage() {
               key={c.id}
               className="group p-6 bg-psy-paper border border-psy-border rounded-2xl hover:border-psy-blue/30 shadow-sm hover:shadow-xl transition-all duration-300"
             >
-              <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
                   <h3 className="text-lg font-bold text-psy-ink tracking-tight mb-1">{c.title}</h3>
                   <div className="flex items-center gap-3">
@@ -86,7 +86,7 @@ export default async function CasesPage() {
                     </span>
                   </div>
                 </div>
-                <div className={cn("flex items-center gap-2 px-3 py-1 rounded-full border shrink-0", outcome.bg, outcome.color.replace('text-', 'border-').replace('ink', 'border'))}>
+                <div className={cn("flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 max-sm:self-start", outcome.bg, outcome.color.replace('text-', 'border-').replace('ink', 'border'))}>
                   <OutcomeIcon size={14} />
                   <span className="text-xs font-bold uppercase tracking-wide">{outcome.label}</span>
                 </div>

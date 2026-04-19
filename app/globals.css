@@ -465,3 +465,12 @@ button {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(13,34,50,0.15); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(13,34,50,0.25); }
+
+/* ─── Dock móvil sin scrollbar visible ─── */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ─── Espaciado dock en móvil ─── */
+@media (max-width: 767px) {
+  .pb-dock { padding-bottom: 72px; }
+}

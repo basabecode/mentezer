@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Search, Settings, Menu, PanelLeftClose, PanelLeft } from "lucide-react";
+import { Bell, Settings, PanelLeftClose, PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { useDashboard } from "./DashboardContext";
 
@@ -28,7 +29,6 @@ export function Topbar({
 
   const firstName = psychologistName.split(" ")[0];
 
-  // Mock notifications — en producción, vendría de la BD
   const mockNotifications = pendingAnalysis > 0 ? [
     {
       id: "1",
@@ -42,77 +42,90 @@ export function Topbar({
   ] : [];
 
   return (
-    <header className="sticky top-0 z-40 px-2 py-2 md:px-5 md:py-4">
-      <div className="paper-texture mx-auto flex max-w-[1400px] items-center justify-between gap-2 rounded-3xl border border-psy-border bg-psy-paper/90 px-3 py-2.5 shadow-xl backdrop-blur-md md:gap-3 md:px-4 md:py-2.5">
-        <div className="flex flex-1 items-center gap-4 min-w-0">
-          {/* Toggle Sidebar */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-psy-border bg-white/50 text-psy-muted transition hover:bg-white hover:text-psy-blue lg:flex"
-            aria-label={sidebarOpen ? "Cerrar panel lateral" : "Abrir panel lateral"}
-          >
-            {sidebarOpen ? <PanelLeftClose size={18} /> : <PanelLeft size={18} />}
-          </button>
+    <header className="sticky top-0 z-40 px-2 py-2 md:px-5 md:py-3">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 rounded-2xl border border-psy-ink/8 bg-white/96 px-3 py-2 shadow-md ring-1 ring-psy-ink/5 backdrop-blur-md md:rounded-3xl md:gap-3 md:px-4 md:py-2.5">
 
-          <div className="h-6 w-px bg-psy-border hidden lg:block" />
+        {/* ── Lado izquierdo ── */}
+        <div className="flex flex-1 items-center gap-2 min-w-0 md:gap-4">
+          <Tooltip label={sidebarOpen ? "Cerrar pacientes" : "Ver pacientes"} side="bottom">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-blue"
+              aria-label={sidebarOpen ? "Cerrar panel lateral" : "Abrir panel lateral"}
+            >
+              {sidebarOpen ? <PanelLeftClose size={17} /> : <PanelLeft size={17} />}
+            </button>
+          </Tooltip>
 
-          <div className="hidden lg:block shrink-0">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-psy-muted">
+          <div className="h-5 w-px bg-psy-border hidden sm:block" />
+
+          <div className="shrink-0">
+            <p className="font-mono text-[9px] uppercase tracking-widest text-psy-muted">
               {greeting}
             </p>
-            <h1 className="mt-0.5 font-sora text-xl font-bold tracking-tight text-psy-ink">
+            <p className="mt-0.5 font-sora text-base font-bold tracking-tight text-psy-ink leading-none">
               {firstName}
-            </h1>
+            </p>
           </div>
-          
-          <div className="h-6 w-px bg-psy-border hidden lg:block" />
-          
-          <div className="flex-1 min-w-0">
+
+          <div className="h-5 w-px bg-psy-border hidden lg:block" />
+
+          <div className="min-w-0 flex-1 max-sm:hidden">
             <Breadcrumbs />
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
-          <button
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className={cn(
-              "relative flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl",
-              pendingAnalysis > 0 && "text-psy-amber",
-              notificationsOpen && "bg-white text-psy-blue"
-            )}
-            aria-label="Notificaciones"
-          >
-            <Bell size={15} />
-            {pendingAnalysis > 0 && (
-              <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-psy-amber animate-pulse" />
-            )}
-          </button>
+        {/* ── Lado derecho ── */}
+        <div className="flex shrink-0 items-center gap-1 md:gap-1.5">
+          <Tooltip label={pendingAnalysis > 0 ? `${pendingAnalysis} pendiente${pendingAnalysis > 1 ? "s" : ""}` : "Notificaciones"} side="bottom">
+            <button
+              onClick={() => setNotificationsOpen(!notificationsOpen)}
+              className={cn(
+                "relative flex h-8 w-8 items-center justify-center rounded-xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-9 md:w-9 md:rounded-xl",
+                pendingAnalysis > 0 && "text-psy-amber",
+                notificationsOpen && "bg-white text-psy-blue border-psy-blue/20"
+              )}
+              aria-label="Notificaciones"
+            >
+              <Bell size={14} />
+              {pendingAnalysis > 0 && (
+                <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-psy-amber animate-pulse" />
+              )}
+            </button>
+          </Tooltip>
 
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-blue md:h-10 md:w-10 md:rounded-2xl"
-            aria-label="Configuración"
-          >
-            <Settings size={16} />
-          </button>
+          <Tooltip label="Configuración" side="bottom">
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="flex h-8 w-8 items-center justify-center rounded-xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-blue md:h-9 md:w-9"
+              aria-label="Configuración"
+            >
+              <Settings size={14} />
+            </button>
+          </Tooltip>
 
-          <div 
-            onClick={() => setSettingsOpen(true)}
-            className="ml-0.5 flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-psy-blue/15 md:ml-1 md:h-11 md:w-11 md:rounded-2xl transition-transform hover:scale-105"
-          >
-            {avatarUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={avatarUrl} alt={psychologistName} className="h-full w-full object-cover" />
-            ) : (
-              <span className="text-sm font-semibold text-psy-blue">
-                {firstName[0]?.toUpperCase()}
-              </span>
-            )}
-          </div>
+          <Tooltip label="Mi perfil" side="bottom">
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => setSettingsOpen(true)}
+              onKeyDown={(e) => e.key === "Enter" && setSettingsOpen(true)}
+              className="ml-0.5 flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-psy-blue/15 transition-transform hover:scale-105 md:h-9 md:w-9 md:rounded-xl"
+              aria-label="Mi perfil"
+            >
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt={psychologistName} className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-xs font-bold text-psy-blue">
+                  {firstName[0]?.toUpperCase()}
+                </span>
+              )}
+            </div>
+          </Tooltip>
         </div>
       </div>
 
-      {/* Notifications Panel */}
       <NotificationsPanel
         open={notificationsOpen}
         onClose={() => setNotificationsOpen(false)}
@@ -120,32 +133,5 @@ export function Topbar({
         pendingCount={pendingAnalysis}
       />
     </header>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  color,
-  pulse,
-}: {
-  label: string;
-  value: number;
-  color: "blue" | "amber" | "green";
-  pulse?: boolean;
-}) {
-  const colors = {
-    blue: "text-psy-blue bg-psy-blue-light",
-    amber: "text-psy-amber bg-psy-amber-light",
-    green: "text-psy-green bg-psy-green-light",
-  };
-
-  return (
-    <div className={cn("flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium", colors[color])}>
-      <span className={cn("h-1.5 w-1.5 rounded-full bg-current", pulse && "animate-pulse")} />
-      <span>
-        {value} {label}
-      </span>
-    </div>
   );
 }

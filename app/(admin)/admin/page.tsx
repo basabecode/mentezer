@@ -38,54 +38,50 @@ export default async function AdminDashboardPage() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-4 md:px-6 md:py-6">
 
       {/* ── Hero banner ── */}
-      <section className="paper-texture reveal-rise overflow-hidden rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-6 shadow-[0_20px_60px_rgba(13,34,50,0.08)] md:p-7">
-        <div className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+      <section className="reveal-rise relative overflow-hidden rounded-[2rem] border border-psy-ink/8 bg-psy-ink p-6 shadow-2xl shadow-psy-ink/20 md:p-8">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-psy-blue/20 via-transparent to-transparent" />
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--psy-muted)]">Plataforma</p>
-            <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-[var(--psy-ink)] md:text-4xl lg:text-5xl">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Plataforma</p>
+            <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-5xl">
               Panel de control
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-[rgba(13,34,50,0.74)]">
-              Aquí ves salud comercial y operativa en una sola capa:
-              conversiones, clientes activos, cuentas en trial y señales que
-              requieren intervención rápida.
+            <p className="mt-4 max-w-xl text-base leading-8 text-white/65">
+              Salud comercial y operativa en una sola capa: conversiones,
+              clientes activos, cuentas en trial y señales de intervención.
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/admin/clients/new" className="lift-button inline-flex items-center justify-center gap-2 rounded-[1.2rem] bg-[var(--psy-ink)] px-5 py-3 text-sm font-medium text-[var(--psy-paper)]">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link href="/admin/clients/new" className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-psy-ink shadow-lg">
                 Nuevo cliente
               </Link>
-              <Link href="/admin/clients" className="lift-button inline-flex items-center justify-center gap-2 rounded-[1.2rem] border border-[rgba(13,34,50,0.10)] bg-white/55 px-5 py-3 text-sm font-medium text-[var(--psy-ink)]">
+              <Link href="/admin/clients" className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15">
                 Ver cartera completa
               </Link>
             </div>
           </div>
 
-          <div className="grid gap-4">
-            <div className="rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-white/62 p-5">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">Resumen ejecutivo</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[1.2rem] bg-[var(--psy-blue-light)] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(21,134,160,0.15)]">
-                  <p className="text-xs text-[var(--psy-blue)]">Clientes totales</p>
-                  <p className="mt-2 font-mono text-3xl font-semibold text-[var(--psy-ink)]">{total ?? 0}</p>
-                </div>
-                <div className="rounded-[1.2rem] bg-[var(--psy-green-light)] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(39,137,94,0.15)]">
-                  <p className="text-xs text-[var(--psy-green)]">Activos</p>
-                  <p className="mt-2 font-mono text-3xl font-semibold text-[var(--psy-ink)]">{activos ?? 0}</p>
-                </div>
+          <div className="grid gap-3">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl bg-white/10 border border-white/10 p-5 backdrop-blur-sm transition hover:-translate-y-0.5">
+                <p className="text-[10px] uppercase tracking-widest text-psy-blue font-bold">Clientes totales</p>
+                <p className="mt-3 font-sora text-4xl font-bold text-white">{total ?? 0}</p>
+              </div>
+              <div className="rounded-2xl bg-white/10 border border-white/10 p-5 backdrop-blur-sm transition hover:-translate-y-0.5">
+                <p className="text-[10px] uppercase tracking-widest text-psy-green font-bold">Activos</p>
+                <p className="mt-3 font-sora text-4xl font-bold text-white">{activos ?? 0}</p>
               </div>
             </div>
-
-            <div className="rounded-[1.6rem] bg-[var(--psy-ink)] p-5 text-[var(--psy-paper)] shadow-[0_18px_44px_rgba(13,34,50,0.18)]">
+            <div className="rounded-2xl border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-[rgba(223,243,248,0.55)]">Conversión y riesgo</p>
-                  <p className="mt-2 text-sm text-[rgba(223,243,248,0.78)]">
-                    {conversion}% de conversión trial a pago y {suspendidos} cuenta{suspendidos === 1 ? "" : "s"} suspendida{suspendidos === 1 ? "" : "s"} para revisar.
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">Conversión y riesgo</p>
+                  <p className="mt-2 text-sm text-white/70">
+                    {conversion}% trial a pago · {suspendidos} cuenta{suspendidos === 1 ? "" : "s"} suspendida{suspendidos === 1 ? "" : "s"}
                   </p>
                 </div>
-                <div className="rounded-[1.1rem] bg-[rgba(223,243,248,0.08)] px-4 py-3 text-center">
-                  <p className="font-mono text-2xl font-semibold">{trial ?? 0}</p>
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-[rgba(223,243,248,0.55)]">en trial</p>
+                <div className="shrink-0 rounded-2xl bg-psy-blue/20 px-4 py-3 text-center border border-psy-blue/20">
+                  <p className="font-sora text-2xl font-bold text-white">{trial ?? 0}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold mt-0.5">en trial</p>
                 </div>
               </div>
             </div>
@@ -98,7 +94,7 @@ export default async function AdminDashboardPage() {
         {metrics.map((item, index) => (
           <div
             key={item.label}
-            className="scroll-reveal card-deliverable rounded-[1.75rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)]"
+            className="scroll-reveal card-deliverable rounded-[1.75rem] border border-[rgba(13,34,50,0.08)] bg-white p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)]"
             data-reveal-delay={String(index * 70)}
           >
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl" style={{ background: item.bg }}>
@@ -113,7 +109,7 @@ export default async function AdminDashboardPage() {
 
       {/* ── Clientes + Salud ── */}
       <section className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr]">
-        <div className="scroll-reveal rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-6 shadow-[0_16px_42px_rgba(13,34,50,0.05)]">
+        <div className="scroll-reveal rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_16px_42px_rgba(13,34,50,0.05)]">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">Clientes recientes</p>
@@ -137,19 +133,19 @@ export default async function AdminDashboardPage() {
                 <Link
                   key={client.id}
                   href={`/admin/clients/${client.id}`}
-                  className="hover-panel flex items-center justify-between gap-4 rounded-[1.4rem] border border-[rgba(13,34,50,0.08)] bg-white/62 p-4"
+                  className="hover-panel flex flex-col gap-4 rounded-[1.4rem] border border-[rgba(13,34,50,0.08)] bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--psy-blue-light)] text-sm font-semibold text-[var(--psy-blue)]">
                       {client.name.charAt(0).toUpperCase()}
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-[var(--psy-ink)]">{client.name}</p>
-                      <p className="text-xs text-[var(--psy-muted)]">{client.email}</p>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-[var(--psy-ink)]">{client.name}</p>
+                      <p className="truncate text-xs text-[var(--psy-muted)]">{client.email}</p>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-end gap-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                     {trialLeft !== null && trialLeft > 0 && trialLeft <= 3 ? (
                       <span className="rounded-full bg-[var(--psy-red-light)] px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--psy-red)]">
                         {trialLeft}d
@@ -174,7 +170,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="grid gap-5">
-          <div className="scroll-reveal rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(223,243,248,0.90)] p-6 shadow-[0_16px_42px_rgba(13,34,50,0.05)]" data-reveal-delay="80">
+          <div className="scroll-reveal rounded-[2rem] border border-[rgba(13,34,50,0.08)] bg-white p-6 shadow-[0_16px_42px_rgba(13,34,50,0.05)]" data-reveal-delay="80">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--psy-muted)]">Salud de plataforma</p>
             <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-[var(--psy-ink)] md:text-3xl">
               Estado actual

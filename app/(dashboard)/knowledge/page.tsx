@@ -60,7 +60,7 @@ export default async function KnowledgePage() {
   const personalReady = (personalDocuments ?? []).filter((d) => d.processing_status === "ready").length;
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-10">
       {/* Header */}
       <div className="mb-10">
         <Breadcrumbs />

@@ -28,7 +28,7 @@ export default async function NewSessionPage({
   const hasConsent = !!selected?.consent_signed_at;
 
   return (
-    <div className="px-6 py-6 max-w-xl space-y-5">
+    <div className="max-w-xl space-y-5 px-4 py-6 sm:px-6">
 
       {/* Header */}
       <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default async function NewSessionPage({
       {/* Selector de modo */}
       <div>
         <label className="mb-1.5 block text-sm font-medium text-psy-ink">Tipo de sesión</label>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid gap-2 sm:grid-cols-2">
           {(["presential", "virtual"] as const).map((m) => (
             <Link
               key={m}

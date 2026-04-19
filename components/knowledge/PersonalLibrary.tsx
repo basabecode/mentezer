@@ -225,8 +225,8 @@ export function PersonalLibrary({ initialDocuments, groups }: Props) {
             const currentGroup = groups.find((g) => g.id === doc.group_id);
 
             return (
-              <div key={doc.id} className="p-4 bg-psy-paper border border-psy-border rounded-xl">
-                <div className="flex items-start justify-between gap-3">
+            <div key={doc.id} className="rounded-xl border border-psy-border bg-psy-paper p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex items-start gap-3 min-w-0">
                     <div className="w-8 h-8 rounded-lg bg-psy-blue-light flex items-center justify-center shrink-0 mt-0.5">
                       <BookOpen size={14} className="text-psy-blue" />
@@ -241,7 +241,7 @@ export function PersonalLibrary({ initialDocuments, groups }: Props) {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0 max-sm:justify-between">
                     <div className={`flex items-center gap-1 ${status.color}`}>
                       <StatusIcon status={doc.processing_status} />
                       <span className="text-xs">{status.label}</span>
@@ -251,7 +251,7 @@ export function PersonalLibrary({ initialDocuments, groups }: Props) {
 
                 {doc.processing_status === "ready" && (
                   <div className="mt-3 pt-3 border-t border-psy-border">
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <p className="text-xs text-psy-muted mb-1">Grupo asignado por IA</p>
                         <p className="text-xs text-psy-ink font-medium">
@@ -299,7 +299,7 @@ function GroupSelector({
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 px-2 py-1 text-xs bg-psy-cream border border-psy-border rounded-lg hover:border-psy-blue/50 transition-colors"
+        className="flex w-full items-center justify-center gap-1 rounded-lg border border-psy-border bg-psy-cream px-2 py-2 text-xs transition-colors hover:border-psy-blue/50 sm:w-auto"
       >
         Corregir
         <ChevronDown size={10} className={`transition-transform ${open ? "rotate-180" : ""}`} />

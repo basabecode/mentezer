@@ -39,7 +39,7 @@ export default async function ReportsPage() {
   ).length ?? 0;
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:py-10">
       <div className="mb-10">
         <Breadcrumbs />
         <div className="mt-6">
@@ -85,7 +85,7 @@ export default async function ReportsPage() {
             <Link
               key={report.id}
               href={`/sessions/${report.session_id}`}
-              className="group flex items-center gap-5 p-5 bg-white border border-psy-border rounded-[1.5rem] hover:border-psy-blue/30 shadow-sm hover:shadow-xl transition-all"
+              className="group flex flex-col gap-4 rounded-[1.5rem] border border-psy-border bg-white p-5 shadow-sm transition-all hover:border-psy-blue/30 hover:shadow-xl sm:flex-row sm:items-center"
             >
               <div className={cn(
                 "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform",
@@ -94,9 +94,9 @@ export default async function ReportsPage() {
                 <Brain size={20} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-3 mb-1">
-                  <h3 className="text-base font-bold text-psy-ink truncate">{report.patientName}</h3>
-                  <div className="flex items-center gap-2 text-[11px] font-bold text-psy-muted bg-psy-cream px-3 py-1 rounded-full">
+                <div className="mb-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <h3 className="truncate text-base font-bold text-psy-ink">{report.patientName}</h3>
+                  <div className="flex items-center gap-2 rounded-full bg-psy-cream px-3 py-1 text-[11px] font-bold text-psy-muted max-sm:w-fit">
                     <Calendar size={12} />
                     {new Date(report.generated_at).toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
                   </div>

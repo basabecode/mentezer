@@ -77,7 +77,7 @@ export function PaymentPanel() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-psy-green/15">
             <DollarSign className="h-6 w-6 text-psy-green" />
@@ -91,7 +91,7 @@ export function PaymentPanel() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 rounded-xl bg-psy-green px-4 py-2 text-sm font-medium text-white transition hover:bg-psy-green/90"
+          className="flex items-center justify-center gap-2 rounded-xl bg-psy-green px-4 py-2 text-sm font-medium text-white transition hover:bg-psy-green/90 max-sm:w-full"
         >
           <Plus size={16} />
           Registrar pago
@@ -121,7 +121,7 @@ export function PaymentPanel() {
       </div>
 
       {/* Period selector */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {["week", "month"].map((p) => (
           <button
             key={p}
@@ -214,18 +214,18 @@ function PaymentRow({ payment }: { payment: Payment }) {
   };
 
   return (
-    <div className="flex items-center justify-between rounded-xl border border-psy-border bg-white p-4 shadow-sm">
+    <div className="flex flex-col gap-3 rounded-xl border border-psy-border bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
       <div className="min-w-0 flex-1">
         <p className="font-medium text-psy-ink">
           {payment.notes || "Pago de sesión"}
         </p>
-        <div className="mt-1 flex items-center gap-3 text-sm text-psy-muted">
+        <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-psy-muted">
           <span>{methodLabels[payment.payment_method] || payment.payment_method}</span>
           <span>•</span>
           <span>{formatPaymentDate(payment.created_at)}</span>
         </div>
       </div>
-      <div className="flex items-center gap-3 text-right">
+      <div className="flex items-center gap-3 text-right max-sm:justify-between">
         <span className="font-semibold text-psy-ink">
           ${payment.amount_usd.toFixed(2)}
         </span>

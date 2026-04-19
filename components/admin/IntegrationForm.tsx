@@ -63,7 +63,7 @@ export function IntegrationForm({ psychologistId, provider, fields, isConfigured
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             {fields.map((field) => (
               <div key={field.key} className={field.key.includes("token") || field.key.includes("secret") || field.key.includes("key") ? "col-span-2" : ""}>
                 <label className="block text-xs font-medium text-psy-ink mb-1">{field.label}</label>

@@ -62,7 +62,7 @@ export default function KnowledgeUploadPage() {
   const isLoading = state === "uploading";
 
   return (
-    <div className="px-6 py-6 max-w-xl">
+    <div className="max-w-xl px-4 py-6 sm:px-6">
       <div className="flex items-center gap-3 mb-6">
         <Link href="/knowledge" className="p-1.5 rounded-lg text-psy-muted hover:text-psy-ink hover:bg-psy-paper transition-colors">
           <ArrowLeft size={16} />
@@ -123,7 +123,7 @@ export default function KnowledgeUploadPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <label className="block text-xs font-medium text-psy-ink mb-1">Autor</label>
               <input

@@ -37,11 +37,11 @@ export default async function SessionDetailPage({
   const aiReport = report as unknown as AIReportData | null;
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:py-10">
       {/* Header */}
       <div className="mb-8">
         <Breadcrumbs />
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
+        <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="flex items-start gap-4">
             <Link
               href={`/patients/${session.patient_id}`}
@@ -80,7 +80,7 @@ export default async function SessionDetailPage({
 
       {/* Estado de la sesión */}
       {!transcript && (
-        <div className="bg-white border border-psy-amber/20 rounded-[1.5rem] p-6 mb-8 flex items-start gap-4 shadow-sm">
+        <div className="mb-8 flex items-start gap-4 rounded-[1.5rem] border border-psy-amber/20 bg-white p-6 shadow-sm">
           <div className="h-10 w-10 rounded-xl bg-psy-amber/5 flex items-center justify-center shrink-0">
             <AlertTriangle size={20} className="text-psy-amber" />
           </div>
@@ -95,7 +95,7 @@ export default async function SessionDetailPage({
 
       {/* Transcripción */}
       {segments && segments.length > 0 && (
-        <div className="bg-white border border-psy-border rounded-[2rem] p-8 mb-8 shadow-sm">
+        <div className="mb-8 rounded-[2rem] border border-psy-border bg-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="h-8 w-8 rounded-lg bg-psy-cream flex items-center justify-center text-psy-muted">
               <FileText size={16} />
@@ -119,13 +119,13 @@ export default async function SessionDetailPage({
       {aiReport && (
         <div className="space-y-6">
           {/* Disclaimer */}
-          <div className="p-4 bg-white border border-psy-border rounded-2xl flex gap-3 shadow-sm border-l-4 border-l-psy-amber">
+          <div className="flex gap-3 rounded-2xl border border-psy-border border-l-4 border-l-psy-amber bg-white p-4 shadow-sm">
             <AlertTriangle className="text-psy-amber shrink-0 h-5 w-5" />
             <p className="text-[11px] text-psy-ink/60 leading-relaxed italic">{aiReport.disclaimer}</p>
           </div>
 
           {/* Resumen */}
-          <div className="bg-white border border-psy-border rounded-[2rem] p-8 shadow-sm">
+          <div className="rounded-[2rem] border border-psy-border bg-white p-6 shadow-sm sm:p-8">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-10 w-10 rounded-xl bg-psy-blue/5 flex items-center justify-center text-psy-blue">
                 <Brain size={20} />
@@ -138,7 +138,7 @@ export default async function SessionDetailPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Señales de riesgo */}
             {aiReport.risk_signals && aiReport.risk_signals.length > 0 && (
-              <div className="bg-white border border-psy-border rounded-[2rem] p-8 shadow-sm h-full">
+              <div className="h-full rounded-[2rem] border border-psy-border bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="h-8 w-8 rounded-lg bg-psy-red/5 flex items-center justify-center text-psy-red">
                     <AlertTriangle size={16} />
@@ -171,7 +171,7 @@ export default async function SessionDetailPage({
 
             {/* Evolución */}
             {aiReport.evolution_vs_previous && (
-              <div className="bg-white border border-psy-border rounded-[2rem] p-8 shadow-sm h-full">
+              <div className="h-full rounded-[2rem] border border-psy-border bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="h-8 w-8 rounded-lg bg-psy-green/5 flex items-center justify-center text-psy-green">
                     <TrendingUp size={16} />
@@ -187,7 +187,7 @@ export default async function SessionDetailPage({
 
           {/* Patrones observados */}
           {aiReport.patterns && aiReport.patterns.length > 0 && (
-            <div className="bg-white border border-psy-border rounded-[2rem] p-8 shadow-sm">
+            <div className="rounded-[2rem] border border-psy-border bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-10 w-10 rounded-xl bg-psy-blue/5 flex items-center justify-center text-psy-blue">
                   <BookOpen size={20} />
@@ -215,7 +215,7 @@ export default async function SessionDetailPage({
 
           {/* Sugerencias terapéuticas */}
           {aiReport.therapeutic_suggestions && aiReport.therapeutic_suggestions.length > 0 && (
-            <div className="bg-psy-ink border border-psy-ink rounded-[2.5rem] p-10 shadow-2xl overflow-hidden relative group">
+            <div className="group relative overflow-hidden rounded-[2.5rem] border border-psy-ink bg-psy-ink p-6 shadow-2xl sm:p-10">
               {/* Efecto visual de fondo */}
               <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-psy-blue/20 rounded-full blur-[80px]" />
               <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-psy-green/20 rounded-full blur-[80px]" />

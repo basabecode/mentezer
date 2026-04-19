@@ -30,9 +30,9 @@ export default async function PatientDetailPage({
     .limit(10);
 
   return (
-    <div className="px-6 py-6 max-w-3xl">
+    <div className="max-w-3xl px-4 py-6 sm:px-6">
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Link href="/patients" className="p-1.5 rounded-lg text-psy-muted hover:text-psy-ink hover:bg-psy-paper transition-colors">
             <ArrowLeft size={16} />
@@ -46,17 +46,17 @@ export default async function PatientDetailPage({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             href={`/patients/${id}/reports`}
-            className="flex items-center gap-2 px-3 py-2 bg-psy-paper border border-psy-border text-psy-ink rounded-lg text-sm font-medium hover:bg-psy-cream transition-colors"
+            className="flex items-center justify-center gap-2 rounded-lg border border-psy-border bg-psy-paper px-3 py-2 text-sm font-medium text-psy-ink transition-colors hover:bg-psy-cream"
           >
             <FileText size={14} />
             Derivaciones
           </Link>
           <Link
             href={`/sessions/new?patient=${id}`}
-            className="flex items-center gap-2 px-3 py-2 bg-psy-blue text-white rounded-lg text-sm font-medium hover:bg-psy-blue/90 transition-colors"
+            className="flex items-center justify-center gap-2 rounded-lg bg-psy-blue px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-psy-blue/90"
           >
             <Mic size={14} />
             Nueva sesión
@@ -66,7 +66,7 @@ export default async function PatientDetailPage({
 
       {/* Consentimiento */}
       {!patient.consent_signed_at ? (
-        <div className="bg-psy-amber-light border border-psy-amber/20 rounded-xl p-4 mb-5 flex items-start justify-between gap-4">
+        <div className="mb-5 flex flex-col gap-4 rounded-xl border border-psy-amber/20 bg-psy-amber-light p-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-3">
             <AlertTriangle size={16} className="text-psy-amber shrink-0 mt-0.5" />
             <div>
@@ -89,7 +89,7 @@ export default async function PatientDetailPage({
           </form>
         </div>
       ) : (
-        <div className="bg-psy-green-light border border-psy-green/20 rounded-xl p-4 mb-5 flex items-center gap-3">
+        <div className="mb-5 flex items-start gap-3 rounded-xl border border-psy-green/20 bg-psy-green-light p-4">
           <CheckCircle size={15} className="text-psy-green shrink-0" />
           <p className="text-xs text-psy-green font-medium">
             Consentimiento firmado el{" "}
@@ -138,9 +138,9 @@ export default async function PatientDetailPage({
               <Link
                 key={session.id}
                 href={`/sessions/${session.id}`}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-psy-cream transition-colors"
+                className="flex flex-col gap-2 rounded-lg p-3 transition-colors hover:bg-psy-cream sm:flex-row sm:items-center sm:justify-between"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                   <div className={`w-2 h-2 rounded-full ${session.status === "complete" ? "bg-psy-green" : "bg-psy-amber"}`} />
                   <span className="text-sm text-psy-ink">
                     {new Date(session.scheduled_at).toLocaleDateString("es-CO", {
@@ -148,7 +148,7 @@ export default async function PatientDetailPage({
                     })}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs text-psy-muted capitalize">{session.mode}</span>
                   <span className={`text-xs px-2 py-0.5 rounded-full ${
                     session.status === "complete" ? "bg-psy-green-light text-psy-green" : "bg-psy-amber-light text-psy-amber"

@@ -15,7 +15,7 @@ export default async function PatientsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:py-10">
       <div className="mb-10">
         <Breadcrumbs />
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
@@ -27,7 +27,7 @@ export default async function PatientsPage() {
           </div>
           <Link
             href="/patients/new"
-            className="lift-button inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-psy-blue px-6 text-sm font-bold text-white shadow-xl shadow-psy-blue/20 transition-all"
+            className="lift-button inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-psy-blue px-6 text-sm font-bold text-white shadow-xl shadow-psy-blue/20 transition-all max-sm:w-full"
           >
             <Plus size={18} strokeWidth={2.5} />
             Registrar paciente
@@ -56,7 +56,7 @@ export default async function PatientsPage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <div className="flex flex-wrap items-center gap-3 shrink-0 max-sm:w-full">
               {!patient.consent_signed_at && (
                 <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-psy-red bg-psy-red/5 border border-psy-red/10 px-3 py-1 rounded-full">
                   <AlertTriangle size={12} />
@@ -75,7 +75,7 @@ export default async function PatientsPage() {
               >
                 {patient.status === "active" ? "Activo" : patient.status === "paused" ? "Pausado" : "Cerrado"}
               </span>
-              <div className="flex items-center gap-1.5 text-xs text-psy-muted font-medium bg-psy-cream/50 px-3 py-1 rounded-full border border-psy-border">
+              <div className="flex items-center gap-1.5 rounded-full border border-psy-border bg-psy-cream/50 px-3 py-1 text-xs font-medium text-psy-muted max-sm:w-full max-sm:justify-center">
                 <Clock size={12} />
                 <span>Registrado: {new Date(patient.created_at).toLocaleDateString("es-CO", { day: "numeric", month: "long" })}</span>
               </div>

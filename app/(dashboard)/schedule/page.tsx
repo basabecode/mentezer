@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
 export default function SchedulePage() {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-10">
       <div className="mb-10">
         <Breadcrumbs />
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
@@ -17,8 +17,8 @@ export default function SchedulePage() {
             <button
               disabled
               title="Disponible en v1.5"
-              className="flex h-12 items-center gap-2 px-6 bg-psy-blue/10 text-psy-blue/40 rounded-2xl text-sm font-bold cursor-not-allowed border border-psy-blue/5"
-            >
+            className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-psy-blue/5 bg-psy-blue/10 px-6 text-sm font-bold text-psy-blue/40 cursor-not-allowed max-sm:w-full"
+          >
               <Plus size={18} strokeWidth={2.5} />
               Nueva cita
               <span className="inline-block px-2 py-1 ml-2 text-xs bg-psy-amber/20 text-psy-amber rounded-full font-semibold">
@@ -33,13 +33,13 @@ export default function SchedulePage() {
       </div>
 
       {/* Próximamente */}
-      <div className="bg-white border border-psy-border rounded-[2.5rem] p-12 text-center shadow-sm">
+      <div className="bg-white border border-psy-border rounded-[2.5rem] p-8 text-center shadow-sm sm:p-12">
         <div className="w-20 h-20 rounded-[2rem] bg-psy-cream flex items-center justify-center mx-auto mb-6 shadow-psy-border">
           <Lock size={32} className="text-psy-blue" />
         </div>
         <h2 className="font-sora text-2xl text-psy-ink font-bold mb-3">Versión 1.5 en desarrollo</h2>
         <p className="text-base text-psy-ink/50 max-w-md mx-auto leading-relaxed mb-10">
-          Estamos construyendo un motor de reservas optimizado con recordatorios automáticos e <span className="text-psy-blue font-semibold text-nowrap">integración bidireccional</span> con Google Calendar.
+          Estamos construyendo un motor de reservas optimizado con recordatorios automáticos e <span className="font-semibold text-psy-blue">integración bidireccional</span> con Google Calendar.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl mx-auto text-left">

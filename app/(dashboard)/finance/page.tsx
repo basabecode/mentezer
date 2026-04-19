@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function FinancePage() {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:py-10">
       <div className="mb-10">
         <Breadcrumbs />
         <div className="mt-6">
@@ -22,7 +22,7 @@ export default function FinancePage() {
         <PaymentPanel />
 
         {/* Instrucciones */}
-        <div className="rounded-[2rem] border border-psy-border bg-white p-8 shadow-sm">
+        <div className="rounded-[2rem] border border-psy-border bg-white p-6 shadow-sm sm:p-8">
           <h3 className="font-sora text-lg font-bold text-psy-ink flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-psy-blue/10 text-psy-blue text-sm">📋</span>
             Guía de gestión

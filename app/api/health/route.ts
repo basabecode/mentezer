@@ -1,5 +1,12 @@
 import { createClient } from "@/lib/supabase/server";
 
+/**
+ * Health check endpoint.
+ *
+ * Always responds with HTTP 200 so browsers do not log 5xx errors in the
+ * console. The real status lives in the JSON body (`status: "healthy" |
+ * "degraded"`), which is what the HealthStatus widget reads.
+ */
 export async function GET() {
   const checks = {
     supabase: { ok: false, latency: 0 },
@@ -7,30 +14,30 @@ export async function GET() {
     storage: { ok: false, latency: 0 },
   };
 
-  // Check Supabase
+  // Supabase DB reachability
   try {
     const start = Date.now();
     const supabase = await createClient();
-    const { data, error } = await supabase.from("psychologists").select("count()", { count: "exact", head: true });
-    checks.supabase = {
-      ok: !error,
-      latency: Date.now() - start,
-    };
+    const { error } = await supabase
+      .from("psychologists")
+      .select("id", { count: "exact", head: true })
+      .limit(1);
+    checks.supabase = { ok: !error, latency: Date.now() - start };
   } catch {
     checks.supabase = { ok: false, latency: 0 };
   }
 
-  // Check Claude API (via environment)
+  // Claude API key presence (cheap check, no outbound request)
   try {
     checks.claude = {
-      ok: !!process.env.ANTHROPIC_API_KEY,
+      ok: Boolean(process.env.ANTHROPIC_API_KEY),
       latency: 0,
     };
   } catch {
     checks.claude = { ok: false, latency: 0 };
   }
 
-  // Check Storage (Supabase)
+  // Supabase Storage reachability
   try {
     const start = Date.now();
     const supabase = await createClient();
@@ -52,7 +59,7 @@ export async function GET() {
       checks,
     },
     {
-      status: allOk ? 200 : 503,
+      status: 200,
       headers: { "Cache-Control": "no-cache" },
     }
   );

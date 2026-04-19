@@ -22,21 +22,35 @@ export function HealthStatus() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchHealth = async () => {
       try {
-        const response = await fetch("/api/health");
-        const data = await response.json() as HealthCheck;
-        setHealth(data);
-      } catch (err) {
-        console.error("Failed to fetch health:", err);
+        const response = await fetch("/api/health", {
+          cache: "no-store",
+          credentials: "same-origin",
+        });
+        if (!response.ok) {
+          // Non-2xx: treat as degraded without polluting the console.
+          if (!cancelled) setHealth(null);
+          return;
+        }
+        const data = (await response.json()) as HealthCheck;
+        if (!cancelled) setHealth(data);
+      } catch {
+        // Network-level failure: keep widget silent, show fallback UI.
+        if (!cancelled) setHealth(null);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchHealth();
     const interval = setInterval(fetchHealth, 30000); // Refresh every 30s
-    return () => clearInterval(interval);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   if (loading) {
