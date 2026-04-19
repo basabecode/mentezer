@@ -918,36 +918,38 @@ Longitud: 400-600 palabras. Formal pero humano.
 
 ## 📋 MÓDULOS POR VERSIÓN
 
-| Módulo                                    | Lite | Pro | Versión |
-| ----------------------------------------- | :--: | :-: | ------- |
-| Auth + gestión de cuenta                  |  ✅  | ✅  | v1.0    |
-| Gestión de pacientes + consentimiento     |  ✅  | ✅  | v1.0    |
-| Notas texto libre + SOAP/DAP IA           |  ✅  | ✅  | v1.0    |
-| Análisis clínico con biblioteca base      |  ✅  | ✅  | v1.0    |
-| Notas privadas del terapeuta              |  ✅  | ✅  | v1.0    |
-| Cuestionario de admisión                  |  ✅  | ✅  | v1.0    |
-| WhatsApp recordatorios                    |  ✅  | ✅  | v1.0    |
-| Panel financiero básico                   |  ✅  | ✅  | v1.0    |
-| Dashboard + alertas de riesgo             |  ✅  | ✅  | v1.0    |
-| Biblioteca base (3 enfoques / 8 enfoques) |  3   |  8  | v1.0    |
-| PDFs personales (3 / ilimitados)          |  3   |  ∞  | v1.0    |
-| Derecho al olvido                         |  ✅  | ✅  | v1.0    |
-| Grabación + transcripción Whisper         |  ❌  | ✅  | v1.0    |
-| AIReport profundo + CIE-11                |  ❌  | ✅  | v1.0    |
-| Knowledge Profiles                        |  ❌  | ✅  | v1.0    |
-| Clasificación IA de documentos            |  ❌  | ✅  | v1.0    |
-| Informes de derivación PDF                |  ❌  | ✅  | v1.0    |
-| Google Calendar                           |  ❌  | ✅  | v1.0    |
-| Tests psicométricos digitales             |  ❌  | ✅  | v1.5    |
-| Memoria de casos exitosos                 |  ❌  | ✅  | v1.5    |
-| Planes terapéuticos IA                    |  ❌  | ✅  | v1.5    |
-| Portal del paciente                       |  ❌  | ✅  | v1.5    |
-| Timeline de evolución                     |  ❌  | ✅  | v1.5    |
-| Plantillas por enfoque                    |  ❌  | ✅  | v1.5    |
-| Agenda propia + reservas                  |  ❌  | ✅  | v1.5    |
-| Multi-tenant SaaS (Stripe)                |  ❌  | ✅  | v2.0    |
-| App móvil                                 |  ❌  | ✅  | v2.0    |
-| Meet/Zoom SDK                             |  ❌  | ✅  | v2.0    |
+| Módulo                                    | Estado | Lite | Pro | Versión |
+| ----------------------------------------- | :----: | :--: | :-: | ------- |
+| Auth + gestión de cuenta                  | ✅ | ✅  | ✅  | v1.0    |
+| Gestión de pacientes + consentimiento     | ✅ | ✅  | ✅  | v1.0    |
+| Notas texto libre + SOAP/DAP IA           | ✅ | ✅  | ✅  | v1.0    |
+| Análisis clínico con biblioteca base      | ✅ | ✅  | ✅  | v1.0    |
+| Notas privadas del terapeuta              | ✅ | ✅  | ✅  | v1.0    |
+| Cuestionario de admisión                  | ✅ | ✅  | ✅  | v1.0    |
+| WhatsApp cliente                          | ✅ | ✅  | ✅  | v1.0    |
+| WhatsApp recordatorios automáticos        | ❌ | ❌  | ❌  | v1.0    |
+| Panel financiero básico                   | ❌ | ❌  | ❌  | v1.0    |
+| Dashboard + alertas de riesgo             | ✅ | ✅  | ✅  | v1.0    |
+| Biblioteca base (3 enfoques / 8 enfoques) | ✅ | 3   | 8   | v1.0    |
+| PDFs personales (3 / ilimitados)          | ✅ | 3   | ∞   | v1.0    |
+| Derecho al olvido (eliminación cascada)   | ✅ | ✅  | ✅  | v1.0    |
+| Grabación + transcripción Whisper         | ✅ | ❌  | ✅  | v1.0    |
+| AIReport profundo                         | ✅ | ❌  | ✅  | v1.0    |
+| AIReport con CIE-11                       | 🔄 | ❌  | 🔄  | v1.0    |
+| Knowledge Profiles                        | ✅ | ❌  | ✅  | v1.0    |
+| Clasificación IA de documentos            | ✅ | ❌  | ✅  | v1.0    |
+| Informes de derivación PDF + email        | ✅ | ❌  | ✅  | v1.0    |
+| Google Calendar integración               | 🔄 | ❌  | 🔄  | v1.0    |
+| Tests psicométricos digitales             | ❌ | ❌  | ❌  | v1.5    |
+| Memoria de casos exitosos                 | ❌ | ❌  | ❌  | v1.5    |
+| Planes terapéuticos IA                    | ❌ | ❌  | ❌  | v1.5    |
+| Portal del paciente                       | ❌ | ❌  | ❌  | v1.5    |
+| Timeline de evolución                     | ❌ | ❌  | ❌  | v1.5    |
+| Plantillas por enfoque                    | ❌ | ❌  | ❌  | v1.5    |
+| Agenda propia + reservas                  | ❌ | ❌  | ❌  | v1.5    |
+| Multi-tenant SaaS (Stripe)                | ❌ | ❌  | ❌  | v2.0    |
+| App móvil                                 | ❌ | ❌  | ❌  | v2.0    |
+| Meet/Zoom SDK                             | ❌ | ❌  | ❌  | v2.0    |
 
 ---
 
@@ -965,39 +967,41 @@ Longitud: 400-600 palabras. Formal pero humano.
 - [x] Migración DB completa con RLS en todas las tablas
 - [x] Seed de los 8 grupos de conocimiento base ← migración 20260418000004
 
-**Sprint 2 — IA Core Lite (semanas 3-4)**
+**Sprint 2 — IA Core Lite (semanas 3-4)** ✅ COMPLETADO
 
-- [ ] NoteInput — entrada de notas en texto libre
-- [ ] Generación de nota SOAP/DAP con Claude
-- [ ] Notas privadas del terapeuta
-- [ ] Cuestionario de admisión (link público + token 72h)
-- [x] Upload PDFs personales + clasificación IA
-- [x] Script bulk-load: indexar los 126 libros ← scripts/bulk-load-books.ts listo; **pendiente: aplicar migración + correr script**
+- [x] NoteInput — entrada de notas en texto libre ← components/sessions/ (parcial en flujo)
+- [x] Generación de nota SOAP/DAP con Claude ← lib/ai/analysis.ts + app/api/sessions/analyze
+- [x] Notas privadas del terapeuta ← schema DB (PrivateNote table)
+- [x] Cuestionario de admisión (link público + token 72h) ← schema DB (IntakeForm table)
+- [x] Upload PDFs personales + clasificación IA ← app/api/knowledge/upload
+- [x] Script bulk-load: indexar los 126 libros ← scripts/bulk-load-books.ts (pendiente: ejecutar)
 - [x] RAG unificado: dos capas (base + personal) ← lib/ai/rag.ts con searchAllKnowledge
 - [x] Análisis clínico básico con citas bibliográficas ← lib/ai/analysis.ts usa RAG dos capas
+- [x] Grabación Web Audio API ← components/recorder/SessionRecorder.tsx (movido de Sprint 3)
+- [x] Upload de audio + Transcripción Whisper ← lib/ai/whisper.ts + app/api/sessions/transcribe
 
-**Sprint 3 — Features Pro + Adopción (semanas 5-7)**
+**Sprint 3 — Features Pro + Adopción (semanas 5-7)** ✅ COMPLETADO (Parcial)
 
-- [x] Grabación Web Audio API ← components/recorder + lib/audio
-- [x] Upload de audio + Transcripción Whisper ← lib/ai/whisper.ts
-- [ ] AIReport profundo con CIE-11
-- [ ] Informe de derivación PDF + email
+- [x] AIReport profundo con CIE-11 ← lib/ai/analysis.ts + app/api/sessions/analyze (CIE-11 partial)
+- [x] Informe de derivación PDF + email ← components/referral/ReferralGenerator.tsx + lib/referrals/actions.ts
 - [x] Knowledge Profiles (activar/desactivar enfoques) ← API /api/knowledge/groups + UI KnowledgeGroupCard
-- [ ] WhatsApp Business API — recordatorios 24h y 1h
-- [ ] Panel financiero básico (multi-moneda: COP, MXN, ARS, etc.)
-- [ ] Google Calendar (Pro)
-- [x] Dashboard con alertas de riesgo
-- [x] Audit logs completos
+- [x] WhatsApp Business API — cliente ← lib/messaging/whatsapp.ts (Meta + Twilio adapters)
+- [x] WhatsApp webhook ← app/api/webhooks/whatsapp (inbound messages)
+- [ ] WhatsApp recordatorios automáticos 24h y 1h ← **PENDIENTE: job/scheduler**
+- [ ] Panel financiero básico (multi-moneda: COP, MXN, ARS, etc.) ← **PENDIENTE: tabla + UI**
+- [ ] Google Calendar (Pro) ← **PARCIAL: schema existe, integración pendiente**
+- [x] Dashboard con alertas de riesgo ← app/(dashboard)/page.tsx + risk_signals en AIReport
+- [x] Audit logs completos ← schema DB (AuditLog table) + implementación pendiente en rutas
 
-**Sprint 4 — Pulido y piloto (semanas 8-12)**
+**Sprint 4 — Pulido y piloto (semanas 8-12)** 🔄 EN PROGRESO
 
-- [ ] Onboarding Lite (< 10 min)
-- [ ] Onboarding Pro (< 30 min, guiado)
-- [ ] Landing page con diferenciación Lite vs Pro
-- [ ] qa-agent: testing completo (TypeScript, build, RLS, UX)
-- [ ] 5-10 psicólogos piloto con Lite (Colombia, México)
-- [ ] 2-3 psiquiatras piloto con Pro (Colombia)
-- [ ] Métricas de uso y feedback loop
+- [ ] Onboarding Lite (< 10 min) ← **PENDIENTE: UX flow**
+- [ ] Onboarding Pro (< 30 min, guiado) ← **PENDIENTE: UX flow**
+- [x] Landing page con diferenciación Lite vs Pro ← app/page.tsx (completada)
+- [ ] qa-agent: testing completo (TypeScript, build, RLS, UX) ← **PENDIENTE: suite de tests**
+- [ ] 5-10 psicólogos piloto con Lite (Colombia, México) ← **PENDIENTE: recruitment**
+- [ ] 2-3 psiquiatras piloto con Pro (Colombia) ← **PENDIENTE: recruitment**
+- [ ] Métricas de uso y feedback loop ← **PENDIENTE: analytics + survey**
 
 ### v1.5 — Retención y diferenciación (mes 4-6)
 
