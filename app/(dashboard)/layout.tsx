@@ -27,7 +27,7 @@ export default async function DashboardLayout({
   ]);
 
   return (
-    <div className="flex h-screen flex-col bg-[radial-gradient(circle_at_top,rgba(21,134,160,0.14),transparent_28%),linear-gradient(180deg,#C8E6F2_0%,#BEE0EC_100%)]">
+    <div className="flex h-[100dvh] flex-col bg-[radial-gradient(circle_at_top,rgba(21,134,160,0.14),transparent_28%),linear-gradient(180deg,#C8E6F2_0%,#BEE0EC_100%)]">
       <Topbar
         psychologistName={psychologist?.name ?? user.email ?? "Psicólogo"}
         activePatients={activePatients ?? 0}

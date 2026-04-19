@@ -11,6 +11,7 @@ import {
   Calendar,
   FileText,
   Briefcase,
+  DollarSign,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/sessions/new",    icon: Mic,              label: "Sesión",     labelShort: "Sesión" },
   { href: "/knowledge",       icon: BookOpen,         label: "Biblioteca", labelShort: "Biblio" },
   { href: "/schedule",        icon: Calendar,         label: "Agenda",     labelShort: "Agenda" },
+  { href: "/finance",         icon: DollarSign,       label: "Finanzas",   labelShort: "Dinero" },
   { href: "/reports",         icon: FileText,         label: "Informes",   labelShort: "Inform" },
   { href: "/cases",           icon: Briefcase,        label: "Casos",      labelShort: "Casos"  },
 ];
