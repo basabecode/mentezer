@@ -45,7 +45,7 @@ export default async function AdminLayout({
             </div>
             <div>
               <p className="font-serif text-xl font-semibold tracking-tight">
-                PsyAssist
+                Mentezer
               </p>
               <p className="text-xs uppercase tracking-widest text-white/40">
                 Panel administrador
@@ -107,7 +107,7 @@ export default async function AdminLayout({
               </div>
               <div>
                 <p className="font-serif text-lg font-semibold tracking-tight text-psy-ink">
-                  PsyAssist
+                  Mentezer
                 </p>
                 <p className="text-xs uppercase tracking-widest text-psy-muted">
                   Admin

@@ -67,7 +67,7 @@ function ReferralDocument({
       React.createElement(
         View,
         { style: styles.header },
-        React.createElement(Text, { style: styles.headerTitle }, "PsyAssist · Informe de Derivación"),
+        React.createElement(Text, { style: styles.headerTitle }, "Mentezer · Informe de Derivación"),
         React.createElement(View, { style: styles.headerLine })
       ),
       // Date
@@ -99,7 +99,7 @@ function ReferralDocument({
         { style: styles.footer },
         React.createElement(Text, { style: styles.footerPsy }, psychologistName),
         React.createElement(Text, { style: styles.footerSub }, `Psicólogo/a · T.P. ${psychologistLicense}`),
-        React.createElement(Text, { style: { ...styles.footerSub, marginTop: 1 } }, "Emitido con PsyAssist")
+        React.createElement(Text, { style: { ...styles.footerSub, marginTop: 1 } }, "Emitido con Mentezer")
       ),
       // Disclaimer
       React.createElement(
@@ -108,7 +108,7 @@ function ReferralDocument({
         React.createElement(
           Text,
           null,
-          "⚠️ Este documento es un informe de apoyo clínico. El diagnóstico, tratamiento y decisiones clínicas son responsabilidad exclusiva del profesional de salud mental emisor. PsyAssist no reemplaza la evaluación clínica profesional."
+          "⚠️ Este documento es un informe de apoyo clínico. El diagnóstico, tratamiento y decisiones clínicas son responsabilidad exclusiva del profesional de salud mental emisor. Mentezer no reemplaza la evaluación clínica profesional."
         )
       )
     )

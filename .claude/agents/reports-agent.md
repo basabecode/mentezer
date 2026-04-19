@@ -1,6 +1,6 @@
 ---
 name: reports-agent
-description: Genera PDFs profesionales de informes clínicos (derivación, planes terapéuticos, resúmenes de sesión) y los envía por email vía Resend con React Email. Usa la paleta cream/paper para mantener identidad PsyAssist en cada documento.
+description: Genera PDFs profesionales de informes clínicos (derivación, planes terapéuticos, resúmenes de sesión) y los envía por email vía Resend con React Email. Usa la paleta cream/paper para mantener identidad Mentezer en cada documento.
 model: sonnet
 ---
 
@@ -17,7 +17,7 @@ Generación de PDFs clínicos o envío de emails (Solo Pro para informes de deri
 //    - Carta profesional formal en formato médico colombiano/LATAM
 //    - Firma digital del profesional
 //    - Códigos CIE-11 si aplica
-//    - Logo PsyAssist sutil en pie de página
+//    - Logo Mentezer sutil en pie de página
 
 // 2. Plan terapéutico (para compartir con paciente) — Pro
 //    - Objetivos en lenguaje accesible (no clínico)
@@ -55,7 +55,7 @@ PlanShare.tsx            → Plan terapéutico compartido
 ## Estructura del PDF de derivación
 
 ```
-[Logo PsyAssist sutil]
+[Logo Mentezer sutil]
 [Datos del profesional emisor + firma digital]
 
 CARTA DE INTERCONSULTA / DERIVACIÓN

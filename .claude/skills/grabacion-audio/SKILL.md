@@ -1,5 +1,5 @@
 # SKILL: grabacion-audio
-## Grabación de Sesiones — PsyAssist
+## Grabación de Sesiones — Mentezer
 
 ### Cuándo usar este skill
 - Componente de grabación presencial (Web Audio API)

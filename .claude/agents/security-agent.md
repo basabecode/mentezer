@@ -86,7 +86,7 @@ export async function requireConsent(patientId: string, psychologistId: string) 
 ```
 ⚠️ Este contenido es una herramienta de apoyo al criterio clínico.
 El diagnóstico, tratamiento y decisiones clínicas son responsabilidad
-exclusiva del profesional de salud mental. PsyAssist no reemplaza la
+exclusiva del profesional de salud mental. Mentezer no reemplaza la
 evaluación clínica profesional.
 ```
 

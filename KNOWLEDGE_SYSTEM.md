@@ -10,7 +10,7 @@
 
 ## CONTEXTO DEL SISTEMA
 
-PsyAssist tiene 126 libros de psicología clínica que deben convertirse en conocimiento
+Mentezer tiene 126 libros de psicología clínica que deben convertirse en conocimiento
 recuperable por IA durante el análisis de sesiones. El sistema tiene **dos capas**:
 
 **Capa 1 — Biblioteca base (sistema):**
@@ -494,7 +494,7 @@ export async function classifyDocument(
   // Si la carpeta NO es "sin-clasificar", usarla como hint fuerte
   const folderIsHint = folderHint !== 'sin-clasificar'
 
-  const prompt = `Eres un experto en psicología clínica. Clasifica este documento en uno de los grupos de conocimiento de PsyAssist.
+  const prompt = `Eres un experto en psicología clínica. Clasifica este documento en uno de los grupos de conocimiento de Mentezer.
 
 NOMBRE DEL ARCHIVO: ${filename}
 CARPETA DE ORIGEN: ${folderHint}${folderIsHint ? ' (el psicólogo lo puso aquí como hint — úsalo si tiene sentido)' : ''}
@@ -772,7 +772,7 @@ async function processBook(doc: any, log: Record<string, string>) {
 
 // MAIN
 async function main() {
-  console.log('=== PsyAssist — Carga masiva de libros ===')
+  console.log('=== Mentezer — Carga masiva de libros ===')
   console.log(`Directorio: ${BOOKS_DIR}`)
 
   const log = loadLog()
@@ -1433,5 +1433,5 @@ SUPABASE_SERVICE_ROLE_KEY=xxx     # Solo para bulk-load-books.ts (NUNCA en front
 
 ---
 
-_PsyAssist — Sistema de Biblioteca Clínica con Perfiles de Conocimiento_
+_Mentezer — Sistema de Biblioteca Clínica con Perfiles de Conocimiento_
 _Diseñado para Claude Code — Cali, Colombia 2025_

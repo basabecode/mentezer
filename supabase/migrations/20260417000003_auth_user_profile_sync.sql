@@ -1,5 +1,5 @@
 -- ============================================================
--- PsyAssist — Sincronización auth.users -> psychologists
+-- Mentezer — Sincronización auth.users -> psychologists
 -- Fecha: 2026-04-17
 -- Objetivo: reparar cuentas creadas directamente en Supabase Auth
 --           y mantener sincronizados los perfiles futuros.

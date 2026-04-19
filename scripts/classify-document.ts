@@ -60,7 +60,7 @@ export async function classifyDocument(
 ): Promise<ClassificationResult> {
   const folderIsHint = folderHint !== "sin-clasificar" && folderHint !== "personal";
 
-  const prompt = `Eres un experto en psicología clínica. Clasifica este documento en uno de los grupos de conocimiento de PsyAssist.
+  const prompt = `Eres un experto en psicología clínica. Clasifica este documento en uno de los grupos de conocimiento de Mentezer.
 
 NOMBRE DEL ARCHIVO: ${filename}
 CARPETA DE ORIGEN: ${folderHint}${folderIsHint ? " (el psicólogo lo puso aquí como hint — úsalo si tiene sentido)" : ""}

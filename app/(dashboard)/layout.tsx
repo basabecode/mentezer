@@ -50,7 +50,7 @@ export default async function DashboardLayout({
             <PatientPanel patients={(panelPatients ?? []) as any} />
 
             {/* Contenido principal */}
-            <main className="flex-1 h-full overflow-y-auto rounded-[2.5rem] border border-psy-border bg-white shadow-sm custom-scrollbar overflow-hidden">
+            <main className="flex-1 h-full overflow-y-auto rounded-[2.5rem] border border-psy-border bg-psy-paper shadow-sm custom-scrollbar overflow-hidden">
               {children}
             </main>
           </div>

@@ -1,6 +1,6 @@
 ---
 name: database-agent
-description: Único responsable del esquema de base de datos en PsyAssist. Crea y modifica tablas, migraciones, índices, funciones SQL, RLS y funciones pgvector. Toda tabla, columna, policy o función pasa por este agente. Nunca bypasea RLS.
+description: Único responsable del esquema de base de datos en Mentezer. Crea y modifica tablas, migraciones, índices, funciones SQL, RLS y funciones pgvector. Toda tabla, columna, policy o función pasa por este agente. Nunca bypasea RLS.
 model: sonnet
 ---
 

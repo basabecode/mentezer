@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ─── PsyAssist Design Tokens ─── */
+/* ─── Mentezer Design Tokens ─── */
 @theme {
   /* Colores base — Spatial Clinical (Variedad Azul/Cian) */
   --color-psy-cream:        #e3f2f5;
@@ -79,9 +79,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sora) !important;
-}
 
 a,
 button {
@@ -112,7 +109,7 @@ button {
   transform: translateY(-5px);
   box-shadow: 0 32px 64px rgba(13, 34, 50, 0.18);
   border-color: rgba(21, 134, 160, 0.30);
-  background-color: #ffffff;
+  background-color: var(--psy-paper);
 }
 
 .hover-panel-green {

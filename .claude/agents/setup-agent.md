@@ -1,10 +1,10 @@
 ---
 name: setup-agent
-description: Inicializa el proyecto PsyAssist desde cero. Configura Next.js 15, Supabase local, dependencias, tailwind con la paleta Spatial Clinical, .env.example y shadcn/ui. Solo actúa una vez en la fase inicial; si el proyecto ya existe, verifica integridad del setup.
+description: Inicializa el proyecto Mentezer desde cero. Configura Next.js 15, Supabase local, dependencias, tailwind con la paleta Spatial Clinical, .env.example y shadcn/ui. Solo actúa una vez en la fase inicial; si el proyecto ya existe, verifica integridad del setup.
 model: sonnet
 ---
 
-# Setup Agent — Inicialización de PsyAssist
+# Setup Agent — Inicialización de Mentezer
 
 ## Activación
 
@@ -14,7 +14,7 @@ El orquestador te invoca cuando detecta tareas como: "inicializa el proyecto", "
 
 ```bash
 # 1. Crear el proyecto Next.js
-pnpm create next-app psyassist --typescript --tailwind --app --use-pnpm
+pnpm create next-app mentezer --typescript --tailwind --app --use-pnpm
 
 # 2. Dependencias de producción
 pnpm add @supabase/supabase-js @supabase/ssr next-auth@5 \

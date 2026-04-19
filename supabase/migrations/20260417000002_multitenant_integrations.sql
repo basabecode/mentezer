@@ -1,5 +1,5 @@
 -- ============================================================
--- PsyAssist — Multi-tenant & Integraciones por psicólogo
+-- Mentezer — Multi-tenant & Integraciones por psicólogo
 -- Fecha: 2026-04-17
 -- Incluye: is_platform_admin, psychologist_integrations,
 --          messaging_logs, booking_requests actualizada

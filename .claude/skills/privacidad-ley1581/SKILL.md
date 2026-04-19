@@ -1,5 +1,5 @@
 # SKILL: privacidad-ley1581
-## Privacidad Clínica y Cumplimiento Legal — PsyAssist
+## Privacidad Clínica y Cumplimiento Legal — Mentezer
 
 ### Cuándo usar este skill
 - Crear o modificar cualquier tabla con datos de pacientes

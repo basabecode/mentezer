@@ -116,7 +116,7 @@ en la fase inicial. Si el proyecto ya existe, verifica integridad del setup.
 
 ```bash
 # 1. Crear el proyecto Next.js
-pnpm create next-app psyassist --typescript --tailwind --app --use-pnpm
+pnpm create next-app Mentezer --typescript --tailwind --app --use-pnpm
 
 # 2. Instalar dependencias de producción
 pnpm add @supabase/supabase-js @supabase/ssr next-auth@5 \
@@ -141,7 +141,7 @@ supabase start
 `tailwind.config.ts` — con la paleta Spatial Clinical completa:
 
 ```typescript
-// Colores PsyAssist (NO modificar, son el ADN del diseño)
+// Colores Mentezer (NO modificar, son el ADN del diseño)
 colors: {
   psy: {
     cream:       '#F5F2ED',
@@ -396,7 +396,7 @@ export async function requireConsent(
 ```
 ⚠️ Este contenido es una herramienta de apoyo al criterio clínico.
 El diagnóstico, tratamiento y decisiones clínicas son responsabilidad
-exclusiva del profesional de salud mental. PsyAssist no reemplaza la
+exclusiva del profesional de salud mental. Mentezer no reemplaza la
 evaluación clínica profesional.
 ```
 
@@ -716,7 +716,7 @@ export function formatKnowledgeForPrompt(
 
 #### Responsabilidad
 
-El cerebro clínico de PsyAssist. Recibe el contexto ensamblado por rag-agent
+El cerebro clínico de Mentezer. Recibe el contexto ensamblado por rag-agent
 y genera los outputs clínicos: AIReport, planes terapéuticos e informes de
 derivación. SIEMPRE cita fuentes. SIEMPRE incluye disclaimer.
 
@@ -834,7 +834,7 @@ Input: AIReport más reciente + objetivos previos + casos similares
 
 #### Responsabilidad
 
-Implementar el diseño "Spatial Clinical" de PsyAssist en todos los componentes.
+Implementar el diseño "Spatial Clinical" de Mentezer en todos los componentes.
 Garantizar que ninguna pantalla se vea como un SaaS genérico.
 
 #### Sistema de diseño — NUNCA violar estas reglas
@@ -1171,7 +1171,7 @@ confirmaciones de cita.
 //    - Carta profesional formal en formato médico colombiano
 //    - Firma digital del psicólogo
 //    - Códigos CIE-11 si aplica
-//    - Logo PsyAssist sutil en pie de página
+//    - Logo Mentezer sutil en pie de página
 
 // 2. Plan terapéutico (para compartir con paciente)
 //    - Objetivos en lenguaje accesible (no clínico)
@@ -1369,5 +1369,5 @@ Recomendación: DESPLEGAR / CORREGIR PRIMERO / NO DESPLEGAR
 
 ---
 
-_PsyAssist — Equipo de 16 Agentes Especializados_
+_Mentezer — Equipo de 16 Agentes Especializados_
 _Orquestado por Mario Bas · Cali, Colombia 🇨🇴_

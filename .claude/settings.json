@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "project": "PsyAssist",
+  "project": "Mentezer",
   "permissions": {
     "allow": [
       "Bash(pnpm:*)",

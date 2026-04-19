@@ -1,5 +1,5 @@
 -- ============================================================
--- PsyAssist — Migración inicial
+-- Mentezer — Migración inicial
 -- Fecha: 2026-04-16
 -- Incluye: todas las tablas, RLS, índices pgvector
 -- ============================================================

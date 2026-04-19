@@ -13,13 +13,22 @@ export default function SchedulePage() {
               Gestión automatizada de citas y disponibilidad profesional.
             </p>
           </div>
-          <button
-            disabled
-            className="flex h-12 items-center gap-2 px-6 bg-psy-blue/10 text-psy-blue/40 rounded-2xl text-sm font-bold cursor-not-allowed border border-psy-blue/5"
-          >
-            <Plus size={18} strokeWidth={2.5} />
-            Nueva cita
-          </button>
+          <div className="group relative">
+            <button
+              disabled
+              title="Disponible en v1.5"
+              className="flex h-12 items-center gap-2 px-6 bg-psy-blue/10 text-psy-blue/40 rounded-2xl text-sm font-bold cursor-not-allowed border border-psy-blue/5"
+            >
+              <Plus size={18} strokeWidth={2.5} />
+              Nueva cita
+              <span className="inline-block px-2 py-1 ml-2 text-xs bg-psy-amber/20 text-psy-amber rounded-full font-semibold">
+                v1.5
+              </span>
+            </button>
+            <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-psy-ink text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+              Disponible en versión 1.5
+            </span>
+          </div>
         </div>
       </div>
 

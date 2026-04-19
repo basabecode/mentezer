@@ -1,5 +1,5 @@
 /**
- * PsyAssist — Carga masiva de libros clínicos (126 libros de Mario)
+ * Mentezer — Carga masiva de libros clínicos (126 libros de Mario)
  * Uso: npx ts-node scripts/bulk-load-books.ts
  *
  * Resiliente: usa bulk-load-log.json para pausar y retomar.

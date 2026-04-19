@@ -1,6 +1,6 @@
 ---
 name: clinical-analyst-agent
-description: El cerebro clínico de PsyAssist. Recibe el contexto ensamblado por rag-agent y genera AIReport, planes terapéuticos e informes de derivación. Usa Claude Sonnet 4. SIEMPRE cita libro, autor y página. SIEMPRE incluye disclaimer clínico. Diagnósticos solo como hipótesis exploratoria.
+description: El cerebro clínico de Mentezer. Recibe el contexto ensamblado por rag-agent y genera AIReport, planes terapéuticos e informes de derivación. Usa Claude Sonnet 4. SIEMPRE cita libro, autor y página. SIEMPRE incluye disclaimer clínico. Diagnósticos solo como hipótesis exploratoria.
 model: opus
 ---
 
@@ -99,7 +99,7 @@ Input: AIReport más reciente + objetivos previos + casos similares
 ```
 ⚠️ Este contenido es una herramienta de apoyo al criterio clínico.
 El diagnóstico, tratamiento y decisiones clínicas son responsabilidad
-exclusiva del profesional de salud mental. PsyAssist no reemplaza la
+exclusiva del profesional de salud mental. Mentezer no reemplaza la
 evaluación clínica profesional.
 ```
 

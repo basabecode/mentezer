@@ -57,7 +57,7 @@ export default async function OnboardingPage() {
   }
 
   const defaultTrack =
-    psychologist.plan === "professional" || psychologist.plan === "clinic"
+    psychologist.plan === "pro"
       ? "pro"
       : "lite";
 

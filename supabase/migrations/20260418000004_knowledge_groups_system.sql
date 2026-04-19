@@ -1,5 +1,5 @@
 -- ============================================================
--- PsyAssist — Sistema de grupos de conocimiento clínico
+-- Mentezer — Sistema de grupos de conocimiento clínico
 -- Fecha: 2026-04-18
 -- Sprint A del KNOWLEDGE_SYSTEM.md
 -- ============================================================

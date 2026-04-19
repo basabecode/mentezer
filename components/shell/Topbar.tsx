@@ -58,13 +58,6 @@ export function Topbar({
 
         <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
           <button
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl"
-            aria-label="Buscar"
-          >
-            <Search size={15} />
-          </button>
-
-          <button
             className={cn(
               "relative flex h-9 w-9 items-center justify-center rounded-xl border border-psy-ink/10 bg-white/55 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-10 md:w-10 md:rounded-2xl",
               pendingAnalysis > 0 && "text-psy-amber"

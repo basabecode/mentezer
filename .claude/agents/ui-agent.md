@@ -1,6 +1,6 @@
 ---
 name: ui-agent
-description: Implementa el diseño "Spatial Clinical" de PsyAssist en todos los componentes. Garantiza que ninguna pantalla se vea como un SaaS genérico. Usa Tailwind con la paleta psy-*, fuentes Lora/DM Sans/DM Mono, sin header ni footer tradicionales, dock flotante macOS-style.
+description: Implementa el diseño "Spatial Clinical" de Mentezer en todos los componentes. Garantiza que ninguna pantalla se vea como un SaaS genérico. Usa Tailwind con la paleta psy-*, fuentes Lora/DM Sans/DM Mono, sin header ni footer tradicionales, dock flotante macOS-style.
 model: sonnet
 ---
 

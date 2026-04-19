@@ -165,7 +165,7 @@ const LITE_REPORT_FIELDS = [
 
 const PRO_REPORT_FIELDS = [
   { id: "subjective", label: "Subjetivo", content: "La transcripción confirma insomnio asociado a presión evaluativa, hipervigilancia laboral y culpa al desconectarse.", meta: "Fuente: audio de 52:17 ya transcrito y vinculado al caso", tags: ["audio", "transcripción", "caso activo"], tone: "neutral" as const },
-  { id: "analysis", label: "Análisis clínico", content: "PsyAssist detecta patrón persistente de regulación basada en rendimiento y sostiene la hipótesis con biblioteca clínica y evolución previa.", meta: `${CITATION.author}, ${CITATION.page} · CIE-11 exploratorio ${AI_REPORT.cie11}`, tags: ["cie-11", "biblioteca", "evolución"], tone: "info" as const },
+  { id: "analysis", label: "Análisis clínico", content: "Mentezer detecta patrón persistente de regulación basada en rendimiento y sostiene la hipótesis con biblioteca clínica y evolución previa.", meta: `${CITATION.author}, ${CITATION.page} · CIE-11 exploratorio ${AI_REPORT.cie11}`, tags: ["cie-11", "biblioteca", "evolución"], tone: "info" as const },
   { id: "next-session", label: "Próxima sesión", content: "Queda preparado un siguiente paso concreto: explorar esquema de insuficiencia, registrar pensamientos automáticos y decidir si conviene interconsulta.", meta: "Acción clínica inmediata con salida a derivación en PDF", tags: ["derivación", "plan", "seguimiento"], tone: "success" as const },
 ];
 
@@ -180,7 +180,7 @@ type Version = "lite" | "pro";
 const LITE_STEPS = [
   { id: 1, label: "Contexto", title: "La sesión acaba de terminar" },
   { id: 2, label: "Notas", title: "Escribes lo que pasó" },
-  { id: 3, label: "Análisis", title: "PsyAssist analiza" },
+  { id: 3, label: "Análisis", title: "Mentezer analiza" },
   { id: 4, label: "Resultado", title: "Tu nota SOAP, lista" },
   { id: 5, label: "Listo", title: "Consulta cerrada" },
 ];
@@ -188,7 +188,7 @@ const LITE_STEPS = [
 const PRO_STEPS = [
   { id: 1, label: "Contexto", title: "La sesión acaba de terminar" },
   { id: 2, label: "Grabación", title: "Grabaste la sesión" },
-  { id: 3, label: "Transcripción", title: "PsyAssist transcribe" },
+  { id: 3, label: "Transcripción", title: "Mentezer transcribe" },
   { id: 4, label: "AIReport", title: "Análisis clínico profundo" },
   { id: 5, label: "Derivación", title: "Interconsulta en un clic" },
   { id: 6, label: "Listo", title: "Consulta cerrada" },
@@ -231,7 +231,7 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
     <div className={cls}>
       <div className="mb-5 xl:hidden"><PatientCard /></div>
       <div className="rounded-[1.5rem] border border-[rgba(192,122,24,0.16)] bg-[var(--psy-amber-light)] p-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-amber)]">Situación actual (sin PsyAssist)</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-amber)]">Situación actual (sin Mentezer)</p>
         <p className="mt-3 text-sm leading-7 text-[var(--psy-ink)]">
           Son las <strong>7:04 pm</strong>. Carlos acaba de salir. Tienes 2 pacientes más antes de las 9. El cuaderno está abierto con 3 líneas sueltas y ya no recuerdas bien el orden de lo que pasó.
         </p>
@@ -261,7 +261,7 @@ function LiteStep({ step, isAnimating }: { step: number; isAnimating: boolean })
         <div className="mt-4 flex items-center justify-between">
           <p className="text-xs text-[var(--psy-muted)]">238 palabras · texto libre</p>
           <div className="flex items-center gap-1.5 rounded-full bg-[var(--psy-blue)] px-3 py-1.5 text-xs font-medium text-white">
-            <IconSpark /> Analizar con PsyAssist
+            <IconSpark /> Analizar con Mentezer
           </div>
         </div>
       </div>
@@ -344,7 +344,7 @@ function ProStep({ step, isAnimating }: { step: number; isAnimating: boolean }) 
       <div className="mb-5 xl:hidden"><PatientCard /></div>
       <div className="rounded-[1.5rem] border border-[rgba(21,134,160,0.15)] bg-[var(--psy-blue-light)] p-5">
         <div className="flex items-start justify-between gap-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-blue)]">Con PsyAssist Pro</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--psy-blue)]">Con Mentezer Pro</p>
           <ThinkingBadge label="Grabación completada" />
         </div>
         <p className="mt-3 text-sm leading-7 text-[var(--psy-ink)]">

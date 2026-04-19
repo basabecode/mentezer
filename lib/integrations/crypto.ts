@@ -8,7 +8,7 @@ function getDerivedKey(): Buffer {
   const secret = process.env.ENCRYPTION_SECRET;
   if (!secret) throw new Error("ENCRYPTION_SECRET no configurado");
   // Deriva clave de 32 bytes con scrypt
-  return scryptSync(secret, "psyassist-salt-v1", 32);
+  return scryptSync(secret, "mentezer-salt-v1", 32);
 }
 
 export function encrypt(plaintext: string): string {

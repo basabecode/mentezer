@@ -1,5 +1,5 @@
 # SKILL: rag-clinico
-## RAG Pipeline Clínico — PsyAssist
+## RAG Pipeline Clínico — Mentezer
 
 ### Cuándo usar este skill
 Cualquier tarea relacionada con:

@@ -53,7 +53,7 @@ export function FloatingDock() {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 md:bottom-6"
         >
-          <div className="flex items-center gap-1 rounded-[2rem] border border-psy-border bg-white px-2 py-2 shadow-2xl backdrop-blur-md">
+          <div className="flex items-center gap-1 rounded-[2rem] border border-psy-border bg-psy-paper/95 px-2 py-2 shadow-2xl backdrop-blur-md">
             {navItems.map(({ href, icon: Icon, label, labelShort }) => {
               const active = pathname === href || pathname.startsWith(href + "/");
               return (

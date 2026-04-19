@@ -42,7 +42,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="h-full shrink-0 overflow-hidden lg:flex flex-col"
         >
-          <div className="flex flex-col h-full rounded-[2.5rem] border border-psy-border bg-white shadow-sm overflow-hidden">
+          <div className="flex flex-col h-full rounded-[2.5rem] border border-psy-border bg-psy-paper shadow-sm overflow-hidden">
             {/* Header del panel vertical integrado */}
             <div className="px-6 pt-8 pb-4 shrink-0">
               <div className="flex items-center justify-between mb-6">
@@ -101,7 +101,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
                           "group flex items-center gap-4 rounded-2xl px-4 py-4 transition-all duration-300 border",
                           isActive
                             ? "border-psy-blue/20 bg-psy-blue text-white shadow-lg shadow-psy-blue/25"
-                            : "border-transparent bg-psy-cream/40 text-psy-ink hover:border-psy-blue/10 hover:bg-white hover:shadow-md"
+                            : "border-transparent bg-psy-cream/40 text-psy-ink hover:border-psy-blue/10 hover:bg-psy-paper hover:shadow-md"
                         )}
                       >
                         <div
