@@ -6,10 +6,63 @@ import { Fragment } from 'react'
 
 const routeLabels: Record<string, string> = {
   '': 'Inicio',
+  'dashboard': 'Panel',
   'demo': 'Demostración',
   'login': 'Ingresar',
   'register': 'Registro',
   'onboarding': 'Configuración',
+  'patients': 'Pacientes',
+  'sessions': 'Sesiones',
+  'cases': 'Casos',
+  'knowledge': 'Biblioteca',
+  'upload': 'Subir documento',
+  'reports': 'Informes',
+  'finance': 'Finanzas',
+  'schedule': 'Agenda',
+  'settings': 'Configuración',
+  'privacy': 'Privacidad',
+  'support': 'Soporte',
+  'legal': 'Legal',
+  'terms': 'Términos',
+  'admin': 'Administración',
+  'clients': 'Clientes',
+}
+
+const singularLabels: Record<string, string> = {
+  'patients': 'Paciente',
+  'sessions': 'Sesión',
+  'cases': 'Caso',
+  'clients': 'Cliente',
+}
+
+function formatSegmentLabel(
+  segment: string,
+  previousSegment?: string,
+  nextSegment?: string,
+) {
+  if (routeLabels[segment]) {
+    return routeLabels[segment]
+  }
+
+  if (segment === 'new') {
+    if (previousSegment === 'patients') return 'Nuevo paciente'
+    if (previousSegment === 'sessions') return 'Nueva sesión'
+    if (previousSegment === 'cases') return 'Nuevo caso'
+    if (previousSegment === 'clients') return 'Nuevo cliente'
+    return 'Nuevo'
+  }
+
+  if (previousSegment && singularLabels[previousSegment]) {
+    if (nextSegment === 'reports') {
+      return singularLabels[previousSegment]
+    }
+
+    return `${singularLabels[previousSegment]}`
+  }
+
+  return segment
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
 export function Breadcrumbs() {
@@ -42,7 +95,9 @@ export function Breadcrumbs() {
         const actualIndex = hiddenCount + index
         const href = `/${segments.slice(0, actualIndex + 1).join('/')}`
         const isLast = actualIndex === segments.length - 1
-        const label = routeLabels[segment] || segment.charAt(0).toUpperCase() + segment.slice(1)
+        const previousSegment = segments[actualIndex - 1]
+        const nextSegment = segments[actualIndex + 1]
+        const label = formatSegmentLabel(segment, previousSegment, nextSegment)
         
         return (
           <Fragment key={href}>
