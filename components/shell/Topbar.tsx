@@ -43,14 +43,14 @@ export function Topbar({
 
   return (
     <header className="sticky top-0 z-40 px-2 py-2 md:px-5 md:py-3">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 rounded-2xl border border-psy-ink/8 bg-white/96 px-3 py-2 shadow-md ring-1 ring-psy-ink/5 backdrop-blur-md md:rounded-3xl md:gap-3 md:px-4 md:py-2.5">
+      <div className="calm-panel mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-4 md:py-2.5">
 
         {/* ── Lado izquierdo ── */}
         <div className="flex flex-1 items-center gap-2 min-w-0 md:gap-4">
           <Tooltip label={sidebarOpen ? "Cerrar pacientes" : "Ver pacientes"} side="bottom">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-blue"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-psy-border bg-white/70 text-psy-muted transition hover:border-psy-blue/20 hover:bg-white hover:text-psy-blue"
               aria-label={sidebarOpen ? "Cerrar panel lateral" : "Abrir panel lateral"}
             >
               {sidebarOpen ? <PanelLeftClose size={17} /> : <PanelLeft size={17} />}
@@ -63,7 +63,7 @@ export function Topbar({
             <p className="font-mono text-[9px] uppercase tracking-widest text-psy-muted">
               {greeting}
             </p>
-            <p className="mt-0.5 font-sora text-base font-bold tracking-tight text-psy-ink leading-none">
+            <p className="mt-0.5 font-sora text-base font-semibold tracking-tight text-psy-ink leading-none">
               {firstName}
             </p>
           </div>
@@ -81,7 +81,7 @@ export function Topbar({
             <button
               onClick={() => setNotificationsOpen(!notificationsOpen)}
               className={cn(
-                "relative flex h-8 w-8 items-center justify-center rounded-xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-ink md:h-9 md:w-9 md:rounded-xl",
+                "relative flex h-8 w-8 items-center justify-center rounded-xl border border-psy-border bg-white/70 text-psy-muted transition hover:border-psy-blue/20 hover:bg-white hover:text-psy-ink md:h-9 md:w-9 md:rounded-xl",
                 pendingAnalysis > 0 && "text-psy-amber",
                 notificationsOpen && "bg-white text-psy-blue border-psy-blue/20"
               )}
@@ -97,7 +97,7 @@ export function Topbar({
           <Tooltip label="Configuración" side="bottom">
             <button
               onClick={() => setSettingsOpen(true)}
-              className="flex h-8 w-8 items-center justify-center rounded-xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-blue md:h-9 md:w-9"
+              className="flex h-8 w-8 items-center justify-center rounded-xl border border-psy-border bg-white/70 text-psy-muted transition hover:border-psy-blue/20 hover:bg-white hover:text-psy-blue md:h-9 md:w-9"
               aria-label="Configuración"
             >
               <Settings size={14} />
@@ -110,7 +110,7 @@ export function Topbar({
               tabIndex={0}
               onClick={() => setSettingsOpen(true)}
               onKeyDown={(e) => e.key === "Enter" && setSettingsOpen(true)}
-              className="ml-0.5 flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-psy-blue/15 transition-transform hover:scale-105 md:h-9 md:w-9 md:rounded-xl"
+              className="ml-0.5 flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-psy-blue-light transition-transform hover:scale-105 md:h-9 md:w-9 md:rounded-xl"
               aria-label="Mi perfil"
             >
               {avatarUrl ? (

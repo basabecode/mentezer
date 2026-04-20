@@ -58,7 +58,7 @@ export function FloatingDock() {
           aria-label="Navegación principal"
         >
           {/* Mobile: scrollable pill */}
-          <div className="flex md:hidden max-w-[calc(100vw-24px)] overflow-x-auto rounded-[1.5rem] border border-white/10 bg-psy-ink/92 px-1.5 py-1.5 shadow-2xl shadow-psy-ink/50 backdrop-blur-xl no-scrollbar">
+          <div className="flex md:hidden max-w-[calc(100vw-24px)] overflow-x-auto rounded-[1.5rem] border border-psy-border/90 bg-white/92 px-1.5 py-1.5 shadow-[0_18px_40px_rgba(74,144,164,0.16)] backdrop-blur-xl no-scrollbar">
             {navItems.map(({ href, icon: Icon, label, mobileLabel }) => {
               const active = pathname === href || pathname.startsWith(href + "/");
               return (
@@ -69,8 +69,8 @@ export function FloatingDock() {
                   className={cn(
                     "relative flex shrink-0 flex-col items-center gap-1 rounded-2xl px-2.5 py-2 transition-all duration-200",
                     active
-                      ? "bg-psy-blue text-white shadow-lg shadow-psy-blue/40"
-                      : "text-white/45 hover:text-white hover:bg-white/10"
+                      ? "bg-psy-blue text-white shadow-lg shadow-psy-blue/25"
+                      : "text-psy-muted hover:text-psy-blue hover:bg-psy-blue-light"
                   )}
                 >
                   <Icon size={16} strokeWidth={active ? 2.5 : 1.8} />
@@ -83,7 +83,7 @@ export function FloatingDock() {
           </div>
 
           {/* Desktop: regular dock with tooltips */}
-          <div className="hidden md:flex items-center gap-0.5 rounded-[2rem] border border-white/10 bg-psy-ink/92 px-2 py-2 shadow-2xl shadow-psy-ink/50 backdrop-blur-xl">
+          <div className="hidden md:flex items-center gap-0.5 rounded-[2rem] border border-psy-border/90 bg-white/92 px-2 py-2 shadow-[0_18px_44px_rgba(74,144,164,0.14)] backdrop-blur-xl">
             {navItems.map(({ href, icon: Icon, label }) => {
               const active = pathname === href || pathname.startsWith(href + "/");
               return (
@@ -94,8 +94,8 @@ export function FloatingDock() {
                     className={cn(
                       "relative flex flex-col items-center gap-1.5 rounded-2xl px-3 py-2.5 transition-all duration-200 min-w-[68px]",
                       active
-                        ? "bg-psy-blue text-white shadow-lg shadow-psy-blue/40"
-                        : "text-white/45 hover:text-white hover:bg-white/10"
+                        ? "bg-psy-blue text-white shadow-lg shadow-psy-blue/25"
+                        : "text-psy-muted hover:text-psy-blue hover:bg-psy-blue-light"
                     )}
                   >
                     <Icon size={18} strokeWidth={active ? 2.5 : 1.8} />
@@ -111,7 +111,7 @@ export function FloatingDock() {
                   </Link>
                   {/* Tooltip — only on inactive items */}
                   {!active && (
-                    <span className="pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-psy-ink shadow-xl opacity-0 scale-95 transition-all duration-150 group-hover:opacity-100 group-hover:scale-100">
+                    <span className="pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-xl border border-psy-border bg-white px-2.5 py-1.5 text-[11px] font-semibold text-psy-ink shadow-xl opacity-0 scale-95 transition-all duration-150 group-hover:opacity-100 group-hover:scale-100">
                       {label}
                     </span>
                   )}

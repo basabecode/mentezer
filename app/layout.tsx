@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Lora, DM_Sans, DM_Mono, Sora } from "next/font/google";
+import { Manrope, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const sora = Sora({
-  variable: "--font-sora",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 });
@@ -41,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${lora.variable} ${sora.variable} ${dmSans.variable} ${dmMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${dmSans.variable} ${dmMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">{children}</body>
     </html>

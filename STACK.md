@@ -20,7 +20,7 @@ Package mgr:     pnpm
 Validación:      Zod
 UI Components:   Radix UI (headless) + componentes custom
 Animaciones:     Framer Motion (selectivo, nunca decorativo)
-Fonts:           next/font (Lora, DM Sans, DM Mono)
+Fonts:           next/font (Manrope, DM Sans, DM Mono)
 ```
 
 **Regla:** No agregar dependencias sin justificar. Cada paquete tiene costo de mantenimiento.

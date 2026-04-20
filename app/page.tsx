@@ -411,43 +411,43 @@ export default function LandingPage() {
       <ScrollRevealInit />
 
       <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
-        <nav className="flex items-center justify-between rounded-3xl border border-psy-warm-border bg-psy-warm/95 px-4 py-3 shadow-xl backdrop-blur-md md:px-5">
+        <nav className="calm-panel flex items-center justify-between px-4 py-3 md:px-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue text-white shadow-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue shadow-sm">
               <IconBrain />
             </div>
             <div>
-              <p className="font-sora text-lg font-semibold tracking-tight">
+              <p className="font-sora text-lg font-semibold tracking-tight text-psy-ink">
                 MENTEZER
               </p>
               <p className="hidden text-xs text-psy-muted sm:block">
-                Consulta clínica más moderna, sin perder criterio
+                Calma profesional para tu práctica clínica
               </p>
             </div>
           </div>
 
-          <div className="hidden items-center gap-1 rounded-full border border-psy-ink/10 bg-white/45 p-1 md:flex">
+          <div className="hidden items-center gap-1 rounded-full border border-psy-border bg-white/75 p-1 md:flex">
             <Link
               href="/demo"
-              className="rounded-full px-4 py-2 text-sm font-medium text-psy-blue transition hover:bg-white hover:text-psy-ink"
+              className="rounded-full px-4 py-2 text-sm font-medium text-psy-blue transition hover:bg-psy-blue-light hover:text-psy-ink"
             >
               Demostración
             </Link>
             <a
               href="#problema"
-              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-white hover:text-psy-ink"
+              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
             >
               Problema
             </a>
             <a
               href="#flujo"
-              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-white hover:text-psy-ink"
+              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
             >
               Cómo funciona
             </a>
             <a
               href="#planes"
-              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-white hover:text-psy-ink"
+              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
             >
               Precios
             </a>
@@ -462,17 +462,17 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/register"
-              className="lift-button inline-flex items-center gap-2 rounded-full bg-psy-ink px-4 py-2.5 text-sm font-medium text-psy-paper transition hover:bg-psy-ink/90 md:px-5"
+              className="calm-button-primary rounded-full px-4 py-2.5 text-sm font-medium md:px-5"
             >
               <span className="hidden sm:inline">Prueba 14 días</span>
               <span className="sm:hidden">Empezar</span>
               <IconArrow />
             </Link>
-            
+
             {/* Mobile Menu Button */}
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-warm-border text-psy-ink transition hover:bg-psy-warm-border/80 md:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-2xl border border-psy-border bg-white/70 text-psy-ink transition hover:bg-white md:hidden"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <IconClose /> : <IconMenu />}
@@ -482,12 +482,12 @@ export default function LandingPage() {
 
         {/* Mobile menu dropdown */}
         {isMobileMenuOpen && (
-          <div className="absolute left-4 right-4 mt-3 overflow-hidden rounded-3xl border border-psy-warm-border bg-psy-warm p-4 shadow-2xl backdrop-blur-xl animate-menu-in md:hidden">
+          <div className="absolute left-4 right-4 mt-3 overflow-hidden rounded-3xl border border-psy-border bg-white/96 p-4 shadow-[0_18px_40px_rgba(74,144,164,0.16)] backdrop-blur-xl animate-menu-in md:hidden">
             <div className="grid gap-2">
               <Link
                 onClick={() => setIsMobileMenuOpen(false)}
                 href="/demo"
-                className="flex items-center justify-between rounded-2xl border border-psy-blue/10 bg-psy-blue/5 px-4 py-3.5 text-sm font-medium text-psy-blue"
+                className="flex items-center justify-between rounded-2xl border border-psy-blue/12 bg-psy-blue-light px-4 py-3.5 text-sm font-medium text-psy-blue"
               >
                 Ver Demostración
                 <IconSpark />
@@ -495,21 +495,21 @@ export default function LandingPage() {
               <a
                 onClick={() => setIsMobileMenuOpen(false)}
                 href="#problema"
-                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-ink/5"
+                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
               >
                 Problema
               </a>
               <a
                 onClick={() => setIsMobileMenuOpen(false)}
                 href="#flujo"
-                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-ink/5"
+                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
               >
                 Cómo funciona
               </a>
               <a
                 onClick={() => setIsMobileMenuOpen(false)}
                 href="#planes"
-                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-ink/5"
+                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
               >
                 Precios
               </a>
@@ -517,7 +517,7 @@ export default function LandingPage() {
                 <Link
                   onClick={() => setIsMobileMenuOpen(false)}
                   href="/login"
-                  className="flex w-full items-center justify-center rounded-2xl py-3 text-sm font-medium text-psy-ink active:bg-psy-ink/10"
+                  className="flex w-full items-center justify-center rounded-2xl py-3 text-sm font-medium text-psy-ink active:bg-psy-blue-light"
                 >
                   Ingresar a mi cuenta
                 </Link>
@@ -531,21 +531,21 @@ export default function LandingPage() {
         <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 md:items-center lg:grid-cols-2">
           <div className="reveal-rise">
             <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight text-psy-ink sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
-              Tu consulta puede verse mucho más moderna sin perder tu criterio
-              clínico.
+              Una interfaz clínica serena para atender, registrar y analizar con
+              más claridad.
             </h1>
 
             <p className="mt-5 max-w-xl text-base leading-7 text-psy-ink/75 md:text-lg">
-              MENTEZER analiza sesiones con tu biblioteca clínica, ordena el
-              cierre del día y reduce la dependencia de libreta, notas sueltas y
-              memoria tardía.
+              MENTEZER organiza tu práctica con una experiencia visual ligera,
+              confiable y profesional. Menos fricción operativa, más foco clínico
+              y mejor presencia frente al paciente.
             </p>
 
             <div className="mt-6 grid max-w-xl gap-2.5">
               {clarityPoints.map(point => (
                 <div
                   key={point}
-                  className="flex items-start gap-3 rounded-2xl border border-psy-border bg-white/55 px-4 py-3 text-sm text-psy-ink/75"
+                  className="flex items-start gap-3 rounded-2xl border border-psy-border bg-white/78 px-4 py-3 text-sm text-psy-ink/75 shadow-sm"
                 >
                   <span className="mt-0.5 text-psy-green">
                     <IconCheck />
@@ -558,14 +558,14 @@ export default function LandingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/register"
-                className="lift-button inline-flex items-center justify-center gap-2 rounded-3xl bg-psy-blue px-6 py-4 text-sm font-medium text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-psy-blue/90"
+                className="calm-button-primary px-6 py-4 text-sm font-medium rounded-3xl"
               >
                 Activar prueba de 14 días
                 <IconArrow />
               </Link>
               <Link
                 href="/demo"
-                className="lift-button inline-flex items-center justify-center gap-2 rounded-3xl border border-psy-border bg-psy-paper/80 px-6 py-4 text-sm font-medium text-psy-ink transition hover:bg-white"
+                className="calm-button-secondary rounded-3xl px-6 py-4 text-sm font-medium"
               >
                 <IconSpark />
                 Ver demostración en vivo
@@ -574,17 +574,17 @@ export default function LandingPage() {
 
             {/* Tarjeta visible solo en mobile */}
             <div className="mt-8 block md:hidden">
-              <div className="overflow-hidden rounded-3xl border border-psy-border bg-psy-paper/90 p-4 shadow-2xl">
+              <div className="overflow-hidden rounded-3xl border border-psy-border bg-white/92 p-4 shadow-[0_18px_40px_rgba(74,144,164,0.12)]">
                 <div className="flex items-center justify-between border-b border-psy-border/70 pb-3">
                   <div>
                     <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                      MENTEZER clinical workspace
+                      MENTEZER Espacio de trabajo Clínico
                     </p>
                     <p className="mt-1 text-base font-semibold tracking-tight text-psy-ink">
                       Ana R. · Sesión 8 · TCC
                     </p>
                   </div>
-                  <div className="rounded-full border border-psy-border bg-white/80 px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-psy-blue">
+                  <div className="rounded-full border border-psy-border bg-psy-blue-light px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-psy-blue">
                     Respuesta IA
                   </div>
                 </div>
@@ -638,13 +638,13 @@ export default function LandingPage() {
             <div className="absolute -left-6 top-10 h-36 w-36 rounded-full bg-psy-blue/15 blur-3xl" />
             <div className="absolute -bottom-6 right-8 h-28 w-28 rounded-full bg-psy-green/15 blur-3xl" />
 
-            <div className="card-hero-glow relative overflow-hidden rounded-3xl border border-psy-warm-border bg-psy-warm/90 p-4 shadow-2xl md:p-5">
+            <div className="card-hero-glow relative overflow-hidden rounded-3xl border border-psy-warm-border bg-[linear-gradient(180deg,rgba(62,129,151,0.62)_0%,rgba(74,144,164,0.42)_22%,rgba(232,242,245,0.92)_58%,rgba(255,255,255,1)_100%)] p-4 shadow-2xl md:p-5">
               <div className="flex items-center justify-between border-b border-psy-border/70 pb-4">
                 <div>
-                  <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                    MENTEZER clinical workspace
+                  <p className="font-mono text-xs uppercase tracking-widest text-white">
+                    MENTEZER Espacio de trabajo Clínico
                   </p>
-                  <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-psy-ink">
+                  <h2 className="mt-1.5 text-lg font-semibold tracking-tight !text-white">
                     Ana R. · Sesión 8 · TCC
                   </h2>
                 </div>
@@ -686,7 +686,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="reveal-rise reveal-delay-2 mx-auto mt-10 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/95 px-4 py-1.5 shadow-xl sm:grid-cols-2 md:grid-cols-4 md:px-5">
+        <div className="reveal-rise reveal-delay-2 mx-auto mt-10 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/92 px-4 py-2 shadow-[0_18px_42px_rgba(74,144,164,0.12)] sm:grid-cols-2 md:grid-cols-4 md:px-5">
           {quickFacts.map(item => (
             <div
               key={item.value}
@@ -1076,7 +1076,7 @@ export default function LandingPage() {
       <SectionFade from="white" to="var(--psy-cream)" />
 
       <section className="bg-psy-cream px-4 pb-24 pt-10 md:px-6 md:pb-32 md:pt-16">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-psy-ink to-[#1a3a52] p-4 text-psy-paper shadow-2xl md:p-12">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-psy-blue via-[#6ea6b6] to-[#aac7a3] p-4 text-white shadow-[0_26px_60px_rgba(74,144,164,0.22)] md:p-12">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
               <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
@@ -1089,11 +1089,11 @@ export default function LandingPage() {
                 No estás validando una tendencia. Estás validando si vale la
                 pena seguir cerrando sesiones con el método de siempre.
               </p>
-              
+
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <Link
                   href="/register"
-                  className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-8 py-5 text-sm font-bold text-psy-ink transition hover:bg-psy-paper shadow-xl shadow-white/5"
+                  className="calm-button-secondary inline-flex rounded-2xl bg-white px-8 py-5 text-sm font-bold text-psy-ink shadow-xl shadow-white/10"
                 >
                   Probar MENTEZER ahora
                   <IconArrow />
@@ -1114,9 +1114,9 @@ export default function LandingPage() {
             <div className="lg:col-span-5">
               <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl rotate-3">
                 <div className="absolute inset-0 bg-gradient-to-t from-psy-ink/40 to-transparent" />
-                <img 
-                  src="/img/mentezer-context.png" 
-                  alt="MENTEZER en uso clínico" 
+                <img
+                  src="/img/mentezer-context.png"
+                  alt="MENTEZER en uso clínico"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
                 />
               </div>

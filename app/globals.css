@@ -2,83 +2,136 @@
 
 /* ─── Mentezer Design Tokens ─── */
 @theme {
-  /* Colores base — Spatial Clinical (Variedad Azul/Cian) */
-  --color-psy-cream:        #e3f2f5;
-  --color-psy-paper:        #edf7f9;
-  --color-psy-ink:          #0d2232;
-  --color-psy-muted:        #456b7e;
+  /* Colores base — Calma Profesional */
+  --color-psy-cream:        #F7F9F9;
+  --color-psy-paper:        #FFFFFF;
+  --color-psy-ink:          #2E2E2E;
+  --color-psy-muted:        #607173;
 
-  /* Colores semánticos — Paleta dinámica */
-  --color-psy-blue:         #1586a0;
-  --color-psy-blue-light:   #d4eff5;
-  --color-psy-purple:       #7060b0;
-  --color-psy-purple-light: #edeaf8;
-  --color-psy-green:        #27895e;
-  --color-psy-green-light:  #d4efe4;
-  --color-psy-warm:         #FAF4E4;
-  --color-psy-warm-border:  rgba(192,122,24,0.14);
-  --color-psy-amber:        #c07a18;
-  --color-psy-amber-light:  #fef0d2;
-  --color-psy-red:          #c0392b;
-  --color-psy-red-light:    #fdecea;
+  /* Colores semánticos */
+  --color-psy-blue:         #3E8197;
+  --color-psy-blue-light:   #E8F2F5;
+  --color-psy-purple:       #8BAA95;
+  --color-psy-purple-light: #F1F6F3;
+  --color-psy-green:        #7F9B79;
+  --color-psy-green-light:  #EEF4EC;
+  --color-psy-warm:         #F3F7F7;
+  --color-psy-warm-border:  #D9E1E2;
+  --color-psy-amber:        #B4895C;
+  --color-psy-amber-light:  #F7EFE6;
+  --color-psy-red:          #B56969;
+  --color-psy-red-light:    #F8EDED;
 
   /* Tipografía */
-  --font-serif: var(--font-lora), Georgia, serif;
+  --font-serif: var(--font-manrope), system-ui, sans-serif;
   --font-sans:  var(--font-dm-sans), system-ui, sans-serif;
   --font-mono:  var(--font-dm-mono), monospace;
-  --font-sora:  var(--font-sora), system-ui, sans-serif;
+  --font-sora:  var(--font-manrope), system-ui, sans-serif;
 
   /* Sombras clínicas */
-  --shadow-card:  0 1px 3px rgba(28,27,24,0.06), 0 1px 2px rgba(28,27,24,0.04);
-  --shadow-panel: 0 4px 16px rgba(28,27,24,0.08);
-  --shadow-dock:  0 8px 32px rgba(28,27,24,0.12);
+  --shadow-card:  0 12px 34px rgba(74, 144, 164, 0.08);
+  --shadow-panel: 0 18px 44px rgba(74, 144, 164, 0.10);
+  --shadow-dock:  0 20px 48px rgba(46, 46, 46, 0.12);
 }
 
 /* ─── Variables globales ─── */
 :root {
-  --background: #c8e6f2;
-  --foreground: #0d2232;
-  --surface:    #dff3f8;
-  --border:     rgba(13,34,50,0.10);
+  --background: #F7F9F9;
+  --foreground: #2E2E2E;
+  --surface:    #FFFFFF;
+  --border:     #D9E1E2;
 
   /* Aliases directos para uso con var() en componentes */
-  --psy-cream:        #e3f2f5;
-  --psy-paper:        #edf7f9;
-  --psy-ink:          #0d2232;
-  --psy-muted:        #456b7e;
-  --psy-border:       rgba(13,34,50,0.10);
+  --psy-cream:        #F7F9F9;
+  --psy-paper:        #FFFFFF;
+  --psy-ink:          #2E2E2E;
+  --psy-muted:        #607173;
+  --psy-border:       #D9E1E2;
 
-  --psy-blue:         #1586a0;
-  --psy-blue-light:   #d4eff5;
-  --psy-purple:       #7060b0;
-  --psy-purple-light: #edeaf8;
-  --psy-green:        #27895e;
-  --psy-green-light:  #d4efe4;
-  --psy-warm:         #FAF4E4;
-  --psy-warm-border:  rgba(192,122,24,0.14);
-  --psy-amber:        #c07a18;
-  --psy-amber-light:  #fef0d2;
-  --psy-red:          #c0392b;
-  --psy-red-light:    #fdecea;
+  --psy-blue:         #3E8197;
+  --psy-blue-light:   #E8F2F5;
+  --psy-purple:       #8BAA95;
+  --psy-purple-light: #F1F6F3;
+  --psy-green:        #7F9B79;
+  --psy-green-light:  #EEF4EC;
+  --psy-warm:         #F3F7F7;
+  --psy-warm-border:  #D9E1E2;
+  --psy-amber:        #B4895C;
+  --psy-amber-light:  #F7EFE6;
+  --psy-red:          #B56969;
+  --psy-red-light:    #F8EDED;
+
+  --radius-soft:      14px;
+  --radius-card:      16px;
+  --radius-panel:     22px;
+
+  --text-h1:          clamp(2.5rem, 2.15rem + 1.1vw, 3rem);
+  --text-h2:          clamp(1.75rem, 1.55rem + 0.8vw, 2rem);
+  --text-h3:          clamp(1.25rem, 1.05rem + 0.5vw, 1.5rem);
+  --text-body:        clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+  --text-small:       0.875rem;
 
   /* Font Aliases */
-  --font-sora:        var(--font-sora), sans-serif;
+  --font-serif:       var(--font-manrope), system-ui, sans-serif;
+  --font-sans:        var(--font-dm-sans), system-ui, sans-serif;
+  --font-sora:        var(--font-manrope), system-ui, sans-serif;
+  --font-display:     var(--font-manrope), system-ui, sans-serif;
 }
 
 /* ─── Base ─── */
 html {
   background-color: var(--background);
   color: var(--foreground);
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--background);
   color: var(--foreground);
+  font-size: var(--text-body);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  color: var(--foreground);
+  letter-spacing: -0.03em;
+}
+
+h1 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p,
+label,
+input,
+textarea,
+select,
+button {
+  font-family: var(--font-sans);
+}
 
 a,
 button {
@@ -86,15 +139,21 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid rgba(21, 134, 160, 0.55);
+  outline: 2px solid rgba(62, 129, 151, 0.55);
   outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(62, 129, 151, 0.18);
+  color: var(--foreground);
 }
 
 /* ─── Textura de papel clínico ─── */
 .paper-texture {
-  background-image: url('/textures/paper-noise.svg');
-  background-repeat: repeat;
-  background-size: 200px 200px;
+  background-image:
+    radial-gradient(circle at top left, rgba(62, 129, 151, 0.10), transparent 26%),
+    radial-gradient(circle at top right, rgba(168, 195, 160, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.62));
 }
 
 .hover-panel {
@@ -106,10 +165,10 @@ button {
 }
 
 .hover-panel:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 32px 64px rgba(13, 34, 50, 0.18);
-  border-color: rgba(21, 134, 160, 0.30);
-  background-color: var(--psy-paper);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(62, 129, 151, 0.14);
+  border-color: rgba(62, 129, 151, 0.24);
+  background-color: #ffffff;
 }
 
 .hover-panel-green {
@@ -121,10 +180,10 @@ button {
 }
 
 .hover-panel-green:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 32px 64px rgba(39, 137, 94, 0.16);
-  border-color: rgba(39, 137, 94, 0.28);
-  background-color: var(--psy-green-light);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(127, 155, 121, 0.12);
+  border-color: rgba(127, 155, 121, 0.24);
+  background-color: #ffffff;
 }
 
 .lift-button {
@@ -164,8 +223,8 @@ button {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.22), transparent 24%),
-    linear-gradient(90deg, rgba(21,134,160,0.04), transparent 24%, transparent 76%, rgba(13,34,50,0.03));
+    linear-gradient(180deg, rgba(255,255,255,0.32), transparent 24%),
+    linear-gradient(90deg, rgba(62,129,151,0.06), transparent 24%, transparent 76%, rgba(168,195,160,0.05));
 }
 
 .thinking-ring {
@@ -309,9 +368,9 @@ button {
 }
 
 .card-deliverable:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 36px 72px rgba(13, 34, 50, 0.13);
-  border-color: rgba(21, 134, 160, 0.30);
+  transform: translateY(-6px);
+  box-shadow: 0 28px 56px rgba(62, 129, 151, 0.14);
+  border-color: rgba(62, 129, 151, 0.28);
 }
 
 .card-deliverable:hover::after {
@@ -328,13 +387,13 @@ button {
 
 .card-pricing:hover {
   transform: translateY(-6px) scale(1.012);
-  box-shadow: 0 32px 64px rgba(13, 34, 50, 0.14);
-  border-color: rgba(21, 134, 160, 0.22);
+  box-shadow: 0 26px 52px rgba(62, 129, 151, 0.12);
+  border-color: rgba(62, 129, 151, 0.24);
 }
 
 .card-pricing-pro:hover {
   transform: translateY(-6px) scale(1.012);
-  box-shadow: 0 40px 80px rgba(13, 34, 50, 0.28);
+  box-shadow: 0 34px 68px rgba(46, 46, 46, 0.18);
 }
 
 /* ─── Tarjetas de perfil ("para quién encaja") — borde izquierdo ─── */
@@ -359,9 +418,9 @@ button {
 }
 
 .card-profile:hover {
-  transform: translateX(5px);
-  box-shadow: 0 20px 48px rgba(13, 34, 50, 0.11);
-  border-color: rgba(21, 134, 160, 0.28);
+  transform: translateX(4px);
+  box-shadow: 0 18px 40px rgba(62, 129, 151, 0.12);
+  border-color: rgba(62, 129, 151, 0.26);
 }
 
 .card-profile:hover::before {
@@ -380,10 +439,10 @@ button {
   border-radius: inherit;
   background: linear-gradient(
     135deg,
-    rgba(21, 134, 160, 0.35),
+    rgba(62, 129, 151, 0.32),
     transparent 40%,
     transparent 60%,
-    rgba(39, 137, 94, 0.25)
+    rgba(168, 195, 160, 0.24)
   );
   opacity: 0;
   transition: opacity 400ms ease;
@@ -430,8 +489,98 @@ button {
 
 .card-faq:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 52px rgba(39, 137, 94, 0.20);
-  border-color: rgba(39, 137, 94, 0.40);
+  box-shadow: 0 24px 46px rgba(127, 155, 121, 0.12);
+  border-color: rgba(127, 155, 121, 0.28);
+}
+
+.calm-card {
+  border: 1px solid var(--psy-border);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
+}
+
+.calm-panel {
+  border: 1px solid rgba(217, 225, 226, 0.92);
+  border-radius: var(--radius-panel);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.88));
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(18px);
+}
+
+.calm-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border-radius: 16px;
+  background: var(--psy-blue);
+  color: white;
+  box-shadow: 0 14px 30px rgba(62, 129, 151, 0.24);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.calm-button-primary:hover {
+  transform: translateY(-1px);
+  background: #336F83;
+  box-shadow: 0 18px 34px rgba(62, 129, 151, 0.30);
+}
+
+.calm-button-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.calm-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border: 1px solid var(--psy-border);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.82);
+  color: var(--foreground);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.calm-button-secondary:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+  border-color: rgba(62, 129, 151, 0.26);
+  box-shadow: 0 14px 28px rgba(62, 129, 151, 0.12);
+}
+
+.calm-input {
+  width: 100%;
+  border: 1px solid var(--psy-border);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--foreground);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.calm-input::placeholder {
+  color: color-mix(in srgb, var(--psy-muted) 72%, white);
+}
+
+.calm-input:focus {
+  border-color: rgba(62, 129, 151, 0.58);
+  box-shadow: 0 0 0 4px rgba(62, 129, 151, 0.14);
+  outline: none;
 }
 
 .animate-menu-in {

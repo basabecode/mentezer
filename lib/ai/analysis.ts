@@ -7,7 +7,7 @@ function getAnthropic() {
 }
 
 const DISCLAIMER =
-  "⚠️ Este análisis es una herramienta de apoyo al criterio clínico. El diagnóstico, tratamiento y decisiones clínicas son responsabilidad exclusiva del profesional de salud mental. Mentezer no reemplaza la evaluación clínica profesional.";
+  "Aviso clínico: este análisis es una herramienta de apoyo al criterio clínico. El diagnóstico, tratamiento y decisiones clínicas son responsabilidad exclusiva del profesional de salud mental. Mentezer no reemplaza la evaluación clínica profesional.";
 
 export interface AIReportData {
   summary: string;

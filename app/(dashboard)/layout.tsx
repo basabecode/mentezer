@@ -37,7 +37,7 @@ export default async function DashboardLayout({
 
   return (
     <DashboardProvider>
-      <div className="flex h-[100dvh] flex-col overflow-hidden bg-psy-cream">
+      <div className="paper-texture flex h-[100dvh] flex-col overflow-hidden bg-psy-cream">
         <Topbar
           psychologistName={psychologist?.name ?? user.email ?? "Psicólogo"}
           activePatients={activePatients ?? 0}
@@ -48,7 +48,7 @@ export default async function DashboardLayout({
           <div className="mx-auto flex h-full w-full max-w-[1400px] items-start gap-4 px-2 pb-2 sm:px-3 md:px-5 md:pb-5">
             <PatientPanel patients={(panelPatients ?? []) as any} />
 
-            <main className="custom-scrollbar h-full min-w-0 flex-1 overflow-y-auto overflow-x-hidden rounded-2xl border border-psy-ink/8 bg-white pb-24 shadow-lg ring-1 ring-psy-ink/5 md:rounded-[2.5rem] md:pb-6">
+            <main className="custom-scrollbar calm-panel h-full min-w-0 flex-1 overflow-y-auto overflow-x-hidden pb-24 md:pb-6">
               {children}
             </main>
           </div>

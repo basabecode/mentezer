@@ -3,7 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { ArrowLeft, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { GlossaryNote } from "@/components/ui/GlossaryNote";
 import { cn } from "@/lib/utils/cn";
+import { CASES_GLOSSARY_ITEMS } from "@/lib/clinical-glossary";
 
 const OUTCOME_CONFIG = {
   successful: { label: "Remisión de síntomas", icon: TrendingUp, color: "text-psy-green", bg: "bg-psy-green/5" },
@@ -137,6 +139,13 @@ export default async function CaseDetailPage({
             </span>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <GlossaryNote
+          items={CASES_GLOSSARY_ITEMS}
+          description="Consulta aquí el significado de las siglas clínicas que aparecen en las intervenciones asociadas a este caso."
+        />
       </div>
 
       {/* Actions */}

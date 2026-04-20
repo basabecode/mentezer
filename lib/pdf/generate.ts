@@ -108,7 +108,7 @@ function ReferralDocument({
         React.createElement(
           Text,
           null,
-          "⚠️ Este documento es un informe de apoyo clínico. El diagnóstico, tratamiento y decisiones clínicas son responsabilidad exclusiva del profesional de salud mental emisor. Mentezer no reemplaza la evaluación clínica profesional."
+          "Aviso clínico: este documento es un informe de apoyo. El diagnóstico, tratamiento y decisiones clínicas son responsabilidad exclusiva del profesional de salud mental emisor. Mentezer no reemplaza la evaluación clínica profesional."
         )
       )
     )

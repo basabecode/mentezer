@@ -29,28 +29,28 @@ export default function LoginPage() {
   return (
     <div className="w-full">
       {/* Card */}
-      <div className="overflow-hidden rounded-2xl border border-psy-border bg-psy-paper shadow-xl">
+      <div className="calm-panel overflow-hidden">
 
         {/* Header strip */}
-        <div className="border-b border-psy-border px-8 pb-6 pt-8">
+        <div className="border-b border-psy-border/90 px-8 pb-6 pt-8">
           <div className="flex items-center gap-3 mb-4">
             {/* Logo mark */}
-            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-psy-blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                <path d="M8 12h8M12 8v8"/>
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue shadow-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 4a4 4 0 0 0-4 4v1.5a2.5 2.5 0 0 0-1.5 4.5 5.5 5.5 0 0 0 11 0A2.5 2.5 0 0 0 16 9.5V8a4 4 0 0 0-4-4Z"/>
+                <path d="M9.5 15.5c.8.7 1.56 1 2.5 1s1.7-.3 2.5-1"/>
               </svg>
             </div>
             <div>
-              <p className="font-sora text-lg font-bold leading-none text-psy-ink italic">MENTEZER</p>
-              <p className="mt-0.5 text-xs text-psy-muted">Plataforma clínica</p>
+              <p className="font-sora text-lg font-semibold leading-none text-psy-ink">MENTEZER</p>
+              <p className="mt-0.5 text-xs text-psy-muted">Espacio clínico sereno</p>
             </div>
           </div>
           <h1 className="font-sora text-2xl font-semibold tracking-tight text-psy-ink">
             Bienvenido de vuelta
           </h1>
           <p className="mt-1 text-sm text-psy-muted">
-            Ingresa tus credenciales para continuar
+            Accede a una experiencia clínica clara, segura y profesional.
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 placeholder="tucorreo@ejemplo.com"
-                className="h-11 w-full rounded-xl border border-psy-border bg-psy-cream px-4 text-sm text-psy-ink placeholder:text-psy-muted/60 transition-all focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/25"
+                className="calm-input h-11 px-4 text-sm"
               />
             </div>
 
@@ -95,7 +95,7 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   required
                   placeholder="Mínimo 8 caracteres"
-                  className="h-11 w-full rounded-xl border border-psy-border bg-psy-cream px-4 pr-11 text-sm text-psy-ink placeholder:text-psy-muted/60 transition-all focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/25"
+                  className="calm-input h-11 px-4 pr-11 text-sm"
                 />
                 <button
                   type="button"
@@ -123,7 +123,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={pending}
-              className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-psy-blue text-sm font-medium text-white transition-all hover:bg-psy-blue/90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="calm-button-primary mt-1 flex h-11 w-full text-sm font-medium"
             >
               {pending ? (
                 <>
@@ -140,7 +140,7 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-psy-border bg-psy-cream px-8 py-5 text-center">
+        <div className="border-t border-psy-border bg-psy-blue-light/40 px-8 py-5 text-center">
           <p className="text-sm text-psy-muted">
             ¿No tienes cuenta?{" "}
             <Link href="/register" className="font-medium text-psy-blue hover:underline">

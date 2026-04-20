@@ -4,6 +4,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Fragment } from 'react'
 
+const dashboardHomeSegments = new Set([
+  'dashboard',
+  'patients',
+  'sessions',
+  'cases',
+  'knowledge',
+  'reports',
+  'finance',
+  'schedule',
+  'settings',
+  'support',
+])
+
 const routeLabels: Record<string, string> = {
   '': 'Inicio',
   'dashboard': 'Panel',
@@ -65,6 +78,18 @@ function formatSegmentLabel(
     .replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
+function getHomeCrumb(firstSegment?: string) {
+  if (firstSegment === 'admin') {
+    return { href: '/admin', label: 'Inicio' }
+  }
+
+  if (firstSegment && dashboardHomeSegments.has(firstSegment)) {
+    return { href: '/dashboard', label: 'Inicio' }
+  }
+
+  return { href: '/', label: routeLabels[''] }
+}
+
 export function Breadcrumbs() {
   const pathname = usePathname()
   
@@ -72,31 +97,43 @@ export function Breadcrumbs() {
   if (pathname === '/') return null
 
   const segments = pathname.split('/').filter(Boolean)
-  const visibleSegments = segments.slice(-2)
-  const hiddenCount = segments.length - visibleSegments.length
+  const homeCrumb = getHomeCrumb(segments[0])
+  const entries = segments.map((segment, index) => ({
+    segment,
+    href: `/${segments.slice(0, index + 1).join('/')}`,
+    previousSegment: segments[index - 1],
+    nextSegment: segments[index + 1],
+  }))
+
+  let visibleEntries = entries.slice(-2)
+  let showEllipsis = entries.length > visibleEntries.length
+
+  if (segments.length === 1 && (segments[0] === 'dashboard' || segments[0] === 'admin')) {
+    visibleEntries = []
+    showEllipsis = false
+  } else if (segments[segments.length - 1] === 'new') {
+    visibleEntries = entries.slice(-1)
+    showEllipsis = segments.length > 2
+  }
   
   return (
     <nav
       aria-label="Breadcrumb"
       className="flex items-center gap-2 overflow-x-auto whitespace-nowrap text-[10px] font-mono uppercase tracking-[0.15em] text-psy-muted sm:text-xs"
     >
-      <Link href="/" className="shrink-0 transition hover:text-psy-blue">
-        {routeLabels['']}
+      <Link href={homeCrumb.href} className="shrink-0 transition hover:text-psy-blue">
+        {homeCrumb.label}
       </Link>
 
-      {hiddenCount > 0 ? (
+      {showEllipsis ? (
         <>
           <span className="shrink-0 font-bold text-psy-ink/20">/</span>
           <span className="shrink-0 font-medium text-psy-ink/40">…</span>
         </>
       ) : null}
 
-      {visibleSegments.map((segment, index) => {
-        const actualIndex = hiddenCount + index
-        const href = `/${segments.slice(0, actualIndex + 1).join('/')}`
-        const isLast = actualIndex === segments.length - 1
-        const previousSegment = segments[actualIndex - 1]
-        const nextSegment = segments[actualIndex + 1]
+      {visibleEntries.map(({ segment, href, previousSegment, nextSegment }, index) => {
+        const isLast = index === visibleEntries.length - 1
         const label = formatSegmentLabel(segment, previousSegment, nextSegment)
         
         return (

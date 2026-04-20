@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { createCase } from "@/lib/cases/actions";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { GlossaryNote } from "@/components/ui/GlossaryNote";
+import { CASES_GLOSSARY_ITEMS } from "@/lib/clinical-glossary";
 
 const OUTCOMES = [
   { value: "successful", label: "Remisión de síntomas" },
@@ -56,7 +58,7 @@ export default function NewCasePage() {
             name="title"
             placeholder="Ej: Fobia social — tratamiento cognitivo-conductual exitoso"
             required
-            className="w-full h-11 rounded-lg border border-psy-border bg-psy-cream px-4 text-sm text-psy-ink placeholder:text-psy-muted/60 focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none"
+            className="w-full h-11 rounded-lg border border-psy-border bg-white px-4 text-sm text-psy-ink placeholder:text-psy-muted/60 focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none"
           />
           {state.errors?.title && <p className="text-xs text-psy-red">{state.errors.title}</p>}
         </div>
@@ -69,7 +71,7 @@ export default function NewCasePage() {
             placeholder="Resumen del caso y cómo fue tratado"
             rows={4}
             required
-            className="w-full rounded-lg border border-psy-border bg-psy-cream px-4 py-3 text-sm text-psy-ink placeholder:text-psy-muted/60 focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none resize-none"
+            className="w-full rounded-lg border border-psy-border bg-white px-4 py-3 text-sm text-psy-ink placeholder:text-psy-muted/60 focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none resize-none"
           />
           {state.errors?.description && <p className="text-xs text-psy-red">{state.errors.description}</p>}
         </div>
@@ -83,7 +85,7 @@ export default function NewCasePage() {
             placeholder="8"
             min="1"
             required
-            className="w-full h-11 rounded-lg border border-psy-border bg-psy-cream px-4 text-sm text-psy-ink placeholder:text-psy-muted/60 focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none"
+            className="w-full h-11 rounded-lg border border-psy-border bg-white px-4 text-sm text-psy-ink placeholder:text-psy-muted/60 focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none"
           />
         </div>
 
@@ -93,7 +95,7 @@ export default function NewCasePage() {
           <select
             name="outcome"
             required
-            className="w-full h-11 rounded-lg border border-psy-border bg-psy-cream px-4 text-sm text-psy-ink focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none"
+            className="w-full h-11 rounded-lg border border-psy-border bg-white px-4 text-sm text-psy-ink focus:border-psy-blue focus:ring-2 focus:ring-psy-blue/25 outline-none"
           >
             <option value="">— Selecciona un resultado —</option>
             {OUTCOMES.map((o) => (
@@ -150,6 +152,13 @@ export default function NewCasePage() {
 
         {state.error && <p className="text-sm text-psy-red bg-psy-red/5 p-3 rounded-lg">{state.error}</p>}
       </form>
+
+      <div className="mt-8">
+        <GlossaryNote
+          items={CASES_GLOSSARY_ITEMS}
+          description="Estas siglas se usan en las intervenciones del formulario y luego aparecen en el historial de casos clínicos."
+        />
+      </div>
     </div>
   );
 }

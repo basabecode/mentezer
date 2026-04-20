@@ -46,7 +46,7 @@ export async function sendReferralEmail({
         </div>
         <div style="margin-top: 24px; padding: 12px; background: #FBF3E4; border-left: 3px solid #B07D3A; border-radius: 4px;">
           <p style="font-size: 10px; color: #6B6760; margin: 0; line-height: 1.6;">
-            ⚠️ Este es un informe de apoyo clínico. El diagnóstico y decisiones clínicas son responsabilidad del profesional emisor.
+            Aviso clínico: este es un informe de apoyo. El diagnóstico y decisiones clínicas son responsabilidad del profesional emisor.
           </p>
         </div>
       </div>

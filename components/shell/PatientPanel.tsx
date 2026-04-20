@@ -34,14 +34,14 @@ export function PatientPanel({ patients }: PatientPanelProps) {
   const active = filtered.filter((p) => p.status === "active");
 
   const panelBody = (
-    <div className="flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-psy-ink/8 bg-white shadow-lg ring-1 ring-psy-ink/5">
+    <div className="calm-panel flex h-full flex-col overflow-hidden">
       <div className="shrink-0 px-5 pb-4 pt-6 md:px-6 md:pt-8">
         <div className="mb-5 flex items-center justify-between gap-3">
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-psy-blue">
               Seguimiento
             </p>
-            <h2 className="mt-1 font-sora text-xl font-bold tracking-tight text-psy-ink">
+            <h2 className="mt-1 font-sora text-xl font-semibold tracking-tight text-psy-ink">
               Pacientes
             </h2>
           </div>
@@ -49,7 +49,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
             <Tooltip label="Nuevo paciente" side="bottom">
               <Link
                 href="/patients/new"
-                className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue text-white shadow-lg shadow-psy-blue/20 transition-all hover:scale-105 active:scale-95"
+                className="calm-button-primary flex h-10 w-10 rounded-2xl shadow-none"
                 aria-label="Nuevo paciente"
                 onClick={() => setSidebarOpen(false)}
               >
@@ -59,7 +59,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
             <button
               type="button"
               onClick={() => setSidebarOpen(false)}
-              className="flex h-10 w-10 items-center justify-center rounded-2xl border border-psy-ink/10 bg-psy-cream/60 text-psy-muted transition hover:bg-white hover:text-psy-ink lg:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-2xl border border-psy-border bg-white/70 text-psy-muted transition hover:border-psy-blue/20 hover:bg-white hover:text-psy-ink lg:hidden"
               aria-label="Cerrar panel de pacientes"
             >
               <X size={18} />
@@ -74,7 +74,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
             placeholder="Buscar paciente..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-2xl border border-psy-border bg-psy-cream/30 py-3 pl-11 pr-4 text-xs text-psy-ink placeholder:text-psy-muted transition-all focus:border-psy-blue focus:bg-white focus:outline-none focus:ring-4 focus:ring-psy-blue/5"
+            className="calm-input rounded-2xl py-3 pl-11 pr-4 text-xs"
           />
         </div>
       </div>
@@ -104,8 +104,8 @@ export function PatientPanel({ patients }: PatientPanelProps) {
                   className={cn(
                     "group flex items-center gap-4 rounded-2xl border px-4 py-4 transition-all duration-300",
                     isActive
-                      ? "border-psy-blue/20 bg-psy-blue text-white shadow-lg shadow-psy-blue/25"
-                      : "border-transparent bg-psy-cream/40 text-psy-ink hover:border-psy-blue/10 hover:bg-psy-paper hover:shadow-md"
+                      ? "border-psy-blue/20 bg-psy-blue text-white shadow-lg shadow-psy-blue/20"
+                      : "border-transparent bg-white/78 text-psy-ink hover:border-psy-blue/10 hover:bg-white hover:shadow-md"
                   )}
                 >
                   <div
@@ -113,7 +113,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
                       "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-xs font-bold transition-all duration-300 group-hover:scale-110",
                       isActive
                         ? "bg-white/20 text-white"
-                        : "border border-psy-border bg-white text-psy-blue shadow-sm"
+                        : "border border-psy-border bg-psy-blue-light text-psy-blue shadow-sm"
                     )}
                   >
                     {patient.name[0]?.toUpperCase()}
@@ -139,7 +139,7 @@ export function PatientPanel({ patients }: PatientPanelProps) {
         )}
       </div>
 
-      <div className="border-t border-psy-border bg-psy-cream/20 p-4 text-center">
+      <div className="border-t border-psy-border bg-psy-blue-light/35 p-4 text-center">
         <p className="text-[10px] font-bold uppercase tracking-widest text-psy-muted">
           MENTEZER System
         </p>

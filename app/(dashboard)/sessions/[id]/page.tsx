@@ -35,6 +35,7 @@ export default async function SessionDetailPage({
 
   const segments = transcript?.content as TranscriptSegment[] | null;
   const aiReport = report as unknown as AIReportData | null;
+  const disclaimerText = aiReport?.disclaimer.replace(/^⚠️\s*/, "").trim();
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:py-10">
@@ -121,7 +122,7 @@ export default async function SessionDetailPage({
           {/* Disclaimer */}
           <div className="flex gap-3 rounded-2xl border border-psy-border border-l-4 border-l-psy-amber bg-white p-4 shadow-sm">
             <AlertTriangle className="text-psy-amber shrink-0 h-5 w-5" />
-            <p className="text-[11px] text-psy-ink/60 leading-relaxed italic">{aiReport.disclaimer}</p>
+            <p className="text-[11px] text-psy-ink/60 leading-relaxed italic">{disclaimerText}</p>
           </div>
 
           {/* Resumen */}

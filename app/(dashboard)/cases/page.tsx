@@ -9,8 +9,10 @@ const OUTCOME_CONFIG = {
 } as const;
 
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { GlossaryNote } from "@/components/ui/GlossaryNote";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { CASES_GLOSSARY_ITEMS } from "@/lib/clinical-glossary";
 
 export default async function CasesPage() {
   const supabase = await createClient();
@@ -127,6 +129,13 @@ export default async function CasesPage() {
           </Link>
         </div>
       )}
+
+      <div className="mt-10">
+        <GlossaryNote
+          items={CASES_GLOSSARY_ITEMS}
+          description="Referencia rápida para las siglas clínicas que aparecen en los casos registrados y en sus intervenciones."
+        />
+      </div>
     </div>
   );
 }

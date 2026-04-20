@@ -8,13 +8,13 @@ export default function RegisterPage() {
   const [state, action, pending] = useActionState(register, {});
 
   return (
-    <div className="rounded-xl border border-psy-border bg-psy-paper p-8 shadow-xl">
+    <div className="calm-panel p-8">
       <div className="mb-8 text-center">
-        <h1 className="font-sora text-2xl text-psy-ink font-bold tracking-tight italic">
+        <h1 className="font-sora text-2xl text-psy-ink font-semibold tracking-tight">
           MENTEZER
         </h1>
         <p className="mt-1 text-sm text-psy-muted">
-          Crea tu cuenta como psicólogo
+          Crea tu cuenta profesional en un entorno sereno y confiable.
         </p>
       </div>
 
@@ -32,7 +32,7 @@ export default function RegisterPage() {
             required
             autoComplete="name"
             placeholder="Dra. María García"
-            className="w-full rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
+            className="calm-input px-3 py-2 text-sm"
           />
         </div>
 
@@ -47,7 +47,7 @@ export default function RegisterPage() {
             required
             autoComplete="email"
             placeholder="tu@correo.com"
-            className="w-full rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
+            className="calm-input px-3 py-2 text-sm"
           />
         </div>
 
@@ -61,7 +61,7 @@ export default function RegisterPage() {
             name="professional_license"
             type="text"
             placeholder="TP-12345-COL"
-            className="w-full rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
+            className="calm-input px-3 py-2 text-sm"
           />
         </div>
 
@@ -76,7 +76,7 @@ export default function RegisterPage() {
             required
             autoComplete="new-password"
             placeholder="Mínimo 8 caracteres"
-            className="w-full rounded-lg border border-psy-border bg-psy-cream px-3 py-2 text-sm text-psy-ink placeholder:text-psy-muted transition-colors focus:border-psy-blue focus:outline-none focus:ring-2 focus:ring-psy-blue/30"
+            className="calm-input px-3 py-2 text-sm"
           />
         </div>
 
@@ -89,7 +89,7 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={pending}
-          className="w-full py-2.5 px-4 bg-psy-blue text-white rounded-lg text-sm font-medium hover:bg-psy-blue/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="calm-button-primary w-full px-4 py-2.5 text-sm font-medium"
         >
           {pending ? "Creando cuenta..." : "Crear cuenta"}
         </button>

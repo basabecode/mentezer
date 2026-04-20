@@ -33,7 +33,7 @@ export function SettingsDrawer() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-psy-border bg-psy-paper shadow-2xl"
+              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-psy-border bg-white/96 shadow-[0_18px_46px_rgba(74,144,164,0.16)] backdrop-blur-xl"
             >
               <div className="paper-texture border-b border-psy-border px-5 py-4">
                 <div className="flex items-center justify-between">
@@ -47,7 +47,7 @@ export function SettingsDrawer() {
                   </div>
                 <button
                   onClick={() => setOpen(false)}
-                  className="rounded-xl p-2 text-psy-muted transition-colors hover:bg-psy-cream hover:text-psy-ink"
+                  className="rounded-xl border border-transparent p-2 text-psy-muted transition-colors hover:border-psy-border hover:bg-white hover:text-psy-ink"
                 >
                   <X size={16} />
                 </button>
@@ -98,7 +98,7 @@ function DrawerItem({
       href={href}
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-psy-ink hover:bg-psy-cream transition-colors"
+        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-psy-ink transition-colors hover:bg-psy-blue-light/55"
       )}
     >
       <Icon size={15} className="text-psy-muted shrink-0" />

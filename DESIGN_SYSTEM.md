@@ -1,74 +1,73 @@
-# DESIGN_SYSTEM.md — Spatial Clinical
+# DESIGN_SYSTEM.md — Calma Profesional
 
 ## ADN de diseño
 
-Un producto clínico no necesita animaciones flashy — necesita **calma inteligente**.
-Cada elemento comunica profesionalismo, confianza y atención al detalle.
+Un producto clínico no necesita estridencia visual. Necesita **calma inteligente, seguridad emocional y claridad operativa**.
+Cada elemento debe comunicar profesionalismo, confianza y una cercanía sobria.
 
 ### Principios visuales — NUNCA violar
 
 - **Sin header tradicional** — Topbar contextual: saludo + stats del día + avatar
 - **Sin footer tradicional** — Drawer lateral con legal, ajustes y soporte
-- **Dock flotante inferior** — Navegación tipo macOS, se esconde al scroll
-- **Textura de papel clínico** — `#FAF8F4`, NUNCA blanco puro `#FFFFFF`
-- **Tipografía editorial** — `Lora` para títulos, `DM Sans` para UI, `DM Mono` para datos
+- **Dock flotante inferior** — Navegación compacta, clara y ligera
+- **Fondo clínico respirable** — `#F7F9F9` como base, blanco puro reservado para cards e inputs
+- **Tipografía editorial** — `Manrope` para títulos, `DM Sans` para UI y contenido, `DM Mono` para datos
 - **Alertas con pulso** — señales de riesgo "high" tienen animación de pulso
 - **Sin emojis decorativos** — SVG custom o íconos minimalistas
 
 ## Paleta de colores
 
 ```css
-/* Fondos de sección — alternar para crear ritmo visual */
---psy-cream: #c8e6f2;        /* Secciones teal (hero, para quién encaja) */
---psy-paper: #dff3f8;        /* Superficies internas */
---psy-purple-light: #edeaf8; /* Secciones lavanda (deliverables, pricing, FAQ) */
-/* Secciones blancas: bg-white (pain points, trial steps, FAQ) */
+/* Fondos de sección */
+--psy-cream: #F7F9F9;        /* Fondo principal */
+--psy-paper: #FFFFFF;        /* Superficies e inputs */
+--psy-purple-light: #F1F6F3; /* Secciones secundarias suaves */
 
 /* Texto */
---psy-ink:    #0d2232; /* Texto principal — navy */
---psy-muted:  #456b7e; /* Texto secundario */
---psy-border: rgba(13, 34, 50, 0.10);
+--psy-ink:    #2E2E2E; /* Texto principal */
+--psy-muted:  #607173; /* Texto secundario */
+--psy-border: #D9E1E2;
 
-/* Primario — teal clínico */
---psy-blue:        #1586a0;
---psy-blue-light:  #d4eff5;
+/* Primario — azul suave profesional */
+--psy-blue:        #4A90A4;
+--psy-blue-light:  #E8F2F5;
 
-/* Acento secundario — lavanda/salud mental */
---psy-purple:       #7060b0;
---psy-purple-light: #edeaf8;
+/* Acento secundario */
+--psy-purple:       #8BAA95;
+--psy-purple-light: #F1F6F3;
 
 /* Estados */
---psy-green:        #27895e; /* Progreso, éxito */
---psy-green-light:  #d4efe4;
---psy-amber:        #c07a18; /* Advertencia */
---psy-amber-light:  #fef0d2;
---psy-red:          #c0392b; /* Riesgo alto */
---psy-red-light:    #fdecea;
+--psy-green:        #7F9B79; /* Progreso, éxito */
+--psy-green-light:  #EEF4EC;
+--psy-amber:        #B4895C; /* Advertencia */
+--psy-amber-light:  #F7EFE6;
+--psy-red:          #B56969; /* Riesgo alto */
+--psy-red-light:    #F8EDED;
 ```
 
 ## Regla de secciones (landing page)
 
 ```
-Hero              → bg-[var(--psy-cream)]    teal
+Hero              → bg-[var(--psy-cream)]    claro y respirable
 Pain points       → bg-white
-Deliverables      → bg-[var(--psy-purple-light)] lavanda
+Deliverables      → bg-[var(--psy-purple-light)] salvia suave
 Trial steps       → bg-white
-Para quién encaja → bg-[var(--psy-cream)]    teal
-Pricing           → bg-[var(--psy-purple-light)] lavanda
+Para quién encaja → bg-[var(--psy-cream)]    clínico neutro
+Pricing           → bg-[var(--psy-purple-light)] salvia suave
 FAQ               → bg-white
-Final CTA         → bg-[var(--psy-ink)]      navy oscuro
+Final CTA         → gradiente azul/salvia
 ```
 
 ## Regla de tarjetas
 
-- **Tarjeta sobre fondo teal o lavanda:** `bg-white` siempre — nunca bg-tintado
-- **Hover de tarjeta:** eleva 5px, sombra 64px, borde teal visible, fondo blanco puro
+- **Tarjeta sobre fondo suave:** `bg-white` siempre
+- **Hover de tarjeta:** elevación sutil, sombra ligera, borde azul visible, nunca efecto pesado
 
 ## Tipografía
 
 ```css
---psy-serif: 'Lora', Georgia, serif; /* Títulos, análisis IA, informes */
---psy-sans: 'DM Sans', system-ui; /* UI general, formularios */
+--psy-serif: 'Manrope', system-ui, sans-serif; /* Títulos, análisis IA, informes */
+--psy-sans: 'DM Sans', system-ui, sans-serif; /* UI general, formularios, descripciones */
 --psy-mono: 'DM Mono', monospace; /* Timestamps, IDs, datos técnicos */
 ```
 
