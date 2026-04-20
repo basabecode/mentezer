@@ -24,7 +24,7 @@ export default async function PatientDetailPage({
 
   const { data: sessions } = await supabase
     .from("sessions")
-    .select("id, scheduled_at, status, mode")
+    .select("id, scheduled_at, status, mode, transcripts(edited_at), ai_reports(id)")
     .eq("patient_id", id)
     .order("scheduled_at", { ascending: false })
     .limit(10);
@@ -134,14 +134,44 @@ export default async function PatientDetailPage({
 
         {sessions && sessions.length > 0 ? (
           <div className="space-y-2">
-            {sessions.map((session) => (
-              <Link
-                key={session.id}
-                href={`/sessions/${session.id}`}
+            {(sessions as Array<{
+              id: string;
+              scheduled_at: string;
+              status: string;
+              mode: string;
+              transcripts?: { edited_at: string | null }[] | { edited_at: string | null } | null;
+              ai_reports?: { id: string }[] | { id: string } | null;
+            }>).map((session) => {
+              const transcriptMeta = Array.isArray(session.transcripts)
+                ? session.transcripts[0]
+                : session.transcripts;
+              const reports = Array.isArray(session.ai_reports)
+                ? session.ai_reports
+                : session.ai_reports
+                  ? [session.ai_reports]
+                  : [];
+              const isManualDocumented = !!transcriptMeta?.edited_at && reports.length === 0;
+              const isAnalyzed = session.status === "complete" && reports.length > 0;
+              const statusColor = isAnalyzed
+                ? "bg-psy-green-light text-psy-green"
+                : isManualDocumented
+                  ? "bg-psy-blue-light text-psy-blue"
+                  : "bg-psy-amber-light text-psy-amber";
+              const statusLabel = isAnalyzed ? "Analizada" : isManualDocumented ? "Documentada" : "Pendiente";
+              const dotColor = isAnalyzed
+                ? "bg-psy-green"
+                : isManualDocumented
+                  ? "bg-psy-blue"
+                  : "bg-psy-amber";
+
+              return (
+                <Link
+                  key={session.id}
+                  href={`/sessions/${session.id}`}
                 className="flex flex-col gap-2 rounded-lg p-3 transition-colors hover:bg-psy-cream sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className={`w-2 h-2 rounded-full ${session.status === "complete" ? "bg-psy-green" : "bg-psy-amber"}`} />
+                  <div className={`w-2 h-2 rounded-full ${dotColor}`} />
                   <span className="text-sm text-psy-ink">
                     {new Date(session.scheduled_at).toLocaleDateString("es-CO", {
                       weekday: "long", day: "numeric", month: "short",
@@ -150,14 +180,13 @@ export default async function PatientDetailPage({
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs text-psy-muted capitalize">{session.mode}</span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    session.status === "complete" ? "bg-psy-green-light text-psy-green" : "bg-psy-amber-light text-psy-amber"
-                  }`}>
-                    {session.status === "complete" ? "Analizada" : "Pendiente"}
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${statusColor}`}>
+                    {statusLabel}
                   </span>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <p className="text-sm text-psy-muted text-center py-4">Sin sesiones registradas</p>

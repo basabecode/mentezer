@@ -36,6 +36,8 @@ export default async function SessionDetailPage({
   const segments = transcript?.content as TranscriptSegment[] | null;
   const aiReport = report as unknown as AIReportData | null;
   const disclaimerText = aiReport?.disclaimer.replace(/^⚠️\s*/, "").trim();
+  const isManualTranscript = !!transcript?.edited_at;
+  const transcriptText = segments?.map((segment) => segment.text).join("\n\n");
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:py-10">
@@ -73,11 +75,27 @@ export default async function SessionDetailPage({
             </div>
           </div>
 
-          {transcript && !report && (
+          {transcript && !report && !isManualTranscript && (
             <AnalyzeButton sessionId={id} />
           )}
         </div>
       </div>
+
+      {isManualTranscript && !aiReport && (
+        <div className="mb-8 flex items-start gap-4 rounded-[1.5rem] border border-psy-blue/15 bg-white p-6 shadow-sm">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-psy-blue/10">
+            <FileText size={18} className="text-psy-blue" />
+          </div>
+          <div>
+            <p className="text-sm font-bold uppercase tracking-wider text-psy-blue">
+              Sesión documentada por escrito
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-psy-ink/60">
+              Esta sesión quedó registrada como nota clínica manual. No se activó análisis por IA porque no hubo grabación autorizada.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Estado de la sesión */}
       {!transcript && (
@@ -101,18 +119,28 @@ export default async function SessionDetailPage({
             <div className="h-8 w-8 rounded-lg bg-psy-cream flex items-center justify-center text-psy-muted">
               <FileText size={16} />
             </div>
-            <h2 className="font-sora text-sm font-bold text-psy-ink uppercase tracking-wider">Transcripción de la Sesión</h2>
+            <h2 className="font-sora text-sm font-bold text-psy-ink uppercase tracking-wider">
+              {isManualTranscript ? "Documentación Escrita de la Sesión" : "Transcripción de la Sesión"}
+            </h2>
           </div>
-          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
-            {segments.map((seg, i) => (
-              <div key={i} className="flex gap-4 group">
-                <span className="font-mono text-[10px] text-psy-blue font-bold shrink-0 mt-1 w-12 opacity-60 group-hover:opacity-100 transition-opacity">
-                  {Math.floor(seg.start / 60).toString().padStart(2, "0")}:{Math.floor(seg.start % 60).toString().padStart(2, "0")}
-                </span>
-                <p className="text-sm text-psy-ink/80 leading-relaxed group-hover:text-psy-ink transition-colors">{seg.text}</p>
-              </div>
-            ))}
-          </div>
+          {isManualTranscript ? (
+            <div className="rounded-[1.75rem] border border-psy-border bg-psy-cream/35 p-5">
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-psy-ink/80">
+                {transcriptText}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
+              {segments.map((seg, i) => (
+                <div key={i} className="flex gap-4 group">
+                  <span className="font-mono text-[10px] text-psy-blue font-bold shrink-0 mt-1 w-12 opacity-60 group-hover:opacity-100 transition-opacity">
+                    {Math.floor(seg.start / 60).toString().padStart(2, "0")}:{Math.floor(seg.start % 60).toString().padStart(2, "0")}
+                  </span>
+                  <p className="text-sm text-psy-ink/80 leading-relaxed group-hover:text-psy-ink transition-colors">{seg.text}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

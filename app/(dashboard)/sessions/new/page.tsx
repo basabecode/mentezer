@@ -2,8 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { SessionRecorder } from "@/components/recorder/SessionRecorder";
 import { AudioUploader } from "@/components/recorder/AudioUploader";
+import { PresentialSessionComposer } from "@/components/recorder/PresentialSessionComposer";
 
 export default async function NewSessionPage({
   searchParams,
@@ -28,7 +28,7 @@ export default async function NewSessionPage({
   const hasConsent = !!selected?.consent_signed_at;
 
   return (
-    <div className="max-w-xl space-y-5 px-4 py-6 sm:px-6">
+    <div className="mx-auto max-w-4xl space-y-5 px-4 py-6 sm:px-6">
 
       {/* Header */}
       <div className="flex items-center gap-3">
@@ -87,22 +87,22 @@ export default async function NewSessionPage({
       </div>
 
       {/* Grabador o uploader */}
-      {mode === "presential" ? (
-        <SessionRecorder patientId={selected!.id} hasConsent={hasConsent} />
-      ) : (
-        <AudioUploader patientId={selected!.id} hasConsent={hasConsent} />
-      )}
-
-      <div className="rounded-lg bg-psy-blue-light p-3">
-        <p className="mb-0.5 text-xs font-medium text-psy-blue">
-          {mode === "presential" ? "Modo presencial" : "Modo virtual"}
-        </p>
-        <p className="text-xs leading-relaxed text-psy-ink/70">
-          {mode === "presential"
-            ? "Graba directamente desde este dispositivo. El audio se procesa con Whisper en español."
-            : "Sube la grabación de la sesión virtual (MP3, M4A, WAV). Se transcribirá con Whisper."}
-        </p>
+      <div className="mx-auto w-full max-w-3xl">
+        {mode === "presential" ? (
+          <PresentialSessionComposer patientId={selected!.id} hasConsent={hasConsent} />
+        ) : (
+          <AudioUploader patientId={selected!.id} hasConsent={hasConsent} />
+        )}
       </div>
+
+      {mode === "virtual" && (
+        <div className="mx-auto max-w-3xl rounded-2xl border border-psy-border/70 bg-psy-blue-light/45 px-3 py-2.5">
+          <p className="mb-0.5 text-[11px] font-medium text-psy-blue">Modo virtual</p>
+          <p className="text-[11px] leading-relaxed text-psy-muted">
+            Sube la grabación de la sesión virtual (MP3, M4A, WAV). Se transcribirá con Whisper.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

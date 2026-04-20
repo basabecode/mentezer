@@ -80,14 +80,26 @@ function formatSegmentLabel(
 
 function getHomeCrumb(firstSegment?: string) {
   if (firstSegment === 'admin') {
-    return { href: '/admin', label: 'Inicio' }
+    return { href: '/', label: 'Inicio web' }
   }
 
   if (firstSegment && dashboardHomeSegments.has(firstSegment)) {
-    return { href: '/dashboard', label: 'Inicio' }
+    return { href: '/', label: 'Inicio web' }
   }
 
   return { href: '/', label: routeLabels[''] }
+}
+
+function getContextCrumb(firstSegment?: string) {
+  if (firstSegment === 'admin') {
+    return { href: '/admin', label: 'Administración' }
+  }
+
+  if (firstSegment && dashboardHomeSegments.has(firstSegment)) {
+    return { href: '/dashboard', label: 'Panel' }
+  }
+
+  return null
 }
 
 export function Breadcrumbs() {
@@ -98,22 +110,25 @@ export function Breadcrumbs() {
 
   const segments = pathname.split('/').filter(Boolean)
   const homeCrumb = getHomeCrumb(segments[0])
+  const contextCrumb = getContextCrumb(segments[0])
   const entries = segments.map((segment, index) => ({
     segment,
     href: `/${segments.slice(0, index + 1).join('/')}`,
     previousSegment: segments[index - 1],
     nextSegment: segments[index + 1],
   }))
+  const navigableEntries =
+    segments[0] === 'admin' || segments[0] === 'dashboard' ? entries.slice(1) : entries
 
-  let visibleEntries = entries.slice(-2)
-  let showEllipsis = entries.length > visibleEntries.length
+  let visibleEntries = navigableEntries.slice(-2)
+  let showEllipsis = navigableEntries.length > visibleEntries.length
 
   if (segments.length === 1 && (segments[0] === 'dashboard' || segments[0] === 'admin')) {
     visibleEntries = []
     showEllipsis = false
   } else if (segments[segments.length - 1] === 'new') {
-    visibleEntries = entries.slice(-1)
-    showEllipsis = segments.length > 2
+    visibleEntries = navigableEntries.slice(-1)
+    showEllipsis = navigableEntries.length > 1
   }
   
   return (
@@ -124,6 +139,27 @@ export function Breadcrumbs() {
       <Link href={homeCrumb.href} className="shrink-0 transition hover:text-psy-blue">
         {homeCrumb.label}
       </Link>
+
+      {contextCrumb ? (
+        <>
+          <span className="shrink-0 font-bold text-psy-ink/20">/</span>
+          {visibleEntries.length === 0 ? (
+            <span
+              className="max-w-[11rem] truncate font-medium text-psy-ink/50"
+              aria-current="page"
+            >
+              {contextCrumb.label}
+            </span>
+          ) : (
+            <Link
+              href={contextCrumb.href}
+              className="max-w-[10rem] shrink-0 truncate transition hover:text-psy-blue"
+            >
+              {contextCrumb.label}
+            </Link>
+          )}
+        </>
+      ) : null}
 
       {showEllipsis ? (
         <>

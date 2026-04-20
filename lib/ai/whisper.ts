@@ -17,21 +17,7 @@ export async function transcribeAudio(
   sessionId: string,
   psychologistId: string
 ): Promise<TranscriptSegment[]> {
-  // Transcribir con Whisper large-v3, idioma español
-  const response = await getOpenAI().audio.transcriptions.create({
-    file: audioFile,
-    model: "whisper-1",          // API name (maps to large-v3)
-    language: "es",
-    response_format: "verbose_json",
-    timestamp_granularities: ["segment"],
-  });
-
-  const segments: TranscriptSegment[] = (response.segments ?? []).map((s) => ({
-    start: s.start,
-    end: s.end,
-    text: s.text.trim(),
-    speaker: "desconocido",
-  }));
+  const segments = await transcribePreviewAudio(audioFile);
 
   const supabase = await createClient();
 
@@ -48,6 +34,26 @@ export async function transcribeAudio(
     .update({ status: "analyzing" })
     .eq("id", sessionId)
     .eq("psychologist_id", psychologistId);
+
+  return segments;
+}
+
+export async function transcribePreviewAudio(audioFile: File): Promise<TranscriptSegment[]> {
+  // Transcribir con Whisper large-v3, idioma español
+  const response = await getOpenAI().audio.transcriptions.create({
+    file: audioFile,
+    model: "whisper-1",          // API name (maps to large-v3)
+    language: "es",
+    response_format: "verbose_json",
+    timestamp_granularities: ["segment"],
+  });
+
+  const segments: TranscriptSegment[] = (response.segments ?? []).map((s) => ({
+    start: s.start,
+    end: s.end,
+    text: s.text.trim(),
+    speaker: "desconocido",
+  }));
 
   return segments;
 }
