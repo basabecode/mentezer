@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { encryptJSON } from "@/lib/integrations/crypto";
+import { getAppUrl } from "@/lib/url/app-url";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -96,11 +97,17 @@ export async function createClient_admin(
   }
 
   // Enviar email de bienvenida con link para establecer contraseña
-  await adminSupabase.auth.admin.generateLink({
+  const passwordSetupUrl = getAppUrl("/update-password");
+  const { error: linkError } = await adminSupabase.auth.admin.generateLink({
     type: "recovery",
     email,
-    options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/set-password` },
+    options: { redirectTo: passwordSetupUrl },
   });
+
+  if (linkError) {
+    await adminSupabase.auth.admin.deleteUser(authUser.user.id);
+    return { error: `No se pudo generar el enlace de activación: ${linkError.message}` };
+  }
 
   redirect(`/admin/clients/${authUser.user.id}`);
 }

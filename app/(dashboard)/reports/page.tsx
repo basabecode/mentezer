@@ -1,134 +1,208 @@
-import { FileText, AlertTriangle, TrendingUp, Brain, Calendar } from "lucide-react";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { cn } from "@/lib/utils/cn";
-import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
+import { FileText, AlertTriangle, TrendingUp, Brain, Calendar } from 'lucide-react'
+import Link from 'next/link'
+import { cn } from '@/lib/utils/cn'
+import { createClient } from '@/lib/supabase/server'
+import {
+  PortalEmpty,
+  PortalHero,
+  PortalPage,
+  PortalSection,
+  PortalStatGrid,
+} from '@/components/ui/portal-layout'
 
 export default async function ReportsPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  // Obtener sesiones del psicólogo y luego sus reportes
-  const { data: sessionIds } = await supabase
-    .from("sessions")
-    .select("id, patient_id, patients(name)")
-    .eq("psychologist_id", user!.id);
+  const { data: sessionRows } = await supabase
+    .from('sessions')
+    .select('id, patient_id, patients(name)')
+    .eq('psychologist_id', user!.id)
 
-  const ids = sessionIds?.map(s => s.id) ?? [];
+  const ids = sessionRows?.map(session => session.id) ?? []
 
-  const { data: rawReports } = ids.length > 0 ? await supabase
-    .from("ai_reports")
-    .select("id, summary, risk_signals, generated_at, session_id")
-    .in("session_id", ids)
-    .order("generated_at", { ascending: false })
-    .limit(50) : { data: [] };
+  const { data: rawReports } =
+    ids.length > 0
+      ? await supabase
+          .from('ai_reports')
+          .select('id, summary, risk_signals, generated_at, session_id')
+          .in('session_id', ids)
+          .order('generated_at', { ascending: false })
+          .limit(50)
+      : { data: [] }
 
-  // Combinar con nombres de pacientes
   const patientBySession = Object.fromEntries(
-    (sessionIds ?? []).map(s => [s.id, (s.patients as unknown as { name: string } | null)?.name ?? "Paciente"])
-  );
+    (sessionRows ?? []).map(session => [
+      session.id,
+      (session.patients as unknown as { name: string } | null)?.name ?? 'Paciente',
+    ])
+  )
 
-  const reports = (rawReports ?? []).map(r => ({
-    ...r,
-    patientName: patientBySession[r.session_id] ?? "Paciente",
-  }));
+  const reports = (rawReports ?? []).map(report => ({
+    ...report,
+    patientName: patientBySession[report.session_id] ?? 'Paciente',
+  }))
 
-  const highRiskCount = reports?.filter(r =>
-    Array.isArray(r.risk_signals) &&
-    (r.risk_signals as Array<{ severity: string }>).some(s => s.severity === "high")
-  ).length ?? 0;
+  const highRiskCount =
+    reports?.filter(report =>
+      Array.isArray(report.risk_signals) &&
+      (report.risk_signals as Array<{ severity: string }>).some(signal => signal.severity === 'high')
+    ).length ?? 0
+
+  const lastSevenDays =
+    reports?.filter(report => {
+      const reportDate = new Date(report.generated_at)
+      const now = new Date()
+      const diff = (now.getTime() - reportDate.getTime()) / (1000 * 60 * 60 * 24)
+      return diff <= 7
+    }).length ?? 0
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:py-10">
-      <div className="mb-10">
-        <Breadcrumbs />
-        <div className="mt-6">
-          <h1 className="font-sora text-3xl md:text-5xl font-bold tracking-tight text-psy-ink">Informes de IA</h1>
-          <p className="text-base text-psy-ink/60 mt-2">
-            Análisis generados automáticamente para facilitar el seguimiento clínico.
-          </p>
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-        {[
-          { label: "Total informes", value: reports?.length ?? 0, icon: FileText, color: "text-psy-blue", bg: "bg-psy-blue/5" },
-          { label: "Alertas graves", value: highRiskCount, icon: AlertTriangle, color: "text-psy-red", bg: "bg-psy-red/5" },
-          { label: "Siete días", value: reports?.filter(r => {
-              const d = new Date(r.generated_at);
-              const now = new Date();
-              const diff = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24);
-              return diff <= 7;
-            }).length ?? 0, icon: TrendingUp, color: "text-psy-green", bg: "bg-psy-green/5" },
-        ].map(({ label, value, icon: Icon, color, bg }) => (
-          <div key={label} className="bg-white border border-psy-border rounded-2xl p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center", bg, color)}>
-                <Icon size={20} />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-psy-muted">{label}</span>
+    <PortalPage size="lg">
+      <div className="space-y-6">
+        <PortalHero
+          eyebrow="Analisis automatizado"
+          title="Informes de IA"
+          description={
+            <p>
+              Analisis generados automaticamente para facilitar el seguimiento clinico, ahora en una capa visual mas clara y con mejor jerarquia de riesgo.
+            </p>
+          }
+          actions={[
+            {
+              href: '/sessions/new',
+              label: 'Nueva sesion',
+            },
+            {
+              href: '/patients',
+              label: 'Ver pacientes',
+              variant: 'secondary',
+            },
+          ]}
+          aside={
+            <div className="rounded-[1.8rem] border border-psy-amber/15 bg-psy-amber-light/75 p-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-psy-amber">Riesgo visible</p>
+              <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
+                {highRiskCount} informe{highRiskCount === 1 ? '' : 's'} con alerta alta.
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-psy-muted">
+                Prioriza estos informes antes de cerrar seguimiento o preparar una nueva decision clinica.
+              </p>
             </div>
-            <p className="font-sora text-3xl font-bold text-psy-ink">{value}</p>
-          </div>
-        ))}
-      </div>
+          }
+        />
 
-      {/* Lista de informes */}
-      {reports && reports.length > 0 ? (
-      <div className="grid gap-3">
-        {reports.map((report) => {
-          const riskSignals = Array.isArray(report.risk_signals) ? (report.risk_signals as Array<{ severity: string }>) : [];
-          const hasHighRisk = riskSignals.some(s => s.severity === "high");
-          
-          return (
-            <Link
-              key={report.id}
-              href={`/sessions/${report.session_id}`}
-              className="group flex flex-col gap-4 rounded-[1.5rem] border border-psy-border bg-white p-5 shadow-sm transition-all hover:border-psy-blue/30 hover:shadow-xl sm:flex-row sm:items-center"
-            >
-              <div className={cn(
-                "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform",
-                hasHighRisk ? "bg-psy-red/5 text-psy-red shadow-sm" : "bg-psy-blue/5 text-psy-blue shadow-sm"
-              )}>
-                <Brain size={20} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="mb-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <h3 className="truncate text-base font-bold text-psy-ink">{report.patientName}</h3>
-                  <div className="flex items-center gap-2 rounded-full bg-psy-cream px-3 py-1 text-[11px] font-bold text-psy-muted max-sm:w-fit">
-                    <Calendar size={12} />
-                    {new Date(report.generated_at).toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
-                  </div>
+        <PortalStatGrid
+          stats={[
+            { label: 'Total informes', value: reports?.length ?? 0, hint: 'acumulados', accent: 'blue' },
+            { label: 'Alertas graves', value: highRiskCount, hint: 'prioridad alta', accent: 'red' },
+            { label: 'Ultimos siete dias', value: lastSevenDays, hint: 'actividad reciente', accent: 'green' },
+            { label: 'Sesiones analizadas', value: ids.length, hint: 'base de lectura', accent: 'ink' },
+          ]}
+        />
+
+        <PortalSection eyebrow="Lectura asistida" title="Historial de informes">
+          {reports && reports.length > 0 ? (
+            <div className="grid gap-3">
+              {reports.map(report => {
+                const riskSignals = Array.isArray(report.risk_signals)
+                  ? (report.risk_signals as Array<{ severity: string }>)
+                  : []
+                const hasHighRisk = riskSignals.some(signal => signal.severity === 'high')
+
+                return (
+                  <Link
+                    key={report.id}
+                    href={`/sessions/${report.session_id}`}
+                    className="hover-panel group flex flex-col gap-4 rounded-[1.6rem] border border-psy-border bg-white p-5 shadow-sm sm:flex-row sm:items-center"
+                  >
+                    <div
+                      className={cn(
+                        'flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm transition-transform group-hover:scale-105',
+                        hasHighRisk ? 'bg-psy-red-light text-psy-red' : 'bg-psy-blue-light text-psy-blue'
+                      )}
+                    >
+                      <Brain size={20} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <h3 className="truncate text-base font-bold text-psy-ink">{report.patientName}</h3>
+                        <div className="inline-flex items-center gap-1.5 rounded-full bg-psy-cream px-3 py-1 text-[11px] font-bold text-psy-muted">
+                          <Calendar size={12} />
+                          {new Date(report.generated_at).toLocaleDateString('es-CO', {
+                            day: 'numeric',
+                            month: 'short',
+                          })}
+                        </div>
+                      </div>
+                      <p className="mt-2 line-clamp-2 text-sm leading-7 text-psy-muted">
+                        {report.summary}
+                      </p>
+                      {hasHighRisk ? (
+                        <div className="mt-3 flex">
+                          <span className="rounded-full bg-psy-red px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                            Alerta de riesgo detectada
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          ) : (
+            <PortalEmpty
+              title="Sin informes aun"
+              description="Los informes IA se generan despues de analizar una sesion transcrita. Ve a una sesion y ejecuta el analisis para empezar a construir el historial."
+              action={
+                <Link
+                  href="/sessions/new"
+                  className="lift-button inline-flex items-center gap-2 rounded-2xl bg-psy-ink px-5 py-3 text-sm font-semibold text-white"
+                >
+                  <FileText size={16} />
+                  Generar primer informe
+                </Link>
+              }
+            />
+          )}
+        </PortalSection>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            {
+              title: 'Trazabilidad de riesgo',
+              copy: 'Las señales de mayor gravedad deben leerse primero y quedar separadas del resumen general.',
+              icon: AlertTriangle,
+              accent: 'bg-psy-red-light text-psy-red',
+            },
+            {
+              title: 'Lectura longitudinal',
+              copy: 'Compara actividad reciente y vuelve a la sesion exacta sin perder continuidad entre paciente, riesgo y resumen.',
+              icon: TrendingUp,
+              accent: 'bg-psy-green-light text-psy-green',
+            },
+            {
+              title: 'Salida operativa',
+              copy: 'El objetivo no es decorar el informe sino dejar claro que sesion revisar y que lectura necesita segunda validacion.',
+              icon: FileText,
+              accent: 'bg-psy-blue-light text-psy-blue',
+            },
+          ].map(item => {
+            const Icon = item.icon
+            return (
+              <div key={item.title} className="rounded-[1.75rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
+                  <Icon size={18} />
                 </div>
-                <p className="text-xs text-psy-ink/50 line-clamp-1 italic">"{report.summary}"</p>
-                {hasHighRisk && (
-                  <div className="mt-2 flex">
-                    <span className="text-[9px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded bg-psy-red text-white">Alerta de Riesgo détectada</span>
-                  </div>
-                )}
+                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-psy-muted">{item.copy}</p>
               </div>
-            </Link>
-          );
-        })}
-      </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-psy-blue-light flex items-center justify-center mb-4">
-            <Brain size={24} className="text-psy-blue" />
-          </div>
-          <h2 className="font-serif text-lg text-psy-ink font-semibold mb-2">Sin informes aún</h2>
-          <p className="text-sm text-psy-muted max-w-sm leading-relaxed mb-6">
-            Los informes IA se generan tras analizar una sesión transcrita. Ve a una sesión y presiona Analizar.
-          </p>
-          <Link
-            href="/sessions/new"
-            className="px-5 py-2.5 bg-psy-blue text-white rounded-lg text-sm font-medium hover:bg-psy-blue/90 transition-colors"
-          >
-            Nueva sesión
-          </Link>
+            )
+          })}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    </PortalPage>
+  )
 }

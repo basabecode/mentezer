@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ensurePsychologistProfile } from "@/lib/auth/profile";
+import { authDebug } from "@/lib/auth/debug";
 import { z } from "zod";
 
 const LoginSchema = z.object({
@@ -40,11 +41,26 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
     password: parsed.data.password,
   });
 
+  authDebug("login.signInWithPassword", {
+    email: parsed.data.email,
+    hasUser: Boolean(authData.user),
+    userId: authData.user?.id ?? null,
+    error: error?.message ?? null,
+  });
+
   if (error) {
     return { error: "Credenciales incorrectas. Verifica tu email y contraseña." };
   }
 
   const profile = await ensurePsychologistProfile(supabase, authData.user);
+  authDebug("login.ensurePsychologistProfile", {
+    email: parsed.data.email,
+    userId: authData.user.id,
+    hasProfile: Boolean(profile),
+    isPlatformAdmin: profile?.is_platform_admin ?? null,
+    accountStatus: profile?.account_status ?? null,
+    onboardingCompletedAt: profile?.onboarding_completed_at ?? null,
+  });
   if (!profile) {
     await supabase.auth.signOut();
     return {
@@ -59,9 +75,17 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
 
   revalidatePath("/", "layout");
   if (profile.is_platform_admin) {
+    authDebug("login.redirect", {
+      email: parsed.data.email,
+      destination: "/admin",
+    });
     redirect("/admin");
   }
 
+  authDebug("login.redirect", {
+    email: parsed.data.email,
+    destination: profile.onboarding_completed_at ? "/dashboard" : "/onboarding",
+  });
   redirect(profile.onboarding_completed_at ? "/dashboard" : "/onboarding");
 }
 

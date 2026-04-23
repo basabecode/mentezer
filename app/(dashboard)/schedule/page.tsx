@@ -1,66 +1,95 @@
-import { Calendar, Clock, Plus, Lock } from "lucide-react";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import Link from 'next/link'
+import { Calendar, Clock, Plus, Lock, BellRing, CalendarDays } from 'lucide-react'
+import {
+  PortalHero,
+  PortalPage,
+  PortalSection,
+  PortalStatGrid,
+} from '@/components/ui/portal-layout'
 
 export default function SchedulePage() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-10">
-      <div className="mb-10">
-        <Breadcrumbs />
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
-          <div>
-            <h1 className="font-sora text-3xl md:text-5xl font-bold tracking-tight text-psy-ink">Agenda Clínica</h1>
-            <p className="text-base text-psy-ink/60 mt-3 leading-relaxed">
-              Gestión automatizada de citas y disponibilidad profesional.
+    <PortalPage size="lg">
+      <div className="space-y-6">
+        <PortalHero
+          eyebrow="Planificacion clinica"
+          title="Agenda clinica"
+          description={
+            <p>
+              Planifica disponibilidad, recordatorios y sincronizacion de agenda desde una base mas limpia y lista para evolucionar a reservas reales.
+            </p>
+          }
+          actions={[
+            {
+              href: '/patients',
+              label: 'Ver pacientes',
+              variant: 'secondary',
+            },
+            {
+              href: '/sessions/new',
+              label: 'Nueva sesion',
+            },
+          ]}
+          aside={
+            <div className="group relative">
+              <button
+                disabled
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-psy-blue/10 bg-psy-blue-light px-5 py-4 text-sm font-semibold text-psy-blue/50"
+                title="Disponible en v1.5"
+              >
+                <Plus size={18} strokeWidth={2.3} />
+                Nueva cita
+                <span className="rounded-full bg-psy-amber-light px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-psy-amber">
+                  v1.5
+                </span>
+              </button>
+            </div>
+          }
+        />
+
+        <PortalStatGrid
+          stats={[
+            { label: 'Booking online', value: 'v1.5', hint: 'en desarrollo', accent: 'blue' },
+            { label: 'Sync calendarios', value: 'Google', hint: 'bidireccional', accent: 'green' },
+            { label: 'Recordatorios', value: 'Automaticos', hint: 'flujo planeado', accent: 'amber' },
+            { label: 'Estado', value: 'Prototipo', hint: 'base visual lista', accent: 'ink' },
+          ]}
+        />
+
+        <PortalSection eyebrow="Roadmap funcional" title="Version 1.5 en desarrollo">
+          <div className="rounded-[2rem] border border-psy-border bg-white px-5 py-8 text-center shadow-sm sm:px-8 sm:py-12">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-psy-cream shadow-sm">
+              <Lock size={32} className="text-psy-blue" />
+            </div>
+            <h3 className="mt-6 font-serif text-3xl font-semibold tracking-tight text-psy-ink">
+              Reserva y disponibilidad en una sola capa.
+            </h3>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-psy-muted">
+              Esta capa queda lista para disponibilidad, recordatorios y sincronizacion sin depender de tarjetas de relleno ni mensajes ambiguos.
             </p>
           </div>
-          <div className="group relative">
-            <button
-              disabled
-              title="Disponible en v1.5"
-            className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-psy-blue/5 bg-psy-blue/10 px-6 text-sm font-bold text-psy-blue/40 cursor-not-allowed max-sm:w-full"
-          >
-              <Plus size={18} strokeWidth={2.5} />
-              Nueva cita
-              <span className="inline-block px-2 py-1 ml-2 text-xs bg-psy-amber/20 text-psy-amber rounded-full font-semibold">
-                v1.5
-              </span>
-            </button>
-            <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-psy-ink text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
-              Disponible en versión 1.5
-            </span>
-          </div>
-        </div>
-      </div>
+        </PortalSection>
 
-      {/* Próximamente */}
-      <div className="bg-white border border-psy-border rounded-[2.5rem] p-8 text-center shadow-sm sm:p-12">
-        <div className="w-20 h-20 rounded-[2rem] bg-psy-cream flex items-center justify-center mx-auto mb-6 shadow-psy-border">
-          <Lock size={32} className="text-psy-blue" />
-        </div>
-        <h2 className="font-sora text-2xl text-psy-ink font-bold mb-3">Versión 1.5 en desarrollo</h2>
-        <p className="text-base text-psy-ink/50 max-w-md mx-auto leading-relaxed mb-10">
-          Estamos construyendo un motor de reservas optimizado con recordatorios automáticos e <span className="font-semibold text-psy-blue">integración bidireccional</span> con Google Calendar.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl mx-auto text-left">
+        <div className="grid gap-5 sm:grid-cols-2">
           {[
-            { icon: Calendar, title: "Calendario Mentezer", desc: "Vista semanal de alto rendimiento" },
-            { icon: Clock, title: "Gestión de bloques", desc: "Configura tus horarios de atención" },
-            { icon: Plus, title: "Booking Online", desc: "Link personalizable para pacientes" },
-            { icon: Calendar, title: "Multi-Sync", desc: "Apple & Google Calendar Sync" },
-          ].map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="p-5 bg-psy-cream/30 border border-psy-border rounded-2xl transition-all hover:bg-white hover:shadow-lg group">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm border border-psy-border group-hover:text-psy-blue transition-colors">
-                  <Icon size={16} />
+            { icon: CalendarDays, title: 'Calendario Mentezer', desc: 'Vista semanal de alto rendimiento para leer ocupacion y huecos utiles.' },
+            { icon: Clock, title: 'Gestion de bloques', desc: 'Configura horarios de atencion, pausas y ventanas de disponibilidad.' },
+            { icon: BellRing, title: 'Recordatorios', desc: 'Mensajes previos a cita para reducir ausencias y ordenar mejor la semana.' },
+            { icon: Calendar, title: 'Sincronizacion', desc: 'Google Calendar primero; luego expansion a otros proveedores.' },
+          ].map(item => {
+            const Icon = item.icon
+            return (
+              <div key={item.title} className="rounded-[1.75rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#eef6f9] text-psy-blue">
+                  <Icon size={18} />
                 </div>
-                <p className="text-[14px] font-bold text-psy-ink">{title}</p>
+                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-psy-muted">{item.desc}</p>
               </div>
-              <p className="text-xs text-psy-ink/50 leading-relaxed">{desc}</p>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
-    </div>
-  );
+    </PortalPage>
+  )
 }

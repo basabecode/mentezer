@@ -1,137 +1,176 @@
-import { createClient } from "@/lib/supabase/server";
-import { BookOpen, FileText, CheckCircle, Sparkles } from "lucide-react";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { KnowledgeGroupCard } from "@/components/knowledge/KnowledgeGroupCard";
-import { PersonalLibrary } from "@/components/knowledge/PersonalLibrary";
-import { KnowledgeTabs } from "@/components/knowledge/KnowledgeTabs";
+import { createClient } from '@/lib/supabase/server'
+import { BookOpen, FileText, Sparkles, Upload } from 'lucide-react'
+import Link from 'next/link'
+import { KnowledgeGroupCard } from '@/components/knowledge/KnowledgeGroupCard'
+import { PersonalLibrary } from '@/components/knowledge/PersonalLibrary'
+import { KnowledgeTabs } from '@/components/knowledge/KnowledgeTabs'
+import {
+  PortalHero,
+  PortalPage,
+  PortalSection,
+  PortalStatGrid,
+} from '@/components/ui/portal-layout'
 
 interface RawGroup {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  color: string;
-  book_count: number;
-}
-
-interface RawDocument {
-  id: string;
-  title: string;
-  author: string | null;
-  category: string;
-  chunk_count: number | null;
-  processing_status: string;
-  uploaded_at: string;
-  file_size_bytes: number | null;
-  ai_classification: { confidence: string; reasoning: string } | null;
-  personal_label: string | null;
-  group_id: string | null;
+  id: string
+  slug: string
+  name: string
+  description: string
+  color: string
+  book_count: number
 }
 
 export default async function KnowledgePage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const [
     { data: allGroups },
     { data: activeGroupRows },
     { data: personalDocuments },
   ] = await Promise.all([
-    supabase.from("knowledge_groups").select("id, slug, name, description, color, book_count").order("name"),
-    supabase.from("psychologist_knowledge_groups").select("group_id, is_active").eq("psychologist_id", user!.id),
     supabase
-      .from("knowledge_documents")
-      .select("id, title, author, category, chunk_count, processing_status, uploaded_at, file_size_bytes, ai_classification, personal_label, group_id, source_type")
-      .eq("psychologist_id", user!.id)
-      .order("uploaded_at", { ascending: false }),
-  ]);
+      .from('knowledge_groups')
+      .select('id, slug, name, description, color, book_count')
+      .order('name'),
+    supabase
+      .from('psychologist_knowledge_groups')
+      .select('group_id, is_active')
+      .eq('psychologist_id', user!.id),
+    supabase
+      .from('knowledge_documents')
+      .select(
+        'id, title, author, category, chunk_count, processing_status, uploaded_at, file_size_bytes, ai_classification, personal_label, group_id, source_type'
+      )
+      .eq('psychologist_id', user!.id)
+      .order('uploaded_at', { ascending: false }),
+  ])
 
-  const activeMap = new Map(
-    (activeGroupRows ?? []).map((r) => [r.group_id, r.is_active])
-  );
+  const activeMap = new Map((activeGroupRows ?? []).map(row => [row.group_id, row.is_active]))
 
-  const groups = (allGroups ?? []).map((g) => ({
-    ...g,
-    is_active: activeMap.get(g.id) ?? false,
-  }));
+  const groups = (allGroups ?? []).map(group => ({
+    ...group,
+    is_active: activeMap.get(group.id) ?? false,
+  }))
 
-  const totalSystemBooks = groups.reduce((acc, g) => acc + (g.book_count ?? 0), 0);
-  const activeGroupsCount = groups.filter((g) => g.is_active).length;
-  const personalReady = (personalDocuments ?? []).filter((d) => d.processing_status === "ready").length;
+  const totalSystemBooks = groups.reduce((acc, group) => acc + (group.book_count ?? 0), 0)
+  const activeGroupsCount = groups.filter(group => group.is_active).length
+  const personalReady =
+    (personalDocuments ?? []).filter(document => document.processing_status === 'ready').length ?? 0
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-10">
-      {/* Header */}
-      <div className="mb-10">
-        <Breadcrumbs />
-        <div className="mt-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-psy-blue/10 text-psy-blue">
-              <BookOpen size={18} />
-            </div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-psy-blue font-bold">
-              Unidad de Conocimiento
+    <PortalPage>
+      <div className="space-y-6">
+        <PortalHero
+          eyebrow="Unidad de conocimiento"
+          title="Biblioteca clinica"
+          description={
+            <p>
+              Nuestra IA razona consultando <span className="font-semibold text-psy-ink">libros de referencia y tus propios documentos</span>, con una capa mas clara para activar enfoques y subir material propio.
             </p>
-          </div>
-          <h1 className="font-sora text-3xl md:text-5xl font-bold tracking-tight text-psy-ink">Biblioteca Clínica</h1>
-          <p className="text-base text-psy-ink/60 mt-3 max-w-2xl leading-relaxed">
-            Nuestra IA razona consultando <span className="text-psy-ink font-semibold">libros de referencia y tus propios documentos</span>, citando autor y página en cada análisis automatizado.
-          </p>
-        </div>
-      </div>
+          }
+          actions={[
+            {
+              href: '/knowledge/upload',
+              label: 'Subir documento',
+              icon: <Upload size={16} strokeWidth={2.2} />,
+            },
+            {
+              href: '/sessions/new',
+              label: 'Ir a sesion',
+              variant: 'secondary',
+            },
+          ]}
+          aside={
+            <div className="rounded-[1.8rem] border border-psy-ink/8 bg-psy-ink p-5 text-white shadow-xl shadow-psy-ink/18">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">Biblioteca activa</p>
+              <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight">
+                {activeGroupsCount} enfoque{activeGroupsCount === 1 ? '' : 's'} conectado{activeGroupsCount === 1 ? '' : 's'}.
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-white/70">
+                Activa solo los enfoques que realmente utilizas para mantener la respuesta de IA mas acotada y mas defendible clinicamente.
+              </p>
+            </div>
+          }
+        />
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-        <div className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-10 w-10 rounded-xl bg-psy-cream flex items-center justify-center text-psy-muted">
-              <BookOpen size={20} />
-            </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-psy-muted">Libros Base</span>
-          </div>
-          <p className="font-sora text-3xl font-bold text-psy-ink">{totalSystemBooks}</p>
-        </div>
-        <div className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-10 w-10 rounded-xl bg-psy-blue/5 flex items-center justify-center text-psy-blue">
-              <Sparkles size={20} />
-            </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-psy-muted">Enfoques</span>
-          </div>
-          <p className="font-sora text-3xl font-bold text-psy-ink">{activeGroupsCount}</p>
-        </div>
-        <div className="bg-white border border-psy-border rounded-[1.5rem] p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-10 w-10 rounded-xl bg-psy-cream flex items-center justify-center text-psy-muted">
-              <FileText size={20} />
-            </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-psy-muted">Tus Docs</span>
-          </div>
-          <p className="font-sora text-3xl font-bold text-psy-ink">{personalReady}</p>
-        </div>
-      </div>
+        <PortalStatGrid
+          stats={[
+            { label: 'Libros base', value: totalSystemBooks, hint: 'catalogo del sistema', accent: 'blue' },
+            { label: 'Enfoques activos', value: activeGroupsCount, hint: 'consultados por IA', accent: 'green' },
+            { label: 'Tus documentos listos', value: personalReady, hint: 'procesados y citables', accent: 'amber' },
+            { label: 'Documentos propios', value: personalDocuments?.length ?? 0, hint: 'subidos por ti', accent: 'ink' },
+          ]}
+        />
 
-      {/* Tabs */}
-      <KnowledgeTabs
-        baseTab={
-          <div className="space-y-2">
-            <p className="text-xs text-psy-muted mb-3">
-              Activa los enfoques clínicos que usas en tu práctica. La IA solo consultará los grupos activos.
-            </p>
-            <div className="grid gap-2">
-              {groups.map((group) => (
-                <KnowledgeGroupCard key={group.id} group={group as Parameters<typeof KnowledgeGroupCard>[0]["group"]} />
-              ))}
-            </div>
-          </div>
-        }
-        personalTab={
-          <PersonalLibrary
-            initialDocuments={personalDocuments ?? []}
-            groups={(allGroups as RawGroup[] ?? []).map((g) => ({ id: g.id, slug: g.slug, name: g.name }))}
+        <PortalSection eyebrow="Razonamiento asistido" title="Base bibliografica y material propio">
+          <KnowledgeTabs
+            baseTab={
+              <div className="space-y-3">
+                <p className="text-sm leading-7 text-psy-muted">
+                  Activa los enfoques clinicos que usas en tu practica. La IA solo consultara los grupos activos dentro de tu flujo de analisis.
+                </p>
+                <div className="grid gap-3">
+                  {groups.map(group => (
+                    <KnowledgeGroupCard
+                      key={group.id}
+                      group={group as Parameters<typeof KnowledgeGroupCard>[0]['group']}
+                    />
+                  ))}
+                </div>
+              </div>
+            }
+            personalTab={
+              <PersonalLibrary
+                initialDocuments={personalDocuments ?? []}
+                groups={((allGroups as RawGroup[] | null) ?? []).map(group => ({
+                  id: group.id,
+                  slug: group.slug,
+                  name: group.name,
+                }))}
+              />
+            }
           />
-        }
-      />
-    </div>
-  );
+        </PortalSection>
+
+        <div className="grid gap-6 lg:grid-cols-3">
+          {[
+            {
+              title: 'Enfoques activos',
+              copy: 'Deja visibles solo las corrientes que forman parte de tu practica para evitar citas o marcos que no vas a usar.',
+              icon: BookOpen,
+              accent: 'bg-psy-blue-light text-psy-blue',
+            },
+            {
+              title: 'Documentos propios',
+              copy: 'Protocolos, notas estructuradas y materiales internos deben complementar la base teorica, no competir con ella.',
+              icon: FileText,
+              accent: 'bg-psy-amber-light text-psy-amber',
+            },
+            {
+              title: 'Uso en sesion',
+              copy: 'La utilidad real aqui es saber con rapidez que conocimiento esta disponible antes de cerrar una lectura o generar un informe.',
+              icon: Sparkles,
+              accent: 'bg-psy-green-light text-psy-green',
+            },
+          ].map(item => {
+            const Icon = item.icon
+            return (
+              <div key={item.title} className="rounded-[1.75rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
+                  <Icon size={18} />
+                </div>
+                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-psy-muted">{item.copy}</p>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </PortalPage>
+  )
 }

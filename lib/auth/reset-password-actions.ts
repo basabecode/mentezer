@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getAppUrl } from "@/lib/url/app-url";
 
 export interface ResetPasswordState {
   success?: boolean;
@@ -22,7 +23,7 @@ export async function resetPassword(
 
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/update-password`,
+      redirectTo: getAppUrl("/update-password"),
     });
 
     if (error) {

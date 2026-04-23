@@ -164,6 +164,13 @@ Variables opcionales según módulo:
 - `E2E_ADMIN_EMAIL`
 - `E2E_ADMIN_PASSWORD`
 
+Para auditoría manual o setups heredados, el runner E2E también acepta estos aliases:
+
+- `TEST_PSICO_EMAIL`
+- `TEST_PSICO_PASSWORD`
+- `TEST_ADMIN_EMAIL`
+- `TEST_ADMIN_PASSWORD`
+
 ### 4. Ejecutar en desarrollo
 
 ```bash

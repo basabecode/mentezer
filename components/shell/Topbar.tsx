@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Settings, PanelLeftClose, PanelLeft } from "lucide-react";
+import { Bell, Menu, PanelLeftClose, Settings } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -21,7 +21,7 @@ export function Topbar({
   pendingAnalysis,
   avatarUrl,
 }: TopbarProps) {
-  const { sidebarOpen, setSidebarOpen, setSettingsOpen } = useDashboard();
+  const { navOpen, setNavOpen, setSettingsOpen } = useDashboard();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const hour = new Date().getHours();
   const greeting =
@@ -43,39 +43,41 @@ export function Topbar({
 
   return (
     <header className="sticky top-0 z-40 px-2 py-2 md:px-5 md:py-3">
-      <div className="calm-panel mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-4 md:py-2.5">
-
-        {/* ── Lado izquierdo ── */}
-        <div className="flex flex-1 items-center gap-2 min-w-0 md:gap-4">
-          <Tooltip label={sidebarOpen ? "Cerrar pacientes" : "Ver pacientes"} side="bottom">
+      <div className="calm-panel mx-auto flex max-w-[1480px] items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-4 md:py-2.5">
+        <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-4">
+          <Tooltip label={navOpen ? "Cerrar navegación" : "Abrir navegación"} side="bottom">
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-psy-border bg-white/70 text-psy-muted transition hover:border-psy-blue/20 hover:bg-white hover:text-psy-blue"
-              aria-label={sidebarOpen ? "Cerrar panel lateral" : "Abrir panel lateral"}
+              onClick={() => setNavOpen(!navOpen)}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#222729] bg-[#1e2224] text-white transition hover:bg-[#252a2d] lg:hidden"
+              aria-label={navOpen ? "Cerrar navegación principal" : "Abrir navegación principal"}
             >
-              {sidebarOpen ? <PanelLeftClose size={17} /> : <PanelLeft size={17} />}
+              {navOpen ? <PanelLeftClose size={17} /> : <Menu size={17} />}
             </button>
           </Tooltip>
 
-          <div className="h-5 w-px bg-psy-border hidden sm:block" />
+          <div className="hidden h-5 w-px bg-psy-border sm:block" />
 
           <div className="shrink-0">
             <p className="font-mono text-[9px] uppercase tracking-widest text-psy-muted">
               {greeting}
             </p>
-            <p className="mt-0.5 font-sora text-base font-semibold tracking-tight text-psy-ink leading-none">
-              {firstName}
-            </p>
+            <div className="mt-0.5 flex flex-wrap items-center gap-2">
+              <p className="font-sora text-base font-semibold leading-none tracking-tight text-psy-ink">
+                {firstName}
+              </p>
+              <span className="hidden rounded-full border border-psy-border bg-[#f6f8f7] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-psy-muted sm:inline-flex">
+                {activePatients} activos
+              </span>
+            </div>
           </div>
 
-          <div className="h-5 w-px bg-psy-border hidden lg:block" />
+          <div className="hidden h-5 w-px bg-psy-border lg:block" />
 
           <div className="min-w-0 flex-1 max-sm:hidden">
             <Breadcrumbs />
           </div>
         </div>
 
-        {/* ── Lado derecho ── */}
         <div className="flex shrink-0 items-center gap-1 md:gap-1.5">
           <Tooltip label={pendingAnalysis > 0 ? `${pendingAnalysis} pendiente${pendingAnalysis > 1 ? "s" : ""}` : "Notificaciones"} side="bottom">
             <button
@@ -83,7 +85,7 @@ export function Topbar({
               className={cn(
                 "relative flex h-8 w-8 items-center justify-center rounded-xl border border-psy-border bg-white/70 text-psy-muted transition hover:border-psy-blue/20 hover:bg-white hover:text-psy-ink md:h-9 md:w-9 md:rounded-xl",
                 pendingAnalysis > 0 && "text-psy-amber",
-                notificationsOpen && "bg-white text-psy-blue border-psy-blue/20"
+                notificationsOpen && "border-psy-blue/20 bg-white text-psy-blue",
               )}
               aria-label="Notificaciones"
             >

@@ -1,322 +1,130 @@
 'use client'
-import { useState } from 'react'
+
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { ClinicalReportPlayback } from '@/components/marketing/ClinicalReportPlayback'
-import { ScrollRevealInit } from '@/components/marketing/ScrollRevealInit'
+import {
+  ArrowRight,
+  BookOpen,
+  Brain,
+  CalendarDays,
+  Check,
+  Clock3,
+  Lock,
+  Menu,
+  Mic,
+  Shield,
+  Sparkles,
+  X,
+} from 'lucide-react'
 
-function IconBrain() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-1.04-4.69 3 3 0 0 1 .38-5.74 2.5 2.5 0 0 1 3.12-3.61" />
-      <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 1.04-4.69 3 3 0 0 0-.38-5.74 2.5 2.5 0 0 0-3.12-3.61" />
-    </svg>
-  )
-}
+type Tone = 'neutral' | 'info' | 'success'
 
-function IconArrow() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
-    </svg>
-  )
-}
-
-function IconCheck() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  )
-}
-
-function IconMic() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 2a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
-      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-      <line x1="12" y1="19" x2="12" y2="22" />
-      <line x1="8" y1="22" x2="16" y2="22" />
-    </svg>
-  )
-}
-
-function IconBook() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-    </svg>
-  )
-}
-
-function IconSpark() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m12 3 1.9 4.6L18.5 9l-4.6 1.4L12 15l-1.9-4.6L5.5 9l4.6-1.4L12 3z" />
-      <path d="m19 15 1 2.4 2.5.8-2.5.8L19 21l-1-2-2.5-.8 2.5-.8 1-2.4z" />
-    </svg>
-  )
-}
-
-function IconLock() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="4" y="11" width="16" height="9" rx="2" />
-      <path d="M8 11V7a4 4 0 1 1 8 0v4" />
-    </svg>
-  )
-}
-
-function IconClock() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <polyline points="12 7 12 12 15.5 14" />
-    </svg>
-  )
-}
-
-function IconCalendar() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
-  )
-}
-
-function IconShield() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
-  )
-}
-
-function IconMenu() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  )
-}
-
-function IconClose() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  )
-}
-
-function SectionFade({ from, to }: { from: string; to: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className="h-12 w-full md:h-16"
-      style={{
-        background: `linear-gradient(180deg, ${from} 0%, ${to} 100%)`,
-      }}
-    />
-  )
+type ReportField = {
+  id: string
+  label: string
+  content: string
+  tone: Tone
 }
 
 const quickFacts = [
-  { value: '14 días', label: 'de prueba real, sin tarjeta' },
+  { value: '14 dias', label: 'de prueba real, sin tarjeta' },
   { value: '5 min', label: 'para dejar lista la cuenta' },
-  { value: '< 2 min', label: 'para tener reporte post-sesión' },
-  {
-    value: 'Privacidad',
-    label: 'clínica con estándar regulatorio LATAM y GDPR',
-  },
+  { value: '< 2 min', label: 'para tener reporte post-sesion' },
+  { value: 'Privacidad', label: 'clinica con enfoque serio y trazable' },
 ]
 
 const clarityPoints = [
-  'Analiza sesiones con tu biblioteca clínica',
-  'Te ayuda a cerrar mejor el día',
+  'Analiza sesiones con tu biblioteca clinica',
+  'Te ayuda a cerrar mejor el dia',
   'No reemplaza tu criterio profesional',
 ]
 
-const demoTranscript = [
-  'Paciente reporta cansancio sostenido y culpa al descansar.',
-  'Aparece autoexigencia alta y miedo a perder control.',
-  'Sugiere trabajar regulación y relación con el rendimiento.',
-]
-
-const demoResponse = [
-  'Patrón central: regulación basada en rendimiento.',
-  'Hipótesis clínica: descanso vivido como amenaza de pérdida de valor.',
-  'Fuente útil: Beck, p. 112, activación ansiosa y autoevaluación rígida.',
-]
-
-const heroReportFields = [
+const heroReportFields: ReportField[] = [
   {
     id: 'subjective',
     label: 'Subjetivo',
     content:
-      'Reporta cansancio sostenido, culpa al descansar y dificultad para desconectarse del trabajo al final del día.',
-    tone: 'neutral' as const,
+      'Reporta cansancio sostenido, culpa al descansar y dificultad para desconectarse del trabajo al final del dia.',
+    tone: 'neutral',
   },
   {
     id: 'analysis',
-    label: 'Análisis clínico',
+    label: 'Analisis clinico',
     content:
-      'La IA detecta autoexigencia como regulador de valor personal y recupera una cita clínica útil para sostener la hipótesis exploratoria.',
-    tone: 'info' as const,
+      'La IA detecta autoexigencia como regulador de valor personal y recupera una cita clinica util para sostener la hipotesis exploratoria.',
+    tone: 'info',
   },
   {
     id: 'next-session',
-    label: 'Próxima sesión',
+    label: 'Proxima sesion',
     content:
-      'Queda listo un siguiente paso claro: explorar descanso como pérdida de valor y registrar pensamientos automáticos.',
-    tone: 'success' as const,
+      'Queda listo un siguiente paso claro: explorar descanso como perdida de valor y registrar pensamientos automaticos.',
+    tone: 'success',
   },
 ]
 
 const painPoints = [
   {
+    id: '01',
     title: 'Las notas se quedan para la noche',
-    copy: 'Tu jornada termina tarde porque la sesión no termina cuando el paciente sale. Termina cuando logras reconstruirla.',
+    copy:
+      'Tu jornada termina tarde porque la sesion no termina cuando el paciente sale. Termina cuando logras reconstruirla.',
   },
   {
-    title: 'Tu criterio clínico llega sin apoyo a tiempo',
-    copy: 'Los autores que usas sí existen en tu práctica, pero no están a la mano justo cuando necesitas ordenar lo ocurrido.',
+    id: '02',
+    title: 'Tu criterio clinico llega sin apoyo a tiempo',
+    copy:
+      'Los autores que usas si existen en tu practica, pero no estan a la mano justo cuando necesitas ordenar lo ocurrido.',
   },
   {
+    id: '03',
     title: 'Agenda, cuaderno y WhatsApp ya piden relevo',
-    copy: 'Ese sistema aguanta al principio. Cuando crecen los pacientes, empieza a cobrarte en orden, energía y percepción profesional.',
+    copy:
+      'Ese sistema aguanta al principio. Cuando crecen los pacientes, empieza a cobrarte en orden, energia y percepcion profesional.',
   },
 ]
 
 const deliverables = [
   {
-    icon: <IconMic />,
-    title: 'Sesión capturada',
+    title: 'Sesion capturada',
     kicker: 'Registro base',
-    copy: 'Grabas o subes audio y el caso queda listo para trabajarse sin reconstruir la sesión desde memoria parcial.',
-    technical: 'Audio cifrado · timeline clínico · paciente vinculado',
+    copy:
+      'Grabas o subes audio y el caso queda listo para trabajarse sin reconstruir la sesion desde memoria parcial.',
+    technical: 'Audio cifrado · timeline clinico · paciente vinculado',
     metric: 'Inicio del cierre inmediato',
-    iconBg: 'bg-psy-blue-light',
-    iconColor: 'text-psy-blue',
+    icon: Mic,
+    accent: 'bg-psy-blue-light text-psy-blue',
   },
   {
-    icon: <IconBook />,
-    title: 'Soporte bibliográfico',
-    kicker: 'Rigor clínico',
-    copy: 'El análisis trae citas de los libros que usas, con autor y página, dentro del mismo flujo de trabajo.',
-    technical: 'Autor y página · búsqueda contextual · biblioteca activa',
-    metric: 'Cita útil dentro del reporte',
-    iconBg: 'bg-psy-amber-light',
-    iconColor: 'text-psy-amber',
+    title: 'Soporte bibliografico',
+    kicker: 'Rigor clinico',
+    copy:
+      'El analisis trae citas de los libros que usas, con autor y pagina, dentro del mismo flujo de trabajo.',
+    technical: 'Autor y pagina · busqueda contextual · biblioteca activa',
+    metric: 'Cita util dentro del reporte',
+    icon: BookOpen,
+    accent: 'bg-psy-amber-light text-psy-amber',
   },
   {
-    icon: <IconSpark />,
-    title: 'Decisión clínica',
-    kicker: 'Acción siguiente',
-    copy: 'Resumen, patrón central, hipótesis exploratoria y próximo paso quedan en una estructura que sí sirve para actuar.',
-    technical: 'Hipótesis · riesgo · próxima sesión',
-    metric: 'Próximo paso definido',
-    iconBg: 'bg-psy-green-light',
-    iconColor: 'text-psy-green',
+    title: 'Decision clinica',
+    kicker: 'Accion siguiente',
+    copy:
+      'Resumen, patron central, hipotesis exploratoria y proximo paso quedan en una estructura que si sirve para actuar.',
+    technical: 'Hipotesis · riesgo · proxima sesion',
+    metric: 'Proximo paso definido',
+    icon: Sparkles,
+    accent: 'bg-psy-green-light text-psy-green',
   },
   {
-    icon: <IconLock />,
-    title: 'Privacidad clínica',
+    title: 'Privacidad clinica',
     kicker: 'Confianza institucional',
-    copy: 'Audio cifrado, trazabilidad y una estructura pensada para trabajar con información sensible de forma seria.',
-    technical: 'Cifrado AES-256 · acceso controlado · trazabilidad',
+    copy:
+      'Audio cifrado, trazabilidad y una estructura pensada para trabajar con informacion sensible de forma seria.',
+    technical: 'Cifrado · acceso controlado · trazabilidad',
     metric: 'Seguridad visible para el profesional',
-    iconBg: 'bg-psy-ink/10',
-    iconColor: 'text-psy-ink',
+    icon: Lock,
+    accent: 'bg-psy-ink/8 text-psy-ink',
   },
 ]
 
@@ -324,22 +132,44 @@ const trialSteps = [
   {
     day: 'Dia 1',
     title: 'Cargas tu primer caso real',
-    copy: 'La prueba sirve porque no es un sandbox vacío. Entras con material verdadero y ves rápido si encaja.',
+    copy:
+      'La prueba sirve porque no es un sandbox vacio. Entras con material verdadero y ves rapido si encaja.',
   },
   {
     day: 'Dia 3',
-    title: 'Comparas cómo cierras una sesión',
-    copy: 'Ahí aparece la diferencia entre seguir escribiendo tarde y salir con una base mucho más armada.',
+    title: 'Comparas como cierras una sesion',
+    copy:
+      'Ahi aparece la diferencia entre seguir escribiendo tarde y salir con una base mucho mas armada.',
   },
   {
     day: 'Dia 7',
     title: 'Se nota el orden',
-    copy: 'Tu consulta empieza a sentirse más moderna para ti y más consistente para el paciente.',
+    copy:
+      'Tu consulta empieza a sentirse mas moderna para ti y mas consistente para el paciente.',
   },
   {
-    day: 'Día 14',
+    day: 'Dia 14',
     title: 'Decides con criterio propio',
-    copy: 'No compras por una promesa bonita. Compras porque ya viste si el cambio te quitó carga real.',
+    copy:
+      'No compras por una promesa bonita. Compras porque ya viste si el cambio te quito carga real.',
+  },
+]
+
+const personas = [
+  {
+    title: 'Psicologo clinico individual',
+    copy:
+      'Si llevas agenda llena y cierras el dia escribiendo a contrarreloj, aqui ganas claridad y tiempo sin perder tu criterio.',
+  },
+  {
+    title: 'Consultorio que quiere verse mas serio',
+    copy:
+      'Cuando el paciente siente orden, seguimiento y velocidad, tambien percibe una practica mas moderna y confiable.',
+  },
+  {
+    title: 'Equipo que ya no quiere operar por WhatsApp',
+    copy:
+      'Si varias personas tocan la agenda, los reportes y las derivaciones, necesitas sistema. No mas parches pegados.',
   },
 ]
 
@@ -348,25 +178,24 @@ const plans = [
     name: 'Lite',
     price: '$19',
     description:
-      'Para psicólogos en consulta privada que quieren ordenar su práctica sin perder tiempo.',
+      'Para psicologos en consulta privada que quieren ordenar su practica sin perder tiempo.',
     features: [
       'Notas SOAP/DAP generadas con IA',
-      'Hasta 3 enfoques clínicos activos',
+      'Hasta 3 enfoques clinicos activos',
       'Biblioteca base de 126 libros',
-      'Prueba de 14 días gratis',
+      'Prueba de 14 dias gratis',
     ],
-    highlight: false,
   },
   {
     name: 'Pro',
     price: '$49',
     description:
-      'Para psicólogos clínicos y psiquiatras que necesitan documentación avanzada.',
+      'Para psicologos clinicos y psiquiatras que necesitan documentacion avanzada.',
     features: [
       'Todo lo incluido en Lite',
-      'Grabación y transcripción de sesiones',
+      'Grabacion y transcripcion de sesiones',
       'AIReport profundo con CIE-11',
-      'Informes de derivación en PDF',
+      'Informes de derivacion en PDF',
     ],
     highlight: true,
   },
@@ -374,54 +203,151 @@ const plans = [
     name: 'Clinic',
     price: '$149',
     description:
-      'Para consultorios y equipos que necesitan coordinación y operación compartida.',
+      'Para consultorios y equipos que necesitan coordinacion y operacion compartida.',
     features: [
       'Hasta 5 profesionales',
       'Panel administrativo central',
-      'Facturación unificada',
+      'Facturacion unificada',
       'Onboarding dedicado',
     ],
-    highlight: false,
   },
 ]
 
 const faqs = [
   {
-    question: '¿Esto reemplaza mi criterio clínico?',
+    question: 'Esto reemplaza mi criterio clinico?',
     answer:
-      'No. Esa parte no se negocia. MENTEZER organiza, recupera contexto y te ayuda a cerrar mejor la sesión. La decisión sigue siendo tuya.',
+      'No. Esa parte no se negocia. MENTEZER organiza, recupera contexto y te ayuda a cerrar mejor la sesion. La decision sigue siendo tuya.',
   },
   {
-    question: '¿La prueba de 14 días pide tarjeta?',
+    question: 'La prueba de 14 dias pide tarjeta?',
     answer:
-      'No. La idea es validar uso real sin meter una barrera tonta al principio.',
+      'No. La idea es validar uso real sin meter una barrera innecesaria al principio.',
   },
   {
-    question: '¿Puedo trabajar con mis propios libros?',
+    question: 'Puedo trabajar con mis propios libros?',
     answer:
-      'Sí. Ese es uno de los puntos fuertes. La plataforma no te obliga a pensar como otro profesional.',
+      'Si. Ese es uno de los puntos fuertes. La plataforma no te obliga a pensar como otro profesional.',
   },
 ]
+
+function toneClasses(tone: Tone) {
+  if (tone === 'info') {
+    return 'border-psy-blue/20 bg-psy-blue-light/80 text-psy-ink'
+  }
+
+  if (tone === 'success') {
+    return 'border-psy-green/20 bg-psy-green-light/85 text-psy-ink'
+  }
+
+  return 'border-psy-border/80 bg-white/90 text-psy-ink'
+}
+
+function HeroReportCard() {
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const [visibleChars, setVisibleChars] = useState(0)
+
+  useEffect(() => {
+    const startTimer = window.setTimeout(() => setActiveIndex(0), 700)
+    return () => window.clearTimeout(startTimer)
+  }, [])
+
+  useEffect(() => {
+    if (activeIndex < 0 || activeIndex >= heroReportFields.length) {
+      return
+    }
+
+    const current = heroReportFields[activeIndex]
+    let cursor = 0
+
+    const typingTimer = window.setInterval(() => {
+      cursor += 2
+      setVisibleChars(cursor)
+
+      if (cursor >= current.content.length) {
+        window.clearInterval(typingTimer)
+        if (activeIndex < heroReportFields.length - 1) {
+          window.setTimeout(() => {
+            setActiveIndex(previous => previous + 1)
+            setVisibleChars(0)
+          }, 650)
+        }
+      }
+    }, 28)
+
+    return () => window.clearInterval(typingTimer)
+  }, [activeIndex])
+
+  return (
+    <div className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-[linear-gradient(160deg,rgba(62,129,151,0.55)_0%,rgba(74,144,164,0.32)_25%,rgba(232,242,245,0.92)_55%,#fff_100%)] p-5 shadow-[0_24px_56px_rgba(62,129,151,0.15)] md:p-6">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_38%)]" />
+      <div className="relative flex items-start justify-between gap-4 border-b border-white/50 pb-4">
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-white/80">
+            MENTEZER · Espacio clinico
+          </p>
+          <p className="mt-1 font-serif text-lg font-semibold tracking-tight text-white md:text-xl">
+            Ana R. · Sesion 8 · TCC
+          </p>
+        </div>
+        <div className="rounded-full border border-white/55 bg-white/75 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-psy-blue">
+          Respuesta IA
+        </div>
+      </div>
+
+      <div className="relative mt-4 space-y-3">
+        {heroReportFields.map((field, index) => {
+          const isCurrent = index === activeIndex
+          const isVisible = index <= activeIndex
+          const typedText = isCurrent
+            ? field.content.slice(0, Math.min(visibleChars, field.content.length))
+            : isVisible
+              ? field.content
+              : ''
+
+          return (
+            <div
+              key={field.id}
+              className={`min-h-[96px] rounded-2xl border px-4 py-3 transition-all duration-300 ${
+                isVisible
+                  ? toneClasses(field.tone)
+                  : 'border-white/35 bg-white/30 text-psy-ink/35'
+              }`}
+            >
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-psy-muted">
+                {field.label}
+              </p>
+              <p className="mt-2 text-sm leading-7 md:text-[15px] md:leading-7">
+                {typedText}
+                {isCurrent && visibleChars < field.content.length ? (
+                  <span className="type-caret">|</span>
+                ) : null}
+              </p>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 export default function LandingPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-psy-cream text-psy-ink">
-      <ScrollRevealInit />
-
       <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
         <nav className="calm-panel flex items-center justify-between px-4 py-3 md:px-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue shadow-sm">
-              <IconBrain />
+              <Brain size={20} strokeWidth={1.8} />
             </div>
             <div>
               <p className="font-sora text-lg font-semibold tracking-tight text-psy-ink">
                 MENTEZER
               </p>
               <p className="hidden text-xs text-psy-muted sm:block">
-                Calma profesional para tu práctica clínica
+                Calma profesional para tu practica clinica
               </p>
             </div>
           </div>
@@ -431,7 +357,7 @@ export default function LandingPage() {
               href="/demo"
               className="rounded-full px-4 py-2 text-sm font-medium text-psy-blue transition hover:bg-psy-blue-light hover:text-psy-ink"
             >
-              Demostración
+              Demostracion
             </Link>
             <a
               href="#problema"
@@ -443,7 +369,7 @@ export default function LandingPage() {
               href="#flujo"
               className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
             >
-              Cómo funciona
+              Como funciona
             </a>
             <a
               href="#planes"
@@ -464,59 +390,56 @@ export default function LandingPage() {
               href="/register"
               className="calm-button-primary rounded-full px-4 py-2.5 text-sm font-medium md:px-5"
             >
-              <span className="hidden sm:inline">Prueba 14 días</span>
+              <span className="hidden sm:inline">Prueba 14 dias</span>
               <span className="sm:hidden">Empezar</span>
-              <IconArrow />
+              <ArrowRight size={16} />
             </Link>
-
-            {/* Mobile Menu Button */}
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => setIsMobileMenuOpen(open => !open)}
               className="flex h-10 w-10 items-center justify-center rounded-2xl border border-psy-border bg-white/70 text-psy-ink transition hover:bg-white md:hidden"
-              aria-label="Toggle menu"
+              aria-label="Abrir menu"
             >
-              {isMobileMenuOpen ? <IconClose /> : <IconMenu />}
+              {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </nav>
 
-        {/* Mobile menu dropdown */}
-        {isMobileMenuOpen && (
+        {isMobileMenuOpen ? (
           <div className="absolute left-4 right-4 mt-3 overflow-hidden rounded-3xl border border-psy-border bg-white/96 p-4 shadow-[0_18px_40px_rgba(74,144,164,0.16)] backdrop-blur-xl animate-menu-in md:hidden">
             <div className="grid gap-2">
               <Link
-                onClick={() => setIsMobileMenuOpen(false)}
                 href="/demo"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center justify-between rounded-2xl border border-psy-blue/12 bg-psy-blue-light px-4 py-3.5 text-sm font-medium text-psy-blue"
               >
-                Ver Demostración
-                <IconSpark />
+                Ver demostracion
+                <Sparkles size={16} />
               </Link>
               <a
-                onClick={() => setIsMobileMenuOpen(false)}
                 href="#problema"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
               >
                 Problema
               </a>
               <a
-                onClick={() => setIsMobileMenuOpen(false)}
                 href="#flujo"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
               >
-                Cómo funciona
+                Como funciona
               </a>
               <a
-                onClick={() => setIsMobileMenuOpen(false)}
                 href="#planes"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
               >
                 Precios
               </a>
               <div className="mt-2 border-t border-psy-warm-border pt-4">
                 <Link
-                  onClick={() => setIsMobileMenuOpen(false)}
                   href="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="flex w-full items-center justify-center rounded-2xl py-3 text-sm font-medium text-psy-ink active:bg-psy-blue-light"
                 >
                   Ingresar a mi cuenta
@@ -524,31 +447,33 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </header>
 
-      <section className="bg-psy-cream px-4 pb-12 pt-28 md:px-6 md:pb-16 md:pt-32 lg:pb-20 lg:pt-36">
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 md:items-center lg:grid-cols-2">
+      <section className="px-4 pb-14 pt-28 md:px-6 md:pb-18 md:pt-32 lg:pb-20 lg:pt-36">
+        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.02fr_0.98fr] md:items-center">
           <div className="reveal-rise">
-            <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight text-psy-ink sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
-              Una interfaz clínica serena para atender, registrar y analizar con
-              más claridad.
+            <div className="inline-flex items-center gap-2 rounded-full border border-psy-border bg-white/72 px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-psy-muted shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-psy-green animate-pulse" />
+              Calma profesional para tu practica clinica
+            </div>
+
+            <h1 className="mt-6 max-w-3xl font-serif text-4xl font-bold leading-[0.98] tracking-tight text-psy-ink sm:text-5xl lg:text-7xl">
+              Menos reconstruccion mental. Mas criterio clinico en el momento correcto.
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-psy-ink/75 md:text-lg">
-              MENTEZER organiza tu práctica con una experiencia visual ligera,
-              confiable y profesional. Menos fricción operativa, más foco clínico
-              y mejor presencia frente al paciente.
+            <p className="mt-6 max-w-2xl text-base leading-8 text-psy-ink/75 md:text-lg">
+              MENTEZER organiza agenda, sesion, biblioteca y cierre clinico en una interfaz serena. No compra humo tecnico: te devuelve foco, orden y presencia profesional.
             </p>
 
-            <div className="mt-6 grid max-w-xl gap-2.5">
+            <div className="mt-7 grid max-w-xl gap-2.5">
               {clarityPoints.map(point => (
                 <div
                   key={point}
-                  className="flex items-start gap-3 rounded-2xl border border-psy-border bg-white/78 px-4 py-3 text-sm text-psy-ink/75 shadow-sm"
+                  className="flex items-start gap-3 rounded-2xl border border-psy-border bg-white/80 px-4 py-3 text-sm text-psy-ink/80 shadow-sm"
                 >
                   <span className="mt-0.5 text-psy-green">
-                    <IconCheck />
+                    <Check size={15} strokeWidth={2.4} />
                   </span>
                   <span>{point}</span>
                 </div>
@@ -558,152 +483,50 @@ export default function LandingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/register"
-                className="calm-button-primary px-6 py-4 text-sm font-medium rounded-3xl"
+                className="calm-button-primary rounded-3xl px-6 py-4 text-sm font-medium"
               >
-                Activar prueba de 14 días
-                <IconArrow />
+                Activar prueba de 14 dias
+                <ArrowRight size={16} />
               </Link>
               <Link
                 href="/demo"
                 className="calm-button-secondary rounded-3xl px-6 py-4 text-sm font-medium"
               >
-                <IconSpark />
-                Ver demostración en vivo
+                <Sparkles size={16} />
+                Ver demostracion en vivo
               </Link>
-            </div>
-
-            {/* Tarjeta visible solo en mobile */}
-            <div className="mt-8 block md:hidden">
-              <div className="overflow-hidden rounded-3xl border border-psy-border bg-white/92 p-4 shadow-[0_18px_40px_rgba(74,144,164,0.12)]">
-                <div className="flex items-center justify-between border-b border-psy-border/70 pb-3">
-                  <div>
-                    <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                      MENTEZER Espacio de trabajo Clínico
-                    </p>
-                    <p className="mt-1 text-base font-semibold tracking-tight text-psy-ink">
-                      Ana R. · Sesión 8 · TCC
-                    </p>
-                  </div>
-                  <div className="rounded-full border border-psy-border bg-psy-blue-light px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-psy-blue">
-                    Respuesta IA
-                  </div>
-                </div>
-                <div className="mt-3 space-y-2">
-                  {[
-                    {
-                      label: 'Subjetivo',
-                      text: 'Reporta cansancio sostenido y culpa al descansar.',
-                      tone: 'bg-white border-psy-border/70',
-                    },
-                    {
-                      label: 'Análisis clínico',
-                      text: 'Autoexigencia como regulador de valor personal — cita clínica recuperada.',
-                      tone: 'bg-psy-blue-light border-psy-blue/20',
-                    },
-                    {
-                      label: 'Próxima sesión',
-                      text: 'Explorar descanso como pérdida de valor.',
-                      tone: 'bg-psy-green-light border-psy-green/20',
-                    },
-                  ].map(f => (
-                    <div
-                      key={f.label}
-                      className={`rounded-2xl border ${f.tone} px-3 py-2.5`}
-                    >
-                      <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                        {f.label}
-                      </p>
-                      <p className="mt-1 text-xs leading-5 text-psy-ink">
-                        {f.text}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 flex flex-wrap gap-2 text-xs text-psy-muted">
-                  <span className="rounded-full bg-psy-amber-light px-2 py-0.5 font-medium text-psy-ink">
-                    Antes: 45 min
-                  </span>
-                  <span className="rounded-full bg-psy-blue-light px-2 py-0.5 font-medium text-psy-ink">
-                    Ahora: 28 seg.
-                  </span>
-                  <span className="text-psy-green">
-                    Listo para cerrar
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
 
-          <div className="reveal-rise reveal-delay-1 relative hidden md:block">
-            <div className="absolute -left-6 top-10 h-36 w-36 rounded-full bg-psy-blue/15 blur-3xl" />
-            <div className="absolute -bottom-6 right-8 h-28 w-28 rounded-full bg-psy-green/15 blur-3xl" />
-
-            <div className="card-hero-glow relative overflow-hidden rounded-3xl border border-psy-warm-border bg-[linear-gradient(180deg,rgba(62,129,151,0.62)_0%,rgba(74,144,164,0.42)_22%,rgba(232,242,245,0.92)_58%,rgba(255,255,255,1)_100%)] p-4 shadow-2xl md:p-5">
-              <div className="flex items-center justify-between border-b border-psy-border/70 pb-4">
-                <div>
-                  <p className="font-mono text-xs uppercase tracking-widest text-white">
-                    MENTEZER Espacio de trabajo Clínico
-                  </p>
-                  <h2 className="mt-1.5 text-lg font-semibold tracking-tight !text-white">
-                    Ana R. · Sesión 8 · TCC
-                  </h2>
-                </div>
-                <div className="rounded-full border border-psy-border bg-white/76 px-3 py-1.5 text-xs font-medium uppercase tracking-widest text-psy-blue">
-                  Respuesta IA
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <ClinicalReportPlayback
-                  compact
-                  resetKey="hero-report"
-                  title="Reporte post-sesión"
-                  subtitle=""
-                  showSubtitle={false}
-                  showHeaderStatus={false}
-                  showFieldStatus={false}
-                  initialDelayMs={900}
-                  charDelayMs={34}
-                  fieldPauseMs={1300}
-                  charsPerTick={1}
-                  fields={heroReportFields}
-                />
-              </div>
-
-              <div className="mt-4 flex flex-wrap items-center gap-2.5 rounded-2xl border border-psy-border/70 bg-white/74 px-3 py-3 text-xs text-psy-muted">
-                <span className="rounded-full bg-psy-amber-light px-2.5 py-1 font-medium text-psy-ink">
-                  Antes: 45 min
-                </span>
-                <span className="rounded-full bg-psy-blue-light px-2.5 py-1 font-medium text-psy-ink">
-                  Ahora: 28 seg.
-                </span>
-                <span>126 referencias activas</span>
-                <span className="text-psy-green">
-                  Listo para cerrar consulta
-                </span>
-              </div>
+          <div className="reveal-rise reveal-delay-2">
+            <HeroReportCard />
+            <div className="mt-4 flex flex-wrap items-center gap-2.5 rounded-2xl border border-psy-border bg-white/88 px-4 py-3 text-xs text-psy-muted shadow-sm">
+              <span className="rounded-full bg-psy-amber-light px-2.5 py-1 font-medium text-psy-ink">
+                Antes: 45 min
+              </span>
+              <span className="rounded-full bg-psy-blue-light px-2.5 py-1 font-medium text-psy-ink">
+                Ahora: 28 seg.
+              </span>
+              <span>126 referencias activas</span>
+              <span className="text-psy-green">Listo para cerrar consulta</span>
             </div>
           </div>
         </div>
 
-        <div className="reveal-rise reveal-delay-2 mx-auto mt-10 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/92 px-4 py-2 shadow-[0_18px_42px_rgba(74,144,164,0.12)] sm:grid-cols-2 md:grid-cols-4 md:px-5">
+        <div className="reveal-rise reveal-delay-3 mx-auto mt-10 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/92 px-4 py-3 shadow-[0_18px_42px_rgba(74,144,164,0.12)] sm:grid-cols-2 lg:grid-cols-4">
           {quickFacts.map(item => (
             <div
               key={item.value}
-              className="flex items-center gap-3 rounded-2xl px-3 py-1.5 text-center md:text-left"
+              className="flex items-center gap-3 rounded-2xl px-2 py-1.5 text-center md:text-left"
             >
-              <p className="font-sora text-2xl font-semibold tracking-tight shrink-0">
+              <p className="font-sora text-2xl font-semibold tracking-tight text-psy-ink shrink-0">
                 {item.value}
               </p>
-              <p className="text-xs leading-5 text-psy-muted">
-                {item.label}
-              </p>
+              <p className="text-xs leading-5 text-psy-muted">{item.label}</p>
             </div>
           ))}
         </div>
       </section>
-
-      <SectionFade from="var(--psy-cream)" to="white" />
 
       <section id="problema" className="bg-white px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto max-w-6xl">
@@ -712,40 +535,37 @@ export default function LandingPage() {
               Seguir igual tiene costo
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              El atraso no siempre se ve dramático. A veces se ve como cansancio
-              acumulado.
+              El atraso no siempre se ve dramatico. A veces se ve como cansancio acumulado.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-psy-ink/75">
-              No se trata de moda tecnológica. Se trata de que tu forma de
-              trabajar ya merece una estructura mejor que libreta, notas sueltas
-              y memoria diferida.
+              No se trata de moda tecnologica. Se trata de que tu forma de trabajar ya merece una estructura mejor que libreta, notas sueltas y memoria diferida.
             </p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
             {painPoints.map((item, index) => (
               <article
-                key={item.title}
+                key={item.id}
                 className={`hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-7 shadow-xl ${
-                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
+                  index === 0
+                    ? 'reveal-delay-1'
+                    : index === 1
+                      ? 'reveal-delay-2'
+                      : 'reveal-delay-3'
                 }`}
               >
                 <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                  0{index + 1}
+                  {item.id}
                 </p>
                 <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
                   {item.title}
                 </h3>
-                <p className="mt-4 text-sm leading-7 text-psy-ink/75">
-                  {item.copy}
-                </p>
+                <p className="mt-4 text-sm leading-7 text-psy-ink/75">{item.copy}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
-
-      <SectionFade from="white" to="var(--psy-purple-light)" />
 
       <section id="flujo" className="bg-psy-purple-light px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
@@ -754,24 +574,21 @@ export default function LandingPage() {
               Lo que recibes
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              Sales de una sesión con material para actuar, no con tareas
-              pendientes.
+              Sales de una sesion con material para actuar, no con tareas pendientes.
             </h2>
             <p className="mt-5 text-lg leading-8 text-psy-ink/75">
-              Esa es la parte que mueve la compra. No la IA en abstracto. La
-              sensación concreta de terminar consulta sin quedarte debiendo
-              media hora de reconstrucción clínica.
+              Esa es la parte que mueve la compra. No la IA en abstracto. La sensacion concreta de terminar consulta sin quedarte debiendo media hora de reconstruccion clinica.
             </p>
 
             <div className="mt-8 rounded-3xl border border-psy-border bg-psy-ink p-6 text-psy-paper shadow-2xl">
               <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
-                Qué compra realmente el clínico
+                Que compra realmente el clinico
               </p>
               <div className="mt-4 grid gap-3">
                 {[
-                  'Una estructura que ordena el cierre clínico en tiempo real.',
-                  'Soporte técnico y bibliográfico visible, no escondido.',
-                  'Una plataforma que sí parece herramienta profesional delante del paciente.',
+                  'Una estructura que ordena el cierre clinico en tiempo real.',
+                  'Soporte tecnico y bibliografico visible, no escondido.',
+                  'Una plataforma que si parece herramienta profesional delante del paciente.',
                 ].map(point => (
                   <div
                     key={point}
@@ -785,55 +602,56 @@ export default function LandingPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {deliverables.map((item, index) => (
-              <div
-                key={item.title}
-                className={`card-deliverable reveal-rise rounded-3xl border border-psy-border bg-white p-5 shadow-lg ${
-                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : index === 2 ? 'reveal-delay-3' : 'reveal-delay-4'
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.iconBg} ${item.iconColor}`}
-                  >
-                    {item.icon}
+            {deliverables.map((item, index) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={item.title}
+                  className={`card-deliverable reveal-rise rounded-3xl border border-psy-border bg-white p-5 shadow-lg ${
+                    index === 0
+                      ? 'reveal-delay-1'
+                      : index === 1
+                        ? 'reveal-delay-2'
+                        : index === 2
+                          ? 'reveal-delay-3'
+                          : 'reveal-delay-4'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
+                      <Icon size={18} strokeWidth={1.8} />
+                    </div>
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
+                        {item.kicker}
+                      </p>
+                      <h3 className="mt-1.5 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
+                        {item.title}
+                      </h3>
+                    </div>
                   </div>
-                  <div>
+
+                  <p className="mt-4 text-sm leading-7 text-psy-ink/80">{item.copy}</p>
+
+                  <div className="mt-4 rounded-2xl border border-psy-border/70 bg-psy-paper/80 px-4 py-3">
                     <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                      {item.kicker}
+                      Senal tecnica
                     </p>
-                    <h3 className="mt-1.5 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
-                      {item.title}
-                    </h3>
+                    <p className="mt-2 text-xs leading-6 text-psy-ink/70">{item.technical}</p>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between gap-3 text-xs text-psy-muted">
+                    <span className="rounded-full bg-psy-ink/5 px-2.5 py-1 font-medium text-psy-ink">
+                      {item.metric}
+                    </span>
+                    <span>Mas orden clinico</span>
                   </div>
                 </div>
-
-                <p className="mt-4 text-sm leading-7 text-psy-ink/80">
-                  {item.copy}
-                </p>
-
-                <div className="mt-4 rounded-2xl border border-psy-border/70 bg-psy-paper/80 px-4 py-3">
-                  <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                    Señal técnica
-                  </p>
-                  <p className="mt-2 text-xs leading-6 text-psy-ink/70">
-                    {item.technical}
-                  </p>
-                </div>
-
-                <div className="mt-4 flex items-center justify-between gap-3 text-xs text-psy-muted">
-                  <span className="rounded-full bg-psy-ink/5 px-2.5 py-1 font-medium text-psy-ink">
-                    {item.metric}
-                  </span>
-                  <span>Más orden clínico</span>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
-
-      <SectionFade from="var(--psy-purple-light)" to="white" />
 
       <section className="bg-white px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto max-w-6xl">
@@ -842,8 +660,7 @@ export default function LandingPage() {
               La prueba importa
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              Estos 14 días no son una cortesía. Son el momento para ver si tu
-              práctica ya pidió este cambio.
+              Estos 14 dias no son una cortesia. Son el momento para ver si tu practica ya pidio este cambio.
             </h2>
           </div>
 
@@ -852,7 +669,13 @@ export default function LandingPage() {
               <div
                 key={step.day}
                 className={`hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-xl ${
-                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : index === 2 ? 'reveal-delay-3' : 'reveal-delay-4'
+                  index === 0
+                    ? 'reveal-delay-1'
+                    : index === 1
+                      ? 'reveal-delay-2'
+                      : index === 2
+                        ? 'reveal-delay-3'
+                        : 'reveal-delay-4'
                 }`}
               >
                 <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
@@ -861,69 +684,45 @@ export default function LandingPage() {
                 <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
                   {step.title}
                 </h3>
-                <p className="mt-4 text-sm leading-7 text-psy-ink/75">
-                  {step.copy}
-                </p>
+                <p className="mt-4 text-sm leading-7 text-psy-ink/75">{step.copy}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <SectionFade from="white" to="var(--psy-cream)" />
-
       <section className="bg-psy-cream px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2">
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
-              Para quién encaja
+              Para quien encaja
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              No hace falta ser fan de la tecnología. Hace falta estar cansado
-              de perder tiempo.
+              No hace falta ser fan de la tecnologia. Hace falta estar cansado de perder tiempo.
             </h2>
           </div>
 
           <div className="grid gap-4">
-            <div
-              className="card-profile reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg"
-            >
-              <h3 className="font-serif text-2xl font-semibold tracking-tight">
-                Psicólogo clínico individual
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-psy-ink/75">
-                Si llevas agenda llena y cierras el día escribiendo a
-                contrarreloj, aquí ganas claridad y tiempo sin perder tu
-                criterio.
-              </p>
-            </div>
-            <div
-              className="card-profile reveal-rise reveal-delay-2 rounded-3xl border border-psy-border bg-white p-6 shadow-lg"
-            >
-              <h3 className="font-serif text-2xl font-semibold tracking-tight">
-                Consultorio que quiere verse más serio
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-psy-ink/75">
-                Cuando el paciente siente orden, seguimiento y velocidad,
-                también percibe una práctica más moderna y confiable.
-              </p>
-            </div>
-            <div
-              className="card-profile reveal-rise reveal-delay-3 rounded-3xl border border-psy-border bg-white p-6 shadow-lg"
-            >
-              <h3 className="font-serif text-2xl font-semibold tracking-tight">
-                Equipo que ya no quiere operar por WhatsApp
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-psy-ink/75">
-                Si varias personas tocan la agenda, los reportes y las
-                derivaciones, necesitas sistema. No más parches pegados.
-              </p>
-            </div>
+            {personas.map((person, index) => (
+              <div
+                key={person.title}
+                className={`card-profile reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg ${
+                  index === 0
+                    ? ''
+                    : index === 1
+                      ? 'reveal-delay-2'
+                      : 'reveal-delay-3'
+                }`}
+              >
+                <h3 className="font-serif text-2xl font-semibold tracking-tight">
+                  {person.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-psy-ink/75">{person.copy}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
-      <SectionFade from="var(--psy-cream)" to="var(--psy-purple-light)" />
 
       <section id="planes" className="bg-psy-purple-light px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto max-w-6xl">
@@ -932,12 +731,10 @@ export default function LandingPage() {
               Precios
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              Empieza con prueba real. Paga solo si ya te ordenó la práctica.
+              Empieza con prueba real. Paga solo si ya te ordeno la practica.
             </h2>
             <p className="mt-5 text-lg leading-8 text-psy-ink/75">
-              La conversación ya no es si la tecnología cabe en psicología. La
-              conversación es si quieres seguir administrando tu consulta como
-              en 2017.
+              La conversacion ya no es si la tecnologia cabe en psicologia. La conversacion es si quieres seguir administrando tu consulta como en 2017.
             </p>
           </div>
 
@@ -946,7 +743,11 @@ export default function LandingPage() {
               <article
                 key={plan.name}
                 className={`reveal-rise rounded-3xl p-7 ${
-                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
+                  index === 0
+                    ? 'reveal-delay-1'
+                    : index === 1
+                      ? 'reveal-delay-2'
+                      : 'reveal-delay-3'
                 } ${
                   plan.highlight
                     ? 'card-pricing card-pricing-pro bg-psy-ink text-psy-paper shadow-2xl'
@@ -955,68 +756,34 @@ export default function LandingPage() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p
-                      className={`text-sm ${
-                        plan.highlight
-                          ? 'text-psy-paper/65'
-                          : 'text-psy-muted'
-                      }`}
-                    >
+                    <p className={`text-sm ${plan.highlight ? 'text-psy-paper/65' : 'text-psy-muted'}`}>
                       {plan.name}
                     </p>
                     <p className="mt-3 font-serif text-5xl font-semibold tracking-tight">
                       {plan.price}
-                      <span
-                        className={`ml-1 text-base font-normal ${
-                          plan.highlight
-                            ? 'text-psy-paper/65'
-                            : 'text-psy-muted'
-                        }`}
-                      >
+                      <span className={`ml-1 text-base font-normal ${plan.highlight ? 'text-psy-paper/65' : 'text-psy-muted'}`}>
                         /mes
                       </span>
                     </p>
                   </div>
-
                   {plan.highlight ? (
                     <div className="rounded-full bg-psy-green px-3 py-1 text-xs font-medium text-white">
-                      El que más valida
+                      El que mas valida
                     </div>
                   ) : null}
                 </div>
 
-                <p
-                  className={`mt-5 text-sm leading-7 ${
-                    plan.highlight
-                      ? 'text-psy-paper/80'
-                      : 'text-psy-ink/75'
-                  }`}
-                >
+                <p className={`mt-5 text-sm leading-7 ${plan.highlight ? 'text-psy-paper/80' : 'text-psy-ink/75'}`}>
                   {plan.description}
                 </p>
 
                 <ul className="mt-6 space-y-3">
                   {plan.features.map(feature => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-3 text-sm"
-                    >
-                      <span
-                        className={`mt-0.5 ${
-                          plan.highlight
-                            ? 'text-psy-green-light'
-                            : 'text-psy-green'
-                        }`}
-                      >
-                        <IconCheck />
+                    <li key={feature} className="flex items-start gap-3 text-sm">
+                      <span className={`mt-0.5 ${plan.highlight ? 'text-psy-green-light' : 'text-psy-green'}`}>
+                        <Check size={15} strokeWidth={2.4} />
                       </span>
-                      <span
-                        className={
-                          plan.highlight
-                            ? 'text-psy-paper/85'
-                            : 'text-psy-ink'
-                        }
-                      >
+                      <span className={plan.highlight ? 'text-psy-paper/85' : 'text-psy-ink'}>
                         {feature}
                       </span>
                     </li>
@@ -1031,16 +798,14 @@ export default function LandingPage() {
                       : 'bg-psy-ink text-psy-paper hover:bg-psy-ink/90'
                   }`}
                 >
-                  Empezar prueba de 14 días
-                  <IconArrow />
+                  Empezar prueba de 14 dias
+                  <ArrowRight size={16} />
                 </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
-
-      <SectionFade from="var(--psy-purple-light)" to="white" />
 
       <section className="bg-white px-4 py-18 md:px-6 md:py-22">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
@@ -1049,7 +814,7 @@ export default function LandingPage() {
               Dudas normales
             </p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              Si te lo estás preguntando, seguramente otro colega también.
+              Si te lo estas preguntando, seguramente otro colega tambien.
             </h2>
           </div>
 
@@ -1058,36 +823,35 @@ export default function LandingPage() {
               <article
                 key={faq.question}
                 className={`card-faq hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg ${
-                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
+                  index === 0
+                    ? 'reveal-delay-1'
+                    : index === 1
+                      ? 'reveal-delay-2'
+                      : 'reveal-delay-3'
                 }`}
               >
                 <h3 className="font-serif text-2xl font-semibold tracking-tight">
                   {faq.question}
                 </h3>
-                <p className="mt-3 text-sm leading-7 text-psy-ink/75">
-                  {faq.answer}
-                </p>
+                <p className="mt-3 text-sm leading-7 text-psy-ink/75">{faq.answer}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <SectionFade from="white" to="var(--psy-cream)" />
-
       <section className="bg-psy-cream px-4 pb-24 pt-10 md:px-6 md:pb-32 md:pt-16">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-psy-blue via-[#6ea6b6] to-[#aac7a3] p-4 text-white shadow-[0_26px_60px_rgba(74,144,164,0.22)] md:p-12">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-psy-blue via-[#6ea6b6] to-[#aac7a3] p-5 text-white shadow-[0_26px_60px_rgba(74,144,164,0.22)] md:p-12">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
               <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
-                Decisión
+                Decision
               </p>
               <h2 className="mt-4 font-sora text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl">
-                Si tu práctica ya pide un sistema más moderno...
+                Si tu practica ya pide un sistema mas moderno...
               </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-psy-paper/75">
-                No estás validando una tendencia. Estás validando si vale la
-                pena seguir cerrando sesiones con el método de siempre.
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-psy-paper/80">
+                No estas validando una tendencia. Estas validando si vale la pena seguir cerrando sesiones con el metodo de siempre.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -1096,28 +860,34 @@ export default function LandingPage() {
                   className="calm-button-secondary inline-flex rounded-2xl bg-white px-8 py-5 text-sm font-bold text-psy-ink shadow-xl shadow-white/10"
                 >
                   Probar MENTEZER ahora
-                  <IconArrow />
+                  <ArrowRight size={16} />
                 </Link>
-                <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-psy-paper/10 bg-white/5 px-5 py-4 text-xs text-psy-paper/70">
+                <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-psy-paper/10 bg-white/5 px-5 py-4 text-xs text-psy-paper/75">
                   <span className="inline-flex items-center gap-2">
-                    <IconCalendar />
-                    Configuración rápida
+                    <CalendarDays size={16} />
+                    Configuracion rapida
                   </span>
                   <span className="inline-flex items-center gap-2">
-                    <IconShield />
+                    <Shield size={16} />
                     Sin tarjeta
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <Clock3 size={16} />
+                    Cierre mas ligero
                   </span>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-5">
-              <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl rotate-3">
+              <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl lg:rotate-3">
                 <div className="absolute inset-0 bg-gradient-to-t from-psy-ink/40 to-transparent" />
-                <img
+                <Image
                   src="/img/mentezer-context.png"
-                  alt="MENTEZER en uso clínico"
-                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                  alt="MENTEZER en uso clinico"
+                  fill
+                  className="object-cover transition-transform duration-700 hover:scale-110"
+                  sizes="(max-width: 1024px) 100vw, 36vw"
                 />
               </div>
             </div>

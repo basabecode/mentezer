@@ -17,6 +17,17 @@
 [ ] 5. Verificar versión (Lite/Pro) en FEATURES_COMPARISON.md
 [ ] 6. Verificar roadmap en ROADMAP.md antes de features nuevos
 [ ] 7. Responder SIEMPRE en español (UI, código, comentarios)
+
+- Piensa antes de actuar. Lee los archivos antes de escribir codigo.
+- Si vas a crear un archivo, asegúrate de que esté en el lugar correcto y que tenga el nombre correcto. Usa tsx para components.
+- edita solo lo que cambia. No reescribas todo el archivo si no es necesario.
+- actualiza la documentacion cuando hagas cambios relevantes.
+- no releas archivos que ya hayas leido, a menos que sea estrictamente necesario.
+- no repitas codigos sin cambios en tus respuestas.
+- sin preambuloss, sin resumenes al finalizar aplicar lo que se te pidio y terminar.
+- no me digas que entendiste, solo aplica lo que se te pidio.
+- testea antes de dar por terminada la tarea, asegurate de que todo funcione correctamente.
+- no generes codigo innecesario.
 ```
 
 ## 🌎 MERCADO OBJETIVO
@@ -91,6 +102,7 @@ Mentezer convierte al profesional de salud mental en un clínico **10x más info
 6. **¿Qué features pertenecen a Lite vs Pro?** → Lee [FEATURES_COMPARISON.md](FEATURES_COMPARISON.md)
 7. **¿Usas IA clínica?** → Lee [KNOWLEDGE_SYSTEM.md](KNOWLEDGE_SYSTEM.md) y consulta skill `rag-clinico`
 8. **¿Necesitas un agente especializado?** → Lee [AGENTS.md](AGENTS.md)
+9. **¿sistema de grabacion de sesiones?** → Lee [SISTEMA_GRABACION.md](FEATURES_COMPARISON.md)
 
 ---
 
@@ -119,7 +131,7 @@ pnpm type-check && pnpm lint && pnpm build
 
 ```
 1.  RLS EN TODA TABLA — SIN EXCEPCIONES
-2.  Consentimiento digital antes de analizar datos clínicos
+2.  cors siempre habilitado
 3.  Disclaimer clínico en TODO output de IA
 4.  NUNCA exponer datos clínicos en logs
 5.  Audio cifrado AES-256 antes de almacenar
@@ -127,7 +139,7 @@ pnpm type-check && pnpm lint && pnpm build
 7.  Diagnósticos SOLO como "hipótesis exploratoria"
 8.  Derecho al olvido: eliminación en cascada completa
 9.  Español neutro — válido en todo LATAM + España
-10. Si se siente como SaaS genérico, lo rehacemos
+10. Si se siente como SaaS genérico, lo rehacemos mas humanizado o lo descartamos.
 ```
 
 ---
@@ -144,7 +156,6 @@ pnpm type-check && pnpm lint && pnpm build
 
 ## 📞 REFERENCIAS EXTERNAS
 
-- CIE-11: https://icd.who.int/browse11
 - Ley 1581 (Colombia): https://www.sic.gov.co/
 - Supabase Docs: https://supabase.com/docs
 - Anthropic SDK: https://docs.anthropic.com

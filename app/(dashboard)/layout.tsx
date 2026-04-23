@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { authDebug } from "@/lib/auth/debug";
 import { Topbar } from "@/components/shell/Topbar";
 import { FloatingDock } from "@/components/shell/FloatingDock";
 import { SettingsDrawer } from "@/components/shell/SettingsDrawer";
-import { PatientPanel } from "@/components/shell/PatientPanel";
 import { DashboardProvider } from "@/components/shell/DashboardContext";
 
 export default async function DashboardLayout({
@@ -12,24 +12,41 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  authDebug("dashboard.layout.user", {
+    hasUser: Boolean(user),
+    userId: user?.id ?? null,
+    email: user?.email ?? null,
+  });
+
   if (!user) redirect("/login");
 
-  const [
-    { data: psychologist },
-    { count: activePatients },
-    { count: pendingAnalysis },
-    { data: panelPatients },
-  ] = await Promise.all([
+  const [{ data: psychologist }, { count: activePatients }, { count: pendingAnalysis }] = await Promise.all([
     supabase
       .from("psychologists")
       .select("name, onboarding_completed_at")
       .eq("id", user.id)
       .single(),
-    supabase.from("patients").select("*", { count: "exact", head: true }).eq("psychologist_id", user.id).eq("status", "active"),
-    supabase.from("sessions").select("*", { count: "exact", head: true }).eq("psychologist_id", user.id).eq("status", "transcribing"),
-    supabase.from("patients").select("id, name, status").eq("psychologist_id", user.id).eq("status", "active").order("created_at", { ascending: false }).limit(20),
+    supabase
+      .from("patients")
+      .select("*", { count: "exact", head: true })
+      .eq("psychologist_id", user.id)
+      .eq("status", "active"),
+    supabase
+      .from("sessions")
+      .select("*", { count: "exact", head: true })
+      .eq("psychologist_id", user.id)
+      .eq("status", "transcribing"),
   ]);
+
+  authDebug("dashboard.layout.profile", {
+    userId: user.id,
+    hasProfile: Boolean(psychologist),
+    onboardingCompletedAt: psychologist?.onboarding_completed_at ?? null,
+  });
 
   if (!psychologist?.onboarding_completed_at) {
     redirect("/onboarding");
@@ -45,16 +62,15 @@ export default async function DashboardLayout({
         />
 
         <div className="flex-1 overflow-hidden">
-          <div className="mx-auto flex h-full w-full max-w-[1400px] items-start gap-4 px-2 pb-2 sm:px-3 md:px-5 md:pb-5">
-            <PatientPanel patients={(panelPatients ?? []) as any} />
+          <div className="mx-auto flex h-full w-full max-w-[1480px] items-stretch gap-3 px-2 pb-2 sm:px-3 md:px-5 md:pb-5 lg:gap-4">
+            <FloatingDock />
 
-            <main className="custom-scrollbar calm-panel h-full min-w-0 flex-1 overflow-y-auto overflow-x-hidden pb-24 md:pb-6">
+            <main className="custom-scrollbar calm-panel h-full min-w-0 flex-1 overflow-y-auto overflow-x-hidden">
               {children}
             </main>
           </div>
         </div>
 
-        <FloatingDock />
         <SettingsDrawer />
       </div>
     </DashboardProvider>

@@ -3,22 +3,27 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface DashboardContextType {
-  sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
+  navOpen: boolean;
+  setNavOpen: (open: boolean) => void;
   settingsOpen: boolean;
   setSettingsOpen: (open: boolean) => void;
+  sidebarExpanded: boolean;
+  setSidebarExpanded: (expanded: boolean) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
 export function DashboardProvider({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
     const syncSidebar = (event?: MediaQueryList | MediaQueryListEvent) => {
-      setSidebarOpen(event?.matches ?? media.matches);
+      if (event?.matches ?? media.matches) {
+        setNavOpen(false);
+      }
     };
 
     syncSidebar(media);
@@ -28,7 +33,16 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <DashboardContext.Provider value={{ sidebarOpen, setSidebarOpen, settingsOpen, setSettingsOpen }}>
+    <DashboardContext.Provider
+      value={{
+        navOpen,
+        setNavOpen,
+        settingsOpen,
+        setSettingsOpen,
+        sidebarExpanded,
+        setSidebarExpanded,
+      }}
+    >
       {children}
     </DashboardContext.Provider>
   );

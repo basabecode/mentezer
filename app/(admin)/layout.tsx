@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { authDebug } from "@/lib/auth/debug";
 import Link from "next/link";
 import { Shield, Users, Settings, LogOut, LayoutDashboard } from "lucide-react";
 import { logout } from "@/lib/auth/actions";
@@ -20,6 +21,11 @@ export default async function AdminLayout({
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  authDebug("admin.layout.user", {
+    hasUser: Boolean(user),
+    userId: user?.id ?? null,
+    email: user?.email ?? null,
+  });
   if (!user) redirect("/login");
 
   const { data: admin } = await supabase
@@ -27,6 +33,12 @@ export default async function AdminLayout({
     .select("name, is_platform_admin")
     .eq("id", user.id)
     .single();
+
+  authDebug("admin.layout.profile", {
+    userId: user.id,
+    hasProfile: Boolean(admin),
+    isPlatformAdmin: admin?.is_platform_admin ?? null,
+  });
 
   if (!admin?.is_platform_admin) redirect("/dashboard");
 

@@ -37,14 +37,24 @@ function readLocalEnvValue(name: string) {
   return "";
 }
 
-function getEnvValue(name: string) {
-  return (process.env[name] ?? readLocalEnvValue(name)).trim();
+function getEnvValue(name: string, aliases: string[] = []) {
+  const candidates = [name, ...aliases];
+
+  for (const candidate of candidates) {
+    const runtimeValue = process.env[candidate];
+    if (runtimeValue?.trim()) return runtimeValue.trim();
+
+    const localValue = readLocalEnvValue(candidate);
+    if (localValue) return localValue.trim();
+  }
+
+  return "";
 }
 
-const PSY_EMAIL = getEnvValue("E2E_PSY_EMAIL");
-const PSY_PASSWORD = getEnvValue("E2E_PSY_PASSWORD");
-const ADMIN_EMAIL = getEnvValue("E2E_ADMIN_EMAIL");
-const ADMIN_PASSWORD = getEnvValue("E2E_ADMIN_PASSWORD");
+const PSY_EMAIL = getEnvValue("E2E_PSY_EMAIL", ["TEST_PSICO_EMAIL"]);
+const PSY_PASSWORD = getEnvValue("E2E_PSY_PASSWORD", ["TEST_PSICO_PASSWORD"]);
+const ADMIN_EMAIL = getEnvValue("E2E_ADMIN_EMAIL", ["TEST_ADMIN_EMAIL"]);
+const ADMIN_PASSWORD = getEnvValue("E2E_ADMIN_PASSWORD", ["TEST_ADMIN_PASSWORD"]);
 const HAS_E2E_CREDS = Boolean(
   PSY_EMAIL && PSY_PASSWORD && ADMIN_EMAIL && ADMIN_PASSWORD,
 );

@@ -1,95 +1,164 @@
-import { createClient } from "@/lib/supabase/server";
-import { User, Shield, Bell, CreditCard } from "lucide-react";
+import { createClient } from '@/lib/supabase/server'
+import Link from 'next/link'
+import { User, Shield, Bell, CreditCard, Lock, ChevronRight } from 'lucide-react'
+import {
+  PortalHero,
+  PortalPage,
+  PortalSection,
+  PortalStatGrid,
+} from '@/components/ui/portal-layout'
 
 export default async function SettingsPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const { data: psychologist } = await supabase
-    .from("psychologists")
-    .select("name, professional_license, specialty, country, plan, trial_ends_at")
-    .eq("id", user!.id)
-    .single();
+    .from('psychologists')
+    .select('name, professional_license, specialty, country, plan, trial_ends_at')
+    .eq('id', user!.id)
+    .single()
 
   const trialDaysLeft = psychologist?.trial_ends_at
-    ? Math.max(0, Math.ceil((new Date(psychologist.trial_ends_at).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
-    : null;
+    ? Math.max(
+        0,
+        Math.ceil(
+          (new Date(psychologist.trial_ends_at).getTime() - Date.now()) /
+            (1000 * 60 * 60 * 24)
+        )
+      )
+    : null
 
   return (
-    <div className="px-6 py-6 max-w-2xl">
-      <div className="mb-6">
-        <h1 className="font-serif text-2xl text-psy-ink font-semibold">Configuración</h1>
-        <p className="text-sm text-psy-muted mt-1">Perfil profesional y preferencias de la cuenta.</p>
-      </div>
-
-      {/* Plan actual */}
-      {trialDaysLeft !== null && (
-        <div className={`mb-6 p-4 rounded-xl border ${trialDaysLeft > 5 ? "bg-psy-blue-light border-psy-blue/20" : "bg-psy-amber-light border-psy-amber/20"}`}>
-          <div className="flex items-center gap-2">
-            <CreditCard size={14} className={trialDaysLeft > 5 ? "text-psy-blue" : "text-psy-amber"} />
-            <p className={`text-sm font-medium ${trialDaysLeft > 5 ? "text-psy-blue" : "text-psy-amber"}`}>
-              Plan {psychologist?.plan ?? "trial"} — {trialDaysLeft} días restantes
+    <PortalPage size="lg">
+      <div className="space-y-6">
+        <PortalHero
+          eyebrow="Cuenta profesional"
+          title="Configuracion"
+          description={
+            <p>
+              Perfil profesional, privacidad y estado del plan en una presentacion mas clara y consistente con el resto del portal.
             </p>
-          </div>
-          <p className="text-xs text-psy-ink/70 mt-1">
-            Planes de suscripción disponibles a partir de v2.0 (Starter $29 / Pro $59 / Clinic $149 USD/mes).
-          </p>
-        </div>
-      )}
+          }
+          actions={[
+            {
+              href: '/settings/privacy',
+              label: 'Privacidad',
+              variant: 'secondary',
+            },
+            {
+              href: '/support',
+              label: 'Soporte',
+            },
+          ]}
+          aside={
+            <div className={`rounded-[1.8rem] border p-5 ${trialDaysLeft !== null && trialDaysLeft > 5 ? 'border-psy-blue/15 bg-psy-blue-light/75' : 'border-psy-amber/15 bg-psy-amber-light/75'}`}>
+              <p className={`font-mono text-[10px] uppercase tracking-[0.28em] ${trialDaysLeft !== null && trialDaysLeft > 5 ? 'text-psy-blue' : 'text-psy-amber'}`}>
+                Plan actual
+              </p>
+              <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
+                {psychologist?.plan ?? 'trial'}
+              </h2>
+              <p className="mt-2 text-sm leading-7 text-psy-muted">
+                {trialDaysLeft !== null
+                  ? `${trialDaysLeft} dias restantes antes de revisar continuidad del plan.`
+                  : 'Estado del plan disponible cuando exista trial activo.'}
+              </p>
+            </div>
+          }
+        />
 
-      {/* Secciones */}
-      <div className="space-y-3">
-        {/* Perfil profesional */}
-        <div className="bg-psy-paper border border-psy-border rounded-xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <User size={14} className="text-psy-muted" />
-            <h2 className="text-sm font-semibold text-psy-ink">Perfil profesional</h2>
-          </div>
-          <dl className="space-y-3">
-            {[
-              { label: "Nombre completo",    value: psychologist?.name },
-              { label: "Tarjeta profesional", value: psychologist?.professional_license },
-              { label: "Especialidad",        value: psychologist?.specialty },
-              { label: "País",               value: psychologist?.country },
-              { label: "Email",              value: user?.email },
-            ].map(({ label, value }) => value ? (
-              <div key={label} className="flex gap-4">
-                <dt className="text-xs text-psy-muted w-36 shrink-0">{label}</dt>
-                <dd className="text-xs text-psy-ink">{value}</dd>
+        <PortalStatGrid
+          stats={[
+            { label: 'Plan', value: psychologist?.plan ?? 'trial', hint: 'estado actual', accent: 'blue' },
+            { label: 'Pais', value: psychologist?.country ?? '-', hint: 'region configurada', accent: 'green' },
+            { label: 'Especialidad', value: psychologist?.specialty ?? '-', hint: 'perfil profesional', accent: 'amber' },
+            { label: 'Licencia', value: psychologist?.professional_license ? 'Cargada' : 'Pendiente', hint: 'credencial visible', accent: 'ink' },
+          ]}
+        />
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-[1.05fr_0.95fr]">
+          <PortalSection eyebrow="Perfil profesional" title="Datos de cuenta">
+            <div className="grid gap-4">
+              {[
+                { label: 'Nombre completo', value: psychologist?.name, icon: User },
+                { label: 'Tarjeta profesional', value: psychologist?.professional_license, icon: CreditCard },
+                { label: 'Especialidad', value: psychologist?.specialty, icon: User },
+                { label: 'Pais', value: psychologist?.country, icon: User },
+                { label: 'Email', value: user?.email, icon: User },
+              ].map(item => {
+                if (!item.value) return null
+                const Icon = item.icon
+                return (
+                  <div key={item.label} className="flex items-start gap-3 rounded-[1.5rem] border border-psy-border bg-psy-cream/35 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-psy-blue shadow-sm">
+                      <Icon size={16} />
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-widest text-psy-muted">{item.label}</p>
+                      <p className="mt-2 text-sm font-medium text-psy-ink">{item.value}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </PortalSection>
+
+          <div className="grid gap-6">
+            <PortalSection eyebrow="Privacidad" title="Datos y cumplimiento">
+              <div className="rounded-[1.5rem] border border-psy-border bg-psy-blue-light/55 p-5">
+                <div className="flex items-start gap-3">
+                  <Shield className="mt-0.5 text-psy-blue" size={18} />
+                  <div>
+                    <p className="text-sm font-semibold text-psy-ink">Proteccion de datos clinicos</p>
+                    <p className="mt-2 text-sm leading-7 text-psy-muted">
+                      MENTEZER cumple con la Ley 1581 de Colombia. Los datos clinicos permanecen cifrados y aislados por profesional mediante RLS.
+                    </p>
+                  </div>
+                </div>
               </div>
-            ) : null)}
-          </dl>
-          <p className="text-xs text-psy-muted mt-4">
-            Edición de perfil disponible en v1.5.
-          </p>
-        </div>
+              <div className="grid gap-3">
+                <Link href="/legal/terms" className="hover-panel flex items-center justify-between rounded-2xl border border-psy-border bg-white px-4 py-3 text-sm text-psy-ink">
+                  Terminos de uso
+                  <ChevronRight size={16} className="text-psy-muted" />
+                </Link>
+                <Link href="/legal/privacy" className="hover-panel flex items-center justify-between rounded-2xl border border-psy-border bg-white px-4 py-3 text-sm text-psy-ink">
+                  Politica de privacidad
+                  <ChevronRight size={16} className="text-psy-muted" />
+                </Link>
+              </div>
+            </PortalSection>
 
-        {/* Privacidad */}
-        <div className="bg-psy-paper border border-psy-border rounded-xl p-5">
-          <div className="flex items-center gap-2 mb-3">
-            <Shield size={14} className="text-psy-muted" />
-            <h2 className="text-sm font-semibold text-psy-ink">Privacidad y datos</h2>
+            <PortalSection eyebrow="Cuenta" title="Ajustes pendientes">
+              <div className="grid gap-3">
+                <div className="rounded-[1.5rem] border border-psy-border bg-white p-4">
+                  <div className="flex items-start gap-3">
+                    <Bell className="mt-0.5 text-psy-amber" size={18} />
+                    <div>
+                      <p className="text-sm font-semibold text-psy-ink">Notificaciones clinicas</p>
+                      <p className="mt-2 text-sm leading-7 text-psy-muted">
+                        Alertas de riesgo alto, recordatorios de citas y reportes pendientes en una misma capa de seguimiento.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-[1.5rem] border border-psy-border bg-white p-4">
+                  <div className="flex items-start gap-3">
+                    <Lock className="mt-0.5 text-psy-blue" size={18} />
+                    <div>
+                      <p className="text-sm font-semibold text-psy-ink">Edicion de perfil</p>
+                      <p className="mt-2 text-sm leading-7 text-psy-muted">
+                        Queda preparada la capa para editar datos profesionales y preferencias sin romper la jerarquia del portal.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </PortalSection>
           </div>
-          <p className="text-xs text-psy-muted leading-relaxed mb-3">
-            <span className="font-bold text-psy-blue italic">MENTEZER</span> cumple con la Ley 1581 de Colombia. Todos los datos clínicos están cifrados y aislados por profesional mediante Row Level Security (RLS).
-          </p>
-          <div className="flex gap-4 text-xs">
-            <a href="/legal/terms" className="text-psy-blue hover:underline">Términos de uso</a>
-            <a href="/legal/privacy" className="text-psy-blue hover:underline">Política de privacidad</a>
-          </div>
-        </div>
-
-        {/* Notificaciones */}
-        <div className="bg-psy-paper border border-psy-border rounded-xl p-5 opacity-60">
-          <div className="flex items-center gap-2 mb-2">
-            <Bell size={14} className="text-psy-muted" />
-            <h2 className="text-sm font-semibold text-psy-ink">Notificaciones — v1.5</h2>
-          </div>
-          <p className="text-xs text-psy-muted">
-            Alertas de riesgo alto, recordatorios de citas y reportes pendientes.
-          </p>
         </div>
       </div>
-    </div>
-  );
+    </PortalPage>
+  )
 }

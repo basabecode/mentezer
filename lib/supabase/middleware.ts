@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/types/supabase";
+import { authDebug } from "@/lib/auth/debug";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -30,6 +31,13 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  authDebug("middleware.getUser", {
+    path: request.nextUrl.pathname,
+    hasUser: Boolean(user),
+    userId: user?.id ?? null,
+    email: user?.email ?? null,
+  });
+
   const isAuthRoute = request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register");
   const isDemoRoute = request.nextUrl.pathname.startsWith("/demo");
@@ -39,12 +47,23 @@ export async function updateSession(request: NextRequest) {
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    authDebug("middleware.redirect", {
+      path: request.nextUrl.pathname,
+      reason: "missing_user",
+      destination: "/login",
+    });
     return NextResponse.redirect(url);
   }
 
   if (user && isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
+    authDebug("middleware.redirect", {
+      path: request.nextUrl.pathname,
+      reason: "authenticated_user_on_auth_route",
+      destination: "/dashboard",
+      userId: user.id,
+    });
     return NextResponse.redirect(url);
   }
 

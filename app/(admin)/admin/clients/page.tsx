@@ -1,203 +1,216 @@
-import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
-import { Plus, Search, CheckCircle, Clock, XCircle } from "lucide-react";
+import { createClient } from '@/lib/supabase/server'
+import Link from 'next/link'
+import { Plus, CheckCircle, Clock, XCircle, PlugZap, Users } from 'lucide-react'
+import {
+  PortalEmpty,
+  PortalHero,
+  PortalPage,
+  PortalSection,
+  PortalStatGrid,
+} from '@/components/ui/portal-layout'
 
 const STATUS_MAP = {
-  active:    { label: "Activo",     color: "bg-psy-green-light text-psy-green", icon: CheckCircle },
-  pending:   { label: "Pendiente",  color: "bg-psy-amber-light text-psy-amber", icon: Clock },
-  suspended: { label: "Suspendido", color: "bg-psy-red-light text-psy-red",     icon: XCircle },
-} as const;
+  active: { label: 'Activo', color: 'bg-psy-green-light text-psy-green', icon: CheckCircle },
+  pending: { label: 'Pendiente', color: 'bg-psy-amber-light text-psy-amber', icon: Clock },
+  suspended: { label: 'Suspendido', color: 'bg-psy-red-light text-psy-red', icon: XCircle },
+} as const
 
 export default async function AdminClientsPage() {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
   const { data: clients } = await supabase
-    .from("psychologists")
-    .select("id, name, email, plan, account_status, specialty, country, created_at, trial_ends_at")
-    .neq("is_platform_admin", true)
-    .order("created_at", { ascending: false });
+    .from('psychologists')
+    .select('id, name, email, plan, account_status, specialty, country, created_at, trial_ends_at')
+    .neq('is_platform_admin', true)
+    .order('created_at', { ascending: false })
 
-  // Obtener integraciones activas por cliente
-  const clientIds = clients?.map(c => c.id) ?? [];
-  const { data: integrations } = clientIds.length > 0
-    ? await supabase
-        .from("psychologist_integrations")
-        .select("psychologist_id, provider")
-        .in("psychologist_id", clientIds)
-        .eq("is_active", true)
-    : { data: [] };
+  const clientIds = clients?.map(client => client.id) ?? []
+  const { data: integrations } =
+    clientIds.length > 0
+      ? await supabase
+          .from('psychologist_integrations')
+          .select('psychologist_id, provider')
+          .in('psychologist_id', clientIds)
+          .eq('is_active', true)
+      : { data: [] }
 
-  const integrationsByClient = (integrations ?? []).reduce<Record<string, string[]>>((acc, i) => {
-    if (!acc[i.psychologist_id]) acc[i.psychologist_id] = [];
-    acc[i.psychologist_id].push(i.provider);
-    return acc;
-  }, {});
+  const integrationsByClient = (integrations ?? []).reduce<Record<string, string[]>>((acc, item) => {
+    if (!acc[item.psychologist_id]) acc[item.psychologist_id] = []
+    acc[item.psychologist_id].push(item.provider)
+    return acc
+  }, {})
+
+  const activeCount = clients?.filter(client => client.account_status === 'active').length ?? 0
+  const trialCount = clients?.filter(client => client.plan === 'trial').length ?? 0
+  const integratedCount = Object.keys(integrationsByClient).length
 
   return (
-    <div className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="font-serif text-2xl text-psy-ink font-semibold">Clientes</h1>
-          <p className="text-sm text-psy-muted mt-1">
-            {clients?.length ?? 0} psicólogos registrados en la plataforma.
-          </p>
-        </div>
-        <Link
-          href="/admin/clients/new"
-          className="flex items-center justify-center gap-2 rounded-lg bg-psy-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-psy-blue/90 max-sm:w-full"
-        >
-          <Plus size={14} />
-          Nuevo cliente
-        </Link>
-      </div>
-
-      <div className="space-y-3 md:hidden">
-        {clients?.map((client) => {
-          const status = STATUS_MAP[client.account_status as keyof typeof STATUS_MAP] ?? STATUS_MAP.pending;
-          const StatusIcon = status.icon;
-          const clientIntegrations = integrationsByClient[client.id] ?? [];
-          const trialLeft = client.trial_ends_at
-            ? Math.max(0, Math.ceil((new Date(client.trial_ends_at).getTime() - Date.now()) / 86400000))
-            : null;
-
-          return (
-            <Link
-              key={client.id}
-              href={`/admin/clients/${client.id}`}
-              className="block rounded-2xl border border-psy-border bg-psy-paper p-4"
-            >
-              <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-psy-blue-light">
-                  <span className="text-xs font-bold text-psy-blue">{client.name.charAt(0)}</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-psy-ink">{client.name}</p>
-                  <p className="truncate text-xs text-psy-muted">{client.email}</p>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium capitalize bg-white text-psy-ink">
-                  {client.plan}
-                </span>
-                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${status.color}`}>
-                  <StatusIcon size={10} />
-                  {status.label}
-                </span>
-                {trialLeft !== null && client.plan === "trial" ? (
-                  <span className={`rounded-full px-2 py-1 text-[11px] font-mono ${trialLeft <= 3 ? "bg-psy-red-light text-psy-red" : "bg-white text-psy-muted"}`}>
-                    {trialLeft}d restantes
-                  </span>
-                ) : null}
-              </div>
-
-              <div className="mt-3 flex flex-wrap gap-1">
-                {clientIntegrations.length === 0 ? (
-                  <span className="text-xs text-psy-muted">Sin integraciones activas</span>
-                ) : clientIntegrations.map((provider) => (
-                  <span key={provider} className="rounded bg-psy-blue-light px-1.5 py-0.5 font-mono text-[10px] text-psy-blue">
-                    {provider.replace("_", " ")}
-                  </span>
-                ))}
-              </div>
-
-              <p className="mt-3 text-xs font-mono text-psy-muted">
-                Registro {new Date(client.created_at).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" })}
+    <PortalPage>
+      <div className="space-y-6">
+        <PortalHero
+          eyebrow="Cartera activa"
+          title="Clientes"
+          description={
+            <p>
+              Psicologos registrados en la plataforma, con lectura mas clara de estado, plan e integraciones activas.
+            </p>
+          }
+          actions={[
+            {
+              href: '/admin/clients/new',
+              label: 'Nuevo cliente',
+              icon: <Plus size={16} strokeWidth={2.3} />,
+            },
+            {
+              href: '/admin',
+              label: 'Volver al resumen',
+              variant: 'secondary',
+            },
+          ]}
+          aside={
+            <div className="rounded-[1.8rem] border border-psy-blue/15 bg-psy-blue-light/75 p-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-psy-blue">Cobertura</p>
+              <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
+                {integratedCount} cuenta{integratedCount === 1 ? '' : 's'} con integraciones.
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-psy-muted">
+                El objetivo aqui es volver mas evidente quien ya esta operativo y quien todavia necesita acompanamiento.
               </p>
-            </Link>
-          );
-        })}
+            </div>
+          }
+        />
 
-        {(!clients || clients.length === 0) && (
-          <div className="rounded-2xl border border-psy-border bg-psy-paper px-4 py-12 text-center">
-            <p className="text-sm text-psy-muted">Sin clientes registrados aún.</p>
-            <Link href="/admin/clients/new" className="mt-3 inline-block text-sm text-psy-blue hover:underline">
-              Crear el primer cliente
-            </Link>
-          </div>
-        )}
-      </div>
+        <PortalStatGrid
+          stats={[
+            { label: 'Clientes', value: clients?.length ?? 0, hint: 'base total', accent: 'blue' },
+            { label: 'Activos', value: activeCount, hint: 'cuentas habilitadas', accent: 'green' },
+            { label: 'En trial', value: trialCount, hint: 'pendientes de conversion', accent: 'amber' },
+            { label: 'Con integraciones', value: integratedCount, hint: 'conexion activa', accent: 'ink' },
+          ]}
+        />
 
-      <div className="hidden overflow-hidden rounded-xl border border-psy-border bg-psy-paper md:block">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-psy-border bg-psy-cream">
-                {["Psicólogo", "Plan", "Estado", "Integraciones", "Registro", ""].map(h => (
-                  <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-psy-muted uppercase tracking-wide">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-psy-border">
-              {clients?.map((client) => {
-                const status = STATUS_MAP[client.account_status as keyof typeof STATUS_MAP] ?? STATUS_MAP.pending;
-                const StatusIcon = status.icon;
-                const clientIntegrations = integrationsByClient[client.id] ?? [];
-                const trialLeft = client.trial_ends_at
-                  ? Math.max(0, Math.ceil((new Date(client.trial_ends_at).getTime() - Date.now()) / 86400000))
-                  : null;
+        <PortalSection eyebrow="Listado operativo" title="Clientes registrados">
+          <div className="grid gap-3">
+            {clients?.map(client => {
+              const status = STATUS_MAP[client.account_status as keyof typeof STATUS_MAP] ?? STATUS_MAP.pending
+              const StatusIcon = status.icon
+              const clientIntegrations = integrationsByClient[client.id] ?? []
+              const trialLeft = client.trial_ends_at
+                ? Math.max(0, Math.ceil((new Date(client.trial_ends_at).getTime() - Date.now()) / 86400000))
+                : null
 
-                return (
-                  <tr key={client.id} className="hover:bg-psy-cream/50 transition-colors">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-psy-blue-light flex items-center justify-center shrink-0">
-                          <span className="text-xs font-bold text-psy-blue">{client.name.charAt(0)}</span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-psy-ink">{client.name}</p>
-                          <p className="text-xs text-psy-muted">{client.email}</p>
-                        </div>
+              return (
+                <Link
+                  key={client.id}
+                  href={`/admin/clients/${client.id}`}
+                  className="hover-panel flex flex-col gap-4 rounded-[1.6rem] border border-psy-border bg-white p-5"
+                >
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-psy-blue-light font-semibold text-psy-blue">
+                        {client.name.charAt(0)}
                       </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div>
-                        <span className="capitalize text-psy-ink">{client.plan}</span>
-                        {trialLeft !== null && client.plan === "trial" && (
-                          <p className={`text-[10px] font-mono mt-0.5 ${trialLeft <= 3 ? "text-psy-red" : "text-psy-muted"}`}>
-                            {trialLeft}d restantes
-                          </p>
-                        )}
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-psy-ink">{client.name}</p>
+                        <p className="truncate text-xs text-psy-muted">{client.email}</p>
                       </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${status.color}`}>
-                        <StatusIcon size={10} />
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+                      <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium capitalize bg-white text-psy-ink border border-psy-border">
+                        {client.plan}
+                      </span>
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${status.color}`}>
+                        <StatusIcon size={11} />
                         {status.label}
                       </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-1 flex-wrap">
-                        {clientIntegrations.length === 0 ? (
-                          <span className="text-xs text-psy-muted">Sin configurar</span>
-                        ) : clientIntegrations.map(p => (
-                          <span key={p} className="text-[10px] px-1.5 py-0.5 bg-psy-blue-light text-psy-blue rounded font-mono">
-                            {p.replace("_", " ")}
-                          </span>
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-psy-muted font-mono">
-                      {new Date(client.created_at).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" })}
-                    </td>
-                    <td className="px-4 py-3">
-                      <Link
-                        href={`/admin/clients/${client.id}`}
-                        className="text-xs text-psy-blue hover:underline"
-                      >
-                        Gestionar →
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      {trialLeft !== null && client.plan === 'trial' ? (
+                        <span className={`rounded-full px-2.5 py-1 text-[11px] font-mono ${trialLeft <= 3 ? 'bg-psy-red-light text-psy-red' : 'bg-psy-cream text-psy-muted'}`}>
+                          {trialLeft}d restantes
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
 
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-wrap gap-1.5">
+                      {clientIntegrations.length === 0 ? (
+                        <span className="text-xs text-psy-muted">Sin integraciones activas</span>
+                      ) : (
+                        clientIntegrations.map(provider => (
+                          <span
+                            key={provider}
+                            className="rounded-lg border border-psy-blue/10 bg-psy-blue-light px-2 py-1 text-[10px] font-mono text-psy-blue"
+                          >
+                            {provider.replace('_', ' ')}
+                          </span>
+                        ))
+                      )}
+                    </div>
+                    <p className="text-xs font-mono text-psy-muted">
+                      Registro {new Date(client.created_at).toLocaleDateString('es-CO', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                </Link>
+              )
+            })}
+
+            {(!clients || clients.length === 0) && (
+              <PortalEmpty
+                title="Sin clientes registrados aun"
+                description="Crea el primer cliente para empezar a poblar la cartera del panel admin."
+                action={
+                  <Link
+                    href="/admin/clients/new"
+                    className="lift-button inline-flex items-center gap-2 rounded-2xl bg-psy-ink px-5 py-3 text-sm font-semibold text-white"
+                  >
+                    <Users size={16} />
+                    Crear primer cliente
+                  </Link>
+                }
+              />
+            )}
+          </div>
+        </PortalSection>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            {
+              title: 'Estado comercial',
+              copy: 'La mezcla de plan, status y trial queda visible en una sola linea de lectura.',
+              icon: Clock,
+              accent: 'bg-psy-amber-light text-psy-amber',
+            },
+            {
+              title: 'Integraciones',
+              copy: 'Ahora se distingue mejor quien ya conecta servicios externos y quien sigue sin configurar.',
+              icon: PlugZap,
+              accent: 'bg-psy-blue-light text-psy-blue',
+            },
+            {
+              title: 'Operacion admin',
+              copy: 'La tabla anterior se reemplaza por una superficie mas util para escanear y actuar rapido.',
+              icon: Users,
+              accent: 'bg-psy-green-light text-psy-green',
+            },
+          ].map(item => {
+            const Icon = item.icon
+            return (
+              <div key={item.title} className="card-deliverable rounded-[1.75rem] border border-psy-ink/8 bg-white p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)]">
+                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
+                  <Icon size={18} />
+                </div>
+                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-psy-muted">{item.copy}</p>
+              </div>
+            )
+          })}
         </div>
       </div>
-    </div>
-  );
+    </PortalPage>
+  )
 }
