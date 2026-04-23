@@ -47,7 +47,7 @@ export default async function AdminDashboardPage() {
     trial: 'bg-psy-amber-light text-psy-amber',
     starter: 'bg-psy-blue-light text-psy-blue',
     professional: 'bg-psy-green-light text-psy-green',
-    clinic: 'bg-psy-ink text-white',
+    clinic: 'bg-psy-ink text-psy-paper',
   }
 
   return (
@@ -74,10 +74,10 @@ export default async function AdminDashboardPage() {
             },
           ]}
           aside={
-            <div className="rounded-[1.8rem] border border-psy-ink/10 bg-psy-ink p-5 text-white shadow-xl shadow-psy-ink/18">
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">Conversion y riesgo</p>
+            <div className="rounded-[1.8rem] border border-psy-ink/10 bg-psy-ink p-5 text-psy-paper shadow-xl shadow-psy-ink/18">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-psy-paper opacity-45">Conversion y riesgo</p>
               <p className="mt-3 font-sora text-5xl font-bold tracking-tight">{conversion}%</p>
-              <p className="mt-3 text-sm leading-7 text-white/72">
+              <p className="mt-3 text-sm leading-7 text-psy-paper opacity-70">
                 {trial ?? 0} cuenta{trial === 1 ? '' : 's'} en trial y {suspendidos} suspendida{suspendidos === 1 ? '' : 's'} para revisar esta semana.
               </p>
             </div>
@@ -160,9 +160,9 @@ export default async function AdminDashboardPage() {
               <HealthStatus />
             </PortalSection>
 
-            <PortalSection eyebrow="Accion sugerida" title="Prioriza trial corto y cuentas suspendidas" className="bg-psy-ink text-white">
+            <PortalSection eyebrow="Accion sugerida" title="Prioriza trial corto y cuentas suspendidas" className="bg-psy-ink text-psy-paper">
               <div className="space-y-4">
-                <p className="text-sm leading-7 text-white/75">
+                <p className="text-sm leading-7 text-psy-paper opacity-75">
                   Si la conversion es la metrica a empujar esta semana, el frente mas claro esta en quienes estan terminando prueba y en cuentas que se quedaron a mitad de activacion.
                 </p>
                 <div className="grid gap-3">
@@ -170,7 +170,7 @@ export default async function AdminDashboardPage() {
                     <Users size={16} />
                     Revisar clientes
                   </Link>
-                  <Link href="/admin/settings" className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl border border-white/12 px-4 py-3 text-sm font-medium text-white/84">
+                  <Link href="/admin/settings" className="lift-button inline-flex items-center justify-center gap-2 rounded-2xl border border-psy-paper/15 px-4 py-3 text-sm font-medium text-psy-paper opacity-85">
                     <Shield size={16} />
                     Configuracion admin
                   </Link>

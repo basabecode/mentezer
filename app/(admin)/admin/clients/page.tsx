@@ -166,7 +166,7 @@ export default async function AdminClientsPage() {
                 action={
                   <Link
                     href="/admin/clients/new"
-                    className="lift-button inline-flex items-center gap-2 rounded-2xl bg-psy-ink px-5 py-3 text-sm font-semibold text-white"
+                    className="lift-button inline-flex items-center gap-2 rounded-2xl bg-psy-ink px-5 py-3 text-sm font-semibold text-psy-paper"
                   >
                     <Users size={16} />
                     Crear primer cliente

@@ -42,7 +42,8 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
   };
 
   const handleSubmit = async () => {
-    if (!file || !hasConsent) return;
+    // TEMPORAL BYPASS
+    if (!file) return;
 
     setState("creating");
     setError(null);
@@ -100,14 +101,15 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
 
   return (
     <div className="space-y-4 rounded-xl border border-psy-border bg-psy-paper p-6">
-      {!hasConsent && (
+      {/* TEMPORAL BYPASS: Ocultando el bloqueo de UI */}
+      {/* {!hasConsent && (
         <div className="flex items-center gap-2 rounded-lg bg-psy-amber-light px-3 py-2.5">
           <AlertTriangle size={14} className="shrink-0 text-psy-amber" />
           <p className="text-xs font-medium text-psy-amber">
             Requiere consentimiento informado firmado.
           </p>
         </div>
-      )}
+      )} */}
 
       {/* Drop zone */}
       <div
@@ -171,7 +173,8 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
 
       <button
         onClick={handleSubmit}
-        disabled={!file || !hasConsent || ["creating", "uploading", "done"].includes(state)}
+        // TEMPORAL BYPASS: Eliminado el requerimiento de !hasConsent
+        disabled={!file || ["creating", "uploading", "done"].includes(state)}
         className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-psy-blue text-sm font-medium text-white transition-all hover:bg-psy-blue/90 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {["creating", "uploading"].includes(state) ? (

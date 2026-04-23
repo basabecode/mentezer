@@ -233,14 +233,14 @@ const faqs = [
 
 function toneClasses(tone: Tone) {
   if (tone === 'info') {
-    return 'border-psy-blue/20 bg-psy-blue-light/80 text-psy-ink'
+    return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(59,111,160,0.15)] backdrop-blur-2xl'
   }
 
   if (tone === 'success') {
-    return 'border-psy-green/20 bg-psy-green-light/85 text-psy-ink'
+    return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(74,124,89,0.15)] backdrop-blur-2xl'
   }
 
-  return 'border-psy-border/80 bg-white/90 text-psy-ink'
+  return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(0,0,0,0.1)] backdrop-blur-2xl'
 }
 
 function HeroReportCard() {
@@ -279,23 +279,26 @@ function HeroReportCard() {
   }, [activeIndex])
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-[linear-gradient(160deg,rgba(62,129,151,0.55)_0%,rgba(74,144,164,0.32)_25%,rgba(232,242,245,0.92)_55%,#fff_100%)] p-5 shadow-[0_24px_56px_rgba(62,129,151,0.15)] md:p-6">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_38%)]" />
-      <div className="relative flex items-start justify-between gap-4 border-b border-white/50 pb-4">
+    <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-psy-ink via-[#1C2C35] to-psy-ink p-6 md:p-8">
+      {/* Blurred background orbs for inner glass effect */}
+      <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-psy-blue/30 blur-[70px] pointer-events-none" />
+      <div className="absolute -bottom-10 -right-10 h-64 w-64 rounded-full bg-psy-green/25 blur-[70px] pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-white/80">
+          <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-psy-amber-light drop-shadow-sm">
             MENTEZER · Espacio clinico
           </p>
-          <p className="mt-1 font-serif text-lg font-semibold tracking-tight text-white md:text-xl">
+          <p className="mt-1 font-serif text-[22px] font-semibold tracking-tight text-white drop-shadow-md">
             Ana R. · Sesion 8 · TCC
           </p>
         </div>
-        <div className="rounded-full border border-white/55 bg-white/75 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-psy-blue">
+        <div className="rounded-full border border-psy-blue/40 bg-psy-blue/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white shadow-sm backdrop-blur-md">
           Respuesta IA
         </div>
       </div>
 
-      <div className="relative mt-4 space-y-3">
+      <div className="relative z-10 mt-6 space-y-4">
         {heroReportFields.map((field, index) => {
           const isCurrent = index === activeIndex
           const isVisible = index <= activeIndex
@@ -306,23 +309,33 @@ function HeroReportCard() {
               : ''
 
           return (
-            <div
-              key={field.id}
-              className={`min-h-[96px] rounded-2xl border px-4 py-3 transition-all duration-300 ${
-                isVisible
-                  ? toneClasses(field.tone)
-                  : 'border-white/35 bg-white/30 text-psy-ink/35'
-              }`}
-            >
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-psy-muted">
-                {field.label}
-              </p>
-              <p className="mt-2 text-sm leading-7 md:text-[15px] md:leading-7">
-                {typedText}
-                {isCurrent && visibleChars < field.content.length ? (
-                  <span className="type-caret">|</span>
-                ) : null}
-              </p>
+            <div key={field.id} className="group relative">
+              {/* Glow Border (Blow Border) Effect */}
+              <div className={`absolute inset-0 rounded-[1.25rem] opacity-0 transition-opacity duration-500 blur-md ${isVisible ? 'group-hover:opacity-80' : ''} ${
+                field.tone === 'info' ? 'bg-psy-blue' : field.tone === 'success' ? 'bg-psy-green' : 'bg-psy-amber'
+              }`} />
+              <div className={`absolute inset-0 rounded-[1.25rem] opacity-0 transition-opacity duration-500 ${isVisible ? 'group-hover:opacity-100' : ''} ${
+                field.tone === 'info' ? 'bg-psy-blue' : field.tone === 'success' ? 'bg-psy-green' : 'bg-psy-amber'
+              }`} />
+
+              {/* Glass Grid Panel */}
+              <div
+                className={`relative z-10 m-[1px] flex min-h-[96px] flex-col rounded-[calc(1.25rem-1px)] border px-5 py-4 transition-all duration-300 ${
+                  isVisible
+                    ? toneClasses(field.tone)
+                    : 'border-white/10 bg-white/20 text-white/30 backdrop-blur-md'
+                }`}
+              >
+                <p className={`font-mono text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors duration-300 ${isVisible ? 'text-psy-muted' : 'text-white/30'}`}>
+                  {field.label}
+                </p>
+                <p className={`mt-2 text-[15px] leading-relaxed font-medium transition-colors duration-300 ${isVisible ? 'text-psy-ink/90' : 'text-white/30'}`}>
+                  {typedText}
+                  {isCurrent && visibleChars < field.content.length ? (
+                    <span className="type-caret text-psy-ink">|</span>
+                  ) : null}
+                </p>
+              </div>
             </div>
           )
         })}
@@ -450,8 +463,8 @@ export default function LandingPage() {
         ) : null}
       </header>
 
-      <section className="px-4 pb-14 pt-28 md:px-6 md:pb-18 md:pt-32 lg:pb-20 lg:pt-36">
-        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.02fr_0.98fr] md:items-center">
+      <section className="px-4 pb-10 pt-24 md:px-6 md:pb-12 md:pt-28 lg:pb-16 lg:pt-32">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.02fr_0.98fr] md:items-center">
           <div className="reveal-rise">
             <div className="inline-flex items-center gap-2 rounded-full border border-psy-border bg-white/72 px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-psy-muted shadow-sm">
               <span className="h-2 w-2 rounded-full bg-psy-green animate-pulse" />
@@ -466,31 +479,17 @@ export default function LandingPage() {
               MENTEZER organiza agenda, sesion, biblioteca y cierre clinico en una interfaz serena. No compra humo tecnico: te devuelve foco, orden y presencia profesional.
             </p>
 
-            <div className="mt-7 grid max-w-xl gap-2.5">
-              {clarityPoints.map(point => (
-                <div
-                  key={point}
-                  className="flex items-start gap-3 rounded-2xl border border-psy-border bg-white/80 px-4 py-3 text-sm text-psy-ink/80 shadow-sm"
-                >
-                  <span className="mt-0.5 text-psy-green">
-                    <Check size={15} strokeWidth={2.4} />
-                  </span>
-                  <span>{point}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/register"
-                className="calm-button-primary rounded-3xl px-6 py-4 text-sm font-medium"
+                className="calm-button-primary rounded-full px-8 py-3.5 text-[15px] font-medium shadow-sm transition-all hover:scale-[1.02]"
               >
-                Activar prueba de 14 dias
+                Empezar prueba gratis
                 <ArrowRight size={16} />
               </Link>
               <Link
                 href="/demo"
-                className="calm-button-secondary rounded-3xl px-6 py-4 text-sm font-medium"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium text-psy-ink/60 transition-colors hover:text-psy-ink"
               >
                 <Sparkles size={16} />
                 Ver demostracion en vivo
@@ -513,7 +512,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="reveal-rise reveal-delay-3 mx-auto mt-10 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/92 px-4 py-3 shadow-[0_18px_42px_rgba(74,144,164,0.12)] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="reveal-rise reveal-delay-3 mx-auto mt-8 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/92 px-4 py-3 shadow-[0_18px_42px_rgba(74,144,164,0.12)] sm:grid-cols-2 lg:grid-cols-4">
           {quickFacts.map(item => (
             <div
               key={item.value}
@@ -528,25 +527,25 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="problema" className="bg-white px-4 py-18 md:px-6 md:py-22">
+      <section id="problema" className="bg-psy-ink px-4 py-12 md:px-6 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-12 max-w-3xl">
+          <div className="mb-8 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
               Seguir igual tiene costo
             </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-white md:text-5xl">
               El atraso no siempre se ve dramatico. A veces se ve como cansancio acumulado.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-psy-ink/75">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-psy-paper opacity-75">
               No se trata de moda tecnologica. Se trata de que tu forma de trabajar ya merece una estructura mejor que libreta, notas sueltas y memoria diferida.
             </p>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             {painPoints.map((item, index) => (
               <article
                 key={item.id}
-                className={`hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-7 shadow-xl ${
+                className={`reveal-rise rounded-2xl border border-psy-paper/10 bg-psy-paper/5 p-5 shadow-xl transition-all hover:bg-psy-paper/10 ${
                   index === 0
                     ? 'reveal-delay-1'
                     : index === 1
@@ -554,60 +553,40 @@ export default function LandingPage() {
                       : 'reveal-delay-3'
                 }`}
               >
-                <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
+                <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
                   {item.id}
                 </p>
-                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
+                <h3 className="mt-4 font-serif text-xl font-semibold tracking-tight text-white">
                   {item.title}
                 </h3>
-                <p className="mt-4 text-sm leading-7 text-psy-ink/75">{item.copy}</p>
+                <p className="mt-3 text-sm leading-6 text-psy-paper/80">{item.copy}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="flujo" className="bg-psy-purple-light px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
-          <div className="max-w-xl">
+      <section id="flujo" className="bg-[#F7F9F9] px-4 py-12 md:px-6 md:py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-widest text-psy-green">
               Lo que recibes
             </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-psy-ink md:text-5xl">
               Sales de una sesion con material para actuar, no con tareas pendientes.
             </h2>
             <p className="mt-5 text-lg leading-8 text-psy-ink/75">
               Esa es la parte que mueve la compra. No la IA en abstracto. La sensacion concreta de terminar consulta sin quedarte debiendo media hora de reconstruccion clinica.
             </p>
-
-            <div className="mt-8 rounded-3xl border border-psy-border bg-psy-ink p-6 text-psy-paper shadow-2xl">
-              <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
-                Que compra realmente el clinico
-              </p>
-              <div className="mt-4 grid gap-3">
-                {[
-                  'Una estructura que ordena el cierre clinico en tiempo real.',
-                  'Soporte tecnico y bibliografico visible, no escondido.',
-                  'Una plataforma que si parece herramienta profesional delante del paciente.',
-                ].map(point => (
-                  <div
-                    key={point}
-                    className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-7 text-psy-paper/80"
-                  >
-                    {point}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4 relative z-10">
             {deliverables.map((item, index) => {
               const Icon = item.icon
               return (
                 <div
                   key={item.title}
-                  className={`card-deliverable reveal-rise rounded-3xl border border-psy-border bg-white p-5 shadow-lg ${
+                  className={`group relative reveal-rise flex flex-col rounded-[2rem] transition-all duration-500 hover:-translate-y-2 ${
                     index === 0
                       ? 'reveal-delay-1'
                       : index === 1
@@ -617,34 +596,33 @@ export default function LandingPage() {
                           : 'reveal-delay-4'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
-                      <Icon size={18} strokeWidth={1.8} />
+                  {/* Glow Border Effect */}
+                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-psy-blue via-psy-green to-psy-amber opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-sm" />
+                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-psy-blue via-psy-green to-psy-amber opacity-20 transition-opacity duration-500 group-hover:opacity-100" />
+                  
+                  {/* Glass Panel */}
+                  <div className="relative z-10 m-[2px] flex h-full flex-col rounded-[calc(2rem-2px)] border border-white/60 bg-white/70 p-5 shadow-lg backdrop-blur-2xl transition-all duration-500 group-hover:bg-white/90">
+                    <div className="flex items-start gap-3">
+                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm ${item.accent}`}>
+                        <Icon size={18} strokeWidth={2.2} />
+                      </div>
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-widest text-psy-muted">
+                          {item.kicker}
+                        </p>
+                        <h3 className="mt-1 font-serif text-[19px] font-semibold tracking-tight text-psy-ink">
+                          {item.title}
+                        </h3>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                        {item.kicker}
-                      </p>
-                      <h3 className="mt-1.5 font-serif text-2xl font-semibold tracking-tight text-psy-ink">
-                        {item.title}
-                      </h3>
+
+                    <p className="mt-4 text-[14px] leading-relaxed text-psy-ink/80 font-medium">{item.copy}</p>
+
+                    <div className="mt-auto pt-5">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-psy-ink/5 px-2.5 py-1.5 text-[11px] font-bold text-psy-ink">
+                        {item.metric}
+                      </span>
                     </div>
-                  </div>
-
-                  <p className="mt-4 text-sm leading-7 text-psy-ink/80">{item.copy}</p>
-
-                  <div className="mt-4 rounded-2xl border border-psy-border/70 bg-psy-paper/80 px-4 py-3">
-                    <p className="font-mono text-xs uppercase tracking-widest text-psy-muted">
-                      Senal tecnica
-                    </p>
-                    <p className="mt-2 text-xs leading-6 text-psy-ink/70">{item.technical}</p>
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between gap-3 text-xs text-psy-muted">
-                    <span className="rounded-full bg-psy-ink/5 px-2.5 py-1 font-medium text-psy-ink">
-                      {item.metric}
-                    </span>
-                    <span>Mas orden clinico</span>
                   </div>
                 </div>
               )
@@ -653,22 +631,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-18 md:px-6 md:py-22">
+      <section className="bg-psy-blue px-4 py-12 md:px-6 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-12 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
+          <div className="mb-8 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-paper opacity-80">
               La prueba importa
             </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-white md:text-5xl">
               Estos 14 dias no son una cortesia. Son el momento para ver si tu practica ya pidio este cambio.
             </h2>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-4">
             {trialSteps.map((step, index) => (
               <div
                 key={step.day}
-                className={`hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-xl ${
+                className={`reveal-rise flip-card-container h-[210px] w-full transition-all duration-300 hover:-translate-y-2 ${
                   index === 0
                     ? 'reveal-delay-1'
                     : index === 1
@@ -678,71 +656,52 @@ export default function LandingPage() {
                         : 'reveal-delay-4'
                 }`}
               >
-                <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
-                  {step.day}
-                </p>
-                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
-                  {step.title}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-psy-ink/75">{step.copy}</p>
+                <div className="flip-card-inner">
+                  {/* Front */}
+                  <div className="flip-card-front flex flex-col justify-center rounded-2xl border border-white/15 bg-white/10 p-5 shadow-sm">
+                    <p className="font-mono text-sm font-bold uppercase tracking-widest text-psy-amber-light">
+                      {step.day}
+                    </p>
+                    <h3 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-white">
+                      {step.title}
+                    </h3>
+                  </div>
+
+                  {/* Back */}
+                  <div className="flip-card-back flex flex-col justify-center rounded-2xl border border-psy-amber/40 bg-white/25 p-5 shadow-lg backdrop-blur-sm">
+                    <p className="text-[17px] leading-[1.6] text-white drop-shadow-sm font-medium">{step.copy}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-psy-cream px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
-              Para quien encaja
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              No hace falta ser fan de la tecnologia. Hace falta estar cansado de perder tiempo.
-            </h2>
-          </div>
+      <section id="planes" className="relative bg-psy-cream px-4 py-16 md:px-6 md:py-24 overflow-hidden">
+        {/* Colorful Blobs for Pricing Glassmorphism */}
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-psy-blue/15 blur-[120px] pointer-events-none" />
+        <div className="absolute right-0 top-0 h-[500px] w-[500px] translate-x-1/4 -translate-y-1/4 rounded-full bg-psy-green/15 blur-[100px] pointer-events-none" />
+        <div className="absolute left-0 bottom-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-psy-amber/15 blur-[100px] pointer-events-none" />
 
-          <div className="grid gap-4">
-            {personas.map((person, index) => (
-              <div
-                key={person.title}
-                className={`card-profile reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg ${
-                  index === 0
-                    ? ''
-                    : index === 1
-                      ? 'reveal-delay-2'
-                      : 'reveal-delay-3'
-                }`}
-              >
-                <h3 className="font-serif text-2xl font-semibold tracking-tight">
-                  {person.title}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-psy-ink/75">{person.copy}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="planes" className="bg-psy-purple-light px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto max-w-6xl">
+        <div className="relative mx-auto max-w-6xl z-10">
           <div className="mb-12 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-green drop-shadow-sm">
               Precios
             </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 font-sora text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl text-psy-ink drop-shadow-sm">
               Empieza con prueba real. Paga solo si ya te ordeno la practica.
             </h2>
-            <p className="mt-5 text-lg leading-8 text-psy-ink/75">
+            <p className="mt-6 text-lg leading-8 text-psy-ink/80 font-medium">
               La conversacion ya no es si la tecnologia cabe en psicologia. La conversacion es si quieres seguir administrando tu consulta como en 2017.
             </p>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-3">
             {plans.map((plan, index) => (
               <article
                 key={plan.name}
-                className={`reveal-rise rounded-3xl p-7 ${
+                className={`reveal-rise relative overflow-hidden rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-3 ${
                   index === 0
                     ? 'reveal-delay-1'
                     : index === 1
@@ -750,40 +709,43 @@ export default function LandingPage() {
                       : 'reveal-delay-3'
                 } ${
                   plan.highlight
-                    ? 'card-pricing card-pricing-pro bg-psy-ink text-psy-paper shadow-2xl'
-                    : 'card-pricing border border-psy-ink/10 bg-white shadow-xl'
+                    ? 'bg-psy-ink/85 border border-white/20 text-white shadow-[0_24px_60px_rgba(0,0,0,0.3)] backdrop-blur-[32px]'
+                    : 'bg-white/40 border border-white/60 text-psy-ink shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl'
                 }`}
               >
-                <div className="flex items-start justify-between gap-3">
+                {/* Glare effect inside glass */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+
+                <div className="relative z-10 flex items-start justify-between gap-3">
                   <div>
-                    <p className={`text-sm ${plan.highlight ? 'text-psy-paper/65' : 'text-psy-muted'}`}>
+                    <p className={`text-sm font-semibold uppercase tracking-widest ${plan.highlight ? 'text-psy-amber-light drop-shadow-sm' : 'text-psy-blue'}`}>
                       {plan.name}
                     </p>
-                    <p className="mt-3 font-serif text-5xl font-semibold tracking-tight">
+                    <p className="mt-3 font-sora text-5xl font-bold tracking-tight">
                       {plan.price}
-                      <span className={`ml-1 text-base font-normal ${plan.highlight ? 'text-psy-paper/65' : 'text-psy-muted'}`}>
+                      <span className={`ml-1 text-base font-medium ${plan.highlight ? 'text-white/60' : 'text-psy-ink/60'}`}>
                         /mes
                       </span>
                     </p>
                   </div>
                   {plan.highlight ? (
-                    <div className="rounded-full bg-psy-green px-3 py-1 text-xs font-medium text-white">
+                    <div className="rounded-full border border-psy-green/30 bg-psy-green/20 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-psy-green-light backdrop-blur-md">
                       El que mas valida
                     </div>
                   ) : null}
                 </div>
 
-                <p className={`mt-5 text-sm leading-7 ${plan.highlight ? 'text-psy-paper/80' : 'text-psy-ink/75'}`}>
+                <p className={`relative z-10 mt-6 text-[15px] leading-7 font-medium ${plan.highlight ? 'text-white/85' : 'text-psy-ink/80'}`}>
                   {plan.description}
                 </p>
 
-                <ul className="mt-6 space-y-3">
+                <ul className="relative z-10 mt-8 space-y-4">
                   {plan.features.map(feature => (
-                    <li key={feature} className="flex items-start gap-3 text-sm">
-                      <span className={`mt-0.5 ${plan.highlight ? 'text-psy-green-light' : 'text-psy-green'}`}>
-                        <Check size={15} strokeWidth={2.4} />
+                    <li key={feature} className="flex items-start gap-3 text-[15px] font-medium">
+                      <span className={`mt-0.5 ${plan.highlight ? 'text-psy-green-light drop-shadow-sm' : 'text-psy-green'}`}>
+                        <Check size={18} strokeWidth={2.4} />
                       </span>
-                      <span className={plan.highlight ? 'text-psy-paper/85' : 'text-psy-ink'}>
+                      <span className={plan.highlight ? 'text-white/95' : 'text-psy-ink'}>
                         {feature}
                       </span>
                     </li>
@@ -792,104 +754,122 @@ export default function LandingPage() {
 
                 <Link
                   href="/register"
-                  className={`lift-button mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-medium transition ${
+                  className={`relative z-10 mt-10 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-[15px] font-bold transition-all hover:shadow-lg ${
                     plan.highlight
-                      ? 'bg-psy-paper text-psy-ink hover:bg-white'
-                      : 'bg-psy-ink text-psy-paper hover:bg-psy-ink/90'
+                      ? 'bg-white text-psy-ink hover:bg-psy-paper hover:scale-[1.02]'
+                      : 'bg-psy-ink text-white hover:bg-black hover:scale-[1.02]'
                   }`}
                 >
                   Empezar prueba de 14 dias
-                  <ArrowRight size={16} />
+                  <ArrowRight size={18} />
                 </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
-
-      <section className="bg-white px-4 py-18 md:px-6 md:py-22">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
-              Dudas normales
+      <section className="relative bg-psy-cream px-4 py-16 md:px-6 md:py-24 overflow-hidden">
+        <div className="mx-auto max-w-6xl relative z-10">
+          <div className="text-center mb-16">
+            <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-psy-amber">
+              Flujo de Garantías
             </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              Si te lo estas preguntando, seguramente otro colega tambien.
+            <h2 className="mt-4 font-sora text-3xl font-bold tracking-tight text-psy-ink md:text-5xl">
+              Certezas antes de empezar
             </h2>
+            <p className="mt-4 text-lg text-psy-ink/60 font-medium max-w-2xl mx-auto">
+              Si te lo estás preguntando, seguramente otro colega también.
+            </p>
           </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <article
-                key={faq.question}
-                className={`card-faq hover-panel-green reveal-rise rounded-3xl border border-psy-border bg-white p-6 shadow-lg ${
-                  index === 0
-                    ? 'reveal-delay-1'
-                    : index === 1
-                      ? 'reveal-delay-2'
-                      : 'reveal-delay-3'
-                }`}
-              >
-                <h3 className="font-serif text-2xl font-semibold tracking-tight">
-                  {faq.question}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-psy-ink/75">{faq.answer}</p>
-              </article>
-            ))}
+          <div className="relative mt-12">
+            {/* Horizontal Connection Line */}
+            <div className="hidden lg:block absolute top-[19px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-transparent via-psy-border to-transparent" />
+
+            <div className="grid lg:grid-cols-3 gap-6 relative z-10">
+              {faqs.map((faq, index) => (
+                <div key={faq.question} className={`relative group reveal-rise ${index === 0 ? '' : index === 1 ? 'reveal-delay-1' : 'reveal-delay-2'}`}>
+                  
+                  {/* Light Glassmorphism Card without complex nodes */}
+                  <article className="overflow-hidden rounded-[1.5rem] border border-psy-border bg-white p-6 md:p-8 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(13,34,50,0.08)] hover:border-psy-blue/30">
+                    <p className="font-mono text-[10px] uppercase tracking-widest text-psy-blue opacity-80 mb-3 transition-colors duration-300 group-hover:text-psy-green">
+                      Paso 0{index + 1}
+                    </p>
+                    <h3 className="font-sora text-[19px] leading-[1.3] font-bold tracking-tight text-psy-ink transition-colors duration-300 group-hover:text-psy-blue">
+                      {faq.question}
+                    </h3>
+                    <p className="mt-4 text-[14px] leading-relaxed text-psy-ink/75 font-medium">
+                      {faq.answer}
+                    </p>
+                  </article>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-psy-cream px-4 pb-24 pt-10 md:px-6 md:pb-32 md:pt-16">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-psy-blue via-[#6ea6b6] to-[#aac7a3] p-5 text-white shadow-[0_26px_60px_rgba(74,144,164,0.22)] md:p-12">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-7">
-              <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/55">
-                Decision
-              </p>
-              <h2 className="mt-4 font-sora text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl">
-                Si tu practica ya pide un sistema mas moderno...
-              </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-psy-paper/80">
-                No estas validando una tendencia. Estas validando si vale la pena seguir cerrando sesiones con el metodo de siempre.
-              </p>
+      <section className="relative bg-psy-ink px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24 overflow-hidden">
+        {/* Background Colorful Blobs for Glassmorphism Effect */}
+        <div className="absolute left-0 top-0 h-[600px] w-[600px] -translate-x-1/3 -translate-y-1/3 rounded-full bg-psy-blue/40 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 h-[500px] w-[500px] translate-x-1/3 translate-y-1/3 rounded-full bg-psy-amber/30 blur-[100px] pointer-events-none" />
+        <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-psy-green/20 blur-[100px] pointer-events-none" />
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <Link
-                  href="/register"
-                  className="calm-button-secondary inline-flex rounded-2xl bg-white px-8 py-5 text-sm font-bold text-psy-ink shadow-xl shadow-white/10"
-                >
-                  Probar MENTEZER ahora
-                  <ArrowRight size={16} />
-                </Link>
-                <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-psy-paper/10 bg-white/5 px-5 py-4 text-xs text-psy-paper/75">
-                  <span className="inline-flex items-center gap-2">
-                    <CalendarDays size={16} />
-                    Configuracion rapida
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Shield size={16} />
-                    Sin tarjeta
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Clock3 size={16} />
-                    Cierre mas ligero
-                  </span>
+        <div className="relative mx-auto max-w-6xl">
+          <div className="relative rounded-[2.5rem] border border-white/20 bg-gradient-to-br from-white/15 to-white/5 p-8 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-[40px] md:p-12 lg:p-16">
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-center relative">
+              
+              {/* Text Content */}
+              <div className="lg:col-span-7 relative z-20">
+                <p className="font-mono text-sm font-bold uppercase tracking-widest text-psy-amber-light drop-shadow-sm">
+                  Decision
+                </p>
+                <h2 className="mt-4 font-sora text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl drop-shadow-md">
+                  Si tu practica ya pide un sistema mas moderno...
+                </h2>
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85 font-medium">
+                  No estas validando una tendencia. Estas validando si vale la pena seguir cerrando sesiones con el metodo de siempre.
+                </p>
+
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <Link
+                    href="/register"
+                    className="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 text-[15px] font-bold text-psy-ink shadow-xl transition-all hover:-translate-y-1 hover:bg-psy-paper hover:shadow-2xl"
+                  >
+                    Probar MENTEZER ahora
+                    <ArrowRight size={18} className="ml-2" />
+                  </Link>
+                  <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
+                    <span className="inline-flex items-center gap-2 text-white/95">
+                      <CalendarDays size={16} />
+                      Configuracion rapida
+                    </span>
+                    <span className="inline-flex items-center gap-2 text-white/95">
+                      <Shield size={16} />
+                      Sin tarjeta
+                    </span>
+                    <span className="inline-flex items-center gap-2 text-white/95">
+                      <Clock3 size={16} />
+                      Cierre mas ligero
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="lg:col-span-5">
-              <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl lg:rotate-3">
-                <div className="absolute inset-0 bg-gradient-to-t from-psy-ink/40 to-transparent" />
-                <Image
-                  src="/img/mentezer-context.png"
-                  alt="MENTEZER en uso clinico"
-                  fill
-                  className="object-cover transition-transform duration-700 hover:scale-110"
-                  sizes="(max-width: 1024px) 100vw, 36vw"
-                />
+              {/* Imagen Integrada en la Tarjeta */}
+              <div className="lg:col-span-5 relative z-30 mt-6 lg:mt-0">
+                <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform duration-700 hover:scale-105 hover:rotate-0 lg:rotate-3">
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-psy-ink/40 via-transparent to-transparent pointer-events-none" />
+                  <Image
+                    src="/img/mentezer-context.png"
+                    alt="MENTEZER en uso clinico"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                </div>
               </div>
+
             </div>
           </div>
         </div>

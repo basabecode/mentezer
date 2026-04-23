@@ -180,34 +180,36 @@ export function PresentialSessionComposer({
             externalFinalizeSignal={externalFinalizeSignal}
           />
 
-          {/* Preflight pegado al grabador */}
-          <AudioPreflightPanel
-            selectedDeviceId={selectedDeviceId}
-            onDeviceChange={setSelectedDeviceId}
-            onValidatedChange={setPreflightReady}
-          />
-
-          {/* Configuración de grabación compactada */}
-          <RecordingSettingsPanel
-            settings={settings}
-            onChange={setSettings}
-            preflightReady={preflightReady}
-          />
+          {/* Preflight y Settings ocultos cuando la grabación ya inició para no estorbar */}
+          {recorderState === "idle" && (
+            <>
+              <AudioPreflightPanel
+                selectedDeviceId={selectedDeviceId}
+                onDeviceChange={setSelectedDeviceId}
+                onValidatedChange={setPreflightReady}
+              />
+              <RecordingSettingsPanel
+                settings={settings}
+                onChange={setSettings}
+                preflightReady={preflightReady}
+              />
+            </>
+          )}
         </div>
 
         {/* ── COLUMNA 2: Transcripción / Análisis ── lg: full-width top | xl: middle col */}
         <section
           id="session-transcript"
-          className="scroll-mt-20 order-1 overflow-hidden rounded-[1.6rem] border border-[#d9e7ee] bg-[linear-gradient(180deg,#f5f9fb_0%,#ffffff_100%)] shadow-[0_8px_20px_rgba(13,34,50,0.04)] lg:col-span-2 lg:order-1 xl:col-span-1 xl:order-none"
+          className="scroll-mt-20 order-1 overflow-hidden rounded-2xl border border-psy-border bg-white shadow-sm lg:col-span-2 lg:order-1 xl:col-span-1 xl:order-none flex flex-col"
         >
           {/* Tab bar */}
-          <div className="flex items-center justify-between gap-3 border-b border-[#dbe8ee] bg-[linear-gradient(180deg,#eef5f8_0%,#f8fbfc_100%)] px-4 py-2.5">
-            <div className="inline-flex items-center gap-1 rounded-xl bg-white/90 p-1 shadow-[0_4px_10px_rgba(13,34,50,0.04)]">
+          <div className="flex items-center justify-between gap-3 border-b border-psy-border bg-psy-paper px-4 py-2">
+            <div className="inline-flex items-center gap-1 rounded-lg bg-white p-1 shadow-sm border border-psy-border/50">
               <button
                 type="button"
                 onClick={() => setActiveView("transcript")}
                 aria-pressed={showTranscriptContent}
-                className={`rounded-[0.65rem] px-3.5 py-1.5 text-sm font-medium transition ${showTranscriptContent ? "bg-[#e8f3f8] text-[#3f7d95]" : "text-psy-muted hover:text-psy-ink"}`}
+                className={`rounded-md px-3 py-1 text-sm font-medium transition ${showTranscriptContent ? "bg-psy-blue-light text-psy-blue" : "text-psy-muted hover:text-psy-ink"}`}
               >
                 Transcripción
               </button>
@@ -215,7 +217,7 @@ export function PresentialSessionComposer({
                 type="button"
                 onClick={() => setActiveView("analysis")}
                 aria-pressed={!showTranscriptContent}
-                className={`rounded-[0.65rem] px-3.5 py-1.5 text-sm font-medium transition ${!showTranscriptContent ? "bg-[#f0eaff] text-[#7857d5]" : "text-psy-muted hover:text-psy-ink"}`}
+                className={`rounded-md px-3 py-1 text-sm font-medium transition ${!showTranscriptContent ? "bg-psy-green-light text-psy-green" : "text-psy-muted hover:text-psy-ink"}`}
               >
                 Análisis IA
               </button>
@@ -224,7 +226,7 @@ export function PresentialSessionComposer({
             <div
               role="status"
               aria-live="polite"
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${showTranscriptContent ? "border-[#d7eaf2] bg-[#edf7fb] text-[#3f7d95]" : "border-[#eadfff] bg-[#f6f1ff] text-[#7857d5]"}`}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold uppercase tracking-wider ${showTranscriptContent ? "border-psy-blue/20 bg-psy-blue/5 text-psy-blue" : "border-psy-green/20 bg-psy-green/5 text-psy-green"}`}
             >
               {showTranscriptContent ? <Mic size={12} /> : <Sparkles size={12} />}
               {showTranscriptContent ? transcriptStatusLabel : summaryRequested ? "Listo" : "Sin generar"}
@@ -232,59 +234,55 @@ export function PresentialSessionComposer({
           </div>
 
           {/* Contenido */}
-          <div className="p-4">
+          <div className="p-4 flex-1 overflow-y-auto max-h-[600px]">
             {showTranscriptContent ? (
               segments.length > 0 ? (
-                <div className="space-y-2.5" aria-live="polite">
+                <div className="space-y-2" aria-live="polite">
                   {segments.slice(-6).map((segment) => (
                     <article
                       key={segment.id}
-                      className={`rounded-[1rem] border px-3.5 py-3 ${segment.speaker === "Paciente" ? "border-[#e4dcff] bg-[#f8f4ff]" : "border-[#d8ebf2] bg-[#f2f9fc]"}`}
+                      className={`rounded-xl border px-3 py-2.5 ${segment.speaker === "Paciente" ? "border-psy-border bg-psy-paper/30" : "border-psy-blue-light bg-psy-blue-light/20"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${segment.speaker === "Paciente" ? "bg-[#ede2ff] text-[#7857d5]" : "bg-[#e0f1f7] text-[#3f7eae]"}`}>
+                        <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${segment.speaker === "Paciente" ? "bg-white text-psy-ink border border-psy-border" : "bg-psy-blue/10 text-psy-blue"}`}>
                           {segment.speaker}
                         </span>
-                        <span className="text-[11px] text-psy-muted">{segment.timestampLabel}</span>
+                        <span className="font-mono text-[10px] text-psy-muted">{segment.timestampLabel}</span>
                       </div>
-                      <p className="mt-2 text-sm leading-6 text-psy-ink">{segment.text}</p>
+                      <p className="mt-1.5 text-[13px] leading-6 text-psy-ink">{segment.text}</p>
                     </article>
                   ))}
                 </div>
               ) : (
-                <div className="flex min-h-[260px] items-center justify-center text-center">
-                  <div>
-                    <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#e6f3f8] text-[#4e8ca7]">
-                      <Mic size={18} />
-                    </div>
-                    <p className="mt-3 text-base font-medium text-psy-ink">Sin transcripción aún</p>
-                    <p className="mt-1 text-sm text-psy-muted">Inicia la grabación para ver fragmentos aquí.</p>
+                <div className="flex h-full min-h-[260px] flex-col items-center justify-center text-center">
+                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-psy-paper text-psy-muted border border-psy-border">
+                    <Mic size={16} />
                   </div>
+                  <p className="mt-3 text-sm font-bold text-psy-ink">Sin transcripción aún</p>
+                  <p className="mt-1 text-xs text-psy-muted">Inicia la grabación para ver fragmentos aquí.</p>
                 </div>
               )
             ) : (
               clinicalSummary ? (
                 <div className="space-y-3">
-                  <div className="rounded-[1rem] border border-[#e6dcff] bg-[#f8f4ff] px-4 py-3.5">
-                    <p className="text-sm leading-7 text-psy-ink">{clinicalSummary.overview}</p>
+                  <div className="rounded-xl border border-psy-green/20 bg-psy-green/5 px-4 py-3">
+                    <p className="text-[13px] leading-6 text-psy-ink">{clinicalSummary.overview}</p>
                   </div>
                   <div className="grid gap-2">
                     {clinicalSummary.keyPoints.map((item, index) => (
-                      <div key={index} className="rounded-[0.9rem] border border-[#e6dcff] bg-white px-3.5 py-2.5 text-sm leading-6 text-psy-ink">
+                      <div key={index} className="rounded-lg border border-psy-border bg-white px-3.5 py-2.5 text-[13px] leading-6 text-psy-ink">
                         {item}
                       </div>
                     ))}
                   </div>
                 </div>
               ) : (
-                <div className="flex min-h-[260px] items-center justify-center text-center">
-                  <div>
-                    <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#f0e6ff] text-[#7857d5]">
-                      <Bot size={18} />
-                    </div>
-                    <p className="mt-3 text-base font-medium text-psy-ink">Resumen IA en espera</p>
-                    <p className="mt-1 text-sm text-psy-muted">Activa cuando haya transcript o notas.</p>
+                <div className="flex h-full min-h-[260px] flex-col items-center justify-center text-center">
+                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-psy-paper text-psy-muted border border-psy-border">
+                    <Bot size={16} />
                   </div>
+                  <p className="mt-3 text-sm font-bold text-psy-ink">Resumen IA en espera</p>
+                  <p className="mt-1 text-xs text-psy-muted">Activa cuando haya transcript o notas.</p>
                 </div>
               )
             )}
@@ -305,40 +303,45 @@ export function PresentialSessionComposer({
             onFinalize={triggerFinalize}
           />
 
-          {/* Marcas clínicas */}
-          <div className="rounded-[1.5rem] border border-[#ddd4f4] bg-[linear-gradient(180deg,#faf7ff_0%,#ffffff_100%)] p-4 shadow-[0_8px_20px_rgba(13,34,50,0.03)]">
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#7857d5]">Marcas</p>
-              <span className="rounded-full bg-[#f1e8ff] px-2 py-0.5 text-[10px] font-medium text-[#7857d5]">{cuePoints.length}</span>
+          {/* Eventos de Sesión: Combinamos Marcas y Notas en un contenedor limpio */}
+          <div className="flex-1 rounded-2xl border border-psy-border bg-white p-3 shadow-sm flex flex-col gap-4">
+            
+            {/* Marcas clínicas */}
+            <div>
+              <div className="flex items-center justify-between gap-2 px-1">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-psy-ink">Marcas Clínicas</p>
+                <span className="rounded-full bg-psy-paper px-1.5 py-0.5 text-[9px] font-bold border border-psy-border">{cuePoints.length}</span>
+              </div>
+              <div className="mt-2 grid gap-1.5">
+                {cuePoints.length > 0 ? cuePoints.map((cue) => (
+                  <div key={cue.id} className="rounded-lg border border-psy-border bg-psy-paper/30 px-3 py-2">
+                    <p className="text-[13px] font-medium text-psy-ink">{cue.label}</p>
+                    <p className="mt-0.5 font-mono text-[10px] text-psy-muted">{cue.timestampLabel}</p>
+                  </div>
+                )) : (
+                  <p className="rounded-lg border border-dashed border-psy-border bg-psy-paper/20 px-3 py-2 text-[12px] text-psy-muted">Sin marcas clínicas.</p>
+                )}
+              </div>
             </div>
-            <div className="mt-2.5 grid gap-1.5">
-              {cuePoints.length > 0 ? cuePoints.map((cue) => (
-                <div key={cue.id} className="rounded-[0.85rem] border border-[#e6dcff] bg-white px-3 py-2.5">
-                  <p className="text-sm font-medium text-psy-ink">{cue.label}</p>
-                  <p className="mt-0.5 text-[11px] text-psy-muted">{cue.timestampLabel}</p>
-                </div>
-              )) : (
-                <p className="rounded-[0.85rem] border border-dashed border-[#e6dcff] bg-white/90 px-3 py-2.5 text-sm text-psy-muted">Sin marcas clínicas.</p>
-              )}
-            </div>
-          </div>
 
-          {/* Notas rápidas */}
-          <div className="rounded-[1.5rem] border border-[#e6ddcf] bg-[linear-gradient(180deg,#fff9f1_0%,#ffffff_100%)] p-4 shadow-[0_8px_20px_rgba(13,34,50,0.03)]">
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#bf7b32]">Notas rápidas</p>
-              <span className="rounded-full bg-[#fff1de] px-2 py-0.5 text-[10px] font-medium text-[#bf7b32]">{notes.length}</span>
+            {/* Notas rápidas */}
+            <div>
+              <div className="flex items-center justify-between gap-2 px-1">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-psy-ink">Notas Rápidas</p>
+                <span className="rounded-full bg-psy-paper px-1.5 py-0.5 text-[9px] font-bold border border-psy-border">{notes.length}</span>
+              </div>
+              <div className="mt-2 grid gap-1.5">
+                {notes.length > 0 ? notes.map((note) => (
+                  <div key={note.id} className="rounded-lg border border-psy-border bg-psy-amber-light/20 px-3 py-2">
+                    <p className="text-[13px] leading-5 text-psy-ink">{note.content}</p>
+                    <p className="mt-1 font-mono text-[10px] text-psy-muted">{note.timestampLabel}</p>
+                  </div>
+                )) : (
+                  <p className="rounded-lg border border-dashed border-psy-border bg-psy-paper/20 px-3 py-2 text-[12px] text-psy-muted">Sin notas registradas.</p>
+                )}
+              </div>
             </div>
-            <div className="mt-2.5 grid gap-1.5">
-              {notes.length > 0 ? notes.map((note) => (
-                <div key={note.id} className="rounded-[0.85rem] border border-[#f0e3d2] bg-white px-3 py-2.5">
-                  <p className="text-sm leading-6 text-psy-ink">{note.content}</p>
-                  <p className="mt-0.5 text-[11px] text-psy-muted">{note.timestampLabel}</p>
-                </div>
-              )) : (
-                <p className="rounded-[0.85rem] border border-dashed border-[#f0e3d2] bg-white/90 px-3 py-2.5 text-sm text-psy-muted">Sin notas registradas.</p>
-              )}
-            </div>
+
           </div>
         </div>
       </div>

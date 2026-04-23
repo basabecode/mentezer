@@ -554,21 +554,25 @@ export default function DemoPage() {
     <main className="min-h-screen bg-[var(--psy-cream)]">
       {/* Nav */}
       <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
-        <nav className="flex items-center justify-between rounded-[1.6rem] border border-[rgba(13,34,50,0.08)] bg-[rgba(243,251,253,0.90)] px-4 py-3 shadow-[0_14px_40px_rgba(13,34,50,0.08)] backdrop-blur-md md:px-5">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--psy-blue)] text-white shadow-[0_6px_16px_rgba(21,134,160,0.28)]">
+        <nav className="calm-panel flex items-center justify-between px-4 py-3 md:px-5">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--psy-blue-light)] text-[var(--psy-blue)] shadow-sm">
               <IconBrain />
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-[var(--psy-ink)] tracking-tight">MENTEZER</span>
-              <Breadcrumbs />
+              <p className="font-sans text-lg font-semibold tracking-tight text-[var(--psy-ink)] leading-none">
+                MENTEZER
+              </p>
+              <div className="mt-1">
+                <Breadcrumbs />
+              </div>
             </div>
           </Link>
           <div className="flex items-center gap-2">
-            <Link href="/" className="hidden px-4 py-2 text-sm text-[var(--psy-muted)] hover:text-[var(--psy-ink)] sm:inline-flex">
+            <Link href="/" className="hidden px-4 py-2 text-sm text-[var(--psy-muted)] transition hover:text-[var(--psy-ink)] sm:inline-flex">
               Volver al inicio
             </Link>
-            <Link href="/register" className="inline-flex items-center gap-1.5 rounded-full bg-[var(--psy-ink)] px-4 py-2 text-sm font-medium text-white transition hover:bg-[rgba(13,34,50,0.88)]">
+            <Link href="/register" className="inline-flex items-center gap-1.5 rounded-full bg-[var(--psy-ink)] px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[rgba(13,34,50,0.88)]">
               Probar gratis <IconArrow />
             </Link>
           </div>
@@ -641,28 +645,25 @@ export default function DemoPage() {
                     </p>
                     <p className="text-xs font-medium text-[var(--psy-muted)]">{steps[step - 1]?.title}</p>
                   </div>
-                  {/* Progress bar */}
-                  <div className="flex gap-1.5">
+                  {/* Progress bar and Step labels aligned */}
+                  <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                     {steps.map((s) => (
-                      <button key={s.id} onClick={() => goTo(s.id)}
-                        className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                          s.id < step ? "bg-[var(--psy-green)]"
-                          : s.id === step ? "bg-[var(--psy-blue)]"
-                          : "bg-[rgba(13,34,50,0.10)]"
-                        }`} />
-                    ))}
-                  </div>
-                  {/* Step labels — scroll horizontally on mobile */}
-                  <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
-                    {steps.map((s) => (
-                      <button key={s.id} onClick={() => goTo(s.id)}
-                        className={`shrink-0 rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition ${
-                          s.id === step ? "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]"
-                          : s.id < step ? "text-[var(--psy-green)]"
-                          : "text-[var(--psy-muted)] hover:text-[var(--psy-ink)]"
-                        }`}>
-                        {s.label}
-                      </button>
+                      <div key={s.id} className="flex flex-1 flex-col gap-3 min-w-[85px]">
+                        <button onClick={() => goTo(s.id)}
+                          className={`h-1.5 w-full rounded-full transition-all duration-300 ${
+                            s.id < step ? "bg-[var(--psy-green)]"
+                            : s.id === step ? "bg-[var(--psy-blue)]"
+                            : "bg-[rgba(13,34,50,0.10)]"
+                          }`} />
+                        <button onClick={() => goTo(s.id)}
+                          className={`self-start rounded-full px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition ${
+                            s.id === step ? "bg-[var(--psy-blue-light)] text-[var(--psy-blue)]"
+                            : s.id < step ? "text-[var(--psy-green)]"
+                            : "text-[var(--psy-muted)] hover:text-[var(--psy-ink)]"
+                          }`}>
+                          {s.label}
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>

@@ -43,13 +43,7 @@ export default async function AdminLayout({
   if (!admin?.is_platform_admin) redirect("/dashboard");
 
   return (
-    <div
-      className="flex min-h-screen"
-      style={{
-        background:
-          "radial-gradient(circle at top, rgba(21,134,160,0.14), transparent 28%), linear-gradient(180deg, #C8E6F2 0%, #BEE0EC 100%)",
-      }}
-    >
+    <div className="flex min-h-screen bg-[#F7F9F9]">
       <aside className="hidden w-72 shrink-0 flex-col border-r border-psy-ink/10 bg-psy-ink/95 text-psy-paper lg:flex">
         <div className="border-b border-white/10 px-5 py-5">
           <div className="flex items-center gap-3">
@@ -100,8 +94,8 @@ export default async function AdminLayout({
         </div>
       </aside>
 
-      <main className="min-w-0 flex-1 overflow-y-auto bg-psy-cream/60">
-        <div className="sticky top-0 z-40 border-b border-psy-ink/10 bg-psy-paper/85 px-4 py-3 backdrop-blur-md lg:hidden">
+      <main className="min-w-0 flex-1 overflow-y-auto">
+        <div className="sticky top-0 z-40 border-b border-psy-border bg-white/85 px-4 py-3 backdrop-blur-md lg:hidden">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue text-white">

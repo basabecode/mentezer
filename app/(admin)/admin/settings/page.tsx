@@ -31,10 +31,10 @@ export default async function AdminSettingsPage() {
             </p>
           }
           aside={
-            <div className="rounded-[1.8rem] border border-psy-ink/10 bg-psy-ink p-5 text-white shadow-xl shadow-psy-ink/18">
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">Estado</p>
+            <div className="rounded-[1.8rem] border border-psy-ink/10 bg-psy-ink p-5 text-psy-paper shadow-xl shadow-psy-ink/18">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-psy-paper opacity-45">Estado</p>
               <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight">Panel base listo</h2>
-              <p className="mt-3 text-sm leading-7 text-white/72">
+              <p className="mt-3 text-sm leading-7 text-psy-paper opacity-70">
                 La estructura visual ya permite crecer hacia auditoria, integraciones y politicas de seguridad sin romper consistencia.
               </p>
             </div>
