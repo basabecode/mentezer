@@ -31,6 +31,11 @@ Patient
   patient_portal_token
   created_at
 
+PatientNote
+  id, patient_id, psychologist_id
+  content TEXT
+  created_at
+
 IntakeForm
   id, patient_id, psychologist_id
   token VARCHAR UNIQUE

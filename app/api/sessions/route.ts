@@ -34,6 +34,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Paciente no encontrado" }, { status: 404 });
     }
 
+    if (!patient.consent_signed_at) {
+      return NextResponse.json(
+        { error: "El paciente no ha firmado el consentimiento informado" },
+        { status: 403 },
+      );
+    }
+
     const { data: session, error } = await supabase
       .from("sessions")
       .insert({

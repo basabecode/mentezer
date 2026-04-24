@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { toPatientSlug } from "@/lib/patients/slug";
 import { z } from "zod";
 
 const PatientSchema = z.object({
@@ -65,7 +66,7 @@ export async function createPatient(
   });
 
   revalidatePath("/patients");
-  redirect(`/patients/${data.id}`);
+  redirect(`/patients/${toPatientSlug(parsed.data.name, data.id)}`);
 }
 
 export async function signConsent(patientId: string) {
@@ -133,4 +134,76 @@ export async function deletePatient(patientId: string) {
 
   revalidatePath("/patients");
   redirect("/patients");
+}
+
+// ── Notas de paciente ────────────────────────────────────────────────────────
+
+export async function addPatientNote(patientId: string, content: string) {
+  if (!content || content.trim().length < 2) return { error: "La nota es muy corta." }
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: "No autenticado" }
+
+  const { data: patient } = await supabase
+    .from("patients")
+    .select("id")
+    .eq("id", patientId)
+    .eq("psychologist_id", user.id)
+    .single()
+
+  if (!patient) return { error: "Paciente no encontrado." }
+
+  const { data: note, error } = await supabase
+    .from("patient_notes")
+    .insert({
+      patient_id: patientId,
+      psychologist_id: user.id,
+      content: content.trim(),
+    })
+    .select("id, content, created_at")
+    .single()
+
+  if (error) return { error: "Error al guardar la nota." }
+
+  await supabase.from("audit_logs").insert({
+    psychologist_id: user.id,
+    action: "patient.note_created",
+    resource_type: "patient_note",
+    resource_id: note.id,
+    metadata: { patient_id: patientId },
+  })
+
+  revalidatePath(`/patients`)
+  revalidatePath(`/patients/${patientId}`)
+  return { success: true, note }
+}
+
+export async function deletePatientNote(noteId: string, patientId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: "No autenticado" }
+
+  const { data: deletedNote, error } = await supabase
+    .from("patient_notes")
+    .delete()
+    .eq("id", noteId)
+    .eq("patient_id", patientId)
+    .eq("psychologist_id", user.id)
+    .select("id")
+    .single()
+
+  if (error || !deletedNote) return { error: "Error al eliminar la nota." }
+
+  await supabase.from("audit_logs").insert({
+    psychologist_id: user.id,
+    action: "patient.note_deleted",
+    resource_type: "patient_note",
+    resource_id: noteId,
+    metadata: { patient_id: patientId },
+  })
+
+  revalidatePath(`/patients`)
+  revalidatePath(`/patients/${patientId}`)
+  return { success: true }
 }

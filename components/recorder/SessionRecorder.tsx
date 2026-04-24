@@ -13,6 +13,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import type { RecordingSettings } from "@/components/recorder/RecordingSettingsPanel";
 
 export type RecorderState =
   | "idle"
@@ -33,6 +34,8 @@ interface SessionRecorderProps {
   onStateChange?: (state: RecorderState) => void;
   onDurationChange?: (duration: number) => void;
   externalFinalizeSignal?: number;
+  captureSource?: "mic" | "screen";
+  settings?: RecordingSettings;
 }
 
 export function SessionRecorder({
@@ -44,12 +47,15 @@ export function SessionRecorder({
   onStateChange,
   onDurationChange,
   externalFinalizeSignal = 0,
+  captureSource = "mic",
+  settings,
 }: SessionRecorderProps) {
   const router = useRouter();
   const [state, setState] = useState<RecorderState>("idle");
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [audioLevel, setAudioLevel] = useState(0);
+  const [levelLabel, setLevelLabel] = useState<"silencio" | "bajo" | "óptimo" | "alto" | "saturado">("silencio");
   const [manualNote, setManualNote] = useState("");
   const [manualSaving, setManualSaving] = useState(false);
   const [discarding, setDiscarding] = useState(false);
@@ -59,38 +65,106 @@ export function SessionRecorder({
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
   const animFrameRef = useRef<number | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const externalFinalizeRef = useRef(0);
+  const durationRef = useRef(0);
+  const startedAtRef = useRef<number | null>(null);
+  const elapsedBeforePauseRef = useRef(0);
+
+  const effectiveSettings: RecordingSettings = settings ?? {
+    audioQuality: "high",
+    format: "webm",
+    noiseCancellation: true,
+    echoCancellation: true,
+    autoGainControl: true,
+    diarization: true,
+    language: "es",
+    safetyTrack: true,
+    preRecordSeconds: 3,
+  };
 
   const formatDuration = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
   const updateAudioLevel = useCallback(() => {
     if (!analyserRef.current) return;
-    const data = new Uint8Array(analyserRef.current.frequencyBinCount);
-    analyserRef.current.getByteFrequencyData(data);
-    const avg = data.reduce((a, b) => a + b, 0) / data.length;
-    setAudioLevel(avg / 128);
+    const data = new Uint8Array(analyserRef.current.fftSize);
+    analyserRef.current.getByteTimeDomainData(data);
+    let sumSquares = 0;
+    let peak = 0;
+
+    for (const value of data) {
+      const normalized = (value - 128) / 128;
+      sumSquares += normalized * normalized;
+      peak = Math.max(peak, Math.abs(normalized));
+    }
+
+    const rms = Math.sqrt(sumSquares / data.length);
+    setAudioLevel(Math.min(1, rms * 4));
+    setLevelLabel(
+      peak > 0.92 ? "saturado"
+      : rms > 0.26 ? "alto"
+      : rms > 0.045 ? "óptimo"
+      : rms > 0.015 ? "bajo"
+      : "silencio",
+    );
     animFrameRef.current = requestAnimationFrame(updateAudioLevel);
   }, []);
+
+  const stopTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = null;
+  }, []);
+
+  const syncDurationFromClock = useCallback(() => {
+    if (startedAtRef.current === null) return elapsedBeforePauseRef.current;
+    const elapsed = elapsedBeforePauseRef.current + Math.floor((performance.now() - startedAtRef.current) / 1000);
+    durationRef.current = elapsed;
+    setDuration(elapsed);
+    return elapsed;
+  }, []);
+
+  const startTimer = useCallback(() => {
+    stopTimer();
+    startedAtRef.current = performance.now();
+    timerRef.current = setInterval(() => {
+      syncDurationFromClock();
+    }, 250);
+  }, [stopTimer, syncDurationFromClock]);
 
   const clearRuntime = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     streamRef.current?.getTracks().forEach((track) => track.stop());
+    if (audioContextRef.current) {
+      void audioContextRef.current.close().catch(() => undefined);
+    }
     timerRef.current = null;
     animFrameRef.current = null;
     streamRef.current = null;
     analyserRef.current = null;
+    audioContextRef.current = null;
     mediaRecorderRef.current = null;
     chunksRef.current = [];
     setAudioLevel(0);
+    setLevelLabel("silencio");
+  }, []);
+
+  const getSupportedMimeType = useCallback((preferredFormat: RecordingSettings["format"]) => {
+    if (typeof MediaRecorder === "undefined") return null;
+
+    const candidates =
+      preferredFormat === "wav"
+        ? ["audio/wav", "audio/webm;codecs=opus", "audio/webm", "audio/ogg;codecs=opus", "audio/ogg"]
+        : ["audio/webm;codecs=opus", "audio/webm", "audio/ogg;codecs=opus", "audio/ogg"];
+
+    return candidates.find((candidate) => MediaRecorder.isTypeSupported(candidate)) ?? null;
   }, []);
 
   const deleteDraftSession = useCallback(async (sessionId: string) => {
@@ -102,68 +176,103 @@ export function SessionRecorder({
   }, []);
 
   const startRecording = useCallback(async () => {
-    // TEMPORAL: Bypass de verificaciones para pruebas
-    // if (!preflightReady) {
-    //   setError("Completa primero la prueba rapida de microfono.");
-    //   return;
-    // }
+    if (!hasConsent) {
+      setError("El paciente debe tener consentimiento informado firmado antes de grabar audio.");
+      return;
+    }
 
-    // if (recordingPermission !== "accepted") {
-    //   setError("Marca primero si el paciente autoriza o no la grabacion de esta sesion.");
-    //   return;
-    // }
+    if (recordingPermission !== "accepted") {
+      setError("Marca primero que el paciente autoriza la grabación de esta sesión.");
+      return;
+    }
 
-    // if (!hasConsent) {
-    //   setError("El paciente debe tener consentimiento informado firmado antes de grabar audio.");
-    //   return;
-    // }
+    if (captureSource === "mic" && !preflightReady) {
+      setError("Completa primero la prueba rápida de micrófono.");
+      return;
+    }
 
-    setState("creating");
-    setDuration(0);
-    setAudioLevel(0);
-    setError(null);
-
-    try {
-      const res = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ patientId, mode: "presential" }),
-      });
-      if (!res.ok) throw new Error("No se pudo crear la sesion");
-      const { sessionId } = await res.json();
-      sessionIdRef.current = sessionId;
-    } catch {
-      setError("Error al iniciar la sesion. Intenta de nuevo.");
+    if (typeof navigator === "undefined" || !navigator.mediaDevices) {
+      setError("Este navegador no permite acceso al micrófono.");
       setState("error");
       return;
     }
 
+    if (typeof MediaRecorder === "undefined") {
+      setError("Este navegador no soporta grabación con MediaRecorder.");
+      setState("error");
+      return;
+    }
+
+    const mimeType = getSupportedMimeType(effectiveSettings.format);
+    if (!mimeType) {
+      setError("No hay un formato de audio soportado por este navegador.");
+      setState("error");
+      return;
+    }
+
+    setState("creating");
+    setDuration(0);
+    durationRef.current = 0;
+    elapsedBeforePauseRef.current = 0;
+    startedAtRef.current = null;
+    setAudioLevel(0);
+    setLevelLabel("silencio");
+    setError(null);
+
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-          channelCount: 1,
-          sampleRate: 16000,
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
-      });
+      let stream: MediaStream;
+
+      if (captureSource === "screen") {
+        if (!navigator.mediaDevices?.getDisplayMedia) {
+          throw new Error("Este navegador no soporta captura de pantalla. Usa Chrome o Edge.");
+        }
+        const displayStream = await navigator.mediaDevices.getDisplayMedia({
+          audio: {
+            channelCount: 1,
+            sampleRate: 16000,
+            echoCancellation: false,
+            noiseSuppression: false,
+          },
+          video: { width: 1, height: 1 },
+        });
+        const audioTracks = displayStream.getAudioTracks();
+        // Detener video inmediatamente; el grabador solo conserva la pista de audio compartida.
+        displayStream.getVideoTracks().forEach((track) => track.stop());
+        if (audioTracks.length === 0) {
+          throw new Error("No se detectó audio en la pestaña seleccionada.");
+        }
+        stream = new MediaStream(audioTracks);
+      } else {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
+            channelCount: 1,
+            sampleRate: effectiveSettings.audioQuality === "high" ? 48000 : 16000,
+            echoCancellation: effectiveSettings.echoCancellation,
+            noiseSuppression: effectiveSettings.noiseCancellation,
+            autoGainControl: effectiveSettings.autoGainControl,
+          },
+        });
+      }
 
       streamRef.current = stream;
 
       const audioCtx = new AudioContext();
+      audioContextRef.current = audioCtx;
       const source = audioCtx.createMediaStreamSource(stream);
       const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
+      analyser.fftSize = 512;
       source.connect(analyser);
       analyserRef.current = analyser;
 
-      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-        ? "audio/webm;codecs=opus"
-        : MediaRecorder.isTypeSupported("audio/webm")
-          ? "audio/webm"
-          : "audio/ogg";
+      const res = await fetch("/api/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ patientId, mode: captureSource === "screen" ? "virtual" : "presential" }),
+      });
+      const payload = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(payload?.error ?? "No se pudo crear la sesión");
+      sessionIdRef.current = payload.sessionId;
 
       const recorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = recorder;
@@ -173,12 +282,17 @@ export function SessionRecorder({
         if (event.data.size > 0) chunksRef.current.push(event.data);
       };
 
+      recorder.onerror = () => {
+        setError("La grabación se interrumpió por un error del navegador.");
+        setState("error");
+      };
+
       recorder.start(1000);
       setState("recording");
 
-      timerRef.current = setInterval(() => setDuration((value) => value + 1), 1000);
+      startTimer();
       animFrameRef.current = requestAnimationFrame(updateAudioLevel);
-    } catch {
+    } catch (err) {
       const orphanSessionId = sessionIdRef.current;
       clearRuntime();
       sessionIdRef.current = null;
@@ -189,32 +303,55 @@ export function SessionRecorder({
           // No bloqueamos al usuario si falla la limpieza del borrador.
         }
       }
-      setError("No se pudo acceder al microfono. Verifica los permisos del navegador.");
+      setError(err instanceof Error ? err.message : "No se pudo acceder al micrófono. Verifica los permisos del navegador.");
       setState("error");
     }
-  }, [clearRuntime, deleteDraftSession, hasConsent, patientId, preflightReady, recordingPermission, selectedDeviceId, updateAudioLevel]);
+  }, [
+    captureSource,
+    clearRuntime,
+    deleteDraftSession,
+    effectiveSettings.audioQuality,
+    effectiveSettings.autoGainControl,
+    effectiveSettings.echoCancellation,
+    effectiveSettings.format,
+    effectiveSettings.noiseCancellation,
+    getSupportedMimeType,
+    hasConsent,
+    patientId,
+    preflightReady,
+    recordingPermission,
+    selectedDeviceId,
+    startTimer,
+    updateAudioLevel,
+  ]);
 
   const pauseRecording = useCallback(() => {
-    mediaRecorderRef.current?.pause();
+    if (mediaRecorderRef.current?.state !== "recording") return;
+    mediaRecorderRef.current.pause();
+    elapsedBeforePauseRef.current = syncDurationFromClock();
+    startedAtRef.current = null;
     setState("paused");
-    if (timerRef.current) clearInterval(timerRef.current);
+    stopTimer();
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     setAudioLevel(0);
-  }, []);
+    setLevelLabel("silencio");
+  }, [stopTimer, syncDurationFromClock]);
 
   const resumeRecording = useCallback(() => {
-    mediaRecorderRef.current?.resume();
+    if (mediaRecorderRef.current?.state !== "paused") return;
+    mediaRecorderRef.current.resume();
     setState("recording");
-    timerRef.current = setInterval(() => setDuration((value) => value + 1), 1000);
+    startTimer();
     animFrameRef.current = requestAnimationFrame(updateAudioLevel);
-  }, [updateAudioLevel]);
+  }, [startTimer, updateAudioLevel]);
 
   const stopAndUpload = useCallback(async () => {
     const recorder = mediaRecorderRef.current;
     const sessionId = sessionIdRef.current;
     if (!recorder || !sessionId) return;
 
-    if (timerRef.current) clearInterval(timerRef.current);
+    syncDurationFromClock();
+    stopTimer();
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
 
     await new Promise<void>((resolve) => {
@@ -229,9 +366,23 @@ export function SessionRecorder({
 
     try {
       const blob = new Blob(chunks, { type: mimeType });
+      if (blob.size === 0) throw new Error("No se capturó audio utilizable.");
+      const extension = mimeType.includes("ogg") ? "ogg" : mimeType.includes("wav") ? "wav" : "webm";
       const formData = new FormData();
-      formData.append("audio", blob, `session-${sessionId}.webm`);
+      formData.append("audio", blob, `session-${sessionId}.${extension}`);
       formData.append("sessionId", sessionId);
+      formData.append("metadata", JSON.stringify({
+        durationSeconds: durationRef.current,
+        mimeType,
+        fileSizeBytes: blob.size,
+        audioQuality: effectiveSettings.audioQuality,
+        requestedFormat: effectiveSettings.format,
+        noiseSuppression: effectiveSettings.noiseCancellation,
+        echoCancellation: effectiveSettings.echoCancellation,
+        autoGainControl: effectiveSettings.autoGainControl,
+        safetyTrack: effectiveSettings.safetyTrack,
+        preRecordSeconds: effectiveSettings.preRecordSeconds,
+      }));
 
       const res = await fetch("/api/sessions/transcribe", {
         method: "POST",
@@ -246,10 +397,25 @@ export function SessionRecorder({
       setError(err instanceof Error ? err.message : "Error al subir el audio");
       setState("error");
     }
-  }, [clearRuntime, router]);
+  }, [
+    clearRuntime,
+    effectiveSettings.audioQuality,
+    effectiveSettings.autoGainControl,
+    effectiveSettings.echoCancellation,
+    effectiveSettings.format,
+    effectiveSettings.noiseCancellation,
+    effectiveSettings.preRecordSeconds,
+    effectiveSettings.safetyTrack,
+    router,
+    stopTimer,
+    syncDurationFromClock,
+  ]);
 
   const discardRecording = useCallback(async () => {
     const draftSessionId = sessionIdRef.current;
+    if ((state === "recording" || state === "paused") && !window.confirm("¿Descartar esta grabación en curso?")) {
+      return;
+    }
     setDiscarding(true);
     setError(null);
 
@@ -270,6 +436,9 @@ export function SessionRecorder({
 
       sessionIdRef.current = null;
       setDuration(0);
+      durationRef.current = 0;
+      elapsedBeforePauseRef.current = 0;
+      startedAtRef.current = null;
       setState("idle");
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo borrar la grabacion borrador");
@@ -277,7 +446,7 @@ export function SessionRecorder({
     } finally {
       setDiscarding(false);
     }
-  }, [clearRuntime, deleteDraftSession]);
+  }, [clearRuntime, deleteDraftSession, state]);
 
   const saveWrittenDocumentation = useCallback(async () => {
     if (manualNote.trim().length < 30) {
@@ -324,6 +493,7 @@ export function SessionRecorder({
 
   useEffect(() => {
     onDurationChange?.(duration);
+    durationRef.current = duration;
   }, [duration, onDurationChange]);
 
   useEffect(() => {
@@ -340,8 +510,8 @@ export function SessionRecorder({
   }, [externalFinalizeSignal, state, stopAndUpload]);
 
   const isActive = state === "recording" || state === "paused";
-  const canRecord = true; // TEMPORAL: hasConsent && recordingPermission === "accepted";
-  const isWrittenMode = false; // TEMPORAL: recordingPermission === "declined";
+  const canRecord = hasConsent && recordingPermission === "accepted" && (captureSource === "screen" || preflightReady);
+  const isWrittenMode = recordingPermission === "declined";
   const controlsDisabled = ["creating", "uploading", "done"].includes(state) || discarding;
   const hasDraftRecording = !!sessionIdRef.current || chunksRef.current.length > 0 || duration > 0;
   const statusCopy =
@@ -367,15 +537,19 @@ export function SessionRecorder({
   const serviceItems = [
     {
       label: "Entrada",
-      value: selectedDeviceId ? "Seleccionada" : "Por defecto",
+      value: captureSource === "screen" ? "Pantalla" : selectedDeviceId ? "Seleccionada" : "Por defecto",
     },
     {
       label: "Preflight",
-      value: preflightReady ? "Validado" : "Pendiente",
+      value: captureSource === "screen" ? "N/A" : preflightReady ? "Validado" : "Pendiente",
     },
     {
       label: "Captura",
-      value: canRecord && preflightReady ? "Lista" : "Bloqueada",
+      value: captureSource === "screen" ? "Display" : canRecord && preflightReady ? "Lista" : "Bloqueada",
+    },
+    {
+      label: "Formato",
+      value: effectiveSettings.format === "wav" ? "WAV si soporta" : "WEBM Opus",
     },
   ];
 
@@ -467,7 +641,7 @@ export function SessionRecorder({
                 <div className="mt-3 flex items-center justify-between">
                   <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/32">Nivel</span>
                   <span className="text-[11px] text-white/62">
-                    {state === "recording" ? "Activo" : state === "paused" ? "En pausa" : "Standby"}
+                    {state === "recording" ? levelLabel : state === "paused" ? "En pausa" : "Standby"}
                   </span>
                 </div>
               </div>
@@ -477,7 +651,7 @@ export function SessionRecorder({
               <button
                 type="button"
                 onClick={startRecording}
-                disabled={controlsDisabled || isActive || !canRecord} // TEMPORAL: Removido !preflightReady
+                disabled={controlsDisabled || isActive || !canRecord}
                 className={cn(
                   "inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[1rem] border px-4 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-45",
                   "border-[#7a3532] bg-[linear-gradient(180deg,rgba(116,46,44,0.94),rgba(88,34,32,0.96))] text-[#ffe0db] hover:bg-[linear-gradient(180deg,rgba(129,52,49,0.98),rgba(95,37,35,1))]",
@@ -573,6 +747,18 @@ export function SessionRecorder({
       {!recordingPermission && (
         <p className="rounded-[0.95rem] border border-psy-border bg-[#fbfcfc] px-3 py-2 text-[11px] text-psy-muted">
           Define el consentimiento en la columna izquierda para habilitar el flujo correcto.
+        </p>
+      )}
+
+      {recordingPermission === "accepted" && !hasConsent && (
+        <p className="rounded-[0.95rem] border border-psy-amber/20 bg-psy-amber-light px-3 py-2 text-[11px] text-psy-amber">
+          El paciente todavía no tiene consentimiento informado firmado. No se puede grabar audio.
+        </p>
+      )}
+
+      {recordingPermission === "accepted" && hasConsent && captureSource === "mic" && !preflightReady && (
+        <p className="rounded-[0.95rem] border border-psy-amber/20 bg-psy-amber-light px-3 py-2 text-[11px] text-psy-amber">
+          Completa el test de micrófono antes de iniciar la grabación.
         </p>
       )}
 

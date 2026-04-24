@@ -130,7 +130,7 @@ export default async function SettingsPage() {
               </div>
             </PortalSection>
 
-            <PortalSection eyebrow="Cuenta" title="Ajustes pendientes">
+            <PortalSection eyebrow="Próximamente" title="Ajustes de cuenta">
               <div className="grid gap-3">
                 <div className="rounded-[1.5rem] border border-psy-border bg-white p-4">
                   <div className="flex items-start gap-3">

@@ -103,7 +103,8 @@ export default async function AdminClientsPage() {
                 <Link
                   key={client.id}
                   href={`/admin/clients/${client.id}`}
-                  className="hover-panel flex flex-col gap-4 rounded-[1.6rem] border border-psy-border bg-white p-5"
+                  className="hover-panel flex flex-col gap-4 rounded-2xl border bg-white p-5"
+                  style={{ borderColor: 'var(--psy-warm-border)' }}
                 >
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex min-w-0 items-center gap-3">
@@ -177,35 +178,35 @@ export default async function AdminClientsPage() {
           </div>
         </PortalSection>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {[
             {
               title: 'Estado comercial',
-              copy: 'La mezcla de plan, status y trial queda visible en una sola linea de lectura.',
+              copy: 'La mezcla de plan, estado y trial queda visible en una sola línea de lectura.',
               icon: Clock,
               accent: 'bg-psy-amber-light text-psy-amber',
             },
             {
               title: 'Integraciones',
-              copy: 'Ahora se distingue mejor quien ya conecta servicios externos y quien sigue sin configurar.',
+              copy: 'Se distingue mejor quién ya conecta servicios externos y quién sigue sin configurar.',
               icon: PlugZap,
               accent: 'bg-psy-blue-light text-psy-blue',
             },
             {
-              title: 'Operacion admin',
-              copy: 'La tabla anterior se reemplaza por una superficie mas util para escanear y actuar rapido.',
+              title: 'Operación admin',
+              copy: 'Una superficie más útil para escanear y actuar rápido sobre la cartera de clientes.',
               icon: Users,
               accent: 'bg-psy-green-light text-psy-green',
             },
           ].map(item => {
             const Icon = item.icon
             return (
-              <div key={item.title} className="card-deliverable rounded-[1.75rem] border border-psy-ink/8 bg-white p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)]">
-                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
+              <div key={item.title} className="rounded-2xl border bg-white p-5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5" style={{ borderColor: 'var(--psy-warm-border)' }}>
+                <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${item.accent}`}>
                   <Icon size={18} />
                 </div>
-                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-psy-muted">{item.copy}</p>
+                <h3 className="mt-4 font-serif text-xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-psy-muted">{item.copy}</p>
               </div>
             )
           })}

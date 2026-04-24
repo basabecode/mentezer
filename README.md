@@ -50,7 +50,7 @@ Pendientes relevantes del roadmap:
 - mayor cobertura de QA end-to-end
 - features v1.5 como portal del paciente y tests psicométricos
 
-Para detalle fino del roadmap: [ROADMAP.md](ROADMAP.md)
+Para detalle fino del roadmap: [docs/reference/ROADMAP.md](docs/reference/ROADMAP.md)
 
 ## Stack
 
@@ -228,9 +228,9 @@ Este repositorio toca flujos de datos clínicos. Por eso hay varias reglas no ne
 
 Documentos relacionados:
 
-- [COMPLIANCE.md](COMPLIANCE.md)
-- [DATA_MODEL.md](DATA_MODEL.md)
-- [CODING_STANDARDS.md](CODING_STANDARDS.md)
+- [docs/reference/COMPLIANCE.md](docs/reference/COMPLIANCE.md)
+- [docs/reference/DATA_MODEL.md](docs/reference/DATA_MODEL.md)
+- [docs/reference/CODING_STANDARDS.md](docs/reference/CODING_STANDARDS.md)
 
 ## Diseño del producto
 
@@ -243,7 +243,7 @@ El sistema usa una línea visual propia llamada `Spatial Clinical`, con énfasis
 
 Referencia:
 
-- [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- [docs/reference/DESIGN_SYSTEM.md](docs/reference/DESIGN_SYSTEM.md)
 
 ## IA y biblioteca clínica
 
@@ -259,17 +259,17 @@ Esto incluye:
 
 Referencia:
 
-- [KNOWLEDGE_SYSTEM.md](KNOWLEDGE_SYSTEM.md)
+- [docs/reference/KNOWLEDGE_SYSTEM.md](docs/reference/KNOWLEDGE_SYSTEM.md)
 
 ## Documentación clave del repositorio
 
-- [ROADMAP.md](ROADMAP.md) estado y próximos pasos
-- [STACK.md](STACK.md) stack técnico
-- [DATA_MODEL.md](DATA_MODEL.md) modelo de datos
-- [COMPLIANCE.md](COMPLIANCE.md) privacidad y regulación
-- [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) sistema de diseño
-- [FEATURES_COMPARISON.md](FEATURES_COMPARISON.md) módulos Lite vs Pro
-- [SUCCESS_METRICS.md](SUCCESS_METRICS.md) métricas objetivo
+- [docs/reference/ROADMAP.md](docs/reference/ROADMAP.md) estado y próximos pasos
+- [docs/reference/STACK.md](docs/reference/STACK.md) stack técnico
+- [docs/reference/DATA_MODEL.md](docs/reference/DATA_MODEL.md) modelo de datos
+- [docs/reference/COMPLIANCE.md](docs/reference/COMPLIANCE.md) privacidad y regulación
+- [docs/reference/DESIGN_SYSTEM.md](docs/reference/DESIGN_SYSTEM.md) sistema de diseño
+- [docs/reference/FEATURES_COMPARISON.md](docs/reference/FEATURES_COMPARISON.md) módulos Lite vs Pro
+- [docs/reference/SUCCESS_METRICS.md](docs/reference/SUCCESS_METRICS.md) métricas objetivo
 - [AGENTS.md](AGENTS.md) flujo de trabajo con agentes internos
 
 ## Deploy

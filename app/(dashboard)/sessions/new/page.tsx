@@ -1,10 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { AlertTriangle, Mic, Upload } from 'lucide-react'
-import { AudioUploader } from '@/components/recorder/AudioUploader'
 import { PresentialSessionComposer } from '@/components/recorder/PresentialSessionComposer'
 import { PortalPage } from '@/components/ui/portal-layout'
-import { SessionSidebar } from '@/components/recorder/SessionSidebar'
 
 function greeting() {
   const h = new Date().getHours()
@@ -49,34 +46,14 @@ export default async function NewSessionPage({
           </p>
         </div>
 
-        {/* Main layout — sidebar + content */}
-        <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:gap-4">
-          {/* ── Sidebar colapsable ── */}
-          <SessionSidebar
-            patients={patients}
-            selectedId={selected?.id ?? ''}
-            selectedName={selected?.name ?? ''}
-            hasConsent={hasConsent}
-            mode={mode}
-            recordingPermission={recordingPermission}
-          />
-
-          {/* ── Contenido principal ── */}
-          <div className="min-w-0 flex-1">
-            {mode === 'presential' ? (
-              <PresentialSessionComposer
-                patientId={selected!.id}
-                patientName={selected!.name}
-                hasConsent={hasConsent}
-                recordingPermission={recordingPermission}
-              />
-            ) : (
-              <div className="rounded-[2rem] border border-psy-border bg-white p-5 shadow-[0_12px_28px_rgba(13,34,50,0.04)]">
-                <AudioUploader patientId={selected!.id} hasConsent={hasConsent} />
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Contenido principal */}
+        <PresentialSessionComposer
+          patientId={selected!.id}
+          patientName={selected!.name}
+          hasConsent={hasConsent}
+          recordingPermission={recordingPermission}
+          mode={mode}
+        />
       </div>
     </PortalPage>
   )

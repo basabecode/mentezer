@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { transcribeAudio } from "@/lib/ai/whisper";
+import type { Json } from "@/types/supabase";
 
 export const maxDuration = 300; // 5 min timeout para audio largo
 
@@ -15,6 +16,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const audioFile = formData.get("audio") as File | null;
     const sessionId = formData.get("sessionId") as string | null;
+    const metadataRaw = formData.get("metadata");
 
     if (!audioFile || !sessionId) {
       return NextResponse.json({ error: "Audio y sessionId son requeridos" }, { status: 400 });
@@ -55,6 +57,14 @@ export async function POST(request: NextRequest) {
 
     // Transcribir
     const segments = await transcribeAudio(audioFile, sessionId, user.id);
+    let metadata: Record<string, unknown> = {};
+    if (typeof metadataRaw === "string") {
+      try {
+        metadata = JSON.parse(metadataRaw) as Record<string, unknown>;
+      } catch {
+        metadata = {};
+      }
+    }
 
     // Audit log
     await supabase.from("audit_logs").insert({
@@ -65,7 +75,8 @@ export async function POST(request: NextRequest) {
       metadata: {
         segment_count: segments.length,
         audio_size_bytes: audioFile.size,
-      },
+        recording: metadata,
+      } as Json,
     });
 
     return NextResponse.json({ success: true, segmentCount: segments.length });

@@ -58,8 +58,8 @@ export function AudioPreflightPanel({
     !!navigator.mediaDevices.getUserMedia &&
     typeof MediaRecorder !== "undefined";
 
-  const aiValidated = transcript.trim().length >= 3;
-  const preflightReady = permissionState === "granted" && !!sampleBlob && aiValidated;
+  const audioCaptured = !!sampleBlob && sampleBlob.size > 0;
+  const preflightReady = permissionState === "granted" && audioCaptured;
 
   const deviceType = useMemo(() => {
     if (typeof window === "undefined") return "pc";
@@ -211,6 +211,12 @@ export function AudioPreflightPanel({
   }, [beginLevelMonitor, cleanupPreview, micSupported, refreshDevices, selectedDeviceId]);
 
   const validateSample = useCallback(async (blob: Blob) => {
+    if (blob.size === 0) {
+      setError("No se capturó audio utilizable en la prueba.");
+      onValidatedChange(false);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("audio", blob, "preflight-sample.webm");
 
@@ -225,8 +231,9 @@ export function AudioPreflightPanel({
 
       setTranscript(data.transcript ?? "Audio capturado correctamente.");
       onValidatedChange(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error en validacion IA.");
+    } catch {
+      setTranscript("Audio capturado correctamente. La transcripción de prueba no está disponible en este momento.");
+      onValidatedChange(true);
     }
   }, [onValidatedChange]);
 
@@ -375,7 +382,13 @@ export function AudioPreflightPanel({
           <div className="relative">
             <select
               value={selectedDeviceId ?? ""}
-              onChange={(e) => onDeviceChange(e.target.value || null)}
+              onChange={(e) => {
+                onDeviceChange(e.target.value || null);
+                setSampleBlob(null);
+                setTranscript("");
+                setError(null);
+                onValidatedChange(false);
+              }}
               className="w-full appearance-none rounded-xl border border-psy-border bg-psy-paper px-4 py-3 text-sm text-psy-ink outline-none transition-all focus:border-psy-blue/30 focus:ring-4 focus:ring-psy-blue/5"
             >
               {devices.length === 0 && <option value="">Buscando microfonos...</option>}
@@ -477,7 +490,7 @@ export function AudioPreflightPanel({
             <div className="flex items-center gap-2">
               <Bot size={14} className={error ? "text-psy-red" : "text-psy-blue"} />
               <p className="text-[10px] font-bold uppercase tracking-widest text-psy-muted">
-                {error ? "Error de Redaccion" : "Validacion de Redaccion"}
+                {error ? "Error de audio" : "Validación de audio"}
               </p>
             </div>
             <p className={cn(

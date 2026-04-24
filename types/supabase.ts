@@ -637,6 +637,45 @@ export type Database = {
           },
         ]
       }
+      patient_notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          patient_id: string
+          psychologist_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          patient_id: string
+          psychologist_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          patient_id?: string
+          psychologist_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_notes_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_notes_psychologist_id_fkey"
+            columns: ["psychologist_id"]
+            isOneToOne: false
+            referencedRelation: "psychologists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount_usd: number

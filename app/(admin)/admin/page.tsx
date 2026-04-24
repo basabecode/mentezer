@@ -180,7 +180,7 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {[
             {
               title: 'Base de clientes',
@@ -189,26 +189,26 @@ export default async function AdminDashboardPage() {
               accent: 'bg-psy-blue-light text-psy-blue',
             },
             {
-              title: 'Conversion',
-              copy: 'Las cuentas cercanas a vencer deben quedar visibles para accionar antes de perder conversion.',
+              title: 'Conversión',
+              copy: 'Las cuentas cercanas a vencer deben quedar visibles para accionar antes de perder conversión.',
               icon: ArrowRight,
               accent: 'bg-psy-amber-light text-psy-amber',
             },
             {
               title: 'Salud del sistema',
-              copy: 'Estado tecnico y accion operativa conviven, pero con jerarquia suficiente para no competir entre si.',
+              copy: 'Estado técnico y acción operativa conviven, pero con jerarquía suficiente para no competir entre sí.',
               icon: Activity,
               accent: 'bg-psy-green-light text-psy-green',
             },
           ].map(item => {
             const Icon = item.icon
             return (
-              <div key={item.title} className="rounded-[1.75rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
-                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
+              <div key={item.title} className="rounded-2xl border bg-white p-5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5" style={{ borderColor: 'var(--psy-warm-border)' }}>
+                <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${item.accent}`}>
                   <Icon size={18} />
                 </div>
-                <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-psy-muted">{item.copy}</p>
+                <h3 className="mt-4 font-serif text-xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-psy-muted">{item.copy}</p>
               </div>
             )
           })}

@@ -28,16 +28,10 @@ type ReportField = {
 }
 
 const quickFacts = [
-  { value: '14 dias', label: 'de prueba real, sin tarjeta' },
+  { value: '14 días', label: 'de prueba real, sin tarjeta' },
   { value: '5 min', label: 'para dejar lista la cuenta' },
-  { value: '< 2 min', label: 'para tener reporte post-sesion' },
-  { value: 'Privacidad', label: 'clinica con enfoque serio y trazable' },
-]
-
-const clarityPoints = [
-  'Analiza sesiones con tu biblioteca clinica',
-  'Te ayuda a cerrar mejor el dia',
-  'No reemplaza tu criterio profesional',
+  { value: '< 2 min', label: 'para tener reporte post-sesión' },
+  { value: '0 datos', label: 'vendidos a terceros. Nunca.' },
 ]
 
 const heroReportFields: ReportField[] = [
@@ -45,21 +39,21 @@ const heroReportFields: ReportField[] = [
     id: 'subjective',
     label: 'Subjetivo',
     content:
-      'Reporta cansancio sostenido, culpa al descansar y dificultad para desconectarse del trabajo al final del dia.',
+      'Reporta cansancio sostenido, culpa al descansar y dificultad para desconectarse del trabajo al final del día.',
     tone: 'neutral',
   },
   {
     id: 'analysis',
-    label: 'Analisis clinico',
+    label: 'Análisis clínico',
     content:
-      'La IA detecta autoexigencia como regulador de valor personal y recupera una cita clinica util para sostener la hipotesis exploratoria.',
+      'La IA detecta autoexigencia como regulador de valor personal y recupera una cita clínica útil para sostener la hipótesis exploratoria.',
     tone: 'info',
   },
   {
     id: 'next-session',
-    label: 'Proxima sesion',
+    label: 'Próxima sesión',
     content:
-      'Queda listo un siguiente paso claro: explorar descanso como perdida de valor y registrar pensamientos automaticos.',
+      'Queda listo un siguiente paso claro: explorar descanso como pérdida de valor y registrar pensamientos automáticos.',
     tone: 'success',
   },
 ]
@@ -68,108 +62,90 @@ const painPoints = [
   {
     id: '01',
     title: 'Las notas se quedan para la noche',
-    copy:
-      'Tu jornada termina tarde porque la sesion no termina cuando el paciente sale. Termina cuando logras reconstruirla.',
+    copy: 'Tu jornada termina tarde porque la sesión no termina cuando el paciente sale. Termina cuando logras reconstruirla.',
   },
   {
     id: '02',
-    title: 'Tu criterio clinico llega sin apoyo a tiempo',
-    copy:
-      'Los autores que usas si existen en tu practica, pero no estan a la mano justo cuando necesitas ordenar lo ocurrido.',
+    title: 'Tu criterio clínico llega sin apoyo a tiempo',
+    copy: 'Los autores que usas sí existen en tu práctica, pero no están a la mano justo cuando necesitas ordenar lo ocurrido.',
   },
   {
     id: '03',
     title: 'Agenda, cuaderno y WhatsApp ya piden relevo',
-    copy:
-      'Ese sistema aguanta al principio. Cuando crecen los pacientes, empieza a cobrarte en orden, energia y percepcion profesional.',
+    copy: 'Ese sistema aguanta al principio. Cuando crecen los pacientes, empieza a cobrarte en orden, energía y percepción profesional.',
   },
 ]
 
 const deliverables = [
   {
-    title: 'Sesion capturada',
+    title: 'Sesión capturada',
     kicker: 'Registro base',
-    copy:
-      'Grabas o subes audio y el caso queda listo para trabajarse sin reconstruir la sesion desde memoria parcial.',
-    technical: 'Audio cifrado · timeline clinico · paciente vinculado',
-    metric: 'Inicio del cierre inmediato',
+    copy: 'Grabas o subes audio y el caso queda listo para trabajarse sin reconstruir la sesión desde memoria parcial.',
+    metric: 'Cierre inmediato',
     icon: Mic,
     accent: 'bg-psy-blue-light text-psy-blue',
   },
   {
-    title: 'Soporte bibliografico',
-    kicker: 'Rigor clinico',
-    copy:
-      'El analisis trae citas de los libros que usas, con autor y pagina, dentro del mismo flujo de trabajo.',
-    technical: 'Autor y pagina · busqueda contextual · biblioteca activa',
-    metric: 'Cita util dentro del reporte',
+    title: 'Soporte bibliográfico',
+    kicker: 'Rigor clínico',
+    copy: 'El análisis trae citas de los libros que usas, con autor y página, dentro del mismo flujo de trabajo.',
+    metric: 'Cita útil en el reporte',
     icon: BookOpen,
     accent: 'bg-psy-amber-light text-psy-amber',
   },
   {
-    title: 'Decision clinica',
-    kicker: 'Accion siguiente',
-    copy:
-      'Resumen, patron central, hipotesis exploratoria y proximo paso quedan en una estructura que si sirve para actuar.',
-    technical: 'Hipotesis · riesgo · proxima sesion',
-    metric: 'Proximo paso definido',
+    title: 'Decisión clínica',
+    kicker: 'Acción siguiente',
+    copy: 'Resumen, patrón central, hipótesis exploratoria y próximo paso quedan en una estructura que sí sirve para actuar.',
+    metric: 'Próximo paso definido',
     icon: Sparkles,
     accent: 'bg-psy-green-light text-psy-green',
   },
   {
-    title: 'Privacidad clinica',
+    title: 'Privacidad clínica',
     kicker: 'Confianza institucional',
-    copy:
-      'Audio cifrado, trazabilidad y una estructura pensada para trabajar con informacion sensible de forma seria.',
-    technical: 'Cifrado · acceso controlado · trazabilidad',
-    metric: 'Seguridad visible para el profesional',
+    copy: 'Audio cifrado, trazabilidad y una estructura pensada para trabajar con información sensible de forma seria.',
+    metric: 'Seguridad visible',
     icon: Lock,
-    accent: 'bg-psy-ink/8 text-psy-ink',
+    accent: 'bg-psy-ink/[0.07] text-psy-ink',
   },
 ]
 
 const trialSteps = [
   {
-    day: 'Dia 1',
+    day: 'Día 1',
     title: 'Cargas tu primer caso real',
-    copy:
-      'La prueba sirve porque no es un sandbox vacio. Entras con material verdadero y ves rapido si encaja.',
+    copy: 'La prueba sirve porque no es un sandbox vacío. Entras con material verdadero y ves rápido si encaja.',
   },
   {
-    day: 'Dia 3',
-    title: 'Comparas como cierras una sesion',
-    copy:
-      'Ahi aparece la diferencia entre seguir escribiendo tarde y salir con una base mucho mas armada.',
+    day: 'Día 3',
+    title: 'Comparas cómo cierras una sesión',
+    copy: 'Ahí aparece la diferencia entre seguir escribiendo tarde y salir con una base mucho más armada.',
   },
   {
-    day: 'Dia 7',
+    day: 'Día 7',
     title: 'Se nota el orden',
-    copy:
-      'Tu consulta empieza a sentirse mas moderna para ti y mas consistente para el paciente.',
+    copy: 'Tu consulta empieza a sentirse más moderna para ti y más consistente para el paciente.',
   },
   {
-    day: 'Dia 14',
+    day: 'Día 14',
     title: 'Decides con criterio propio',
-    copy:
-      'No compras por una promesa bonita. Compras porque ya viste si el cambio te quito carga real.',
+    copy: 'No compras por una promesa bonita. Compras porque ya viste si el cambio te quitó carga real.',
   },
 ]
 
 const personas = [
   {
-    title: 'Psicologo clinico individual',
-    copy:
-      'Si llevas agenda llena y cierras el dia escribiendo a contrarreloj, aqui ganas claridad y tiempo sin perder tu criterio.',
+    title: 'Psicólogo clínico individual',
+    copy: 'Si llevas agenda llena y cierras el día escribiendo a contrarreloj, aquí ganas claridad y tiempo sin perder tu criterio.',
   },
   {
-    title: 'Consultorio que quiere verse mas serio',
-    copy:
-      'Cuando el paciente siente orden, seguimiento y velocidad, tambien percibe una practica mas moderna y confiable.',
+    title: 'Consultorio que quiere verse más serio',
+    copy: 'Cuando el paciente siente orden, seguimiento y velocidad, también percibe una práctica más moderna y confiable.',
   },
   {
     title: 'Equipo que ya no quiere operar por WhatsApp',
-    copy:
-      'Si varias personas tocan la agenda, los reportes y las derivaciones, necesitas sistema. No mas parches pegados.',
+    copy: 'Si varias personas tocan la agenda, los reportes y las derivaciones, necesitas sistema. No más parches pegados.',
   },
 ]
 
@@ -177,37 +153,34 @@ const plans = [
   {
     name: 'Lite',
     price: '$19',
-    description:
-      'Para psicologos en consulta privada que quieren ordenar su practica sin perder tiempo.',
+    description: 'Para psicólogos en consulta privada que quieren ordenar su práctica sin perder tiempo.',
     features: [
       'Notas SOAP/DAP generadas con IA',
-      'Hasta 3 enfoques clinicos activos',
+      'Hasta 3 enfoques clínicos activos',
       'Biblioteca base de 126 libros',
-      'Prueba de 14 dias gratis',
+      'Prueba de 14 días gratis',
     ],
   },
   {
     name: 'Pro',
     price: '$49',
-    description:
-      'Para psicologos clinicos y psiquiatras que necesitan documentacion avanzada.',
+    description: 'Para psicólogos clínicos y psiquiatras que necesitan documentación avanzada.',
     features: [
       'Todo lo incluido en Lite',
-      'Grabacion y transcripcion de sesiones',
+      'Grabación y transcripción de sesiones',
       'AIReport profundo con CIE-11',
-      'Informes de derivacion en PDF',
+      'Informes de derivación en PDF',
     ],
     highlight: true,
   },
   {
     name: 'Clinic',
     price: '$149',
-    description:
-      'Para consultorios y equipos que necesitan coordinacion y operacion compartida.',
+    description: 'Para consultorios y equipos que necesitan coordinación y operación compartida.',
     features: [
       'Hasta 5 profesionales',
       'Panel administrativo central',
-      'Facturacion unificada',
+      'Facturación unificada',
       'Onboarding dedicado',
     ],
   },
@@ -215,31 +188,22 @@ const plans = [
 
 const faqs = [
   {
-    question: 'Esto reemplaza mi criterio clinico?',
-    answer:
-      'No. Esa parte no se negocia. MENTEZER organiza, recupera contexto y te ayuda a cerrar mejor la sesion. La decision sigue siendo tuya.',
+    question: '¿Esto reemplaza mi criterio clínico?',
+    answer: 'No. Esa parte no se negocia. MENTEZER organiza, recupera contexto y te ayuda a cerrar mejor la sesión. La decisión sigue siendo tuya.',
   },
   {
-    question: 'La prueba de 14 dias pide tarjeta?',
-    answer:
-      'No. La idea es validar uso real sin meter una barrera innecesaria al principio.',
+    question: '¿La prueba de 14 días pide tarjeta?',
+    answer: 'No. La idea es validar uso real sin meter una barrera innecesaria al principio.',
   },
   {
-    question: 'Puedo trabajar con mis propios libros?',
-    answer:
-      'Si. Ese es uno de los puntos fuertes. La plataforma no te obliga a pensar como otro profesional.',
+    question: '¿Puedo trabajar con mis propios libros?',
+    answer: 'Sí. Ese es uno de los puntos fuertes. La plataforma no te obliga a pensar como otro profesional.',
   },
 ]
 
 function toneClasses(tone: Tone) {
-  if (tone === 'info') {
-    return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(59,111,160,0.15)] backdrop-blur-2xl'
-  }
-
-  if (tone === 'success') {
-    return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(74,124,89,0.15)] backdrop-blur-2xl'
-  }
-
+  if (tone === 'info') return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(59,111,160,0.15)] backdrop-blur-2xl'
+  if (tone === 'success') return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(74,124,89,0.15)] backdrop-blur-2xl'
   return 'border-white/50 bg-white/80 text-psy-ink shadow-[0_8px_16px_rgba(0,0,0,0.1)] backdrop-blur-2xl'
 }
 
@@ -253,9 +217,7 @@ function HeroReportCard() {
   }, [])
 
   useEffect(() => {
-    if (activeIndex < 0 || activeIndex >= heroReportFields.length) {
-      return
-    }
+    if (activeIndex < 0 || activeIndex >= heroReportFields.length) return
 
     const current = heroReportFields[activeIndex]
     let cursor = 0
@@ -280,17 +242,16 @@ function HeroReportCard() {
 
   return (
     <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-psy-ink via-[#1C2C35] to-psy-ink p-6 md:p-8">
-      {/* Blurred background orbs for inner glass effect */}
       <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-psy-blue/30 blur-[70px] pointer-events-none" />
       <div className="absolute -bottom-10 -right-10 h-64 w-64 rounded-full bg-psy-green/25 blur-[70px] pointer-events-none" />
 
       <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-psy-amber-light drop-shadow-sm">
-            MENTEZER · Espacio clinico
+            MENTEZER · Espacio clínico
           </p>
           <p className="mt-1 font-serif text-[22px] font-semibold tracking-tight text-white drop-shadow-md">
-            Ana R. · Sesion 8 · TCC
+            Ana R. · Sesión 8 · TCC
           </p>
         </div>
         <div className="rounded-full border border-psy-blue/40 bg-psy-blue/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white shadow-sm backdrop-blur-md">
@@ -310,20 +271,12 @@ function HeroReportCard() {
 
           return (
             <div key={field.id} className="group relative">
-              {/* Glow Border (Blow Border) Effect */}
-              <div className={`absolute inset-0 rounded-[1.25rem] opacity-0 transition-opacity duration-500 blur-md ${isVisible ? 'group-hover:opacity-80' : ''} ${
+              <div className={`absolute inset-0 rounded-[1.25rem] opacity-0 transition-opacity duration-500 blur-md ${isVisible ? 'group-hover:opacity-60' : ''} ${
                 field.tone === 'info' ? 'bg-psy-blue' : field.tone === 'success' ? 'bg-psy-green' : 'bg-psy-amber'
               }`} />
-              <div className={`absolute inset-0 rounded-[1.25rem] opacity-0 transition-opacity duration-500 ${isVisible ? 'group-hover:opacity-100' : ''} ${
-                field.tone === 'info' ? 'bg-psy-blue' : field.tone === 'success' ? 'bg-psy-green' : 'bg-psy-amber'
-              }`} />
-
-              {/* Glass Grid Panel */}
               <div
                 className={`relative z-10 m-[1px] flex min-h-[96px] flex-col rounded-[calc(1.25rem-1px)] border px-5 py-4 transition-all duration-300 ${
-                  isVisible
-                    ? toneClasses(field.tone)
-                    : 'border-white/10 bg-white/20 text-white/30 backdrop-blur-md'
+                  isVisible ? toneClasses(field.tone) : 'border-white/10 bg-white/20 text-white/30 backdrop-blur-md'
                 }`}
               >
                 <p className={`font-mono text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors duration-300 ${isVisible ? 'text-psy-muted' : 'text-white/30'}`}>
@@ -349,68 +302,45 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-psy-cream text-psy-ink">
-      <header className="fixed left-1/2 top-4 z-50 w-full max-w-6xl -translate-x-1/2 px-4">
+
+      {/* ─── NAV ─── */}
+      <header className="fixed left-1/2 top-4 z-50 w-full max-w-7xl -translate-x-1/2 px-4">
         <nav className="calm-panel flex items-center justify-between px-4 py-3 md:px-5">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue shadow-sm">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue shadow-sm transition-colors group-hover:bg-psy-blue group-hover:text-white">
               <Brain size={20} strokeWidth={1.8} />
             </div>
-            <div>
-              <p className="font-sora text-lg font-semibold tracking-tight text-psy-ink">
-                MENTEZER
-              </p>
-              <p className="hidden text-xs text-psy-muted sm:block">
-                Calma profesional para tu practica clinica
-              </p>
-            </div>
-          </div>
+            <p className="font-sora text-lg font-semibold tracking-tight text-psy-ink">MENTEZER</p>
+          </Link>
 
           <div className="hidden items-center gap-1 rounded-full border border-psy-border bg-white/75 p-1 md:flex">
-            <Link
-              href="/demo"
-              className="rounded-full px-4 py-2 text-sm font-medium text-psy-blue transition hover:bg-psy-blue-light hover:text-psy-ink"
-            >
-              Demostracion
+            <Link href="/demo" className="rounded-full px-4 py-2 text-sm font-medium text-psy-blue transition hover:bg-psy-blue-light hover:text-psy-ink">
+              Demostración
             </Link>
-            <a
-              href="#problema"
-              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
-            >
+            <a href="#problema" className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink">
               Problema
             </a>
-            <a
-              href="#flujo"
-              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
-            >
-              Como funciona
+            <a href="#flujo" className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink">
+              Cómo funciona
             </a>
-            <a
-              href="#planes"
-              className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink"
-            >
+            <a href="#planes" className="rounded-full px-4 py-2 text-sm text-psy-muted transition hover:bg-psy-blue-light hover:text-psy-ink">
               Precios
             </a>
           </div>
 
           <div className="flex items-center gap-2">
-            <Link
-              href="/login"
-              className="hidden px-4 py-2 text-sm text-psy-muted transition hover:text-psy-ink sm:inline-flex"
-            >
+            <Link href="/login" className="hidden px-4 py-2 text-sm text-psy-muted transition hover:text-psy-ink sm:inline-flex">
               Ingresar
             </Link>
-            <Link
-              href="/register"
-              className="calm-button-primary rounded-full px-4 py-2.5 text-sm font-medium md:px-5"
-            >
-              <span className="hidden sm:inline">Prueba 14 dias</span>
+            <Link href="/register" className="calm-button-primary rounded-full px-4 py-2.5 text-sm font-medium md:px-5">
+              <span className="hidden sm:inline">Prueba 14 días</span>
               <span className="sm:hidden">Empezar</span>
               <ArrowRight size={16} />
             </Link>
             <button
               onClick={() => setIsMobileMenuOpen(open => !open)}
               className="flex h-10 w-10 items-center justify-center rounded-2xl border border-psy-border bg-white/70 text-psy-ink transition hover:bg-white md:hidden"
-              aria-label="Abrir menu"
+              aria-label="Abrir menú"
             >
               {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -420,41 +350,14 @@ export default function LandingPage() {
         {isMobileMenuOpen ? (
           <div className="absolute left-4 right-4 mt-3 overflow-hidden rounded-3xl border border-psy-border bg-white/96 p-4 shadow-[0_18px_40px_rgba(74,144,164,0.16)] backdrop-blur-xl animate-menu-in md:hidden">
             <div className="grid gap-2">
-              <Link
-                href="/demo"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-2xl border border-psy-blue/12 bg-psy-blue-light px-4 py-3.5 text-sm font-medium text-psy-blue"
-              >
-                Ver demostracion
-                <Sparkles size={16} />
+              <Link href="/demo" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between rounded-2xl border border-psy-blue/20 bg-psy-blue-light px-4 py-3.5 text-sm font-medium text-psy-blue">
+                Ver demostración <Sparkles size={16} />
               </Link>
-              <a
-                href="#problema"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
-              >
-                Problema
-              </a>
-              <a
-                href="#flujo"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
-              >
-                Como funciona
-              </a>
-              <a
-                href="#planes"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light"
-              >
-                Precios
-              </a>
+              <a href="#problema" onClick={() => setIsMobileMenuOpen(false)} className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light">Problema</a>
+              <a href="#flujo" onClick={() => setIsMobileMenuOpen(false)} className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light">Cómo funciona</a>
+              <a href="#planes" onClick={() => setIsMobileMenuOpen(false)} className="rounded-2xl px-4 py-3 text-sm text-psy-muted active:bg-psy-blue-light">Precios</a>
               <div className="mt-2 border-t border-psy-warm-border pt-4">
-                <Link
-                  href="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex w-full items-center justify-center rounded-2xl py-3 text-sm font-medium text-psy-ink active:bg-psy-blue-light"
-                >
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex w-full items-center justify-center rounded-2xl py-3 text-sm font-medium text-psy-ink active:bg-psy-blue-light">
                   Ingresar a mi cuenta
                 </Link>
               </div>
@@ -463,81 +366,78 @@ export default function LandingPage() {
         ) : null}
       </header>
 
+      {/* ─── HERO ─── */}
       <section className="px-4 pb-10 pt-24 md:px-6 md:pb-12 md:pt-28 lg:pb-16 lg:pt-32">
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.02fr_0.98fr] md:items-center">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.02fr_0.98fr] md:items-start">
           <div className="reveal-rise">
             <div className="inline-flex items-center gap-2 rounded-full border border-psy-border bg-white/72 px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-psy-muted shadow-sm">
               <span className="h-2 w-2 rounded-full bg-psy-green animate-pulse" />
-              Calma profesional para tu practica clinica
+              IA Clínica · Para profesionales de salud mental
             </div>
 
-            <h1 className="mt-6 max-w-3xl font-serif text-4xl font-bold leading-[0.98] tracking-tight text-psy-ink sm:text-5xl lg:text-7xl">
-              Menos reconstruccion mental. Mas criterio clinico en el momento correcto.
+            <h1 className="mt-6 max-w-3xl font-serif text-4xl font-bold leading-[1.02] tracking-tight text-psy-ink sm:text-5xl lg:text-[3.6rem]">
+              Menos reconstrucción mental. Más criterio clínico en el momento correcto.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-psy-ink/75 md:text-lg">
-              MENTEZER organiza agenda, sesion, biblioteca y cierre clinico en una interfaz serena. No compra humo tecnico: te devuelve foco, orden y presencia profesional.
+            <p className="mt-6 max-w-xl text-base leading-8 text-psy-ink/70 md:text-lg">
+              MENTEZER organiza agenda, sesión, biblioteca y cierre clínico en una interfaz serena. Te devuelve foco, orden y presencia profesional.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href="/register"
-                className="calm-button-primary rounded-full px-8 py-3.5 text-[15px] font-medium shadow-sm transition-all hover:scale-[1.02]"
-              >
+            <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link href="/register" className="calm-button-primary rounded-full px-8 py-3.5 text-[15px] font-medium shadow-sm">
                 Empezar prueba gratis
                 <ArrowRight size={16} />
               </Link>
               <Link
                 href="/demo"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium text-psy-ink/60 transition-colors hover:text-psy-ink"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-psy-border bg-white/70 px-6 py-3.5 text-[14px] font-medium text-psy-ink/65 transition-all hover:bg-white hover:text-psy-ink hover:border-psy-blue/30 hover:shadow-sm"
               >
-                <Sparkles size={16} />
-                Ver demostracion en vivo
+                <Sparkles size={15} />
+                Ver demostración
               </Link>
+            </div>
+
+            {/* Stats — debajo del CTA */}
+            <div className="mt-10 flex flex-wrap items-center gap-2 rounded-2xl border border-psy-warm-border bg-white/80 px-4 py-3 text-xs text-psy-muted shadow-sm">
+              <span className="rounded-full bg-psy-amber-light px-2.5 py-1 font-medium text-psy-ink">Antes: 45 min</span>
+              <span className="rounded-full bg-psy-blue-light px-2.5 py-1 font-medium text-psy-ink">Ahora: 28 seg.</span>
+              <span>126 referencias activas</span>
+              <span className="font-medium text-psy-green">Listo para cerrar consulta</span>
             </div>
           </div>
 
           <div className="reveal-rise reveal-delay-2">
             <HeroReportCard />
-            <div className="mt-4 flex flex-wrap items-center gap-2.5 rounded-2xl border border-psy-border bg-white/88 px-4 py-3 text-xs text-psy-muted shadow-sm">
-              <span className="rounded-full bg-psy-amber-light px-2.5 py-1 font-medium text-psy-ink">
-                Antes: 45 min
-              </span>
-              <span className="rounded-full bg-psy-blue-light px-2.5 py-1 font-medium text-psy-ink">
-                Ahora: 28 seg.
-              </span>
-              <span>126 referencias activas</span>
-              <span className="text-psy-green">Listo para cerrar consulta</span>
-            </div>
           </div>
         </div>
 
-        <div className="reveal-rise reveal-delay-3 mx-auto mt-8 grid max-w-6xl gap-2 rounded-3xl border border-psy-border bg-white/92 px-4 py-3 shadow-[0_18px_42px_rgba(74,144,164,0.12)] sm:grid-cols-2 lg:grid-cols-4">
-          {quickFacts.map(item => (
-            <div
-              key={item.value}
-              className="flex items-center gap-3 rounded-2xl px-2 py-1.5 text-center md:text-left"
-            >
-              <p className="font-sora text-2xl font-semibold tracking-tight text-psy-ink shrink-0">
-                {item.value}
-              </p>
-              <p className="text-xs leading-5 text-psy-muted">{item.label}</p>
-            </div>
-          ))}
+        {/* Quick facts bar */}
+        <div className="reveal-rise reveal-delay-3 mx-auto mt-8 max-w-6xl overflow-hidden rounded-3xl border border-psy-warm-border bg-white/92 shadow-[0_18px_42px_rgba(74,144,164,0.10)]">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4">
+            {quickFacts.map((item, i) => (
+              <div
+                key={item.value}
+                className={`flex items-center gap-3 px-5 py-4${i > 0 ? ' border-t lg:border-t-0 lg:border-l' : ''}`}
+                style={{ borderColor: 'var(--psy-warm-border)' }}
+              >
+                <p className="font-sora text-2xl font-semibold tracking-tight text-psy-ink shrink-0">{item.value}</p>
+                <p className="text-xs leading-5 text-psy-muted">{item.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* ─── PROBLEMA ─── */}
       <section id="problema" className="bg-psy-ink px-4 py-12 md:px-6 md:py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
-              Seguir igual tiene costo
-            </p>
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">Seguir igual tiene costo</p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-white md:text-5xl">
-              El atraso no siempre se ve dramatico. A veces se ve como cansancio acumulado.
+              El atraso no siempre se ve dramático. A veces se ve como cansancio acumulado.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-psy-paper opacity-75">
-              No se trata de moda tecnologica. Se trata de que tu forma de trabajar ya merece una estructura mejor que libreta, notas sueltas y memoria diferida.
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-psy-paper/70">
+              No se trata de moda tecnológica. Se trata de que tu forma de trabajar ya merece una estructura mejor que libreta, notas sueltas y memoria diferida.
             </p>
           </div>
 
@@ -545,84 +445,58 @@ export default function LandingPage() {
             {painPoints.map((item, index) => (
               <article
                 key={item.id}
-                className={`reveal-rise rounded-2xl border border-psy-paper/10 bg-psy-paper/5 p-5 shadow-xl transition-all hover:bg-psy-paper/10 ${
-                  index === 0
-                    ? 'reveal-delay-1'
-                    : index === 1
-                      ? 'reveal-delay-2'
-                      : 'reveal-delay-3'
+                className={`reveal-rise rounded-2xl border border-psy-paper/10 bg-psy-paper/5 p-6 transition-all hover:bg-psy-paper/10 ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
                 }`}
               >
-                <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">
-                  {item.id}
-                </p>
-                <h3 className="mt-4 font-serif text-xl font-semibold tracking-tight text-white">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-psy-paper/80">{item.copy}</p>
+                <p className="font-mono text-xs uppercase tracking-widest text-psy-amber">{item.id}</p>
+                <h3 className="mt-4 font-serif text-xl font-semibold tracking-tight text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-psy-paper/75">{item.copy}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ─── LO QUE RECIBES ─── */}
       <section id="flujo" className="bg-[#F7F9F9] px-4 py-12 md:px-6 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-8 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">
-              Lo que recibes
-            </p>
+          <div className="mb-10 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">Lo que recibes</p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-psy-ink md:text-5xl">
-              Sales de una sesion con material para actuar, no con tareas pendientes.
+              Sales de una sesión con material para actuar, no con tareas pendientes.
             </h2>
-            <p className="mt-5 text-lg leading-8 text-psy-ink/75">
-              Esa es la parte que mueve la compra. No la IA en abstracto. La sensacion concreta de terminar consulta sin quedarte debiendo media hora de reconstruccion clinica.
+            <p className="mt-5 text-lg leading-8 text-psy-ink/70">
+              La sensación concreta de terminar consulta sin quedarte debiendo media hora de reconstrucción clínica.
             </p>
           </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4 relative z-10">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {deliverables.map((item, index) => {
               const Icon = item.icon
               return (
                 <div
                   key={item.title}
-                  className={`group relative reveal-rise flex flex-col rounded-[2rem] transition-all duration-500 hover:-translate-y-2 ${
-                    index === 0
-                      ? 'reveal-delay-1'
-                      : index === 1
-                        ? 'reveal-delay-2'
-                        : index === 2
-                          ? 'reveal-delay-3'
-                          : 'reveal-delay-4'
+                  className={`card-deliverable reveal-rise flex flex-col rounded-2xl border border-psy-border bg-white p-5 shadow-sm ${
+                    index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : index === 2 ? 'reveal-delay-3' : 'reveal-delay-4'
                   }`}
                 >
-                  {/* Glow Border Effect */}
-                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-psy-blue via-psy-green to-psy-amber opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-sm" />
-                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-psy-blue via-psy-green to-psy-amber opacity-20 transition-opacity duration-500 group-hover:opacity-100" />
-                  
-                  {/* Glass Panel */}
-                  <div className="relative z-10 m-[2px] flex h-full flex-col rounded-[calc(2rem-2px)] border border-white/60 bg-white/70 p-5 shadow-lg backdrop-blur-2xl transition-all duration-500 group-hover:bg-white/90">
-                    <div className="flex items-start gap-3">
-                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm ${item.accent}`}>
-                        <Icon size={18} strokeWidth={2.2} />
-                      </div>
-                      <div>
-                        <p className="font-mono text-[10px] uppercase tracking-widest text-psy-muted">
-                          {item.kicker}
-                        </p>
-                        <h3 className="mt-1 font-serif text-[19px] font-semibold tracking-tight text-psy-ink">
-                          {item.title}
-                        </h3>
-                      </div>
+                  <div className="flex items-start gap-3">
+                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm ${item.accent}`}>
+                      <Icon size={18} strokeWidth={2.2} />
                     </div>
-
-                    <p className="mt-4 text-[14px] leading-relaxed text-psy-ink/80 font-medium">{item.copy}</p>
-
-                    <div className="mt-auto pt-5">
-                      <span className="inline-flex items-center gap-2 rounded-full bg-psy-ink/5 px-2.5 py-1.5 text-[11px] font-bold text-psy-ink">
-                        {item.metric}
-                      </span>
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-widest text-psy-muted">{item.kicker}</p>
+                      <h3 className="mt-1 font-serif text-[18px] font-semibold tracking-tight text-psy-ink">{item.title}</h3>
                     </div>
+                  </div>
+
+                  <p className="mt-4 text-[14px] leading-relaxed text-psy-ink/70">{item.copy}</p>
+
+                  <div className="mt-auto pt-5">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-psy-border bg-psy-cream px-3 py-1.5 text-[11px] font-semibold text-psy-muted">
+                      {item.metric}
+                    </span>
                   </div>
                 </div>
               )
@@ -631,69 +505,95 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-psy-blue px-4 py-12 md:px-6 md:py-16">
+      {/* ─── PARA QUIÉN ─── */}
+      <section className="bg-white px-4 py-12 md:px-6 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-8 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-paper opacity-80">
-              La prueba importa
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-white md:text-5xl">
-              Estos 14 dias no son una cortesia. Son el momento para ver si tu practica ya pidio este cambio.
+          <div className="mb-10 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-blue">Para quién es</p>
+            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-psy-ink md:text-5xl">
+              Diseñado para profesionales que ya quieren algo mejor.
             </h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-4">
-            {trialSteps.map((step, index) => (
+          <div className="grid gap-5 md:grid-cols-3">
+            {personas.map((persona, index) => (
               <div
-                key={step.day}
-                className={`reveal-rise flip-card-container h-[210px] w-full transition-all duration-300 hover:-translate-y-2 ${
-                  index === 0
-                    ? 'reveal-delay-1'
-                    : index === 1
-                      ? 'reveal-delay-2'
-                      : index === 2
-                        ? 'reveal-delay-3'
-                        : 'reveal-delay-4'
+                key={persona.title}
+                className={`card-profile reveal-rise rounded-2xl border border-psy-border bg-psy-cream p-6 ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
                 }`}
               >
-                <div className="flip-card-inner">
-                  {/* Front */}
-                  <div className="flip-card-front flex flex-col justify-center rounded-2xl border border-white/15 bg-white/10 p-5 shadow-sm">
-                    <p className="font-mono text-sm font-bold uppercase tracking-widest text-psy-amber-light">
-                      {step.day}
-                    </p>
-                    <h3 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-white">
-                      {step.title}
-                    </h3>
-                  </div>
-
-                  {/* Back */}
-                  <div className="flip-card-back flex flex-col justify-center rounded-2xl border border-psy-amber/40 bg-white/25 p-5 shadow-lg backdrop-blur-sm">
-                    <p className="text-[17px] leading-[1.6] text-white drop-shadow-sm font-medium">{step.copy}</p>
-                  </div>
-                </div>
+                <h3 className="font-serif text-[19px] font-semibold tracking-tight text-psy-ink">{persona.title}</h3>
+                <p className="mt-3 text-[14px] leading-7 text-psy-ink/70">{persona.copy}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ─── 14 DÍAS ─── */}
+      <section className="bg-psy-blue px-4 py-12 md:px-6 md:py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-paper/70">La prueba importa</p>
+            <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-white md:text-5xl">
+              Estos 14 días no son una cortesía. Son el momento para ver si tu práctica ya pidió este cambio.
+            </h2>
+          </div>
+
+          {/* Desktop: flip cards */}
+          <div className="hidden md:grid gap-4 md:grid-cols-4">
+            {trialSteps.map((step, index) => (
+              <div
+                key={step.day}
+                className={`reveal-rise flip-card-container h-[220px] w-full ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : index === 2 ? 'reveal-delay-3' : 'reveal-delay-4'
+                }`}
+              >
+                <div className="flip-card-inner">
+                  <div className="flip-card-front flex flex-col justify-between rounded-2xl border border-white/15 bg-white/10 p-5">
+                    <p className="font-mono text-sm font-bold uppercase tracking-widest text-psy-amber-light">{step.day}</p>
+                    <div>
+                      <h3 className="font-serif text-xl font-semibold tracking-tight text-white">{step.title}</h3>
+                      <p className="mt-2 text-[11px] text-white/35 tracking-wide">Pasa el cursor para ver más</p>
+                    </div>
+                  </div>
+                  <div className="flip-card-back flex flex-col justify-center rounded-2xl border border-psy-amber/40 bg-white/20 p-5 backdrop-blur-sm">
+                    <p className="font-mono text-xs font-bold uppercase tracking-widest text-psy-amber-light mb-3">{step.day}</p>
+                    <p className="text-[16px] leading-[1.65] text-white font-medium">{step.copy}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile: cards estáticas */}
+          <div className="grid gap-3 md:hidden">
+            {trialSteps.map(step => (
+              <div key={`m-${step.day}`} className="rounded-2xl border border-white/15 bg-white/10 p-5">
+                <p className="font-mono text-xs font-bold uppercase tracking-widest text-psy-amber-light">{step.day}</p>
+                <h3 className="mt-2 font-serif text-lg font-semibold text-white">{step.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-white/80">{step.copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── PRECIOS ─── */}
       <section id="planes" className="relative bg-psy-cream px-4 py-16 md:px-6 md:py-24 overflow-hidden">
-        {/* Colorful Blobs for Pricing Glassmorphism */}
         <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-psy-blue/15 blur-[120px] pointer-events-none" />
-        <div className="absolute right-0 top-0 h-[500px] w-[500px] translate-x-1/4 -translate-y-1/4 rounded-full bg-psy-green/15 blur-[100px] pointer-events-none" />
-        <div className="absolute left-0 bottom-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-psy-amber/15 blur-[100px] pointer-events-none" />
+        <div className="absolute right-0 top-0 h-[500px] w-[500px] translate-x-1/4 -translate-y-1/4 rounded-full bg-psy-green/12 blur-[100px] pointer-events-none" />
+        <div className="absolute left-0 bottom-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-psy-amber/12 blur-[100px] pointer-events-none" />
 
         <div className="relative mx-auto max-w-6xl z-10">
           <div className="mb-12 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-green drop-shadow-sm">
-              Precios
-            </p>
-            <h2 className="mt-4 font-sora text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl text-psy-ink drop-shadow-sm">
-              Empieza con prueba real. Paga solo si ya te ordeno la practica.
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">Precios</p>
+            <h2 className="mt-4 font-sora text-4xl font-bold tracking-tight md:text-5xl text-psy-ink">
+              Empieza con prueba real. Paga solo si ya te ordenó la práctica.
             </h2>
-            <p className="mt-6 text-lg leading-8 text-psy-ink/80 font-medium">
-              La conversacion ya no es si la tecnologia cabe en psicologia. La conversacion es si quieres seguir administrando tu consulta como en 2017.
+            <p className="mt-6 text-lg leading-8 text-psy-ink/70">
+              La conversación ya no es si la tecnología cabe en psicología. La conversación es si quieres seguir administrando tu consulta como en 2017.
             </p>
           </div>
 
@@ -701,168 +601,141 @@ export default function LandingPage() {
             {plans.map((plan, index) => (
               <article
                 key={plan.name}
-                className={`reveal-rise relative overflow-hidden rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-3 ${
-                  index === 0
-                    ? 'reveal-delay-1'
-                    : index === 1
-                      ? 'reveal-delay-2'
-                      : 'reveal-delay-3'
+                className={`reveal-rise relative overflow-hidden rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-2 ${
+                  index === 0 ? 'reveal-delay-1' : index === 1 ? 'reveal-delay-2' : 'reveal-delay-3'
                 } ${
                   plan.highlight
-                    ? 'bg-psy-ink/85 border border-white/20 text-white shadow-[0_24px_60px_rgba(0,0,0,0.3)] backdrop-blur-[32px]'
-                    : 'bg-white/40 border border-white/60 text-psy-ink shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl'
+                    ? 'bg-psy-ink/90 border border-white/20 text-white shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-[32px]'
+                    : 'bg-white/55 border border-white/70 text-psy-ink shadow-[0_12px_40px_rgba(0,0,0,0.06)] backdrop-blur-2xl'
                 }`}
               >
-                {/* Glare effect inside glass */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/8 to-transparent pointer-events-none" />
 
                 <div className="relative z-10 flex items-start justify-between gap-3">
                   <div>
-                    <p className={`text-sm font-semibold uppercase tracking-widest ${plan.highlight ? 'text-psy-amber-light drop-shadow-sm' : 'text-psy-blue'}`}>
+                    <p className={`text-sm font-semibold uppercase tracking-widest ${plan.highlight ? 'text-psy-amber-light' : 'text-psy-blue'}`}>
                       {plan.name}
                     </p>
                     <p className="mt-3 font-sora text-5xl font-bold tracking-tight">
                       {plan.price}
-                      <span className={`ml-1 text-base font-medium ${plan.highlight ? 'text-white/60' : 'text-psy-ink/60'}`}>
-                        /mes
-                      </span>
+                      <span className={`ml-1 text-base font-medium ${plan.highlight ? 'text-white/50' : 'text-psy-ink/50'}`}>/mes</span>
                     </p>
                   </div>
                   {plan.highlight ? (
                     <div className="rounded-full border border-psy-green/30 bg-psy-green/20 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-psy-green-light backdrop-blur-md">
-                      El que mas valida
+                      Más elegido
                     </div>
                   ) : null}
                 </div>
 
-                <p className={`relative z-10 mt-6 text-[15px] leading-7 font-medium ${plan.highlight ? 'text-white/85' : 'text-psy-ink/80'}`}>
+                <p className={`relative z-10 mt-5 text-[15px] leading-7 ${plan.highlight ? 'text-white/80' : 'text-psy-ink/70'}`}>
                   {plan.description}
                 </p>
 
-                <ul className="relative z-10 mt-8 space-y-4">
+                <ul className="relative z-10 mt-7 space-y-3.5">
                   {plan.features.map(feature => (
-                    <li key={feature} className="flex items-start gap-3 text-[15px] font-medium">
-                      <span className={`mt-0.5 ${plan.highlight ? 'text-psy-green-light drop-shadow-sm' : 'text-psy-green'}`}>
-                        <Check size={18} strokeWidth={2.4} />
+                    <li key={feature} className="flex items-start gap-3 text-[14px]">
+                      <span className={`mt-0.5 shrink-0 ${plan.highlight ? 'text-psy-green-light' : 'text-psy-green'}`}>
+                        <Check size={16} strokeWidth={2.5} />
                       </span>
-                      <span className={plan.highlight ? 'text-white/95' : 'text-psy-ink'}>
-                        {feature}
-                      </span>
+                      <span className={plan.highlight ? 'text-white/90' : 'text-psy-ink/85'}>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Link
                   href="/register"
-                  className={`relative z-10 mt-10 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-[15px] font-bold transition-all hover:shadow-lg ${
-                    plan.highlight
-                      ? 'bg-white text-psy-ink hover:bg-psy-paper hover:scale-[1.02]'
-                      : 'bg-psy-ink text-white hover:bg-black hover:scale-[1.02]'
+                  className={`relative z-10 mt-10 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-[14px] font-bold transition-all hover:shadow-lg hover:scale-[1.02] ${
+                    plan.highlight ? 'bg-white text-psy-ink hover:bg-psy-paper' : 'bg-psy-ink text-white hover:bg-black'
                   }`}
                 >
-                  Empezar prueba de 14 dias
-                  <ArrowRight size={18} />
+                  Empezar prueba de 14 días
+                  <ArrowRight size={16} />
                 </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
-      <section className="relative bg-psy-cream px-4 py-16 md:px-6 md:py-24 overflow-hidden">
-        <div className="mx-auto max-w-6xl relative z-10">
-          <div className="text-center mb-16">
-            <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-psy-amber">
-              Flujo de Garantías
+
+      {/* ─── PREGUNTAS FRECUENTES ─── */}
+      <section className="bg-white px-4 py-16 md:px-6 md:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-psy-blue">
+              Preguntas frecuentes
             </p>
-            <h2 className="mt-4 font-sora text-3xl font-bold tracking-tight text-psy-ink md:text-5xl">
-              Certezas antes de empezar
+            <h2 className="mt-4 font-sora text-3xl font-bold tracking-tight text-psy-ink md:text-4xl">
+              Lo que suelen preguntar
             </h2>
-            <p className="mt-4 text-lg text-psy-ink/60 font-medium max-w-2xl mx-auto">
+            <p className="mt-4 text-base text-psy-ink/55 max-w-xl mx-auto">
               Si te lo estás preguntando, seguramente otro colega también.
             </p>
           </div>
 
-          <div className="relative mt-12">
-            {/* Horizontal Connection Line */}
-            <div className="hidden lg:block absolute top-[19px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-transparent via-psy-border to-transparent" />
-
-            <div className="grid lg:grid-cols-3 gap-6 relative z-10">
-              {faqs.map((faq, index) => (
-                <div key={faq.question} className={`relative group reveal-rise ${index === 0 ? '' : index === 1 ? 'reveal-delay-1' : 'reveal-delay-2'}`}>
-                  
-                  {/* Light Glassmorphism Card without complex nodes */}
-                  <article className="overflow-hidden rounded-[1.5rem] border border-psy-border bg-white p-6 md:p-8 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(13,34,50,0.08)] hover:border-psy-blue/30">
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-psy-blue opacity-80 mb-3 transition-colors duration-300 group-hover:text-psy-green">
-                      Paso 0{index + 1}
-                    </p>
-                    <h3 className="font-sora text-[19px] leading-[1.3] font-bold tracking-tight text-psy-ink transition-colors duration-300 group-hover:text-psy-blue">
-                      {faq.question}
-                    </h3>
-                    <p className="mt-4 text-[14px] leading-relaxed text-psy-ink/75 font-medium">
-                      {faq.answer}
-                    </p>
-                  </article>
-                </div>
-              ))}
-            </div>
+          <div className="grid lg:grid-cols-3 gap-5">
+            {faqs.map((faq, index) => (
+              <article
+                key={faq.question}
+                className={`card-faq reveal-rise rounded-2xl border border-psy-border bg-psy-cream p-6 md:p-7 ${
+                  index === 0 ? '' : index === 1 ? 'reveal-delay-1' : 'reveal-delay-2'
+                }`}
+              >
+                <h3 className="font-serif text-[18px] leading-[1.35] font-semibold text-psy-ink">
+                  {faq.question}
+                </h3>
+                <p className="mt-4 text-[14px] leading-relaxed text-psy-ink/70">
+                  {faq.answer}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* ─── CTA FINAL ─── */}
       <section className="relative bg-psy-ink px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24 overflow-hidden">
-        {/* Background Colorful Blobs for Glassmorphism Effect */}
         <div className="absolute left-0 top-0 h-[600px] w-[600px] -translate-x-1/3 -translate-y-1/3 rounded-full bg-psy-blue/40 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-0 h-[500px] w-[500px] translate-x-1/3 translate-y-1/3 rounded-full bg-psy-amber/30 blur-[100px] pointer-events-none" />
         <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-psy-green/20 blur-[100px] pointer-events-none" />
 
         <div className="relative mx-auto max-w-6xl">
           <div className="relative rounded-[2.5rem] border border-white/20 bg-gradient-to-br from-white/15 to-white/5 p-8 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-[40px] md:p-12 lg:p-16">
-            <div className="grid gap-12 lg:grid-cols-12 lg:items-center relative">
-              
-              {/* Text Content */}
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+
               <div className="lg:col-span-7 relative z-20">
-                <p className="font-mono text-sm font-bold uppercase tracking-widest text-psy-amber-light drop-shadow-sm">
-                  Decision
+                <p className="font-mono text-sm font-bold uppercase tracking-widest text-psy-amber-light">
+                  Decisión
                 </p>
-                <h2 className="mt-4 font-sora text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl drop-shadow-md">
-                  Si tu practica ya pide un sistema mas moderno...
+                <h2 className="mt-4 font-sora text-4xl font-bold tracking-tight text-white md:text-5xl">
+                  Si tu práctica ya pide un sistema más moderno…
                 </h2>
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85 font-medium">
-                  No estas validando una tendencia. Estas validando si vale la pena seguir cerrando sesiones con el metodo de siempre.
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">
+                  No estás validando una tendencia. Estás validando si vale la pena seguir cerrando sesiones con el método de siempre.
                 </p>
 
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                   <Link
                     href="/register"
-                    className="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 text-[15px] font-bold text-psy-ink shadow-xl transition-all hover:-translate-y-1 hover:bg-psy-paper hover:shadow-2xl"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-8 py-4 text-[15px] font-bold text-psy-ink shadow-xl transition-all hover:-translate-y-1 hover:bg-psy-paper hover:shadow-2xl"
                   >
                     Probar MENTEZER ahora
-                    <ArrowRight size={18} className="ml-2" />
+                    <ArrowRight size={18} />
                   </Link>
-                  <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
-                    <span className="inline-flex items-center gap-2 text-white/95">
-                      <CalendarDays size={16} />
-                      Configuracion rapida
-                    </span>
-                    <span className="inline-flex items-center gap-2 text-white/95">
-                      <Shield size={16} />
-                      Sin tarjeta
-                    </span>
-                    <span className="inline-flex items-center gap-2 text-white/95">
-                      <Clock3 size={16} />
-                      Cierre mas ligero
-                    </span>
+                  <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 text-xs font-medium text-white/70 backdrop-blur-md">
+                    <span className="inline-flex items-center gap-2"><CalendarDays size={14} /> Configuración rápida</span>
+                    <span className="inline-flex items-center gap-2"><Shield size={14} /> Sin tarjeta</span>
+                    <span className="inline-flex items-center gap-2"><Clock3 size={14} /> Cierre más ligero</span>
                   </div>
                 </div>
               </div>
 
-              {/* Imagen Integrada en la Tarjeta */}
               <div className="lg:col-span-5 relative z-30 mt-6 lg:mt-0">
-                <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform duration-700 hover:scale-105 hover:rotate-0 lg:rotate-3">
+                <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform duration-700 hover:scale-[1.03] lg:rotate-3 lg:hover:rotate-0">
                   <div className="absolute inset-0 z-10 bg-gradient-to-t from-psy-ink/40 via-transparent to-transparent pointer-events-none" />
                   <Image
                     src="/img/mentezer-context.png"
-                    alt="MENTEZER en uso clinico"
+                    alt="MENTEZER en uso clínico"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 40vw"
@@ -874,6 +747,28 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* ─── FOOTER ─── */}
+      <footer className="bg-psy-ink border-t border-white/8 px-4 py-8 md:px-6">
+        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 text-white/60">
+              <Brain size={16} strokeWidth={1.8} />
+            </div>
+            <span className="font-sora text-sm font-semibold text-white/60">MENTEZER</span>
+            <span className="text-white/20 text-sm">·</span>
+            <span className="text-xs text-white/35">Construido en Cali, Colombia 🇨🇴</span>
+          </div>
+
+          <nav className="flex items-center gap-5 text-xs text-white/40">
+            <Link href="/legal/privacy" className="hover:text-white/65 transition-colors">Privacidad</Link>
+            <Link href="/legal/terms" className="hover:text-white/65 transition-colors">Términos</Link>
+            <Link href="/support" className="hover:text-white/65 transition-colors">Soporte</Link>
+            <span className="text-white/20">© 2025 MENTEZER</span>
+          </nav>
+        </div>
+      </footer>
+
     </main>
   )
 }

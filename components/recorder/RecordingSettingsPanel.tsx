@@ -6,6 +6,8 @@ export interface RecordingSettings {
   audioQuality: "standard" | "high";
   format: "webm" | "wav";
   noiseCancellation: boolean;
+  echoCancellation: boolean;
+  autoGainControl: boolean;
   diarization: boolean;
   language: "es" | "en";
   safetyTrack: boolean;
@@ -31,9 +33,23 @@ export function RecordingSettingsPanel({
     {
       key: "noiseCancellation" as const,
       label: "Cancelación de ruido",
-      helper: "Reduce ruido ambiente y eco.",
+      helper: "Reduce ruido ambiente cuando el navegador lo permite.",
       activeTone: "bg-[#eaf6fb] text-[#427e97]",
       inactiveTone: "bg-[#f4f7f8] text-[#6c7a82]",
+    },
+    {
+      key: "echoCancellation" as const,
+      label: "Cancelación de eco",
+      helper: "Útil en sesiones virtuales o parlantes activos.",
+      activeTone: "bg-[#eaf6fb] text-[#427e97]",
+      inactiveTone: "bg-[#f4f7f8] text-[#6c7a82]",
+    },
+    {
+      key: "autoGainControl" as const,
+      label: "Ganancia automática",
+      helper: "Ayuda a estabilizar voces bajas o variables.",
+      activeTone: "bg-[#eef5ea] text-[#5e8a53]",
+      inactiveTone: "bg-[#f4f6f2] text-[#6f7d6a]",
     },
     {
       key: "diarization" as const,
@@ -45,7 +61,7 @@ export function RecordingSettingsPanel({
     {
       key: "safetyTrack" as const,
       label: "Pista de seguridad",
-      helper: "Copia defensiva del audio.",
+      helper: "Preparada como metadata; depende de procesamiento avanzado.",
       activeTone: "bg-[#eef5ea] text-[#5e8a53]",
       inactiveTone: "bg-[#f4f6f2] text-[#6f7d6a]",
     },

@@ -12,14 +12,14 @@
 ## API Routes
 
 - Validar SIEMPRE con Zod
-- Verificar sesión con `getServerSession` antes de cualquier operación
-- Verificar ownership: `psychologist_id === session.user.id`
+- Verificar sesión antes de cualquier operación (`supabase.auth.getUser()` o el helper Auth usado por el módulo)
+- Verificar ownership: `psychologist_id === user.id`
 - Verificar plan antes de features Pro: `if (session.user.plan !== 'pro') return 403`
 - Respuestas: `{ data } | { error: string }`
 
 ## Supabase
 
-- Cliente server: `createServerClient()` con cookies
+- Cliente server: `createClient()` desde `lib/supabase/server`
 - Cliente browser: `createBrowserClient()`
 - NUNCA service_role_key en código frontend
 - NUNCA bypassear RLS en rutas de usuario
@@ -61,8 +61,8 @@
 ## Reglas de diseño
 
 ```
-13. Color #FFFFFF prohibido — usar --psy-paper (#FAF8F4)
-14. Fuente Inter prohibida — usar DM Sans + Lora
+13. Usar tokens `psy-*` definidos en `app/globals.css`
+14. Fuente Inter prohibida — usar Manrope + DM Sans + DM Mono
 15. Sin header ni footer tradicionales
 16. Skeleton loaders en todos los componentes con datos async
 17. Alertas "high" siempre visibles con animación de pulso

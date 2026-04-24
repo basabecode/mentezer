@@ -21,6 +21,8 @@ const DEFAULT_SETTINGS: RecordingSettings = {
   audioQuality: "high",
   format: "webm",
   noiseCancellation: true,
+  echoCancellation: true,
+  autoGainControl: true,
   diarization: true,
   language: "es",
   safetyTrack: true,
