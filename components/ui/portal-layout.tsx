@@ -19,7 +19,7 @@ type Stat = {
 
 const accentMap: Record<NonNullable<Stat['accent']>, string> = {
   blue:  'bg-psy-blue-light text-psy-blue',
-  green: 'bg-psy-green-light text-psy-green',
+  green: 'bg-psy-blue-light text-psy-blue',
   amber: 'bg-psy-amber-light text-psy-amber',
   ink:   'bg-psy-ink text-white',
   red:   'bg-psy-red-light text-psy-red',
@@ -27,7 +27,7 @@ const accentMap: Record<NonNullable<Stat['accent']>, string> = {
 
 const statCardMap: Record<NonNullable<Stat['accent']>, string> = {
   blue:  'border-psy-blue/15 bg-psy-blue-light',
-  green: 'border-psy-green/15 bg-psy-green-light',
+  green: 'border-psy-blue/15 bg-psy-blue-light',
   amber: 'border-psy-amber/15 bg-psy-amber-light',
   ink:   'border-psy-ink/80 bg-psy-ink',
   red:   'border-psy-red/15 bg-psy-red-light',
@@ -68,7 +68,7 @@ export function PortalHero({
   return (
     <section className="relative overflow-hidden rounded-[2rem] border bg-white shadow-[0_12px_32px_rgba(13,34,50,0.06)]" style={{ borderColor: 'var(--psy-warm-border)' }}>
       {/* Subtle gradient texture */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(62,129,151,0.10),transparent_38%),radial-gradient(ellipse_at_bottom_right,rgba(127,155,121,0.08),transparent_32%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,oklch(48%_0.21_265_/_0.08),transparent_38%),radial-gradient(ellipse_at_bottom_right,oklch(62%_0.18_265_/_0.06),transparent_32%)]" />
 
       <div className={cn('relative p-6 md:p-8', aside ? 'grid gap-6 xl:grid-cols-[1.1fr_0.9fr] xl:items-end' : '')}>
         <div>
@@ -116,7 +116,7 @@ export function PortalHero({
 export function PortalStatGrid({ stats }: { stats: Stat[] }) {
   const valueColorMap: Record<NonNullable<Stat['accent']>, string> = {
     blue:  'text-psy-blue',
-    green: 'text-psy-green',
+    green: 'text-psy-blue',
     amber: 'text-psy-amber',
     ink:   'text-white',
     red:   'text-psy-red',
@@ -156,7 +156,7 @@ export function PortalStatGrid({ stats }: { stats: Stat[] }) {
             <p className={cn('font-mono text-[9px] uppercase tracking-[0.28em]', hintColor)}>
               {stat.label}
             </p>
-            <p className={cn('mt-3 font-serif text-4xl font-bold tracking-tight leading-none', valueColor)}>
+            <p className={cn('mt-2 font-serif text-2xl font-semibold tracking-tight leading-none', valueColor)}>
               {stat.value}
             </p>
             {stat.hint ? (
@@ -191,7 +191,7 @@ export function PortalSection({
       style={{ borderColor: className?.includes('bg-psy-ink') ? 'rgba(255,255,255,0.1)' : 'var(--psy-warm-border)', backgroundColor: className?.includes('bg-psy-ink') ? undefined : 'white' }}
     >
       {/* Accent bar */}
-      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-psy-blue/60 via-psy-green/40 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-psy-blue/60 via-psy-purple/40 to-transparent" />
       <div className="flex items-start justify-between gap-4">
         <div>
           {eyebrow ? (
@@ -220,7 +220,7 @@ export function PortalEmpty({
   action?: ReactNode
 }) {
   return (
-    <div className="rounded-[2rem] border bg-gradient-to-b from-[#f8fbfc] to-white px-5 py-10 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]" style={{ borderColor: 'var(--psy-warm-border)' }}>
+    <div className="rounded-[2rem] border bg-gradient-to-b from-psy-blue-light/40 to-white px-5 py-10 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]" style={{ borderColor: 'var(--psy-warm-border)' }}>
       <p className="font-serif text-xl font-semibold tracking-tight text-psy-ink">{title}</p>
       <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-psy-muted">{description}</p>
       {action ? <div className="mt-6">{action}</div> : null}

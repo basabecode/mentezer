@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { MentezerLogo } from '@/components/brand/MentezerLogo'
 import {
   ArrowRight,
   BookOpen,
@@ -306,11 +307,8 @@ export default function LandingPage() {
       {/* ─── NAV ─── */}
       <header className="fixed left-1/2 top-4 z-50 w-full max-w-7xl -translate-x-1/2 px-4">
         <nav className="calm-panel flex items-center justify-between px-4 py-3 md:px-5">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue shadow-sm transition-colors group-hover:bg-psy-blue group-hover:text-white">
-              <Brain size={20} strokeWidth={1.8} />
-            </div>
-            <p className="font-sora text-lg font-semibold tracking-tight text-psy-ink">MENTEZER</p>
+          <Link href="/" className="flex flex-col gap-0.5">
+            <MentezerLogo variant="light" size="md" />
           </Link>
 
           <div className="hidden items-center gap-1 rounded-full border border-psy-border bg-white/75 p-1 md:flex">
@@ -398,11 +396,15 @@ export default function LandingPage() {
             </div>
 
             {/* Stats — debajo del CTA */}
-            <div className="mt-10 flex flex-wrap items-center gap-2 rounded-2xl border border-psy-warm-border bg-white/80 px-4 py-3 text-xs text-psy-muted shadow-sm">
-              <span className="rounded-full bg-psy-amber-light px-2.5 py-1 font-medium text-psy-ink">Antes: 45 min</span>
-              <span className="rounded-full bg-psy-blue-light px-2.5 py-1 font-medium text-psy-ink">Ahora: 28 seg.</span>
+            <div className="mt-10 flex flex-wrap items-center gap-3 rounded-2xl border border-psy-border/40 bg-white/40 px-4 py-3 text-[11px] font-medium text-psy-muted shadow-[0_2px_10px_rgba(0,0,0,0.02)] backdrop-blur-sm">
+              <div className="flex items-center gap-1.5 font-mono uppercase tracking-wider">
+                <span className="opacity-60 line-through">Antes: 45m</span>
+                <span className="text-psy-blue">Ahora: 28s</span>
+              </div>
+              <span className="h-3 w-[1px] bg-psy-border"></span>
               <span>126 referencias activas</span>
-              <span className="font-medium text-psy-green">Listo para cerrar consulta</span>
+              <span className="h-3 w-[1px] bg-psy-border"></span>
+              <span className="text-psy-ink">Listo para cerrar consulta</span>
             </div>
           </div>
 
@@ -420,7 +422,7 @@ export default function LandingPage() {
                 className={`flex items-center gap-3 px-5 py-4${i > 0 ? ' border-t lg:border-t-0 lg:border-l' : ''}`}
                 style={{ borderColor: 'var(--psy-warm-border)' }}
               >
-                <p className="font-sora text-2xl font-semibold tracking-tight text-psy-ink shrink-0">{item.value}</p>
+                <p className="font-mono text-xl tracking-tight text-psy-ink shrink-0">{item.value}</p>
                 <p className="text-xs leading-5 text-psy-muted">{item.label}</p>
               </div>
             ))}
@@ -462,7 +464,7 @@ export default function LandingPage() {
       <section id="flujo" className="bg-[#F7F9F9] px-4 py-12 md:px-6 md:py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-psy-green">Lo que recibes</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-psy-blue">Lo que recibes</p>
             <h2 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-psy-ink md:text-5xl">
               Sales de una sesión con material para actuar, no con tareas pendientes.
             </h2>
@@ -752,10 +754,7 @@ export default function LandingPage() {
       <footer className="bg-psy-ink border-t border-white/8 px-4 py-8 md:px-6">
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 text-white/60">
-              <Brain size={16} strokeWidth={1.8} />
-            </div>
-            <span className="font-sora text-sm font-semibold text-white/60">MENTEZER</span>
+            <MentezerLogo variant="dark" size="sm" />
             <span className="text-white/20 text-sm">·</span>
             <span className="text-xs text-white/35">Construido en Cali, Colombia 🇨🇴</span>
           </div>

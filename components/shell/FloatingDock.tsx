@@ -12,13 +12,13 @@ import {
   Briefcase,
   DollarSign,
   X,
-  Brain,
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDashboard } from "./DashboardContext";
+import { MentezerIcon, MentezerLogo } from "@/components/brand/MentezerLogo";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Inicio" },
@@ -47,25 +47,23 @@ function NavRail({
   return (
     <nav
       className={cn(
-        "relative z-30 flex h-full flex-col overflow-visible rounded-[1.9rem] border border-white/6 bg-[#1e2224] text-white shadow-[0_18px_40px_rgba(15,18,20,0.24)] transition-all duration-300",
+        "relative z-30 flex h-full flex-col overflow-visible rounded-[1.9rem] border border-white/10 bg-[#1c4c96] text-white shadow-[0_18px_40px_rgba(28,76,150,0.32)] transition-all duration-300",
         expanded ? "w-[184px] p-3" : "w-[76px] p-3"
       )}
       aria-label="Navegación principal"
     >
       {/* Logo */}
-      <div className={cn("flex items-center pb-3", expanded ? "gap-3 px-1" : "justify-center")}>
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#4a8aa6] text-white shadow-[0_10px_18px_rgba(74,138,166,0.28)]">
-          <Brain size={18} strokeWidth={2} />
-        </div>
-        {expanded && (
-          <motion.span
+      <div className={cn("flex items-center pb-3", expanded ? "gap-0 px-1" : "justify-center")}>
+        {expanded ? (
+          <motion.div
             initial={{ opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -6 }}
-            className="text-sm font-semibold text-white"
           >
-            Mentezer
-          </motion.span>
+            <MentezerLogo variant="dark" size="sm" />
+          </motion.div>
+        ) : (
+          <MentezerIcon variant="dark" size="sm" />
         )}
       </div>
 
@@ -83,7 +81,7 @@ function NavRail({
                 "group relative z-0 flex h-11 items-center rounded-2xl transition-all duration-200",
                 expanded ? "gap-3 px-3" : "justify-center",
                 active
-                  ? "bg-[#254452] text-white shadow-[0_10px_20px_rgba(37,68,82,0.28)]"
+                  ? "bg-white/14 text-white shadow-[0_8px_18px_oklch(48%_0.21_265_/_0.25)]"
                   : "text-white/65 hover:bg-white/6 hover:text-white"
               )}
             >
@@ -148,7 +146,7 @@ export function FloatingDock() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-[#111315]/35 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-50 bg-[#1c4c96]/20 backdrop-blur-sm lg:hidden"
               onClick={() => setNavOpen(false)}
             />
 
@@ -163,7 +161,7 @@ export function FloatingDock() {
                 <button
                   type="button"
                   onClick={() => setNavOpen(false)}
-                  className="ml-auto flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-[#1e2224] text-white/72"
+                  className="ml-auto flex h-10 w-10 items-center justify-center rounded-2xl border border-white/15 bg-[#1c4c96] text-white/80"
                   aria-label="Cerrar navegación"
                 >
                   <X size={16} />

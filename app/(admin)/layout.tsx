@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Shield, Users, Settings, LogOut, LayoutDashboard } from "lucide-react";
 import { logout } from "@/lib/auth/actions";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { MentezerLogo } from "@/components/brand/MentezerLogo";
 
 const adminNav = [
   { href: "/admin", icon: LayoutDashboard, label: "Resumen" },
@@ -44,21 +45,14 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen bg-[#F7F9F9]">
-      <aside className="hidden w-72 shrink-0 flex-col border-r border-psy-ink/10 bg-psy-ink/95 text-psy-paper lg:flex">
+      <aside className="hidden w-72 shrink-0 flex-col border-r border-white/10 bg-[#1c4c96] text-psy-paper lg:flex">
         <div className="border-b border-white/10 px-5 py-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-psy-blue shadow-lg">
-              <Shield size={18} className="text-white" />
-            </div>
-            <div>
-              <p className="font-serif text-xl font-semibold tracking-tight">
-                Mentezer
-              </p>
-              <p className="text-xs uppercase tracking-widest text-white/40">
-                Panel administrador
-              </p>
-            </div>
+            <MentezerLogo variant="dark" size="sm" />
           </div>
+          <p className="mt-1.5 text-xs uppercase tracking-widest text-white/40">
+            Panel administrador
+          </p>
 
           <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-widest text-white/40">
@@ -98,17 +92,8 @@ export default async function AdminLayout({
         <div className="sticky top-0 z-40 border-b border-psy-border bg-white/85 px-4 py-3 backdrop-blur-md lg:hidden">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-psy-blue text-white">
-                <Shield size={16} />
-              </div>
-              <div>
-                <p className="font-serif text-lg font-semibold tracking-tight text-psy-ink">
-                  Mentezer
-                </p>
-                <p className="text-xs uppercase tracking-widest text-psy-muted">
-                  Admin
-                </p>
-              </div>
+              <MentezerLogo variant="light" size="sm" />
+              <span className="text-xs uppercase tracking-widest text-psy-muted">Admin</span>
             </div>
 
             <form action={logout}>

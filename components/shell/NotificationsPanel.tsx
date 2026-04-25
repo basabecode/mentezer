@@ -29,7 +29,7 @@ export function NotificationsPanel({
 }: NotificationsPanelProps) {
   const typeConfig = {
     analysis: { icon: Clock, color: "text-psy-amber", bg: "bg-psy-amber/10" },
-    consent: { icon: CheckCircle2, color: "text-psy-green", bg: "bg-psy-green/10" },
+    consent: { icon: CheckCircle2, color: "text-psy-blue", bg: "bg-psy-blue/10" },
     referral: { icon: CheckCircle2, color: "text-psy-blue", bg: "bg-psy-blue/10" },
   };
 
@@ -74,7 +74,7 @@ export function NotificationsPanel({
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
               <div className="h-12 w-12 rounded-full bg-psy-cream flex items-center justify-center mb-3">
-                <CheckCircle2 size={24} className="text-psy-green" />
+                <CheckCircle2 size={24} className="text-psy-blue" />
               </div>
               <p className="text-sm font-medium text-psy-ink">
                 Todo actualizado

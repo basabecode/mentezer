@@ -1,6 +1,6 @@
 export default function OnboardingLoading() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(21,134,160,0.14),transparent_24%),linear-gradient(180deg,#F5F2ED_0%,#E7F0F5_100%)]">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,oklch(48% 0.21 265 / 0.14),transparent_24%),linear-gradient(180deg,#F5F2ED_0%,oklch(95% 0.04 265)_100%)]">
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="w-full max-w-2xl">
           <div className="bg-psy-paper rounded-3xl border border-psy-border p-10">

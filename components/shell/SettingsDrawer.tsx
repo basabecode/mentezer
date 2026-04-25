@@ -33,7 +33,7 @@ export function SettingsDrawer() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-psy-border bg-white/96 shadow-[0_18px_46px_rgba(74,144,164,0.16)] backdrop-blur-xl"
+              className="fixed bottom-0 right-0 top-0 z-50 flex w-[min(26rem,100vw)] flex-col border-l border-psy-border bg-white/96 shadow-[0_18px_46px_oklch(48%_0.21_265_/_0.16)] backdrop-blur-xl"
             >
               <div className="paper-texture border-b border-psy-border px-5 py-4">
                 <div className="flex items-center justify-between">

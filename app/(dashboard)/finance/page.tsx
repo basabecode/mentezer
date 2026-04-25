@@ -77,7 +77,7 @@ export default function FinancePage() {
           ].map(item => {
             const Icon = item.icon
             return (
-              <div key={item.title} className="rounded-[1.75rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+              <div key={item.title} className="rounded-[1.75rem] border border-psy-warm-border bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
                   <Icon size={18} />
                 </div>

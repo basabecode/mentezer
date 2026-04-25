@@ -11,16 +11,20 @@
   --color-black:            #000000;
   --color-transparent:      transparent;
 
-  /* Colores semánticos */
-  --color-psy-blue:         #3E8197;
-  --color-psy-blue-light:   #E8F2F5;
-  --color-psy-purple:       #8BAA95;
-  --color-psy-purple-light: #F1F6F3;
-  --color-psy-green:        #7F9B79;
-  --color-psy-green-light:  #EEF4EC;
-  --color-psy-warm:         #F3F7F7;
-  --color-psy-warm-border:  #D9E1E2;
-  --color-psy-border:       #D9E1E2;
+  /* Colores semánticos — paleta combinada con logo */
+  --color-psy-blue:         #607ec9;
+  --color-psy-blue-light:   #e8edfa;
+  --color-psy-purple:       #1c4c96;
+  --color-psy-purple-light: #d5dff5;
+  --color-psy-green:        #607ec9;
+  --color-psy-green-light:  #e8edfa;
+  --color-psy-warm:         #fdf9ee;
+  --color-psy-warm-border:  #e6dcb8;
+  --color-psy-border:       #dde3f0;
+  --color-psy-navy:         #1c4c96;
+  --color-psy-navy-light:   #d5dff5;
+  --color-psy-gold:         #f8de7e;
+  --color-psy-gold-light:   #feeeb8;
   --color-psy-amber:        #B4895C;
   --color-psy-amber-light:  #F7EFE6;
   --color-psy-red:          #B56969;
@@ -30,12 +34,18 @@
   --font-serif: var(--font-manrope), system-ui, sans-serif;
   --font-sans:  var(--font-dm-sans), system-ui, sans-serif;
   --font-mono:  var(--font-dm-mono), monospace;
-  --font-sora:  var(--font-manrope), system-ui, sans-serif;
+  --font-sora:  var(--font-sora), system-ui, sans-serif;
+
+  /* Brand Identity — Neural M Logo System */
+  --color-brand:       #607ec9;
+  --color-brand-dark:  #1c4c96;
+  --color-brand-mid:   #8fa4d8;
+  --color-brand-light: #e8edfa;
 
   /* Sombras clínicas */
-  --shadow-card:  0 12px 34px rgba(74, 144, 164, 0.08);
-  --shadow-panel: 0 18px 44px rgba(74, 144, 164, 0.10);
-  --shadow-dock:  0 20px 48px rgba(46, 46, 46, 0.12);
+  --shadow-card:  0 12px 34px rgba(96, 126, 201, 0.10);
+  --shadow-panel: 0 18px 44px rgba(96, 126, 201, 0.12);
+  --shadow-dock:  0 20px 48px rgba(28, 76, 150, 0.18);
 }
 
 /* ─── Variables globales ─── */
@@ -52,14 +62,18 @@
   --psy-muted:        #607173;
   --psy-border:       #D9E1E2;
 
-  --psy-blue:         #3E8197;
-  --psy-blue-light:   #E8F2F5;
-  --psy-purple:       #8BAA95;
-  --psy-purple-light: #F1F6F3;
-  --psy-green:        #7F9B79;
-  --psy-green-light:  #EEF4EC;
-  --psy-warm:         #F3F7F7;
-  --psy-warm-border:  #D9E1E2;
+  --psy-blue:         #607ec9;
+  --psy-blue-light:   #e8edfa;
+  --psy-purple:       #1c4c96;
+  --psy-purple-light: #d5dff5;
+  --psy-green:        #607ec9;
+  --psy-green-light:  #e8edfa;
+  --psy-warm:         #fdf9ee;
+  --psy-warm-border:  #e6dcb8;
+  --psy-navy:         #1c4c96;
+  --psy-navy-light:   #d5dff5;
+  --psy-gold:         #f8de7e;
+  --psy-gold-light:   #feeeb8;
   --psy-amber:        #B4895C;
   --psy-amber-light:  #F7EFE6;
   --psy-red:          #B56969;
@@ -78,7 +92,6 @@
   /* Font Aliases */
   --font-serif:       var(--font-manrope), system-ui, sans-serif;
   --font-sans:        var(--font-dm-sans), system-ui, sans-serif;
-  --font-sora:        var(--font-manrope), system-ui, sans-serif;
   --font-display:     var(--font-manrope), system-ui, sans-serif;
 }
 
@@ -227,7 +240,7 @@ button {
   pointer-events: none;
   background:
     linear-gradient(180deg, rgba(255,255,255,0.32), transparent 24%),
-    linear-gradient(90deg, rgba(62,129,151,0.06), transparent 24%, transparent 76%, rgba(168,195,160,0.05));
+    linear-gradient(90deg, oklch(48% 0.21 265 / 0.06), transparent 24%, transparent 76%, oklch(62% 0.18 265 / 0.05));
 }
 
 .thinking-ring {

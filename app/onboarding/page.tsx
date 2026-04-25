@@ -62,7 +62,7 @@ export default async function OnboardingPage() {
       : "lite";
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(21,134,160,0.14),transparent_24%),linear-gradient(180deg,#F5F2ED_0%,#E7F0F5_100%)]">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,oklch(48% 0.21 265 / 0.14),transparent_24%),linear-gradient(180deg,#F5F2ED_0%,oklch(95% 0.04 265)_100%)]">
       <OnboardingFlow
         name={psychologist.name}
         defaultTrack={defaultTrack}

@@ -76,7 +76,7 @@ export default async function AdminDashboardPage() {
           aside={
             <div className="rounded-[1.8rem] border border-psy-ink/10 bg-psy-ink p-5 text-psy-paper shadow-xl shadow-psy-ink/18">
               <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-psy-paper opacity-45">Conversion y riesgo</p>
-              <p className="mt-3 font-sora text-5xl font-bold tracking-tight">{conversion}%</p>
+              <p className="mt-3 font-sora text-3xl font-semibold tracking-tight">{conversion}%</p>
               <p className="mt-3 text-sm leading-7 text-psy-paper opacity-70">
                 {trial ?? 0} cuenta{trial === 1 ? '' : 's'} en trial y {suspendidos} suspendida{suspendidos === 1 ? '' : 's'} para revisar esta semana.
               </p>

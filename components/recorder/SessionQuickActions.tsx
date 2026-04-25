@@ -33,7 +33,7 @@ export function SessionQuickActions({
       icon: Bookmark,
       onClick: onAddCue,
       disabled: !canMark,
-      tone: "border-[#dce7ec] bg-[linear-gradient(180deg,#f8fbfc_0%,#ffffff_100%)]",
+      tone: "border-psy-warm-border bg-[linear-gradient(180deg,oklch(97% 0.02 265)_0%,#ffffff_100%)]",
       iconTone: "bg-[#edf5f9] text-[#497d93]",
     },
     {

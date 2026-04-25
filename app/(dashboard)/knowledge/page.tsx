@@ -153,7 +153,7 @@ export default async function KnowledgePage() {
               title: 'Uso en sesión',
               copy: 'La utilidad real aquí es saber con rapidez qué conocimiento está disponible antes de cerrar una lectura o generar un informe.',
               icon: Sparkles,
-              accent: 'bg-psy-green-light text-psy-green',
+              accent: 'bg-psy-blue-light text-psy-blue',
             },
           ].map(item => {
             const Icon = item.icon

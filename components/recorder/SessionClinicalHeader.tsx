@@ -69,7 +69,7 @@ export function SessionClinicalHeader({
   return (
     <section
       id="session-overview"
-      className="scroll-mt-20 rounded-[1.5rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#f7fbfc_0%,#ffffff_100%)] px-4 py-3 shadow-[0_6px_16px_rgba(13,34,50,0.04)] sm:px-5"
+      className="scroll-mt-20 rounded-[1.5rem] border border-psy-warm-border bg-[linear-gradient(180deg,oklch(97% 0.02 265)_0%,#ffffff_100%)] px-4 py-3 shadow-[0_6px_16px_rgba(13,34,50,0.04)] sm:px-5"
     >
       <div className="flex flex-wrap items-center gap-3">
         {/* Avatar */}

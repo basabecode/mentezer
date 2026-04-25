@@ -57,8 +57,8 @@ export function HealthStatus() {
     return (
       <div className="space-y-2">
         {["supabase", "claude", "storage"].map((key) => (
-          <div key={key} className="flex items-center justify-between rounded-[1.2rem] bg-white/62 px-4 py-3">
-            <p className="text-sm text-[var(--psy-ink)]">{HEALTH_LABELS[key]}</p>
+          <div key={key} className="flex items-center justify-between rounded-xl bg-white/62 px-4 py-3">
+            <p className="text-sm text-psy-ink">{HEALTH_LABELS[key]}</p>
             <div className="h-2 w-2 rounded-full bg-psy-muted/30 animate-pulse" />
           </div>
         ))}
@@ -79,16 +79,16 @@ export function HealthStatus() {
       {Object.entries(health.checks).map(([key, check]) => (
         <div
           key={key}
-          className="flex items-center justify-between rounded-[1.2rem] bg-white/62 px-4 py-3 transition-all duration-200 hover:bg-white hover:shadow-[0_4px_12px_rgba(13,34,50,0.06)]"
+          className="flex items-center justify-between rounded-xl bg-white/62 px-4 py-3 transition-all duration-200 hover:bg-white hover:shadow-[0_4px_12px_rgba(96,126,201,0.08)]"
         >
-          <p className="text-sm text-[var(--psy-ink)]">{HEALTH_LABELS[key]}</p>
+          <p className="text-sm text-psy-ink">{HEALTH_LABELS[key]}</p>
           <div className="flex items-center gap-2">
             <span
               className={`h-2 w-2 rounded-full ${
-                check.ok ? "bg-[var(--psy-green)]" : "bg-[var(--psy-red)] animate-pulse"
+                check.ok ? "bg-psy-green" : "bg-psy-red animate-pulse"
               }`}
             />
-            <span className={`text-xs font-medium ${check.ok ? "text-[var(--psy-green)]" : "text-[var(--psy-red)]"}`}>
+            <span className={`text-xs font-medium ${check.ok ? "text-psy-green" : "text-psy-red"}`}>
               {check.ok ? "Operativo" : "Error"}
             </span>
             {check.latency > 0 && (

@@ -75,6 +75,11 @@ export function SessionConfigBar({
               REC
             </span>
           )}
+          {process.env.NEXT_PUBLIC_DEV_BYPASS_CONSENT === 'true' && (
+            <span className="rounded-full border border-amber-300/70 bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-600">
+              DEV
+            </span>
+          )}
         </div>
 
         {/* Centro: tabs modo */}
@@ -164,6 +169,11 @@ export function SessionConfigBar({
               <span className="flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-600">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
                 REC
+              </span>
+            )}
+            {process.env.NEXT_PUBLIC_DEV_BYPASS_CONSENT === 'true' && (
+              <span className="rounded-full border border-amber-300/70 bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-600">
+                DEV
               </span>
             )}
           </div>

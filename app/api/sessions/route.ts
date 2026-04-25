@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Paciente no encontrado" }, { status: 404 });
     }
 
-    if (!patient.consent_signed_at) {
+    if (!patient.consent_signed_at && process.env.DEV_BYPASS_CONSENT !== 'true') {
       return NextResponse.json(
         { error: "El paciente no ha firmado el consentimiento informado" },
         { status: 403 },

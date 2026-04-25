@@ -58,7 +58,7 @@ export function LiveTranscriptPanel({ segments, statusLabel }: LiveTranscriptPan
           ))
         ) : (
           <div className="flex min-h-[220px] flex-col items-center justify-center rounded-[1.2rem] border border-dashed border-psy-border bg-[#fbfcfc] px-6 py-8 text-center">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#eef6f9] text-psy-blue">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue">
               <MessageSquareText size={18} />
             </div>
             <p className="mt-4 text-base font-medium tracking-tight text-psy-ink">Esperando lectura en vivo</p>

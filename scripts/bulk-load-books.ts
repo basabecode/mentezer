@@ -1,31 +1,53 @@
 /**
  * Mentezer — Carga masiva de libros clínicos (126 libros de Mario)
- * Uso: npx ts-node scripts/bulk-load-books.ts
+ * Uso:
+ *   npx ts-node scripts/bulk-load-books.ts
+ *
+ * Variables utiles para cuidar el free tier:
+ *   MAX_BOOKS=2              limita cuantos libros procesar en una corrida
+ *   MAX_CHUNKS_PER_BOOK=300  limita chunks/embeddings guardados por libro
+ *   DRY_RUN=true             clasifica y calcula chunks sin escribir en Supabase
  *
  * Resiliente: usa bulk-load-log.json para pausar y retomar.
- * Validar con 3 libros antes de correr con todos.
+ * Validar con pocos libros antes de correr con todos.
  */
 
+import "./load-env.ts";
 import { createClient } from "@supabase/supabase-js";
 import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
-import { scanBooksFolder } from "./extract-pdf-text";
-import { classifyDocument } from "./classify-document";
+import { pathToFileURL } from "url";
+import { scanBooksFolder } from "./extract-pdf-text.ts";
+import { classifyDocument } from "./classify-document.ts";
+import { parseOptionalPositiveInt, selectChunksForBook } from "./bulk-load-utils.ts";
+
+const BOOKS_DIR = process.env.BOOKS_BASE_DIR ?? "./books-to-index";
+const LOG_FILE = "./scripts/bulk-load-log.json";
+const BATCH_SIZE = 20;
+const DELAY_MS = 500;
+const MAX_BOOKS = parseOptionalPositiveInt(process.env.MAX_BOOKS);
+const MAX_CHUNKS_PER_BOOK = parseOptionalPositiveInt(process.env.MAX_CHUNKS_PER_BOOK) ?? 300;
+const DRY_RUN = process.env.DRY_RUN === "true";
+
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL && !DRY_RUN) {
+  throw new Error("Falta NEXT_PUBLIC_SUPABASE_URL para escribir en Supabase.");
+}
+
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY && !DRY_RUN) {
+  throw new Error("Falta SUPABASE_SERVICE_ROLE_KEY para escribir en Supabase.");
+}
+
+if (!process.env.OPENAI_API_KEY && !DRY_RUN) {
+  throw new Error("Falta OPENAI_API_KEY para generar embeddings.");
+}
 
 // Service role para saltear RLS en carga inicial (NUNCA usar en frontend)
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://localhost",
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? "dry-run"
 );
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const BOOKS_DIR  = process.env.BOOKS_BASE_DIR ?? "./books-to-index";
-const LOG_FILE   = "./scripts/bulk-load-log.json";
-const CHUNK_SIZE = 600;
-const CHUNK_OVERLAP = 60;
-const BATCH_SIZE = 20;
-const DELAY_MS   = 500;
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY ?? "dry-run" });
 
 function loadLog(): Record<string, "done" | "error"> {
   if (fs.existsSync(LOG_FILE)) {
@@ -38,32 +60,13 @@ function saveLog(log: Record<string, string>) {
   fs.writeFileSync(LOG_FILE, JSON.stringify(log, null, 2));
 }
 
-function chunkText(text: string): string[] {
-  const paragraphs = text.split(/\n{2,}/);
-  const chunks: string[] = [];
-  let current = "";
-
-  for (const para of paragraphs) {
-    const clean = para.trim().replace(/\s+/g, " ");
-    if (!clean || clean.length < 30) continue;
-
-    if ((current + " " + clean).length > CHUNK_SIZE) {
-      if (current) chunks.push(current.trim());
-      const overlapText = current.slice(-CHUNK_OVERLAP);
-      current = overlapText + " " + clean;
-    } else {
-      current += (current ? " " : "") + clean;
-    }
-  }
-  if (current.trim().length > 50) chunks.push(current.trim());
-  return chunks;
-}
-
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function getGroupId(slug: string): Promise<string | null> {
+  if (DRY_RUN) return null;
+
   const { data } = await supabase
     .from("knowledge_groups")
     .select("id")
@@ -81,10 +84,33 @@ async function processBook(doc: Awaited<ReturnType<typeof scanBooksFolder>>[0], 
   }
 
   console.log(`\n[INICIO] ${doc.filename} (${doc.folder})`);
+  if (DRY_RUN) {
+    console.log("[DRY RUN] No se escribira en Supabase ni se generaran embeddings.");
+  }
+
+  const { generatedChunks, selectedChunks: chunks } = selectChunksForBook(doc.text, MAX_CHUNKS_PER_BOOK);
+  console.log(`[CHUNKS] ${generatedChunks.length} generados | ${chunks.length} seleccionados`);
+  if (generatedChunks.length > chunks.length) {
+    console.log(`[LIMIT] MAX_CHUNKS_PER_BOOK=${MAX_CHUNKS_PER_BOOK}; se omitieron ${generatedChunks.length - chunks.length} chunks`);
+  }
+
+  if (chunks.length === 0) {
+    console.warn(`[WARN] Sin chunks — posible PDF escaneado sin OCR`);
+    if (!DRY_RUN) {
+      log[key] = "error";
+      saveLog(log);
+    }
+    return;
+  }
 
   const classification = await classifyDocument(doc.filename, doc.folder, doc.text);
   console.log(`[CLASIFICADO] → ${classification.group_name} (${classification.confidence})`);
   console.log(`[RAZÓN] ${classification.reasoning}`);
+
+  if (DRY_RUN) {
+    console.log(`[DRY RUN] ${doc.filename} quedaria listo para guardar ${chunks.length} chunks.`);
+    return;
+  }
 
   let groupId: string | null = null;
   if (classification.group_slug) {
@@ -117,17 +143,6 @@ async function processBook(doc: Awaited<ReturnType<typeof scanBooksFolder>>[0], 
   }
 
   const documentId = docRecord.id as string;
-  const chunks = chunkText(doc.text);
-  console.log(`[CHUNKS] ${chunks.length} chunks generados`);
-
-  if (chunks.length === 0) {
-    console.warn(`[WARN] Sin chunks — posible PDF escaneado sin OCR`);
-    await supabase.from("knowledge_documents").update({ processing_status: "error" }).eq("id", documentId);
-    log[key] = "error";
-    saveLog(log);
-    return;
-  }
-
   const allRows: Array<{
     document_id: string;
     psychologist_id: null;
@@ -193,18 +208,25 @@ async function processBook(doc: Awaited<ReturnType<typeof scanBooksFolder>>[0], 
 }
 
 async function main() {
-  console.log("=== PsyAssist — Carga masiva de libros clínicos ===");
+  console.log("=== Mentezer — Carga masiva de libros clínicos ===");
   console.log(`Directorio: ${BOOKS_DIR}`);
+  console.log(`MAX_BOOKS: ${MAX_BOOKS ?? "sin limite"}`);
+  console.log(`MAX_CHUNKS_PER_BOOK: ${MAX_CHUNKS_PER_BOOK}`);
+  console.log(`DRY_RUN: ${DRY_RUN ? "true" : "false"}`);
 
   const log = loadLog();
   const done = Object.values(log).filter((v) => v === "done").length;
   console.log(`Log de progreso: ${done} libros ya procesados`);
 
-  const docs = await scanBooksFolder(BOOKS_DIR);
-  console.log(`Total PDFs encontrados: ${docs.length}`);
+  const allDocs = await scanBooksFolder(BOOKS_DIR);
+  const docs = MAX_BOOKS ? allDocs.slice(0, MAX_BOOKS) : allDocs;
+  console.log(`Total PDFs encontrados: ${allDocs.length}`);
+  if (MAX_BOOKS && allDocs.length > docs.length) {
+    console.log(`[LIMIT] Se procesaran ${docs.length} por MAX_BOOKS=${MAX_BOOKS}`);
+  }
 
   if (docs.length === 0) {
-    console.log("No se encontraron PDFs. Revisa que la carpeta books-to-index existe y tiene subcarpetas con PDFs.");
+    console.log("No se encontraron PDFs. Revisa que la carpeta books-to-index existe y contiene PDFs.");
     return;
   }
 
@@ -212,11 +234,13 @@ async function main() {
     await processBook(doc, log);
   }
 
-  console.log("\n=== CARGA COMPLETADA ===");
+  console.log(`\n=== ${DRY_RUN ? "SIMULACION COMPLETADA" : "CARGA COMPLETADA"} ===`);
   const finalLog = loadLog();
   const finalDone = Object.values(finalLog).filter((v) => v === "done").length;
   const errors = Object.values(finalLog).filter((v) => v === "error").length;
   console.log(`Exitosos: ${finalDone} | Errores: ${errors}`);
 }
 
-main().catch(console.error);
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(console.error);
+}

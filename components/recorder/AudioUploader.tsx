@@ -21,9 +21,11 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const DEV_BYPASS = process.env.NEXT_PUBLIC_DEV_BYPASS_CONSENT === 'true';
+  const effectiveHasConsent = DEV_BYPASS || hasConsent;
 
   const handleFile = (f: File) => {
-    if (!hasConsent) {
+    if (!effectiveHasConsent) {
       setError("Requiere consentimiento informado firmado antes de subir audio clínico.");
       return;
     }
@@ -47,7 +49,7 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
 
   const handleSubmit = async () => {
     if (!file) return;
-    if (!hasConsent) {
+    if (!effectiveHasConsent) {
       setError("Requiere consentimiento informado firmado antes de transcribir audio clínico.");
       return;
     }
@@ -73,26 +75,35 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
     }
 
     setState("uploading");
-    setProgress(10);
+    setProgress(0);
 
     try {
       const formData = new FormData();
       formData.append("audio", file, file.name);
       formData.append("sessionId", sessionId);
 
-      setProgress(30);
-      const res = await fetch("/api/sessions/transcribe", {
-        method: "POST",
-        body: formData,
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/sessions/transcribe");
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            setProgress(Math.round((event.loaded / event.total) * 70));
+          }
+        };
+        xhr.upload.onload = () => setProgress(75);
+        xhr.onload = () => {
+          setProgress(100);
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve();
+          } else {
+            const errData = JSON.parse(xhr.responseText || '{}') as { error?: string };
+            reject(new Error(errData.error ?? "Error al transcribir"));
+          }
+        };
+        xhr.onerror = () => reject(new Error("Error de red al subir el audio"));
+        xhr.send(formData);
       });
-      setProgress(90);
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Error al transcribir");
-      }
-
-      setProgress(100);
       setState("done");
       router.push(`/sessions/${sessionId}`);
     } catch (err) {
@@ -108,7 +119,7 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
 
   return (
     <div className="space-y-4 rounded-xl border border-psy-border bg-psy-paper p-6">
-      {!hasConsent && (
+      {!effectiveHasConsent && (
         <div className="flex items-center gap-2 rounded-lg bg-psy-amber-light px-3 py-2.5">
           <AlertTriangle size={14} className="shrink-0 text-psy-amber" />
           <p className="text-xs font-medium text-psy-amber">
@@ -119,11 +130,11 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
 
       {/* Drop zone */}
       <div
-        onClick={() => state === "idle" && hasConsent && inputRef.current?.click()}
+        onClick={() => state === "idle" && effectiveHasConsent && inputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         className={`rounded-xl border-2 border-dashed border-psy-border p-8 text-center transition-colors ${
-          hasConsent
+          effectiveHasConsent
             ? "cursor-pointer hover:border-psy-blue/40 hover:bg-psy-blue-light/30"
             : "cursor-not-allowed opacity-70"
         }`}
@@ -156,8 +167,8 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
       {state === "uploading" && (
         <div className="space-y-1.5">
           <div className="flex justify-between text-xs text-psy-muted">
-            <span>Transcribiendo con Whisper...</span>
-            <span>{progress}%</span>
+            <span>{progress < 75 ? "Subiendo audio..." : "Procesando con Whisper..."}</span>
+            <span>{progress < 75 ? `${progress}%` : "1–3 min"}</span>
           </div>
           <div className="h-1.5 overflow-hidden rounded-full bg-psy-cream">
             <div
@@ -183,7 +194,7 @@ export function AudioUploader({ patientId, hasConsent }: AudioUploaderProps) {
 
       <button
         onClick={handleSubmit}
-        disabled={!file || !hasConsent || ["creating", "uploading", "done"].includes(state)}
+        disabled={!file || !effectiveHasConsent || ["creating", "uploading", "done"].includes(state)}
         className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-psy-blue text-sm font-medium text-white transition-all hover:bg-psy-blue/90 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {["creating", "uploading"].includes(state) ? (

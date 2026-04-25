@@ -75,7 +75,7 @@ export default async function PatientDetailPage({
             </Link>
             <Link
               href={`/sessions/new?patient=${patient.id}`}
-              className="inline-flex items-center gap-2 rounded-2xl bg-psy-blue px-4 py-2.5 text-sm font-semibold text-white shadow-[0_6px_16px_rgba(62,129,151,0.28)] transition hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-2xl bg-psy-blue px-4 py-2.5 text-sm font-semibold text-white shadow-[0_6px_16px_oklch(48%_0.21_265_/_0.28)] transition hover:-translate-y-0.5"
             >
               <Mic size={14} strokeWidth={2} />
               Nueva sesión
@@ -108,9 +108,9 @@ export default async function PatientDetailPage({
             </form>
           </div>
         ) : (
-          <div className="flex items-center gap-3 rounded-2xl border border-psy-green/15 bg-psy-green-light px-5 py-3">
-            <CheckCircle size={15} className="shrink-0 text-psy-green" />
-            <p className="text-sm font-medium text-psy-green">
+          <div className="flex items-center gap-3 rounded-2xl border border-psy-blue/15 bg-psy-blue-light px-5 py-3">
+            <CheckCircle size={15} className="shrink-0 text-psy-blue" />
+            <p className="text-sm font-medium text-psy-blue">
               Consentimiento firmado el{" "}
               {new Date(patient.consent_signed_at).toLocaleDateString("es-CO", {
                 day: "numeric", month: "long", year: "numeric",
@@ -197,11 +197,11 @@ export default async function PatientDetailPage({
                   const isAnalyzed = session.status === "complete" && reports.length > 0
                   const statusLabel = isAnalyzed ? "Analizada" : isManualDocumented ? "Documentada" : "Pendiente"
                   const statusClass = isAnalyzed
-                    ? "border-psy-green/15 bg-psy-green-light text-psy-green"
+                    ? "border-psy-blue/15 bg-psy-blue-light text-psy-blue"
                     : isManualDocumented
                       ? "border-psy-blue/15 bg-psy-blue-light text-psy-blue"
                       : "border-psy-amber/15 bg-psy-amber-light text-psy-amber"
-                  const dot = isAnalyzed ? "bg-psy-green" : isManualDocumented ? "bg-psy-blue" : "bg-psy-amber"
+                  const dot = isAnalyzed ? "bg-psy-blue" : isManualDocumented ? "bg-psy-purple" : "bg-psy-amber"
 
                   return (
                     <Link

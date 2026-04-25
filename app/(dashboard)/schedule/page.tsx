@@ -34,12 +34,12 @@ export default function SchedulePage() {
             <div className="group relative">
               <button
                 disabled
-                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-psy-blue/10 bg-psy-blue-light px-5 py-4 text-sm font-semibold text-psy-blue/50"
+                className="flex items-center gap-2 rounded-2xl border border-psy-blue/10 bg-psy-blue-light px-4 py-2.5 text-sm font-medium text-psy-blue/60"
                 title="Disponible en v1.5"
               >
-                <Plus size={18} strokeWidth={2.3} />
+                <Plus size={16} strokeWidth={2.3} />
                 Nueva cita
-                <span className="rounded-full bg-psy-amber-light px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-psy-amber">
+                <span className="ml-1 rounded-full bg-psy-amber-light px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-psy-amber">
                   v1.5
                 </span>
               </button>
@@ -57,14 +57,14 @@ export default function SchedulePage() {
         />
 
         <PortalSection eyebrow="Roadmap funcional" title="Version 1.5 en desarrollo">
-          <div className="rounded-[2rem] border border-psy-border bg-white px-5 py-8 text-center shadow-sm sm:px-8 sm:py-12">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-psy-cream shadow-sm">
-              <Lock size={32} className="text-psy-blue" />
+          <div className="rounded-2xl border border-psy-border bg-white px-5 py-6 text-center shadow-sm sm:px-8 sm:py-8">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-psy-cream shadow-[inset_0_1px_4px_rgba(0,0,0,0.02)]">
+              <Lock size={24} className="text-psy-blue/60" />
             </div>
-            <h3 className="mt-6 font-serif text-3xl font-semibold tracking-tight text-psy-ink">
+            <h3 className="mt-5 font-serif text-xl font-semibold tracking-tight text-psy-ink">
               Reserva y disponibilidad en una sola capa.
             </h3>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-psy-muted">
+            <p className="mx-auto mt-3 max-w-xl text-[14px] leading-7 text-psy-muted">
               Esta capa queda lista para disponibilidad, recordatorios y sincronizacion sin depender de tarjetas de relleno ni mensajes ambiguos.
             </p>
           </div>
@@ -79,8 +79,8 @@ export default function SchedulePage() {
           ].map(item => {
             const Icon = item.icon
             return (
-              <div key={item.title} className="rounded-[1.75rem] border border-[#dce8ed] bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#eef6f9] text-psy-blue">
+              <div key={item.title} className="rounded-[1.75rem] border border-psy-warm-border bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfc_100%)] p-5 shadow-[0_14px_34px_rgba(13,34,50,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-psy-blue-light text-psy-blue">
                   <Icon size={18} />
                 </div>
                 <h3 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-psy-ink">{item.title}</h3>

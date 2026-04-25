@@ -63,11 +63,8 @@ export function Topbar({
             </p>
             <div className="mt-0.5 flex flex-wrap items-center gap-2">
               <p className="font-sora text-base font-semibold leading-none tracking-tight text-psy-ink">
-                {firstName}
+                {psychologistName}
               </p>
-              <span className="hidden rounded-full border border-psy-border bg-[#f6f8f7] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-psy-muted sm:inline-flex">
-                {activePatients} activos
-              </span>
             </div>
           </div>
 

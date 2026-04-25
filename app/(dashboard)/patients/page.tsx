@@ -75,8 +75,8 @@ export default async function PatientsPage() {
                 <p className="mt-2 font-serif text-3xl font-bold tracking-tight text-psy-ink">{patients?.length ?? 0}</p>
                 <p className="mt-0.5 text-[11px] text-psy-muted">base registrada</p>
               </div>
-              <div className="rounded-2xl border border-psy-green/15 bg-psy-green-light px-4 py-3">
-                <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-psy-green">Activos</p>
+              <div className="rounded-2xl border border-psy-blue/15 bg-psy-blue-light px-4 py-3">
+                <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-psy-blue">Activos</p>
                 <p className="mt-2 font-serif text-3xl font-bold tracking-tight text-psy-ink">{activeCount}</p>
                 <p className="mt-0.5 text-[11px] text-psy-muted">en seguimiento</p>
               </div>
@@ -95,8 +95,8 @@ export default async function PatientsPage() {
               <p className="mt-3 font-serif text-4xl font-bold tracking-tight text-psy-ink">{pendingConsent}</p>
               <p className="mt-1.5 text-sm text-psy-muted">sin consentimiento</p>
             </div>
-            <div className="rounded-[1.75rem] border border-psy-green/15 bg-psy-green-light px-5 py-4 shadow-sm">
-              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-psy-green">Altas del mes</p>
+            <div className="rounded-[1.75rem] border border-psy-blue/15 bg-psy-blue-light px-5 py-4 shadow-sm">
+              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-psy-blue">Altas del mes</p>
               <p className="mt-3 font-serif text-4xl font-bold tracking-tight text-psy-ink">{createdThisMonth}</p>
               <p className="mt-1.5 text-sm text-psy-muted">nuevas fichas</p>
             </div>
@@ -132,7 +132,7 @@ export default async function PatientsPage() {
                         className={cn(
                           'rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider',
                           patient.status === 'active'
-                            ? 'border-psy-green/15 bg-psy-green-light text-psy-green'
+                            ? 'border-psy-blue/15 bg-psy-blue-light text-psy-blue'
                             : patient.status === 'paused'
                               ? 'border-psy-amber/15 bg-psy-amber-light text-psy-amber'
                               : 'bg-psy-cream text-psy-muted',
@@ -159,7 +159,7 @@ export default async function PatientsPage() {
                 </div>
 
                 <div className="flex items-center justify-start md:justify-end">
-                  <span className="rounded-full border border-psy-green/15 bg-psy-green-light px-3 py-1 text-xs font-semibold text-psy-green transition group-hover:bg-psy-green group-hover:text-white">
+                  <span className="rounded-full border border-psy-blue/15 bg-psy-blue-light px-3 py-1 text-xs font-semibold text-psy-blue transition group-hover:bg-psy-blue group-hover:text-white">
                     Ver ficha
                   </span>
                 </div>
